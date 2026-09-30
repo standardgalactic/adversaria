@@ -1,0 +1,449 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,tabularx,array,longtable}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{designrule}[theorem]{Design rule}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\IN}{\textsf{IN}}
+\newcommand{\OUT}{\textsf{OUT}}
+\newcommand{\UND}{\textsf{UND}}
+\newcommand{\Lab}{\mathrm{Lab}}
+\newcommand{\Act}{\mathrm{Act}}
+\newcommand{\Proj}{\mathrm{Proj}}
+
+\title{Replay and Anchors}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+A public record of argued claims is shared among replicas that may receive its records in different orders, through relays that may delay, reorder, duplicate or withhold them, and is governed by acts (granting a capability, restricting a surface) whose validity depends on time. We give the protocol core of such a record and argue its security properties against an explicitly stated threat model. Evaluation is a function of the set of records and a policy, so replicas that hold the same set agree, whatever the order of delivery; any disagreement between replicas with a common policy is traceable to records in the backward closure of the disputed argument. Time is not a field of a record: ledger time is the index of the first anchor in a chain whose reference closure contains the record, so no contributor supplies it, a record created after an anchor cannot join it, a revocation is prospective with a stated tie rule, and effective intervals are half-open so that renewals neither overlap nor leave gaps. Governance records live in an authorization plane that is never read from the argument plane, so that admission reads no labels and a capability confers no standing. A closure certificate against a commitment in an anchor makes the completeness of a displayed proof object checkable. Ten anti-capture invariants are listed with the kind of guarantee behind each: a proved property, an enforced validation, or a design requirement. The guarantees are conditional. The anchoring authority must be trusted or audited, certificates are correct only relative to the commitment they check against, the formation of independence families is contestable, the quality of a gate is institutional, authorship is assumed authenticated by means outside the model, and the cost of labeling and of grading is not analyzed. The construction is that of Chapters 9, 14, 16 and 18 of the monograph \emph{Adversaria: A Specification for a Public Claim Graph}; the proofs are restated here, with three sharpenings of the monograph's statements marked as such.
+\end{abstract}
+
+\section{Introduction}\label{sec:intro}
+
+A claim graph that many parties read and extend has three protocol problems that are independent of the semantics of argument. The first is agreement: two replicas that have seen the same contributions should show the same thing, without a coordinator. The second is time: acts such as a grant of authority, a revocation, or a restriction of a shared surface are valid during intervals, and the time against which they are checked must not be something a contributor can choose. The third is capture: the mechanisms that decide who may act must not become routes by which a conclusion is protected, purchased or inherited.
+
+The monograph solves these three problems with a small number of devices: an append-only set of records closed under reference; evaluation as a pure function of that set and a policy; a chain of anchor records from which time is derived; a separation of governance records from argumentative records; and a commitment in each anchor against which the completeness of a displayed justification can be checked. This paper states those devices, proves what they give, and says against whom. It does not add a mechanism. Where a statement in the monograph is sharper or weaker than what the proof supports, the difference is marked.
+
+\paragraph{Contributions.}
+\begin{enumerate}[label=(\arabic*),nosep]
+\item A threat model (Section~\ref{sec:model}) with five adversary classes and the assumptions on which each result below depends.
+\item Replay determinism, eventual agreement under adversarial delivery, and localization of disagreement and of omission (Section~\ref{sec:replay}).
+\item Ledger time from an anchor chain, with no-backdating, prefix immutability, the treatment of unanchored records and of forks, half-open intervals, and prospective revocation (Section~\ref{sec:time}).
+\item The two-plane architecture and its non-circularity (Section~\ref{sec:planes}).
+\item Proof objects and closure certificates, with the exact condition under which a checker can be certain of a label (Section~\ref{sec:certs}).
+\item The ten anti-capture invariants, classified by the kind of guarantee (Section~\ref{sec:invariants}), and a summary of attacks and residual risks (Section~\ref{sec:attacks}).
+\end{enumerate}
+The argumentation semantics is used only through a short list of facts about grounded labeling (Section~\ref{sec:model}). Related protocols, such as logs with signed time attestations and append-only verifiable structures, are not surveyed in this draft.
+% TODO(literature): survey of trusted timestamping and transparency-log designs, eventual-consistency and convergent-replication results, and accountable-authority models; say which of the results below are instances of known ones.
+
+\section{System model and threat model}\label{sec:model}
+
+\subsection{Objects}
+
+A \emph{record} has a type, a payload, references to earlier records, an author identifier, a sequence number, a claimed time, an origin mode and a trace (Chapter 9). Its \emph{content hash} is the hash of the canonical encoding of type, payload and references, and its \emph{record identifier} is the hash of the content hash, the author and the sequence number. A \emph{ledger} is a finite set of records, and it is \emph{valid} if it is closed under reference, records with equal identifiers are equal, and some linear order places every record after all the records it references (Chapter 9). Types include claims, evidence, arguments, policies, withdrawals, and the governance types: anchors, capabilities, revocations, invalidations, restrictions and clearances.
+
+A \emph{policy} is a ledger object fixing the admissibility relation, a regional preference on arguments (used to decide which rebuttals defeat), the gates, and the root authorities and anchoring authority of each surface. A \emph{surface} is a projection context (a principal dossier, a personal or group view) with its own policy. The \emph{disposition} of a record under a policy is one of seven values, only one of which, $\mathrm{ADMITTED}$, lets a record take part in evaluation; the admitted argument records form the active set $\Act(L,p)$ (Chapter 9). The \emph{labeling} is grounded labeling on the defeat graph of $\Act(L,p)$ at each unit, and we use the following facts about it (Chapter 7).
+
+\begin{itemize}[nosep]
+\item[(L1)] At each unit, the label of an argument is a function of the defeat graph on the active arguments present there and of nothing else.
+\item[(L2)] Directionality: the label of $a$ at $x$ is determined by the graph restricted to any set of active arguments containing $a$ and closed under taking defeaters at $x$; the smallest such set is the \emph{backward closure} $B_x(a)$.
+\item[(L3)] Given a policy, whether $b$ defeats $a$ depends on the two arguments and the policy, not on the rest of the ledger.
+\end{itemize}
+
+\subsection{Adversaries}
+
+We consider five classes. Each may be instantiated by many colluding parties.
+
+\begin{description}[nosep,leftmargin=1.5em]
+\item[C, contributor.] Inscribes any well-formed records with any fields, including claimed time and references, under any number of identifiers, at any moment.
+\item[N, network or relay.] Between correct replicas, may delay, reorder, duplicate or withhold records for any finite time, and may present a replica with any subset of a valid ledger that is itself closed (a replica does not accept a record whose references it lacks). N cannot forge a record with a given identifier, by assumption (H) below.
+\item[P, producer of justifications.] Supplies a proof object, with or without a closure certificate, for a label it wishes displayed.
+\item[M, operator of gates.] Holds root or delegated capabilities, authors and grades tests, issues grants and restrictions.
+\item[X, anchoring authority.] Chooses which records each anchor lists and when it is inscribed; may delay, omit, or publish two anchors with the same index.
+\end{description}
+
+\subsection{Assumptions}
+
+\begin{itemize}[nosep]
+\item[(H)] The hash is injective on canonical encodings. This is an idealization of collision resistance, used as a modelling assumption and not proved; the monograph uses it in the same way.
+\item[(D)] Delivery is eventual: every record inscribed is delivered, in some order, to every correct replica. No protocol can converge under permanent withholding, so every convergence statement below is conditional on (D).
+\item[(T)] The anchoring authority and the root authorities named in a policy are trusted, or their output is audited by recomputation (Section~\ref{sec:certs}). Nothing below shows that they are trustworthy.
+\item[(A)] The author field of a record is authenticated by a mechanism outside the model. The monograph's definition of a record does not specify one; without it, capability checks bind only to identifiers.
+\end{itemize}
+
+\subsection{Goals and non-goals}
+
+The goals are: (G1) replicas that hold the same records and policy show the same thing; (G2) no contributor chooses the time against which an act is judged; (G3) a reader can check that a displayed label is complete relative to a committed ledger prefix; (G4) holding authority over acts confers no standing for conclusions, and no label feeds back into authority; (G5) every restriction on a shared surface is finite, explained and contestable. Out of scope are confidentiality, key management and identity binding, network-level denial of service, the cost of labeling at scale, the quality of graders and tests, and the question of which records form an independence family.
+
+\section{Replay determinism}\label{sec:replay}
+
+\begin{theorem}[Replay determinism and convergence]\label{thm:replay}
+Let $L$ be a valid ledger with an anchor chain and $p$ a policy.
+\begin{enumerate}[label=(\alph*)]
+\item The disposition of every record, the active set $\Act(L,p)$, and the labeling depend only on the set $L$ and on $p$, not on the order or the multiplicity with which records arrived.
+\item Merging valid ledgers with consistent identifiers is union, which is commutative, associative and idempotent and preserves validity. Hence, under (D), any two correct replicas that have received all records hold the same set and, with the same policy, the same projection, whatever the order of exchange.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) A ledger is a set of records with consistent identifiers, so arrival order and multiplicity are not part of it. The disposition of a record $r$ is defined by recursion along the reference order, which is acyclic by validity. It reads the fields of $r$, the dispositions of the records $r$ references, the authorization projection (which reads only authorization records, the named root authorities and ledger time, Section~\ref{sec:planes}), the policy, and, for the duplicate rule, the set of records with the same content hash, with ties broken by record identifier or, on an anchored surface, by the pair of ledger time and identifier. Ledger time is a function of the set (Proposition~\ref{prop:ledgertime}(a)). A recursion on a well-founded relation, each step of which reads only functions of the set, returns the same value whichever linear extension of the relation is used to evaluate it. The labeling is a function of the active set and of the policy by (L1).
+
+(b) Union of sets has the stated algebraic properties. It preserves validity: closure and identifier consistency are inherited; for acyclicity, a reference cycle in the union through a record of $L_1$ lies entirely in $L_1$, because every outgoing edge of a record is determined by the record and $L_1$ is closed, contradicting validity of $L_1$; any linear extension of the acyclic union is the required order. The last sentence combines this with (a) and (D).
+\end{proof}
+
+\begin{proposition}[Adversarial delivery]\label{prop:delivery}
+Let N reorder, duplicate and delay deliveries without limit of finite duration. Then each correct replica holds at every moment a valid ledger, and once all records have been delivered it holds the same projection as every other correct replica. N cannot cause a replica to accept a record with a false content or an inconsistent identifier.
+\end{proposition}
+
+\begin{proof}
+A replica accepts a record only when its references are present, so its ledger is always closed; duplicates are absorbed by the set; identifiers agree with contents because the replica recomputes them and (H) makes a mismatch detectable. Acyclicity is preserved by appending (Chapter 9: a record whose references lie in a valid ledger extends it validly). After all deliveries the replicas hold the same set and Theorem~\ref{thm:replay} applies.
+\end{proof}
+
+Convergence is of records and not of belief. Labels are not monotone in the ledger: a new objection can turn an $\IN$ argument $\UND$, and a reply can restore it (Chapter 9). Two replicas that hold the same records agree because of the set, and not because their statuses have moved in a common direction. Replicas with different policies can differ on a shared ledger, and this is intended (Chapter 18).
+
+\begin{theorem}[Divergence is traceable]\label{thm:trace}
+Let two replicas hold valid ledgers $L_1,L_2$ and a common policy $p$, and let $a$ be active in both with $\Lab_1(a,x)\ne\Lab_2(a,x)$. Then the symmetric difference of the two active sets contains an argument in the backward closure $B_x(a)$ computed in the union of the two defeat graphs at $x$.
+\end{theorem}
+
+\begin{proof}
+By (L3) the defeat relation between two arguments is the same in both replicas, so both frameworks are subframeworks of the union framework $F$ and agree on every pair they share. Put $U=B_x(a)$ in $F$ and suppose $U$ contains no member of the symmetric difference, so $U\subseteq\Act_1\cap\Act_2$. Every defeater in $F$ of a member of $U$ lies in $U$, hence in both frameworks, so $U$ is defeater-closed in each and the two restrictions to $U$ coincide. By (L2) the labels of $a$ agree, a contradiction.
+\end{proof}
+
+Theorem~\ref{thm:trace} is the formal statement that an adversary who controls only which records a replica sees can change a label only by changing records in the neighbourhood of the argument. It has a direct consequence for N.
+
+\begin{corollary}[Localization of omission]\label{cor:omission}
+Let $L'\subseteq L$ be valid ledgers held by a correct replica and by a replica served by N, with a common policy. If an argument $a$ active in both has different labels in them at $x$, then a record that N withheld or added lies in the backward closure of $a$ in the union framework.
+\end{corollary}
+
+An objection to $a$ is a descendant of $a$ in the reference order, not an ancestor, so a closed ledger can omit it: withholding is an effective attack on freshness. What the anchor chain adds is a bound on it.
+
+\begin{proposition}[A replica that holds an anchor holds its prefix]\label{prop:prefixheld}
+If a valid ledger contains $\mathsf{anchor}_n$, it contains the prefix $L_{\le n}$, the reference closure of $\mathsf{anchor}_n$.
+\end{proposition}
+
+\begin{proof}
+Validity requires closure under reference, and the prefix is the set of records reachable from $\mathsf{anchor}_n$ by references.
+\end{proof}
+
+Consequently N can suppress a record from a replica that has seen $\mathsf{anchor}_n$ only if the record has ledger time greater than $n$ or no ledger time. Staleness is confined to the suffix after the latest anchor the replica holds, and a display that states its prefix index says how large that suffix may be. N cannot cause a replica to show a projection for prefix $n$ that omits a record of that prefix.
+
+\section{Ledger time from anchors}\label{sec:time}
+
+Time enters the protocol because capabilities and restrictions are valid during intervals. The monograph separates four notions: ledger time (derived, the only time admission consults); effective interval (a half-open interval of ledger time carried by governance records); claimed time (provenance, never consulted by admission); and unit-space time (the time dimension of the space of units, which is a matter of scope). This paper concerns the first two.
+
+\begin{definition}[Anchors and ledger time]\label{def:anchor}
+A surface names an anchoring authority. An \emph{anchor record} references its predecessor (the first has none), references a set of records, and carries a commitment to the active set of the prefix it closes. Anchors form a chain $\mathsf{anchor}_1,\mathsf{anchor}_2,\dots$. The \emph{prefix} $L_{\le n}$ is the reference closure of $\mathsf{anchor}_n$, and the \emph{ledger time} of a record is
+\[
+t_s(r)=\min\{n:\ r\in L_{\le n}\},\qquad t_s(r)=\infty\text{ if there is no such }n.
+\]
+\end{definition}
+
+\begin{proposition}[Properties of ledger time]\label{prop:ledgertime}
+On a surface whose anchors form a chain:
+\begin{enumerate}[label=(\alph*)]
+\item $t_s$ is a function of the set of records and of the surface.
+\item If $r$ references $q$ then $t_s(q)\le t_s(r)$.
+\item $L_{\le n}\subseteq L_{\le m}$ for $n\le m$, each prefix is a fixed set, and a record with $t_s(r)>n$ is not in $L_{\le n}$.
+\item No field of $r$ other than its references affects $t_s(r)$, and the claimed time in particular is not an input. The references can only increase it, through (b).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) The chain and the closures are functions of the set. (b) The closure of an anchor is closed under reference, so a record in it brings its references with it. (c) $\mathsf{anchor}_{n+1}$ references $\mathsf{anchor}_n$, so its closure contains that of $\mathsf{anchor}_n$. (d) Ledger time depends only on which closure first contains the record; claimed time is not an input to any closure; by (b) the choice of references can only force $t_s(r)$ to be at least as large as that of a cited record.
+\end{proof}
+
+\begin{remark}[Sharpening of the source]
+The monograph states (d) as ``the contributor of a record cannot change $t_s$ of it by any field of the record''. The references field does affect it, in the direction of delay. The statement that matters for security is Proposition~\ref{prop:nobackdate} below.
+\end{remark}
+
+\begin{proposition}[No backdating]\label{prop:nobackdate}
+Assume (H). If a record $r$ is created after $\mathsf{anchor}_n$ is created, in the sense that the identifier of $r$ was not available to the creator of $\mathsf{anchor}_n$, then $t_s(r)>n$.
+\end{proposition}
+
+\begin{proof}
+The prefix $L_{\le n}$ consists of records reachable from $\mathsf{anchor}_n$ by references. A reference names an identifier, and under (H) an identifier is determined by the record's content, so a record cannot be referenced before its content exists. Hence $r$ is not reachable from $\mathsf{anchor}_n$, and by Proposition~\ref{prop:ledgertime}(c) not from any earlier anchor; so $t_s(r)>n$.
+\end{proof}
+
+This is the core of G2. An act cannot be placed in a prefix that was sealed before it existed, whatever its claimed time, and what a contributor can still control is the moment of submission, while the anchoring authority controls when records are listed.
+
+\begin{proposition}[Historical projections are immutable]\label{prop:prefix}
+The projection $G_n=\Proj(L_{\le n},p)$ is a function of the fixed set $L_{\le n}$ and of $p$, so its answer to ``what stood at prefix $n$'' never changes. A later projection $G_m$, $m>n$, differs from $G_n$ only through records of ledger time in $(n,m]$.
+\end{proposition}
+
+\begin{proof}
+Proposition~\ref{prop:ledgertime}(c) and Theorem~\ref{thm:replay}(a). Records of $L_{\le m}\setminus L_{\le n}$ have ledger time in $(n,m]$.
+\end{proof}
+
+A later reconstruction may include information that was not available at $n$, and it says so by carrying its own index. It cannot rewrite the earlier answer.
+
+\paragraph{Unanchored records.} A record that no anchor reaches has ledger time $\infty$. Read literally, the test for holding a capability is $e_0\le t_s(r)<e_1$ (Definition~\ref{def:capability} below), which fails for $t_s(r)=\infty$ for every interval, including one with $e_1=\infty$, since $\infty<\infty$ is false. So an unanchored act holds no capability: it is stored, visible and inert for authorization until an anchor reaches it. The anchoring authority can therefore censor a record by never listing it. This is a residual risk (Section~\ref{sec:attacks}), bounded only by audit.
+
+\paragraph{Forks.} If two distinct anchors follow the same predecessor, the surface is \emph{forked} beyond that index. Whether a surface is forked is a property of the set of records, hence the same at every replica that holds the two anchors. The monograph gives acts whose first anchoring is ambiguous the disposition $\mathrm{GATED}$ with the mechanism \textsf{equivocation}, and reports the fork in the divergence report. We claim determinism (Theorem~\ref{thm:replay}) for chain surfaces, for which Definition~\ref{def:anchor} defines $t_s$; for forked surfaces we claim only that the forked status is a function of the set, since the monograph states the treatment of equivocation in prose and not as a recursion we can verify.
+
+\subsection{Effective intervals and capabilities}
+
+\begin{definition}[Capability, revocation, invalidation]\label{def:capability}
+A \emph{capability record} is a tuple $\kappa=(u,\alpha,\tau,[e_0,e_1),g)$: actor $u$ is authorized to perform acts of family $\alpha$ over scope $\tau$ during the half-open interval $[e_0,e_1)$ of ledger time, on grounds $g$. A \emph{revocation} references a capability. An \emph{invalidation} references a capability and is admitted only if its author holds a capability of the audit family. An act $r$ of family $\alpha$ and scope $\tau_r\subseteq\tau$ by $u$ \emph{holds} $\kappa$ if $r$ references $\kappa$, $\kappa$ is admitted in the authorization projection, $e_0\le t_s(r)<e_1$, no admitted revocation $\rho$ of $\kappa$ has $t_s(\rho)\le t_s(r)$, and no admitted invalidation of $\kappa$ exists.
+\end{definition}
+
+\begin{proposition}[Half-open intervals compose]\label{prop:halfopen}
+For $e_0<e_1<e_2$ the intervals $[e_0,e_1)$ and $[e_1,e_2)$ are disjoint and their union is $[e_0,e_2)$. Hence a renewal whose interval begins at the expiry index of the interval it renews leaves no ledger time uncovered and covers none twice, and an act at ledger time exactly $e_1$ falls in the second and not the first.
+\end{proposition}
+
+\begin{proof}
+For an integer $t$: $e_0\le t<e_1$ and $e_1\le t<e_2$ cannot both hold, and $e_0\le t<e_2$ holds exactly when one of them does.
+\end{proof}
+
+The fact is elementary, and is what removes a class of boundary disputes: expiry needs no scheduler and no ending event, since a record with ledger time outside the interval is outside the authority (Chapter 16).
+
+\begin{proposition}[Revocation is prospective]\label{prop:revoke}
+Let $\rho$ be an admitted revocation of $\kappa$. Every act $r$ that holds $\kappa$ with $t_s(r)<t_s(\rho)$ keeps its disposition. An act with $t_s(r)\ge t_s(\rho)$, including one anchored together with $\rho$, does not hold $\kappa$. Only an invalidation changes the disposition of earlier acts, and it does so explicitly, by making them $\mathrm{REFUSED}$ with the mechanism \textsf{invalidated capability}.
+\end{proposition}
+
+\begin{proof}
+Revocation enters the test of holding only through the inequality $t_s(\rho)\le t_s(r)$, whose negation is $t_s(r)<t_s(\rho)$, and invalidation enters through its existence. Equality of ledger times falls under the inequality, which is the tie rule stated in the proposition.
+\end{proof}
+
+\begin{corollary}[Revocation against a late act]\label{cor:revlate}
+Assume (H). An act created after $\rho$ has been anchored never holds $\kappa$.
+\end{corollary}
+
+\begin{proof}
+If $\rho$ has been anchored at index $m=t_s(\rho)$ before $r$ is created, then $t_s(r)>m$ by Proposition~\ref{prop:nobackdate}, so $t_s(\rho)\le t_s(r)$ and $r$ does not hold $\kappa$.
+\end{proof}
+
+The exposed window is between the inscription of $\rho$ and its anchoring: an act anchored at an index below $t_s(\rho)$ holds $\kappa$. Its length depends on the cadence and the behaviour of the anchoring authority, and a surface that distrusts that authority audits the anchors.
+
+\paragraph{Restrictions and the meta surface.} A restriction record names a rule, records showing the trigger, a surface, a scope, gated act families, a half-open interval with a review point before its end, and a reference to a justification argument. By Proposition~\ref{prop:halfopen} and the finiteness of $e_1$ every restriction expires without an event, and a renewal is a new restriction record with its own justification (Chapter 16). The justification is an ordinary argument, evaluated on a \emph{meta surface} whose policy contains no restrictions, so that no restriction can gate an objection to its own justification; this is a design rule, and its point is the absence of circularity, which would arise if the label of the justification were computed on the surface that the restriction governs.
+
+\section{Authorization plane and argument plane}\label{sec:planes}
+
+\begin{definition}[Planes]\label{def:planes}
+The \emph{authorization plane} consists of anchor, capability, revocation, invalidation, restriction and clearance records. Its \emph{projection} $C(L,p)$ is the set of these records with disposition $\mathrm{ADMITTED}$, where the disposition of an authorization record reads only its own fields, the authorization records it references, the root authorities named by $p$, and ledger time. The \emph{argument plane} consists of all other records. The disposition of an argument-plane record reads $C(L,p)$ for its gate outcome and the dispositions of the argument-plane records it references, and nothing else.
+\end{definition}
+
+\begin{proposition}[Planes]\label{prop:planes}
+\begin{enumerate}[label=(\alph*)]
+\item $C(L,p)$ is a function of the authorization records of $L$, of $p$ and of the ledger-time function $t_s$. It does not depend on the disposition of any argument-plane record or on any label.
+\item $\Act(L,p)$ is a function of $L$ and $p$ and is the single set on which the defeat semantics is evaluated.
+\item No authorization record is a node of the defeat graph.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) By Definition~\ref{def:planes} the recursion for authorization records runs along references among authorization records and reads only the listed inputs. (b) The recursion for argument-plane records reads $C(L,p)$, fixed by (a). (c) The defeat graph is defined on $\Act$, which contains argument-plane records only.
+\end{proof}
+
+\begin{remark}[Sharpening of the source]
+The monograph states (a) without the dependence on $t_s$. The ledger time of an authorization record is determined by which anchor closure first reaches it, and a closure can pass through argument-plane records; so as a function of the set, $C$ depends on the argument plane through $t_s$. What is true, and what matters, is that no disposition and no label of an argument-plane record is an input, and that $t_s$ is fixed by the anchor chain and the reference structure. We therefore state (a) with $t_s$ as an explicit input.
+\end{remark}
+
+\begin{theorem}[Layered dependence; no feedback from labels]\label{thm:layers}
+The following dependence order is acyclic: the set $L$ determines the anchor chain and $t_s$; $t_s$, the authorization records and $p$ determine $C(L,p)$; $L$, $C(L,p)$ and $p$ determine $\Act(L,p)$; $\Act(L,p)$ and $p$ determine the labeling. In particular the disposition of every record is independent of every label, and the labeling is independent of routing weights, view counts, reputation, controversy flags and agreement tallies.
+\end{theorem}
+
+\begin{proof}
+The order is that of Proposition~\ref{prop:planes} together with Proposition~\ref{prop:ledgertime}(a); no step reads a later one. Independence of metadata follows because the labeling is a function of $\Act(L,p)$ and $p$ (L1), and none of the listed quantities is an input to any earlier step.
+\end{proof}
+
+Labels influence which capability records communities choose to inscribe, for example by granting authority on the basis of surviving contributions, but a capability record, once inscribed, is data, and its grounds are checked structurally, as references to the grantee's own acts or to a verification record, never by reading a label (Chapter 16). That is what closes what would otherwise be a cycle from standing to authority to standing.
+
+\begin{proposition}[Capability confers no standing]\label{prop:capnostanding}
+Passing a gate makes a record eligible for admission. It does not change the label of any argument, does not alter any defeat relation, and does not defeat anything. A capable actor's argument is $\IN$, $\OUT$ or $\UND$ by the same rules as any other.
+\end{proposition}
+
+\begin{proof}
+A gate's only effect is through the disposition and hence through membership in $\Act$ (Proposition~\ref{prop:planes}(b)). Authorization records are not nodes of the defeat graph (c). An admitted argument's label is then a function of $\Act$ and $p$ by (L1), and the same function applies to every argument.
+\end{proof}
+
+\begin{proposition}[Inscription is never blocked by a gate]\label{prop:openinscription}
+Every finite set of records that is closed, has consistent identifiers and an acyclic reference order is a valid ledger under every policy, whatever gates the policy contains.
+\end{proposition}
+
+\begin{proof}
+Validity is a condition on the set and mentions no policy; gates enter only through dispositions.
+\end{proof}
+
+The two propositions state the boundary between freedom to inscribe and authority to modify a shared projection. An ungated actor can still inscribe, cite, prepare an objection, keep a personal projection and fork a dossier; what is gated is contribution to a shared surface.
+
+\section{Proof objects and closure certificates}\label{sec:certs}
+
+Every label displayed to a reader has a bounded object that justifies it, and the object is worth as much as what certifies its completeness.
+
+\begin{definition}[Proof object]\label{def:proofobject}
+For an argument $a$ and a unit $x$, the \emph{proof object} of $\Lab(a,x)$ consists of the argument tree of $a$, a set $B$ claimed to be the backward closure $B_x(a)$ with, for each pair in it, the defeat region and the policy clause that produced it, the policy version, the ontology versions and mappings used, and the labels of the members of $B$. It is \emph{complete} if $B=B_x(a)$ in the framework on the active set of the surface.
+\end{definition}
+
+\begin{proposition}[A complete proof object can be rechecked locally]\label{prop:proofcheck}
+Given a complete proof object for $\Lab(a,x)=\lambda$, a checker that reads only the proof object and the policy can verify that $\lambda$ is the grounded label of $a$ at $x$.
+\end{proposition}
+
+\begin{proof}
+By (L2) the label is determined by the defeat graph on $B_x(a)$. The proof object contains that graph, each defeat with its region and policy clause, from which membership of $x$ is checked against the policy. The checker recomputes the operator of grounded labeling by iteration, which stabilizes in at most $|B|$ rounds.
+\end{proof}
+
+The proposition is conditional on completeness, and a checker reading only the proof object cannot verify completeness. A producer P who omits one standing defeater supplies a graph with a different label.
+
+\begin{example}[Omission changes the label; invented arguments]\label{ex:omit}
+Let $d$ be an unattacked argument that defeats $a$. Then $d$ is $\IN$ and $a$ is $\OUT$. A producer who shows the proof object $B=\{a\}$, omitting $d$, displays $a$ as $\IN$. If instead $a$ and $d$ defeat each other, both are $\UND$, and omission of $d$ again displays $a$ as $\IN$. Both cases were confirmed by computation (Section~\ref{sec:check}).
+\end{example}
+
+Completeness therefore needs a separate certificate.
+
+\begin{definition}[Commitment and closure certificate]\label{def:closurecert}
+An anchor may carry a \emph{commitment} $\mathsf{root}$ to the surface's active argument set at its prefix and to an index that lists, for each active argument $b$ and each unit pattern, all arguments defeating $b$ there under the policy, the commitment being a Merkle-style hash of the sorted entries. A \emph{closure certificate} for $(a,x)$ consists of the anchor and, for each member $b\in B$, a membership proof of $b$ and a membership proof of the index entry listing all defeaters of $b$ at $x$, each verifiable against $\mathsf{root}$.
+\end{definition}
+% TODO(literature): state the standard properties of Merkle-style commitments and membership proofs that are assumed, with references.
+
+\begin{lemma}[Any defeater-closed set suffices]\label{lem:closed}
+If $W$ is a set of active arguments containing $a$ and closed under defeaters at $x$, then the label of $a$ at $x$ computed on $W$ equals its label in the full framework.
+\end{lemma}
+
+\begin{proof}
+This is the proof of the directionality theorem of Chapter 7, which uses only closure under defeaters. By induction on $n$, the $n$-th iterate of the grounded operator on the full framework, intersected with $W$, equals that of the restricted framework: for $c\in W$ each defeater of $c$ lies in $W$, and so does any argument that defeats that defeater. The least fixed points and the out-sets then agree on $W$.
+\end{proof}
+
+\begin{proposition}[Certified labels]\label{prop:certified}
+Assume (H) and that $\mathsf{root}$ commits to the true active set and defeat index of its prefix. Suppose a proof object comes with a valid closure certificate against that root and $B$ is the least set containing $a$ and closed under the listed defeaters. Then $B=B_x(a)$, and the recomputation of Proposition~\ref{prop:proofcheck} yields the grounded label of $a$ at $x$ in the committed prefix. The same holds for any defeater-closed $B$ containing $a$, with $B\supseteq B_x(a)$.
+\end{proposition}
+
+\begin{proof}
+Each membership proof ties an index entry to the root, and by (H) the entry is the committed one. Since $B$ is closed under the listed defeaters, no defeater of a member is omitted, so $B_x(a)\subseteq B$. Since $B$ is the least such set, every member is reached from $a$ by listed defeaters, so $B\subseteq B_x(a)$. For the last sentence use Lemma~\ref{lem:closed}. Proposition~\ref{prop:proofcheck} then applies.
+\end{proof}
+
+\begin{remark}[Sharpening of the source]
+The monograph's proof of this proposition concludes $B=B_x(a)$ from closure of $B$ alone. Closure gives only $B\supseteq B_x(a)$; equality needs the minimality of $B$, which a checker can verify, but for the correctness of the label it is unnecessary by Lemma~\ref{lem:closed}. The statement above separates the two.
+\end{remark}
+
+\begin{corollary}[A producer cannot omit a defeater undetected]\label{cor:noomit}
+Under the assumptions of Proposition~\ref{prop:certified}, if a producer supplies a proof object whose label differs from the grounded label in the committed prefix, then either the certificate does not verify or $B$ is not closed under the listed defeaters. Equivalently, a verifying certificate with a closed $B$ certifies the label.
+\end{corollary}
+
+The guarantee is relative. It establishes that the label is that of the committed prefix, and it says nothing if the commitment is wrong. The index is computable from the active set and the policy, so a party that holds the prefix can recompute $\mathsf{root}$ and audit the anchor; a checker that cannot recompute it relies on the anchoring authority, and the specification says so. A display states which certificate, if any, accompanies a proof object, so that ``proof object'' does not come to mean an excerpt that persuades. A query may be given a budget; when it is exceeded the display says the object is truncated, and the label is unaffected, since it is computed on the full active set.
+
+\section{The ten anti-capture invariants}\label{sec:invariants}
+
+The capability system is the most valuable target of the design, and the monograph lists ten invariants with the means of enforcing each. The following table restates them, classifies each by the kind of guarantee as we read the chapter's account (three hold as propositions of the model, four are enforced by validation, three are design requirements), and records what each does not give. The classification of rows 2 and 8 is ours.
+
+{\small
+\begin{longtable}{@{}c >{\raggedright\arraybackslash}p{0.27\textwidth} >{\raggedright\arraybackslash}p{0.17\textwidth} >{\raggedright\arraybackslash}p{0.3\textwidth}@{}}
+\toprule
+& invariant & kind & what it does not give\\
+\midrule
+\endhead
+1 & No actor authors, grades and approves the same test & validation & Distinct identifiers, not distinct persons (assumption (A); identity binding is outside the model)\\
+2 & No viewpoint is required unless the capability is about representing it & proved for reconstruction gates, design elsewhere & Neutrality of graders or of the tests chosen (Section~\ref{sec:recon})\\
+3 & Every failure maps to a declared competency & validation & That the declared competencies are well chosen\\
+4 & Equivalent competencies have alternative demonstrations & design & That the alternatives are in fact equivalent\\
+5 & Gate creation and renewal require public reasons & validation & That the reasons are good; they are contestable on the meta surface\\
+6 & Gate statistics are auditable for disparate exclusion & proved (Proposition~\ref{prop:reasondet}) & Attributes of actors that the ledger does not record\\
+7 & A successful appeal repairs precedent & design & That an institution acts on an appeal that stands\\
+8 & Administrators are subject to the gate when acting & construction (design) & Root authorities named in the policy are trusted by assumption (T)\\
+9 & Capability cannot substitute for evidence & proved (Proposition~\ref{prop:capnostanding}) & Nothing further is claimed; it is exact\\
+10 & Capability cannot become hereditary through endorsement alone & validation & Regress ends at verification records and at root authorities\\
+\bottomrule
+\end{longtable}}
+
+\subsection{Reasons are determined}
+
+Every non-admission has a \emph{reason}: the governing rule, the failing requirement, references to the records evidencing it, the deciding mechanism and the repair or appeal path.
+
+\begin{proposition}[Reasons are determined]\label{prop:reasondet}
+The reason of a non-admitted record is a function of $L$ and $p$. Two replicas holding the same records and policy compute the same reason for every record.
+\end{proposition}
+
+\begin{proof}
+The disposition is a function of the set and the policy (Theorem~\ref{thm:replay}(a)), and the reason records which clause of the definition of the disposition produced the value, with the references that clause used, hence is a function of the same inputs.
+\end{proof}
+
+Gate statistics (who is refused under which rule, and how often) are then computed by replay, so that an audit for disparate exclusion needs no privileged data. It needs data about the actors that the ledger may not hold, and invariant 6 is silent on that.
+
+\subsection{Reconstruction gates}\label{sec:recon}
+
+A gate is \emph{position-neutral} if, for every actor, act family and scope, it is passed by an act on a claim $c$ if and only if it is passed by the corresponding act on the claim $\bar c$ of opposite kernel and the same scope. The monograph recommends, for contested subjects, a \emph{reconstruction gate}: to modify the default projection of $c$ over $\tau$ an actor inscribes a record referencing, for each of $c$ and $\bar c$, admitted arguments for claims on the frontier of the status order at each unit of $\tau$ (checked by computation), a statement of the principal empirical uncertainty, of the principal scope distinction, and, for each position, an observation that would count against it (graded by graders other than the author).
+
+\begin{proposition}[Reconstruction gates are position-neutral]\label{prop:reconneutral}
+The reconstruction gate is position-neutral: an actor who passes it may act on $c$ and on $\bar c$ over $\tau$, and one who fails may act on neither.
+\end{proposition}
+
+\begin{proof}
+The conditions depend on the pair of kernels $\{\kappa,\bar\kappa\}$ and are unchanged when the two are exchanged; the frontier computation is the same construction applied to each kernel; the grading criteria are the same on both sides. So the predicate takes the same value on $c$ and $\bar c$.
+\end{proof}
+
+This is a structural guarantee and nothing more. It does not guarantee that the graders are unbiased or that the tests are well chosen. The monograph adds blind grading and periodic items with reversed polarity, so that bias in either direction becomes visible in the audit of Proposition~\ref{prop:reasondet}; these are design rules, and their effect depends on the institution.
+
+\section{Summary of attacks}\label{sec:attacks}
+
+{\small
+\begin{longtable}{@{}l >{\raggedright\arraybackslash}p{0.2\textwidth} >{\raggedright\arraybackslash}p{0.3\textwidth} >{\raggedright\arraybackslash}p{0.27\textwidth}@{}}
+\toprule
+class & attack & what prevents or bounds it & residual\\
+\midrule
+\endhead
+C & choose the time of an act (false claimed time, backdating) & claimed time is not an input; Props.~\ref{prop:ledgertime}, \ref{prop:nobackdate} & delay of own submission; references can only delay\\
+C & act after revocation & Prop.~\ref{prop:revoke}, Cor.~\ref{cor:revlate} & acts anchored before the revocation's index\\
+C & flood the ledger & inscription is open but inert until admitted (Props.~\ref{prop:openinscription}, \ref{prop:capnostanding}) & storage and labeling cost (not analyzed)\\
+C & gain standing through authority & Thm.~\ref{thm:layers}, Prop.~\ref{prop:capnostanding} & none for standing; capability still gates acts\\
+C & coordinated ring posing as independent sources & counts are by families, not records (Chapter 12) & family formation is contestable; a ring not shown dependent counts as independent\\
+N & reorder, duplicate, delay & Thm.~\ref{thm:replay}, Prop.~\ref{prop:delivery} & none under (D)\\
+N & withhold an objection & Cor.~\ref{cor:omission}, Prop.~\ref{prop:prefixheld} & freshness of the suffix after the latest held anchor\\
+P & omit a defeater from a proof object & Prop.~\ref{prop:certified}, Cor.~\ref{cor:noomit} & correct only relative to the commitment\\
+M & self-approved or partisan gate & invariants 1 to 10 (Section~\ref{sec:invariants}) & identity binding; grader quality; root authorities\\
+M & a restriction that protects a conclusion & finite, justified, evaluated on a meta surface & the quality of the justification argument\\
+X & omit or delay a record & unanchored records hold no capability & censorship remains possible; bounded only by audit\\
+X & publish two anchors at one index & fork is a property of the set; acts gated as equivocation & determinism on forked surfaces is not proved here\\
+X & publish a false commitment & recomputation of the root by any holder of the prefix & a checker that cannot recompute must trust X\\
+\bottomrule
+\end{longtable}}
+
+
+\section{Computational check}\label{sec:check}
+
+The statements that admit a finite check were tested by program. Theorem~\ref{thm:trace} and Corollary~\ref{cor:omission} were tested on four thousand random defeat relations over up to nine arguments, with two random active subsets each, and every pair of active arguments with differing labels (more than four thousand pairs out of roughly twelve thousand compared) had a member of the symmetric difference in its backward closure in the union framework. Lemma~\ref{lem:closed} was tested on three thousand random frameworks with random defeater-closed supersets of the backward closure, and the labels agreed. The two cases of Example~\ref{ex:omit} were computed. Proposition~\ref{prop:halfopen} was checked on two interval triples over a range of integer times, the capability test of Definition~\ref{def:capability} on a revocation anchored at an index between the start and the end of an interval, and the value of the test for $t_s=\infty$ was confirmed. This is a sanity check on the statements and is not part of any proof. The hash-dependent statements (Propositions~\ref{prop:nobackdate} and~\ref{prop:certified}) rest on assumption (H) and were not computed.
+
+\section{What this paper does not claim}\label{sec:claims}
+
+\begin{itemize}[nosep]
+\item \textbf{That the anchoring authority is trustworthy.} It must be trusted or audited. A corrupt authority can delay, omit (by never anchoring a record), or fork, and can publish a false commitment that a checker unable to recompute it cannot detect. The results give it no power over the content of records or over labels, and bound what delay can do, but they do not make it honest.
+\item \textbf{That certificates are correct beyond their commitment.} A closure certificate establishes that a label is the grounded label of the committed prefix, if the commitment is correct. It says nothing about records outside the prefix, about a commitment that misstates the active set, or about whether the policy itself is warranted.
+\item \textbf{That family formation is uncontestable.} Counts of independent sources depend on the equivalence claims that stand. A coordinated ring not yet shown to be dependent counts as independent, and the identification of records as one family is a contestable claim and never an automatic deduplication.
+\item \textbf{That gate quality is anything but institutional.} Position-neutrality is proved for the reconstruction gate as a structural property. The quality of graders, of tests and of declared competencies, the actual equivalence of alternative demonstrations, and the willingness of an institution to repair a rule after a successful appeal are not established here and cannot be by the model.
+\item \textbf{Cost.} The cost of labeling at scale, of computing and storing commitments and indexes, of generating and grading tests, and of the labor of labeling and review is not analyzed. The monograph states finite computations and proof objects of bounded size, and does not analyze cost.
+\item \textbf{Authentication and identity.} The author field is assumed authenticated by a mechanism outside the model (assumption (A)), and distinct identifiers are not assumed to be distinct persons. Invariant 1 is only as strong as the identity layer beneath it.
+\item \textbf{Confidentiality, network-level attacks and key management.} These are not addressed.
+\item \textbf{Forked surfaces.} Determinism is shown for chain surfaces. The treatment of equivocation is as the monograph states it, in prose.
+\item \textbf{Well-foundedness of commitments.} The monograph has each anchor commit to the active set of the prefix it closes, a prefix that contains the anchor itself. We have not verified that the commitment can be computed without reference to the anchor's own identifier, and treat the existence of a commitment, as the monograph does, as given.
+\item \textbf{Completeness of the threat model.} The five classes do not exhaust the adversaries that a deployment would face.
+\item \textbf{Novelty.} No claim is made that any of the devices is new. Related work is deliberately not surveyed in this draft.
+\end{itemize}
+
+% TODO(literature): related-work section on trusted timestamping, transparency logs, convergent replicated data, authorization logic and capability revocation, argumentation-system security.
+
+\section*{Notes}
+
+Sources in the monograph: Chapter 9 (records, identifiers, valid ledgers, dispositions, replay determinism and convergence, traceable divergence, evaluation depending on arguments only); Chapter 14 (the pipeline, proof objects, closure certificates, certified labels, idempotence of ingestion); Chapter 16 (anchors and ledger time, prefix immutability, the two planes, capabilities and revocation, gates, clearance, restrictions and the meta surface, reasons, the ten anti-capture invariants); Chapter 18 (federation, convergence of records and not of projections, divergence reports, the ten decisions and the limits of the specification); Chapter 7 (grounded labeling, directionality, policy-relative defeat, used for (L1)--(L3)). Results not stated in the monograph in this form, and proved here: Propositions~\ref{prop:delivery}, \ref{prop:prefixheld}, \ref{prop:nobackdate}, \ref{prop:halfopen} and Corollaries~\ref{cor:omission}, \ref{cor:revlate}, \ref{cor:noomit}, and Lemma~\ref{lem:closed} as a stated lemma. Three points where the monograph's statement or proof is amended: the effect of references on ledger time (Proposition~\ref{prop:ledgertime}(d)), the dependence of the authorization projection on ledger time (Proposition~\ref{prop:planes}(a)), and the minimality condition in the certified-label proposition (Proposition~\ref{prop:certified}).
+
+\end{document}

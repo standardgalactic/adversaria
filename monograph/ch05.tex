@@ -1,0 +1,105 @@
+\chapter{Evidence and Provenance}\label{ch:evidence}
+
+A reference in an encyclopedia is usually a pointer that a reader either trusts or does not. In Adversaria a reference is an object with parts, because the ways a citation can fail are different and each needs a place to be recorded. A source may not say what is attributed to it. A source may say it but merely report someone's belief. A study may supply data that do not bear on the estimand in question. An inference from sound data may be bad. This chapter defines evidence items so that each of these is a separately addressable failure.
+
+\section{Evidence items}
+
+\begin{definition}[Evidence item]\label{def:evidence}
+An \emph{evidence item} is a tuple
+\[
+e=(\mathsf{src},\ \mathsf{loc},\ \mathsf{ext},\ \mathsf{kind},\ \kap_e,\ \sigma_e,\ \mathsf{fam})
+\]
+with
+\begin{itemize}
+\item $\mathsf{src}$ the content hash of an immutable source object (a paper, dataset, recording, proof script);
+\item $\mathsf{loc}$ a \emph{locator} inside the source, precise to a page, figure, table, dataset row set, or analysis identifier;
+\item $\mathsf{ext}$ the \emph{extract}: the text, values or output found at the locator;
+\item $\mathsf{kind}\in\{\text{observation},\text{experiment},\text{dataset},\text{quotation},\text{derivation}\}$;
+\item $\kap_e$ a kernel and $\sigma_e$ a nonempty scope admissible for it: what the item reports, and of which units;
+\item $\mathsf{fam}$ an \emph{independence family} (Section~\ref{sec:independence}).
+\end{itemize}
+The item \emph{reports} $(\kap_e,\sigma_e)$: within the source, $\kap_e$ was found to hold of the units in $\sigma_e$. Its \emph{witness scope} is $\sigma_e$.
+\end{definition}
+
+The scope of an evidence item is the scope of what was observed, not of what the observer would like to conclude. A trial run in one laboratory on one sample has a small witness scope even if its authors claim more. Claiming more is the business of an argument, and it is checked there (Chapter~\ref{ch:warrant}).
+
+\begin{definition}[Anchoring]
+An evidence item is \emph{anchored} if $\mathsf{loc}$ resolves inside the source object addressed by $\mathsf{src}$ and the content found there equals $\mathsf{ext}$. Anchoring is decidable from the source object. An item that is not anchored is a malformed record, not a weak one.
+\end{definition}
+
+\section{What a source can and cannot supply}
+
+The kinds are not interchangeable, and one of them needs particular care.
+
+A \emph{quotation} reports what a source \emph{says}. Its kernel $\kap_e$ is of the form ``source $S$ states $P$,'' not $P$. That is a different proposition, and the gap between the two is filled by a warrant about testimony: that the source is reliable on $P$, or that its author had access to what they describe. An argument that goes from ``the source says $P$'' to $P$ therefore carries an explicit warrant, and the warrant can be undercut without disputing that the source says it. The same holds for a source that reports another party's belief. In the vocabulary of the model:
+
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+Situation & Representation\\
+\midrule
+a source contains a sentence & quotation item; $\kap_e$ = ``$S$ contains this sentence''\\
+a source reports someone believes $P$ & quotation item; $\kap_e$ = ``$S$ reports that $X$ believes $P$''\\
+a study supplies data & observation, experiment or dataset item\\
+an inference from the data & warrant inside an argument\\
+the conclusion attributed to the study & the claim the argument concludes\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Consequently ``no source'' and ``a bad inference from a valid source'' are different failure modes: the first defeats an evidence item, the second defeats a warrant (Chapter~\ref{ch:objection}).
+
+An \emph{existence report} is an evidence item whose kernel is a negated kernel: it records that a proposition failed at the observed units.
+
+\begin{proposition}[A counterexample is localized]\label{prop:counterexample}
+Let $e$ be an existence report with $\kap_e=\nk{\kap}$ and let $c=(\kap,\sigma,\dots)$ be a claim. The report and the claim are jointly satisfiable iff $\sigma_e\cap\sigma=\varnothing$. If they overlap, the conflict lies exactly in $\sigma_e\cap\sigma$.
+\end{proposition}
+
+\begin{proof}
+Proposition~\ref{prop:conflict} applied to $(\nk{\kap},\sigma_e)$ and $(\kap,\sigma)$, and Proposition~\ref{prop:localize} for the location.
+\end{proof}
+
+This is why a single counterexample need not refute a broad claim. It refutes the claim on the units it witnessed. What survives outside that region is the subject of Chapter~\ref{ch:constraint}.
+
+\section{Independence}\label{sec:independence}
+
+Whether several evidence items are corroboration or repetition depends on whether they are independent. Record counts cannot decide that: one dataset re-analysed twenty times and twenty datasets collected separately produce the same number of records.
+
+\begin{definition}[Independence family]
+An \emph{independence family} groups evidence items that share a methodological dependence: the same laboratory, dataset, instrument, pipeline, or automated import. Membership is declared when an item is inscribed, and the declaration is itself a contestable claim that any contributor may object to. The \emph{independent count} of a set $E$ of items is the number of distinct families among them.
+\end{definition}
+
+\begin{proposition}[Duplicates do not raise the independent count]\label{prop:indep}
+If $E'$ is obtained from $E$ by adding items from families already represented in $E$, the independent count is unchanged.
+\end{proposition}
+
+\begin{proof}
+The independent count is the number of distinct values of $\mathsf{fam}$ on the set, and adding items with existing values does not add a value.
+\end{proof}
+
+The proposition is immediate, and the rule it protects is not. It applies with particular force to automated contributors. Several acts produced by one model, one prompt lineage, one script or one import share a methodological dependence, so by default they belong to a single independence family whatever number of personas, accounts or voices produced them. Ten automated agents repeating one inference are one dependent lineage, not ten confirmations. An act earns evidential standing only through what it identifiably does (extract evidence, supply a warrant, find a counterexample, restrict a scope), never through the appearance of a distinct contributor or through agreement with another one. Splitting a family requires a declared and contestable reason. Independence, replication and contributor count must never be inferred from record count. In particular one automated import of a million rows is one family, and cannot masquerade as a million confirmations. The status vector of Chapter~\ref{ch:status} uses independent counts and no others.
+
+\section{Which kinds may ground which modalities}
+
+Not every kind of evidence can ground every kind of claim. A dataset can ground an association, but grounding a causal claim needs an identification strategy that the data alone do not supply. The admissibility of a kind for a modality is a \emph{policy choice} and is not derived.
+
+\begin{designrule}[Admissibility table]\label{rule:admissibility}
+A policy $\policy$ supplies a relation $\mathrm{Adm}_\policy\subseteq\mathsf{Kinds}\times\mathsf{Modalities}$. A well-formed argument may attach an evidence item of kind $k$ directly to a claim of modality $m$ only if $(k,m)\in\mathrm{Adm}_\policy$. The default policy is as follows.
+\begin{center}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+modality & obs. & expt. & dataset & quotation & derivation\\
+\midrule
+descriptive & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$\\
+associational & $\bullet$ & $\bullet$ & $\bullet$ & & $\bullet$\\
+causal & & $\bullet$ & & & $\bullet$\\
+mechanistic & $\bullet$ & $\bullet$ & & & $\bullet$\\
+normative & & & & $\bullet$ & $\bullet$\\
+speculative & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$\\
+\bottomrule
+\end{tabular}
+\end{center}
+A dataset may ground a causal claim only through a derivation that supplies the identification strategy. No theorem is claimed for this table; it records a defensible default, it is versioned, and communities may adopt a different one.
+\end{designrule}
+
+Admissibility limits what may be \emph{attached}. It never certifies that what is attached is persuasive. Whether the attachment survives is decided by objections and the defeat semantics of Chapter~\ref{ch:objection}.

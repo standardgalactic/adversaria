@@ -1,0 +1,346 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{counterexample}{Counterexample}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\IN}{\textsf{IN}}
+\newcommand{\OUT}{\textsf{OUT}}
+\newcommand{\UND}{\textsf{UND}}
+\newcommand{\dfeat}{\rhd}
+\newcommand{\Def}{\mathrm{Def}}
+\newcommand{\Bc}{\mathrm{B}}
+\newcommand{\Lab}{\mathsf{L}}
+\newcommand{\In}{\mathrm{In}}
+\newcommand{\Out}{\mathrm{Out}}
+\newcommand{\Und}{\mathrm{Und}}
+\newcommand{\Sub}{\operatorname{Sub}}
+
+\title{Labeling Semantics Compared}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+The monograph \emph{Adversaria: A Specification for a Public Claim Graph} evaluates a contested claim by applying the grounded labeling to a finite defeat graph at each unit of a space of units. Several guarantees are proved for that labeling. This report asks, for each guarantee, whether it is a property of the argument graph and its per-unit scoping, in which case every labeling semantics inherits it, or a property of the grounded labeling, in which case another semantics may lack it. We define preferred and stable semantics (by skeptical aggregation of complete labellings) and a simple ranking-style semantics explicitly in the per-unit setting, give a two-column table that sorts the properties, and give a second table that records, for each property and each semantics, whether it holds. Every cell marked as failing is backed by a small counterexample, and every counterexample was checked by computation. Some results transfer verbatim, some transfer only after a new proof (for example, withdrawal remains deletion up to labeling under preferred and stable semantics, although out-inertness in general does not), and some fail. The report does not claim that any semantics is best, and it states no property of a semantics that is not proved here, standard, or checked and labelled as checked.
+\end{abstract}
+
+\section{Purpose}
+
+A comparison of labeling semantics goes wrong when a guarantee proved in a setting where several things are fixed at once (how arguments are built, how scopes restrict them, how attacks are derived, which semantics is applied) is credited to the semantics, or withheld from another, although it depends only on the first three. The monograph proves that a new objection cannot change a label outside its own scope, that contradiction does not create arguments, that the label of an argument is determined by its backward closure, and that an argument which is $\OUT$ can be deleted without disturbing other labels. The first two concern the graph. The third concerns the graph and one property of the semantics. The fourth concerns the semantics alone, and it fails for two of the semantics considered below.
+
+The report sorts the properties (Section~\ref{sec:sort}), defines the alternatives in the monograph's per-unit setting (Section~\ref{sec:defs}), and states for each property and semantics whether it holds, with a proof or a small counterexample (Sections~\ref{sec:graphholds} to~\ref{sec:transfer}). A statement is \emph{proved} when a proof is given; \emph{standard} when it is textbook material stated without proof and marked for the literature pass; \emph{checked} when verified by a program over small graphs (Section~\ref{sec:comp}). Checks never stand in for a proof where a proof is claimed, and no monograph result is applied to another semantics unless proved for it here.
+
+% TODO(literature): state the standard definitions of complete, preferred and stable labellings and extensions with their original sources, and the source of the sum-ranking semantics and its convergence result; survey other semantics (complete, semi-stable, ideal, credulous acceptance) and other ranking semantics.
+
+\section{Setting}\label{sec:setting}
+
+The setting is that of Chapters 7 and 9 of the monograph. A ledger and a policy determine a finite set $\mathcal A$ of active arguments, each with a scope $\sigma(a)$ in a space $\Omega$ of units, and, for each ordered pair, a defeat region. At a unit $x$ the arguments present are $\mathcal A_x=\{a:x\in\sigma(a)\}$ and the defeat relation at $x$ is $b\dfeat^x a$ iff $x$ lies in the defeat region of $b$ on $a$. The pair $F_x=(\mathcal A_x,\dfeat^x)$ is an ordinary finite directed graph, the \emph{defeat graph at $x$}. Everything below concerns such graphs. Self-defeat is not excluded in the statements; the counterexamples do not use it.
+
+\begin{definition}[Semantics]\label{def:sem}
+A \emph{semantics} $\theta$ assigns to each finite directed graph $F=(A,D)$ either the value $\bot$ (undefined) or a function $\theta(F):A\to Y$. It is a \emph{labeling semantics} if $Y=\{\IN,\OUT,\UND\}$ and a \emph{scoring semantics} if $Y=(0,1]$. The \emph{regional labeling} it induces is $\Lab_\theta(a,x)=\theta(F_x)(a)$, and its regions are $\In_\theta(a)$, $\Out_\theta(a)$, $\Und_\theta(a)$ as in Chapter 7.
+\end{definition}
+
+The grounded labeling of Chapter 7 is the labeling semantics $\theta_G$. 
+\section{Two kinds of property}\label{sec:sort}
+
+A property is a \emph{graph property} if its statement and proof concern only how the graphs $F_x$ arise from records and scopes, and hold whatever function $\theta$ is applied afterwards. It is a \emph{semantic property} if it is a statement about $\theta$ over all finite graphs. Some guarantees of the monograph are proved in one piece but consist of one part of each kind; the table splits them.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{Properties of the argument graph and its per-unit scoping} & \textbf{Properties of a chosen labeling semantics}\\
+\midrule
+G1. $F_x$ depends on $x$ only through its membership pattern in the finitely many scopes and regions used (Theorem on regions, graph part). & S1. Existence: $\theta(F)\ne\bot$ for every finite $F$.\\[2pt]
+G2. The node set of $F_x$ is the set of admitted arguments present at $x$, independent of the defeat relation: a conflict creates no argument (Corollary on explosion, second assertion). & S2. Uniqueness of the extension.\\[2pt]
+G3. Locality: adding arguments with scopes in $S$ leaves $F_x$ identical for $x\notin S$ (Theorem on locality, graph part). & S3. Label closure: $\IN$ iff every defeater is $\OUT$.\\[2pt]
+G4. The backward closure $\Bc_x(a)$ and the subgraph on it are unchanged unless a new defeat targets a member (Theorem on directionality, graph part). & S4. $\OUT$-support: $\OUT$ iff some defeater is $\IN$.\\[2pt]
+G5. Heredity: defeaters of a sub-argument at $x$ are defeaters of every argument built on it (Definition of hereditary attack). & S5. $\OUT$-inertness: deleting an $\OUT$ argument changes no other value.\\[2pt]
+G6. The graphs are a function of the active set and the policy (Propositions on inert records and separation). & S6. Directionality: the value of $a$ is determined by the subgraph on $\Bc_x(a)$.\\[2pt]
+G7. A withdrawal is an unattacked node attacking the withdrawn argument and, hereditarily, those built on it. & S7. A pure defeat cycle (no other defeats into its members) is wholly $\UND$.\\[2pt]
+& S8. Agreement with grounded $\IN$ and $\OUT$ where grounded decides.\\[2pt]
+& S9. Heredity of values (Lemma on dependency soundness).\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+G1 and G3 give, for \emph{every} semantics, that regions are well defined and that objections are local (Proposition~\ref{prop:graphprops}). The monograph's Theorem on directionality contains the graph property G4 and the semantic property S6, and its consequence for labels needs both. Stable semantics lacks S6 (Section~\ref{sec:cex}).
+
+\section{The semantics compared}\label{sec:defs}
+
+\subsection{Complete labellings}
+
+\begin{definition}[Complete labelling]\label{def:complete}
+For a finite graph $F=(A,D)$, a \emph{complete labelling} is a partition $(I,O,U)$ of $A$ such that $a\in I$ iff every defeater of $a$ is in $O$, and $a\in O$ iff some defeater of $a$ is in $I$.
+\end{definition}
+
+These are conditions (c) and (d) of the Theorem on well-definedness and label consistency (Chapter 7). Its part (f) shows that the grounded labeling is the complete labelling with the least $I$: every complete labelling has $I$ containing the grounded $I$. A complete labelling is determined by its set $I$, since $O$ is then the set of arguments defeated by a member of $I$ and $U$ is the rest. The notion is standard and is used without citation in this draft.
+
+% TODO(literature): attribute complete labellings and the correspondence with complete extensions.
+
+\subsection{Three labeling semantics}
+
+\begin{definition}[Grounded, preferred, stable]
+Let $\mathcal L(F)$ be the set of complete labellings of $F$. For a nonempty $\mathcal M\subseteq\mathcal L(F)$ its \emph{skeptical aggregate} $\mathrm{sk}(\mathcal M)$ labels $a$ as $\IN$ if $a\in I$ for every member, as $\OUT$ if $a\in O$ for every member, and as $\UND$ otherwise.
+\begin{itemize}[nosep]
+\item $\theta_G(F)$ is the complete labelling with least $I$ (the grounded labeling of Chapter 7).
+\item $\theta_P(F)=\mathrm{sk}(\mathcal P(F))$, where $\mathcal P(F)$ is the set of complete labellings whose $I$ is $\subseteq$-maximal among complete labellings (\emph{preferred labellings}).
+\item $\theta_S(F)=\mathrm{sk}(\mathcal S(F))$ if $\mathcal S(F)\ne\varnothing$, and $\bot$ otherwise, where $\mathcal S(F)$ is the set of complete labellings with $U=\varnothing$ (\emph{stable labellings}).
+\end{itemize}
+\end{definition}
+
+The aggregation rule is a choice and matters: another rule, for example one that labels $a$ as $\OUT$ only when some defeater is $\IN$ in the aggregate, would change the results for $\theta_P$ and $\theta_S$. The set of complete labellings of a finite graph is finite and nonempty (it contains the grounded labelling), so $\mathcal P(F)\ne\varnothing$ and $\theta_P$ is always defined.
+
+\subsection{A simple ranking-style semantics}
+
+\begin{definition}[Sum ranking]\label{def:rank}
+For a finite graph $F=(A,D)$, a \emph{sum scoring} is a function $s:A\to(0,1]$ with
+\[
+s(a)=\frac{1}{1+\sum_{b\dfeat a}s(b)}\qquad\text{for all }a\in A.
+\]
+The semantics $\theta_R(F)$ is $s$, and it induces the preorder $a\succeq b$ iff $s(a)\ge s(b)$.
+\end{definition}
+
+On an acyclic graph the equations determine $s$ uniquely by recursion on depth (unattacked arguments have score $1$). On an arbitrary finite graph, existence and uniqueness of a solution are standard; we use them only where stated and mark them.
+
+% TODO(literature): cite the source of this ranking (a counting ranking in the family of categoriser-style semantics) and the proof that a unique solution exists on every finite graph and that the iteration from all ones converges.
+
+The ranking returns no label, so S3, S4 and S7 are not defined for it; for S5 and S8 the natural analogue is stated with the counterexample.
+
+\section{Properties that every semantics inherits}\label{sec:graphholds}
+
+\begin{proposition}[Graph properties transfer to every semantics]\label{prop:graphprops}
+Let $\theta$ be any semantics.
+\begin{enumerate}[label=(\alph*)]
+\item \emph{Regions.} For each active argument $a$, the set $\{x\in\sigma(a):\Lab_\theta(a,x)=y\}$ is a union of atoms of the partition of $\Omega$ by membership in the finitely many scopes and regions used by the ledger and policy, for every $y\in Y$ in the labeling case and for every level set of the score in the scoring case. The set $\{x:\theta(F_x)=\bot\}$ is also such a union.
+\item \emph{Locality.} If the ledger is extended by arguments whose scopes lie in a scope $S$, then for every $x\notin S$ and every argument $a$ already present, $\Lab_\theta(a,x)$ is unchanged.
+\item \emph{Replica determinism.} $\Lab_\theta$ is a function of the active set and the policy; equal active sets and policies give equal regional labellings.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) By G1 the graph $F_x$ depends on $x$ only through its pattern, and $\theta(F_x)$ depends only on $F_x$. So $\Lab_\theta(\cdot,x)$ is constant on each pattern class, and the classes are atoms. (b) By G3 the graph $F_x$ is identical before and after for $x\notin S$, so $\theta(F_x)$ is. (c) By G6, the graph family is a function of the active set and policy. \qedhere
+\end{proof}
+
+The monograph's proofs of its Theorems on regions and on locality (Chapter 7), of replay determinism and of the proposition on inert records (Chapter 9), use only these graph facts and that labels at $x$ are a function of $F_x$.
+
+\begin{lemma}[Backward closure is stable under additions]\label{lem:bc}
+Let $F=(A,D)$ and $F'=(A',D')$ with $A\subseteq A'$ and $D\subseteq D'$. Let $B=\Bc_F(a)$ be the smallest set containing $a$ and every defeater of each member. If no pair $(u,v)\in D'\setminus D$ has $v\in B$, then $\Bc_{F'}(a)=B$ and the subgraph of $F'$ on $B$ equals that of $F$.
+\end{lemma}
+
+\begin{proof}
+The defeaters in $F'$ of any $v\in B$ are the defeaters in $F$, since every new pair has its target outside $B$. So $B$ is closed under defeaters in $F'$; it is the smallest such set containing $a$ because $F'$ has no fewer defeaters than $F$. The subgraph on $B$ is unchanged for the same reason.
+\end{proof}
+
+This is the graph part of the Theorem on directionality.
+
+\section{Properties of particular semantics: what holds}\label{sec:holds}
+
+\subsection{Complete-labelling facts}
+
+\begin{lemma}[Facts shared by skeptical aggregates]\label{lem:sk}
+Let $\mathcal M\subseteq\mathcal L(F)$ be nonempty, $\theta=\mathrm{sk}(\mathcal M)$ with $\IN_\theta,\OUT_\theta,\UND_\theta$ its classes, and let $I_g,O_g$ be the classes of the grounded labeling.
+\begin{enumerate}[label=(\alph*)]
+\item $\IN_\theta$ is conflict-free.
+\item $a\in\IN_\theta$ iff every defeater of $a$ lies in $\OUT_\theta$ (S3).
+\item $I_g\subseteq\IN_\theta$ and $O_g\subseteq\OUT_\theta$ (S8).
+\item If $a'$ has defeater set contained in that of $a$: $a\in\IN_\theta$ implies $a'\in\IN_\theta$, and $a'\in\OUT_\theta$ implies $a\in\OUT_\theta$ (S9).
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Pick any $L\in\mathcal M$. $\IN_\theta\subseteq I_L$, which is conflict-free (part (b) of the Theorem on label consistency, whose proof uses only the two defining conditions). (b) If $a\in\IN_\theta$, then in every $L\in\mathcal M$ all defeaters of $a$ are in $O_L$, so they lie in $\OUT_\theta$. Conversely, if every defeater lies in $\OUT_\theta$, then in every $L$ it lies in $O_L$, so $a\in I_L$ for every $L$. (c) By part (f) of that theorem every complete labelling has $I_L\supseteq I_g$. If $a\in O_g$, some $s\in I_g$ defeats $a$, and $s\in I_L$ for all $L$, so $a\in O_L$ for all $L$. (d) Each claim holds in each $L$ by the argument of the Lemma on dependency soundness (Chapter 7), which uses only conditions (c) and (d) of a complete labelling; it passes to the aggregate because it is stated for membership in all members. \qedhere
+\end{proof}
+
+Lemma~\ref{lem:sk} applies to $\theta_P$ and $\theta_S$ (for the latter when $\mathcal S(F)\neq\varnothing$).
+
+\begin{lemma}[Deleting an argument that has an unattacked defeater]\label{lem:anchored}
+Let $b\in A$ have a defeater $w\ne b$ that itself has no defeater. Then restriction to $A\setminus\{b\}$ is a bijection from $\mathcal L(F)$ onto $\mathcal L(F-b)$ that preserves $I$ and $U$ on $A\setminus\{b\}$, and $b\in O$ in every member of $\mathcal L(F)$.
+\end{lemma}
+
+\begin{proof}
+In any complete labelling of $F$, $w$ has no defeaters, so it is in $I$ vacuously, and $b$ is in $O$. For $v\ne b$, the two defining conditions involve the defeaters of $v$; removing $b$ from that set changes neither ``all are in $O$'' nor ``some is in $I$'', because $b\in O$. So the restriction is complete on $F-b$. Conversely, given a complete labelling of $F-b$, $w$ is unattacked in $F-b$ as well, hence in $I$, so extending by $b\in O$ satisfies the condition at $b$, and the conditions at all other nodes are unchanged by the same observation. The two maps are mutually inverse. \qedhere
+\end{proof}
+
+\begin{corollary}\label{cor:withdraw}
+For $\theta\in\{\theta_G,\theta_P,\theta_S\}$, the statements of the Theorem on withdrawal (Chapter 9, withdrawal is deletion up to labeling) and of the Corollary on batch withdrawal (Chapter 17) hold with $\theta$ in place of the grounded labeling.
+\end{corollary}
+
+\begin{proof}
+Let $w_a$ be the withdrawal node. It has no defeaters (Definition of withdrawal), attacks $a$ on $\sigma(a)$, and by hereditary attack defeats every $d$ with $a\in\Sub(d)$ at units of $\sigma(d)\cap\sigma(a)$. So at $x\in\sigma(a)$ every member of $Z_x$ has the unattacked defeater $w_a$ and is $\OUT$ in every complete labelling (Lemma~\ref{lem:anchored}), which gives parts (a) and (b). For (c), delete the members of $Z_x$ one at a time: each has the unattacked defeater $w_a$ in the remaining graph, so by Lemma~\ref{lem:anchored} complete labellings of the two graphs correspond and the aggregated labels of the remaining nodes agree, as does existence (for $\theta_S$: $U$ is preserved). The batch case repeats this with several withdrawal nodes. \qedhere
+\end{proof}
+
+This is a new proof, not a transfer: out-inertness in general fails for $\theta_P$ and $\theta_S$ (Counterexample~\ref{cex:outinert}), and what survives is the case of an argument with an unattacked defeater, which covers withdrawal.
+
+\subsection{Cycles and acyclic graphs}
+
+\begin{proposition}[Cycles and acyclic graphs]\label{prop:cycles}
+\begin{enumerate}[label=(\alph*)]
+\item If $F$ has no directed cycle, then $\mathcal L(F)$ has exactly one member, the grounded labelling, which has $U=\varnothing$. So $\theta_G=\theta_P=\theta_S$ on acyclic graphs, and all three give $\UND_x=\varnothing$.
+\item Let $F$ be a directed cycle on $n\ge2$ nodes with no other defeats. The grounded and preferred semantics label all nodes $\UND$. The stable semantics is undefined when $n$ is odd and labels all nodes $\UND$ when $n$ is even.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) The proof of the Proposition on acyclic disagreement (Chapter 7) uses, by induction on depth, only that a labelling satisfies the two defining conditions; hence every complete labelling has $U=\varnothing$, and is determined by depth, so it is unique. (b) Each node has exactly one defeater, its predecessor. In a complete labelling, $v\in I$ iff its predecessor is in $O$, and $v\in O$ iff its predecessor is in $I$, so $I$ and $O$ alternate around the cycle, and $U$-membership propagates: $v\in U$ iff its predecessor is in $U$. So either every node is in $U$, or none is and the cycle alternates between $I$ and $O$, which is possible iff $n$ is even, in two ways. For odd $n$ the only complete labelling is all-$U$. For even $n$ there are three: all-$U$ and the two alternating ones. The preferred ones are the two alternating, and each node is $I$ in one and $O$ in the other, so the aggregate labels it $\UND$. The stable labellings are these same two, with the same aggregate. For odd $n$ there is no stable labelling, so $\theta_S$ is undefined. \qedhere
+\end{proof}
+
+This concerns pure cycles only. The monograph's Proposition on symmetric defeat allows any cycle whose members have no outside defeaters; its proof concerns the grounded labeling, and we do not extend it to other semantics beyond pure cycles.
+
+\subsection{Directionality}
+
+The definition of preferred labellings through maximal $I$ corresponds to maximal admissible sets. A set $E\subseteq A$ is \emph{admissible} if it is conflict-free and every defeater of a member is defeated by a member. \textbf{Standard fact} (marked \verb|TODO(literature)|): the $I$-sets of preferred labellings are exactly the $\subseteq$-maximal admissible sets, and an arbitrary set $E$ is the $I$-set of a complete labelling only if it is admissible. % TODO(literature): state and cite the correspondence between labellings and extensions.
+
+\begin{proposition}[Preferred semantics is directional]\label{prop:prefdir}
+Let $U\subseteq A$ be closed under defeaters (if $v\in U$ and $u\dfeat v$ then $u\in U$), and let $F|_U$ be the subgraph on $U$. For every $a\in U$, $\theta_P(F)(a)=\theta_P(F|_U)(a)$. In particular, taking $U=\Bc_F(a)$, $\theta_P$ is directional.
+\end{proposition}
+
+\begin{proof}
+\emph{Step 1.} $\{E\cap U: E\text{ maximal admissible in }F\}$ is the set of maximal admissible sets of $F|_U$.
+Let $E$ be maximal admissible in $F$. Then $E\cap U$ is conflict-free; if $e\in E\cap U$ and $d\dfeat e$ then $d\in U$, and some $e'\in E$ defeats $d$; since $d\in U$ and $U$ is closed, $e'\in U$. So $E\cap U$ is admissible in $F|_U$. Suppose $T\supseteq E\cap U$ is admissible in $F|_U$. The set $E\cup T$ is conflict-free: if $t\in T$ defeats $e\in E$, some $e'\in E$ defeats $t$, and $e'\in U$, so $e'\in E\cap U\subseteq T$, contradicting conflict-freeness of $T$; if $e\in E$ defeats $t\in T$, then $e\in U$ by closure and $e\in T$, again a conflict in $T$. It is admissible: members of $E$ are defended by $E$, members of $T$ by $T$ (their defeaters lie in $U$). By maximality $E\cup T=E$, so $T\subseteq E\cap U$ and $E\cap U$ is maximal in $F|_U$. Conversely let $T$ be maximal admissible in $F|_U$. It is admissible in $F$ (the defeaters of its members lie in $U$). Extend it to a maximal admissible $E$ of $F$ ($A$ is finite). Then $E\cap U$ is admissible in $F|_U$ and contains $T$, so equals $T$.
+
+\emph{Step 2.} For $a\in U$: $a\in\IN_{\theta_P}$ iff $a\in E$ for every preferred $E$ iff $a\in E\cap U$ for every such $E$ iff, by Step 1, $a\in T$ for every maximal admissible $T$ of $F|_U$. And $a\in\OUT_{\theta_P}$ iff for every preferred $E$ some member of $E$ defeats $a$; such a member lies in $U$ by closure, hence in $E\cap U$; by Step 1 this is equivalent to the same statement in $F|_U$. So the two labels agree. \qedhere
+\end{proof}
+
+For the ranking, given uniqueness of the solution on every finite graph (standard, marked above): if $U$ is closed under defeaters then the restriction of the solution on $F$ to $U$ satisfies the equations of $F|_U$, since each equation for $v\in U$ involves only defeaters, which lie in $U$; by uniqueness it is the solution of $F|_U$. So $\theta_R$ is directional under that standing assumption.
+
+\begin{proposition}[Hereditary monotonicity of the ranking]\label{prop:rankher}
+If a finite graph has arguments $a,a'$ with every defeater of $a'$ also a defeater of $a$, then any sum scoring satisfies $s(a)\le s(a')$.
+\end{proposition}
+
+\begin{proof}
+The sum in the equation for $a$ is over a superset of the terms in the sum for $a'$, all terms are positive, and $t\mapsto1/(1+t)$ is decreasing. \qedhere
+\end{proof}
+
+\section{Counterexamples}\label{sec:cex}
+
+Each example is a small defeat graph, written as a list of defeats $b\to a$ (``$b$ defeats $a$''). They are abstract graphs at a single unit. Mutual rebuttal (two arguments that defeat each other) is realized by the monograph's own account of symmetric defeat (Chapter 7). The examples with a one-way defeat are realizable by undermining or undercutting objections, and realizability of each example as a ledger is not checked here (Section~\ref{sec:limits}). The grounded labels and the labels of the other semantics were computed by exhaustive enumeration of complete labellings.
+
+\begin{counterexample}[An odd cycle has no stable labelling; S1, S7 for $\theta_S$]\label{cex:odd}
+Defeats $a\to b$, $b\to c$, $c\to a$. The only complete labelling is all-$\UND$. Grounded and preferred: all $\UND$. Stable: no stable labelling, so $\theta_S$ is undefined.
+\end{counterexample}
+
+\begin{counterexample}[Two extensions; S2 for $\theta_P$ and $\theta_S$]\label{cex:two}
+Defeats $a\to b$, $b\to a$. Complete labellings: $(a\ \IN, b\ \OUT)$, $(a\ \OUT, b\ \IN)$, and all-$\UND$. Grounded: the last one, unique. Preferred labellings: the first two. Stable labellings: the first two. So neither $\theta_P$ nor $\theta_S$ has a unique extension; the skeptical aggregates label both $\UND$, which makes the \emph{labeling} unique by construction but not the extension.
+\end{counterexample}
+
+\begin{counterexample}[$\OUT$ without an $\IN$ defeater; S4 for $\theta_P$ and $\theta_S$]\label{cex:outsupport}
+Defeats $b\to c$, $c\to b$, $b\to x$, $c\to x$. Grounded: all $\UND$. Preferred labellings and stable labellings: $\{b\ \IN,c\ \OUT,x\ \OUT\}$ and $\{c\ \IN,b\ \OUT,x\ \OUT\}$. Aggregate: $b,c$ are $\UND$ and $x$ is $\OUT$, although no defeater of $x$ is $\IN$ in the aggregate. The claim of part (d) of the Theorem on label consistency (``$a$ is $\OUT$ iff some defeater of $a$ is $\IN$'') fails for these semantics, and with it the reading of $\OUT$ as ``defeated by something that stands''.
+\end{counterexample}
+
+\begin{counterexample}[An $\OUT$ argument is not inert; S5 for $\theta_P$ and $\theta_S$]\label{cex:outinert}
+Defeats $p\to r$, $r\to p$, $p\to q$, $q\to r$. Complete labellings: $\{p\ \IN,q\ \OUT,r\ \OUT\}$ and all-$\UND$. The first is the unique preferred labelling and the unique stable labelling, so $\theta_P=\theta_S$ labels $p$ as $\IN$, $q$ and $r$ as $\OUT$. Delete $q$ (which is $\OUT$): the remaining graph is the mutual pair $p\leftrightarrow r$, and both semantics now label $p$ and $r$ $\UND$ (Counterexample~\ref{cex:two}). The label of $p$ changed from $\IN$ to $\UND$. Under grounded semantics all three are $\UND$, so the Lemma on $\OUT$ arguments (Chapter 7) is not contradicted. The argument $q$ is $\OUT$ only because $p$ wins its dispute with $r$, and $q$ in turn helps $p$ win it.
+\end{counterexample}
+
+\begin{counterexample}[An unrelated component changes a stable label; S6 for $\theta_S$]\label{cex:dirstable}
+Let $F$ be a single argument $b$ with no defeats, and $F'$ its disjoint union with the odd cycle of Counterexample~\ref{cex:odd}. The backward closure of $b$ is $\{b\}$ in both, and no new defeat targets it. Grounded, preferred: $b$ is $\IN$ in both. Stable: $\theta_S(F)(b)=\IN$ and $\theta_S(F')=\bot$. Three mutually defeating arguments unrelated to $b$ remove its stable label wherever they are present. For the same pair, part (b) of the Theorem on traceable divergence (Chapter 9: a label difference between two replicas implies a member of the symmetric difference of the active sets inside the backward closure) fails under $\theta_S$, since two members differing only in the odd cycle disagree on $b$. This is a semantic analogue of explosion: nothing is created, but one unsatisfiable region erases a label elsewhere.
+\end{counterexample}
+
+\begin{counterexample}[Deletion of an $\OUT$ argument changes scores and order; S5 for $\theta_R$]\label{cex:rankout}
+Defeats $u\to b$, $b\to x$, $z_1\to v$, $z_2\to v$, $v\to y$. The scores are $s(u)=s(z_1)=s(z_2)=1$, $s(b)=1/2$, $s(v)=1/3$, $s(x)=2/3$, $s(y)=3/4$, so $y\succ x$. The argument $b$ is $\OUT$ under grounded semantics (defeated by the unattacked $u$), as is $v$, and $x$ and $y$ are both $\IN$. Delete $b$: $s(x)=1$ and $s(y)=3/4$ still, so now $x\succ y$. The order of two arguments flipped although the deleted argument was $\OUT$ and no grounded label of another argument changed. Reading $u$ as a withdrawal node of $b$, a withdrawal is not deletion up to the ranking, unlike Corollary~\ref{cor:withdraw}.
+\end{counterexample}
+
+\begin{counterexample}[A ranking can place an $\OUT$ argument above an $\IN$ one; S8 for $\theta_R$]\label{cex:rankground}
+Defeats $u\to b_1$, $u\to b_2$, $u\to b_3$, $b_1\to a$, $b_2\to a$, $b_3\to a$, $u\to d$. The scores are $s(u)=1$, $s(b_i)=s(d)=1/2$ and $s(a)=1/(1+3/2)=2/5$. Under grounded semantics $a$ is $\IN$ (all its defeaters are $\OUT$) and $d$ is $\OUT$. Yet $s(d)>s(a)$. The analogue of S8 for a scoring semantics, that grounded $\IN$ arguments score above grounded $\OUT$ arguments, fails.
+\end{counterexample}
+
+\section{The two tables}\label{sec:tables}
+
+Table~\ref{tab:sem} records, for each semantic property of Section~\ref{sec:sort}, whether it holds for the four semantics. ``Holds'' means proved in this report or in the monograph for the grounded labeling; ``holds (std)'' means standard and marked for the literature pass; ``n/a'' means the property is not defined for a semantics without labels. Every cell marked fails points to a counterexample above.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}X llll@{}}
+\toprule
+& property & grounded & preferred & stable & sum ranking\\
+\midrule
+S1 & existence & holds & holds & fails (\ref{cex:odd}) & holds (std)\\
+S2 & unique extension & holds & fails (\ref{cex:two}) & fails (\ref{cex:two}) & holds (std)\\
+S3 & label closure & holds & holds & holds & n/a\\
+S4 & $\OUT$-support & holds & fails (\ref{cex:outsupport}) & fails (\ref{cex:outsupport}) & n/a\\
+S5 & $\OUT$-inertness & holds & fails (\ref{cex:outinert}) & fails (\ref{cex:outinert}) & fails (\ref{cex:rankout})\\
+S6 & directionality & holds & holds & fails (\ref{cex:dirstable}) & holds (std)\\
+S7 & pure cycles wholly $\UND$ & holds & holds & fails (\ref{cex:odd}) & n/a\\
+S8 & agreement with grounded & holds & holds & holds & fails (\ref{cex:rankground})\\
+S9 & heredity of values & holds & holds & holds & holds\\
+\bottomrule
+\end{tabularx}
+\caption{Semantic properties. Grounded entries are results of Chapter 7 of the monograph; preferred and stable entries for S3, S8, S9 are Lemma~\ref{lem:sk}, S6 for preferred is Proposition~\ref{prop:prefdir}, S7 is Proposition~\ref{prop:cycles}, S9 for the ranking is Proposition~\ref{prop:rankher}. For the ranking, S5 and S8 are read as stated in the counterexamples.}
+\label{tab:sem}
+\end{table}
+
+For S7 under the ranking, a pure cycle of any length has all scores equal to $(\sqrt5-1)/2\approx0.618$ (checked by computation). This is not a label, and whether it counts as ``open'' is a matter of how a view reads scores, which the ranking semantics does not settle.
+
+The table can be read against the two-column classification. A property in the graph column holds for all four semantics by Proposition~\ref{prop:graphprops} and Lemma~\ref{lem:bc}. A property in the semantic column varies. Table~\ref{tab:transfer} lists the monograph results that mix the two and shows which ones transfer.
+
+\section{What transfers}\label{sec:transfer}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.27\textwidth} ccc>{\raggedright\arraybackslash}X@{}}
+\toprule
+monograph result & P & S & R & basis\\
+\midrule
+Regions are scopes; locality of objections (Chapter 7); replay and inert records (Chapter 9) & yes & yes & yes & Prop.~\ref{prop:graphprops}\\
+Directionality, hence contradiction does not explode (Chapter 7) & yes & no & yes (std) & Prop.~\ref{prop:prefdir}, \ref{cex:dirstable}\\
+Dependency soundness (Chapter 7) & yes & yes & order form & Lem.~\ref{lem:sk}(d), Prop.~\ref{prop:rankher}\\
+Acyclic disagreement is decided; a symmetric pair stays open (Chapter 7) & yes & yes & n/a, tie & Prop.~\ref{prop:cycles}\\
+$\OUT$ arguments are inert (Chapter 7) & no & no & no & \ref{cex:outinert}, \ref{cex:rankout}\\
+Withdrawal is deletion up to labeling; batch form (Chapters 9, 17) & yes & yes & no & Cor.~\ref{cor:withdraw}, \ref{cex:rankout}\\
+Divergence is traceable to the backward closure (Chapters 9, 18) & yes & no & yes (std) & Prop.~\ref{prop:prefdir}, \ref{cex:dirstable}\\
+No two contradictory arguments both $\IN$ (Chapter 12) & yes & yes & n/a & Lem.~\ref{lem:sk}(a)\\
+Labels depend on the graph alone, hence symmetric under renaming kernels (Chapter 17) & yes & yes & yes & each is defined from the graph alone\\
+\bottomrule
+\end{tabularx}
+\caption{Transfer of monograph results. P: skeptical preferred, S: skeptical stable, R: sum ranking. ``std'' marks a dependence on the standard existence and uniqueness result for the ranking.}
+\label{tab:transfer}
+\end{table}
+
+Two entries deserve a comment. The claim that contradiction does not explode has a graph part, that a conflict creates no argument (G2), which holds for every semantics, and a semantic part, that an argument outside the backward closure of a conflict keeps its label, which fails for stable semantics (Counterexample~\ref{cex:dirstable}). Reporting only the graph part would credit stable semantics with a guarantee it does not give. And withdrawal survives under the two multi-extension semantics while out-inertness does not: the proof that goes through needs the stronger hypothesis that every deleted argument has an unattacked defeater (Lemma~\ref{lem:anchored}), so ``$\OUT$ arguments are inert under every reasonable semantics'' cannot be inferred from the fact that withdrawal works.
+
+\section{Computation}\label{sec:comp}
+
+Every counterexample was checked by a program that enumerates the complete labellings of a graph exhaustively, selects the grounded, preferred and stable ones, aggregates, and solves the sum-ranking equations (in exact rational arithmetic for the acyclic examples, by iteration from the all-ones vector for cycles). The labels and scores in Section~\ref{sec:cex} are its output.
+
+The positive entries for preferred and stable semantics were also tested as a safeguard, not as a proof, on all graphs with at most three nodes (self-defeat allowed), all loopless graphs on four nodes and 4000 random graphs on five nodes (8626 graphs). The tests covered S3, conflict-freeness of $\IN$, S8, S9, S6 for every argument, and S5 for every $\OUT$ argument. No violation of S3, S8, S9, or of S6 for preferred semantics, occurred; the violations of S1, S4, S5 and (for stable) S6 that did occur are those catalogued, whose smallest instances are the counterexamples printed. Lemma~\ref{lem:anchored} and Corollary~\ref{cor:withdraw} were tested on 3245 random graphs with no violation. For the ranking, directionality and hereditary monotonicity were tested on 400 random graphs with cycles (up to six nodes), with fixed-point residual below $10^{-15}$.
+
+\section{What this report does not show}\label{sec:limits}
+
+It does not show that grounded labeling is best, or that any other semantics is better or worse for a public claim graph. Several properties favour grounded semantics (uniqueness, out-inertness, directionality), while preferred semantics can decide the $\OUT$ status of an argument that every resolution of a symmetric dispute defeats (Counterexample~\ref{cex:outsupport}). Which matters is a design question that a table of properties does not settle.
+
+It does not treat other semantics (complete, semi-stable, ideal, credulous acceptance, other aggregation rules, other rankings); the aggregation rule used here is one choice and the tables would change under another.
+
+It does not show that the counterexample graphs are realized by valid ledgers. Mutual defeat is realized by the monograph's own rebuttal (Chapter 7); the one-way defeats are realizable in principle by undermining or undercutting arguments, but well-formedness of the required arguments was not checked. The positive statements hold for all finite graphs, hence on the realizable ones; the failures are failures on abstract graphs.
+
+It does not analyse how another semantics would feed the status vector. The components of Chapter 12 read the set of arguments that are $\IN$ and the set that are $\UND$ and defeat an argument for the claim; replacing the labeling replaces those sets and with them the dominance comparisons, and no result about that is stated. A scoring semantics would need a declared view to turn scores into such sets, which is the exchange-rate problem of Chapter 12 in another form.
+
+It does not establish the standard results marked for the literature pass: the correspondence between preferred labellings and maximal admissible sets, existence and uniqueness of the sum-ranking solution on cyclic graphs, and the attribution of any definition. Related work is deliberately not surveyed in this draft.
+
+\section*{Notes}
+
+Monograph chapters used. Chapter 7 (Objections and Defeat): the defeat graph at a unit, the grounded labeling, the Theorems on well-definedness, regions, locality and directionality, the Corollary on explosion, dependency soundness, acyclic and symmetric disagreement, policy-relative defeat and the Lemma on $\OUT$ arguments. Chapter 9 (The Ledger): activation, replay determinism, withdrawal and traceable divergence. Chapter 12 (The Status Vector): the consistency of what stands and the dependence of the vector on the labels. Also used: Chapter 17 (batch withdrawal) and Chapter 18 (limits of the specification, which lists grounded labeling as the only labeling specified).
+
+\end{document}

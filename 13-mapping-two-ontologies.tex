@@ -1,0 +1,224 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\newcommand{\Om}{\Omega}
+\newcommand{\IN}{\textsf{IN}}
+\newcommand{\UND}{\textsf{UND}}
+\newcommand{\OUT}{\textsf{OUT}}
+\newcommand{\EQ}{\mathsf{EQ}}
+\newcommand{\IMP}{\mathsf{IMP}}
+\newcommand{\TR}{\mathsf{TR}}
+\newcommand{\nk}[1]{\neg#1}
+\newcommand{\ext}[2]{[#1]_{#2}}
+\newcommand{\abs}{\cdot}
+
+\title{Mapping Two Ontologies}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+Two vocabularies can describe overlapping territory without either being merged into the other. In the claim graph specified in the monograph \emph{Adversaria: A Specification for a Public Claim Graph}, the only way to say that a term of one vocabulary corresponds to a term of another is a mapping claim, which is an ordinary claim with a scope, arguments and objections. A finding stated in one vocabulary reaches the other only through a transport warrant that has the mapping claim as a premise. This worked case follows the mechanism on a small, invented example with two ontologies, three terms, four units and a chain of two mappings, and checks every label by computation. The results illustrated are that transport is sound, that it is exactly as defeasible as the mapping it rests on, and that a chain of mappings reaches only the intersection of the scopes argued separately. When the middle link is defeated on one unit, the chain is cut there and nowhere else, the first half of the chain still stands, and a second, independently argued mapping can restore the route on that unit without rewriting anything. The case shows what the rules do. It does not show that any mapping between real vocabularies is correct, and it does not argue that a single universal vocabulary is possible or needed.
+\end{abstract}
+
+\section{The situation}\label{sec:situation}
+
+Suppose two groups describe the same kind of observation. One group writes its findings in a vocabulary that calls a certain stretch of a night recording a \emph{rest interval}. The other group, using a different vocabulary, calls something close to it a \emph{low-activity period}. A third term in the first vocabulary, \emph{quiet interval}, is stricter than the first, and is defined by an additional physiological condition. A reader who holds a finding about rest intervals wants to know what, if anything, it says about low-activity periods and about quiet intervals.
+
+Three bad answers are available. The first is to treat the words as synonyms because they look alike. The second is to maintain a table of synonyms outside the discussion, so that the identification is a fact nobody argued for and nobody can object to. The third is to insist on one agreed vocabulary before anything can be said. The specification avoids all three. This case shows the alternative in operation: each identification is a claim inside the argument graph, scoped to the units over which it is asserted, open to objection, and used by findings only through a stated warrant.
+
+The case is schematic. The vocabularies, terms, units and evidence items are invented to exercise the definitions, and no finding is reported. Section~\ref{sec:rules} restates the definitions and results needed, each with its chapter. Section~\ref{sec:setup} sets up the example. Sections~\ref{sec:chain} and~\ref{sec:defeat} work it, Section~\ref{sec:checks} lists what was checked by computation, and Section~\ref{sec:notshown} says what is not shown.
+
+\section{The rules used}\label{sec:rules}
+
+\paragraph{Kernels and ontology versions.} A claim concerns a \emph{kernel}: an exact statement, operational meanings for its terms, an ontology version naming the vocabulary in which both are written, a negation and a grain (Chapter 4). An ontology version is a versioned ledger object that fixes a vocabulary and, for each term, the operational meanings by which it is applied (Chapter 15). Two kernels are equal only if they agree in all five components, so the same sentence under two ontology versions gives two kernels. The specification provides no canonical ontology.
+
+\paragraph{No silent identification.} No record identifies, subsumes or merges two kernels except a mapping claim (Chapter 15, design rule on silent identification). A process that judges two terms synonymous cannot make them so. It can inscribe a mapping claim, and then the claim is open to objection like any other.
+
+\paragraph{Mapping claims.} For kernels $\kappa,\kappa'$ over the same unit space $\Om$ the derived kernels $\EQ(\kappa,\kappa')$ and $\IMP(\kappa,\kappa')$ have, in a model $M$, the extensions
+\[
+\ext{\EQ(\kappa,\kappa')}{M}=\Om\setminus\bigl(\ext{\kappa}{M}\triangle\ext{\kappa'}{M}\bigr),\qquad
+\ext{\IMP(\kappa,\kappa')}{M}=\Om\setminus\bigl(\ext{\kappa}{M}\setminus\ext{\kappa'}{M}\bigr).
+\]
+A \emph{mapping claim} is a claim whose kernel is one of these, with a scope $\tau$ over which it is asserted (Chapter 15). A claim is true in $M$ when its scope lies inside the extension of its kernel (Chapter 4). So $\EQ(\kappa,\kappa')$ over $\tau$ is true in $M$ exactly when, at every unit of $\tau$, the unit is in $\ext{\kappa}{M}$ if and only if it is in $\ext{\kappa'}{M}$. Likewise $\IMP(\kappa,\kappa')$ over $\tau$ is true exactly when every unit of $\tau$ in $\ext{\kappa}{M}$ is in $\ext{\kappa'}{M}$. The two directions of $\IMP$ over $\tau$ together say the same as $\EQ$ over $\tau$; this is a direct consequence of the set formulas. A mapping is scoped: two vocabularies may agree for adults in one measurement regime and not for children in another.
+
+\paragraph{Transport warrants.} The warrants
+\[
+\TR_{\EQ}=(\kappa,\ \EQ(\kappa,\kappa')\Rightarrow\kappa';\ \Om;\ \mathrm{none};\ \varnothing),\qquad
+\TR_{\IMP}=(\kappa,\ \IMP(\kappa,\kappa')\Rightarrow\kappa';\ \Om;\ \mathrm{none};\ \varnothing)
+\]
+are ordinary warrants in the sense of Chapter 6, not structural exceptions. An argument fills the premise $\kappa$ with an argument for $\kappa$, fills the mapping premise with an argument for the mapping claim, and concludes $\kappa'$ over the intersection of the two scopes (Chapter 15). The warrant scope is $\Om$, so the scope discipline (W1) of Chapter 6 limits the conclusion to the intersection of the scopes of the two fillers.
+
+The results of Chapter 15 that the case exercises are these.
+\begin{itemize}[nosep]
+\item \textbf{Transport is sound.} Every model in which mapping kernels are interpreted as above validates $\TR_{\EQ}$ and $\TR_{\IMP}$, so a well-formed argument built on them, with fillers sound in the model, is sound in it.
+\item \textbf{Transport is exactly as defeasible as its mapping.} Let $d$ be an argument built on a transport warrant with an argument $m$ for the mapping claim as a filler. At every unit of $\sigma(d)$: if $m$ is $\OUT$ then $d$ is $\OUT$; any defeater of $m$ at the unit defeats $d$ there, by hereditary attack; and at a unit where every argument for the mapping claim is $\OUT$, no transported argument stands.
+\item \textbf{Chained mappings intersect scopes.} If $m_1$ maps $\kappa_1$ to $\kappa_2$ over $\tau_1$ and $m_2$ maps $\kappa_2$ to $\kappa_3$ over $\tau_2$, an argument transporting $\kappa_1$ to $\kappa_3$ through both has scope contained in $\tau_1\cap\tau_2\cap\sigma$, with $\sigma$ the scope of the source argument. Where $\tau_1\cap\tau_2=\varnothing$, no such argument exists.
+\end{itemize}
+The proofs are short and are given in the chapter. The first is the one-line observation that $x\in\ext{\kappa}{M}\cap\ext{\EQ(\kappa,\kappa')}{M}$ forces $x\in\ext{\kappa'}{M}$. The second uses the hereditary lemma of Chapter 7: a sub-argument that is $\OUT$ at a unit makes every argument standing on it $\OUT$ there. The third is (W1) applied twice.
+
+\paragraph{Labels.} A label $\IN$, $\OUT$ or $\UND$ is assigned to each active argument at each unit by the grounded labeling of Chapter 7. A defeat is an attack that succeeds under the policy. Undermining and undercutting attacks succeed wherever they apply. Rebuttals succeed unless the policy prefers the target on the unit. The default policy prefers nothing. The label records standing under a ledger and a policy; it is not truth, and no result in the monograph says that an $\IN$ argument has a true conclusion.
+
+\section{Two ontologies, three terms, four units}\label{sec:setup}
+
+\paragraph{Units.} Two dimensions give four units. Population is adults $a$ or children $c$; measurement regime is a wrist device $w$ or a reference recording $r$. The units are $aw$, $ar$, $cw$, $cr$. All kernels below have the finest grain, so every subset of $\Om$ is an admissible scope.
+
+\paragraph{Ontologies.} Ontology $P$ has the terms \emph{rest} and \emph{quiet}. Ontology $Q$ has the term \emph{low-activity}. The operational meanings are invented.
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}llX@{}}
+\toprule
+kernel & ontology & operational meaning of the term\\
+\midrule
+$p$: the interval is rest & $P$ & at least ten minutes with fewer than five movement counts\\
+$p_2$: the interval is quiet & $P$ & the rest condition and, in addition, heart rate within ten percent of baseline\\
+$q$: the interval is low-activity & $Q$ & at least ten minutes with an activity index below a stated cutoff\\
+\bottomrule
+\end{tabularx}
+\end{center}
+The three kernels are pairwise distinct as objects, and none is the negation of another. By the rule against silent identification, the specification treats them as unrelated until a mapping claim says otherwise. Note that $p$ and $p_2$ belong to the same ontology, and that the chain below will relate them \emph{through} the other ontology.
+
+\paragraph{Arguments.} Every argument below is built from one invented evidence item by an ordinary warrant whose scope contains the evidence scope, and the details of those warrants play no role. Only scopes matter.
+\begin{itemize}[nosep]
+\item $s$ concludes $p$ over $\sigma_0=\{aw,ar,cw\}$. It is a finding stated in vocabulary $P$.
+\item $m_1$ concludes $\EQ(p,q)$ over $\tau_1=\{aw,cw,cr\}$. It is a mapping argument: a concordance study asserting that rest and low-activity coincide on those units.
+\item $m_2$ concludes $\EQ(q,p_2)$ over $\tau_2=\{aw,ar,cw\}$, from a second concordance study.
+\item $d_1$ has warrant $\TR_{\EQ}$ for the pair $(p,q)$ with fillers $s$ and $m_1$. It concludes $q$ over $\sigma_0\cap\tau_1=\{aw,cw\}$.
+\item $d_2$ has warrant $\TR_{\EQ}$ for the pair $(q,p_2)$ with fillers $d_1$ and $m_2$. It concludes $p_2$ over $\{aw,cw\}\cap\tau_2=\{aw,cw\}$.
+\end{itemize}
+The argument $d_2$ is the chain: a finding about rest, carried through the mapping to low-activity and then through the second mapping to quiet. By the chain corollary its scope lies inside $\sigma_0\cap\tau_1\cap\tau_2=\{aw,cw\}$, and the construction above reaches all of it.
+
+Three observations about the scopes. At $ar$ the source finding exists and $m_2$ applies, but $m_1$ does not, so nothing is transported there. At $cr$ the first mapping applies but there is no source finding. At $aw$ and $cw$ every piece is present. Scope intersection is doing what it should: a region is reached only if every link and the source cover it.
+
+\section{The chain}\label{sec:chain}
+
+\paragraph{Soundness, checked.} Kernels $p,q,p_2$ with finest grain give models that are assignments of three subsets of the four units, so there are $2^{12}=4096$ of them. The claim that every such model validates $\TR_{\EQ}$ and $\TR_{\IMP}$ for the pairs $(p,q)$, $(q,p_2)$ and $(p,p_2)$ was checked by enumeration: it holds in all 4096 models. The claim that any model making $s$, $m_1$ and $m_2$ true makes the conclusion of $d_2$ true over $\{aw,cw\}$ was also checked, and holds in all of them. This is an instance of the transport theorem. It is a check of the statement on a small case and is not a proof.
+
+\paragraph{The scope is tight here.} For each unit, the enumeration also searched for a model that makes $s$, $m_1$ and $m_2$ true (over their scopes) and makes $p_2$ false at that unit.
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+unit & in $\sigma_0\cap\tau_1\cap\tau_2$ & model with all three true and $p_2$ false there\\
+\midrule
+$aw$ & yes & none exists\\
+$ar$ & no & exists\\
+$cw$ & yes & none exists\\
+$cr$ & no & exists\\
+\bottomrule
+\end{tabular}
+\end{center}
+So on this example the chain reaches exactly the units it should: at $aw$ and $cw$ the conclusion is forced by the three premises, and at $ar$ and $cr$ the premises leave $p_2$ open. The general statement that the scope discipline is exact for ordinary warrants is a separate theorem of Chapter 6, which has hypotheses on kernel distinctness and grain; the enumeration is a check on this instance only.
+
+\paragraph{Labels with no objection.} Computing the grounded labeling at each unit with no attack present gives every argument the label $\IN$ on its whole scope. Stage 1 of Table~\ref{tab:stages} records the two rows that matter.
+
+\paragraph{No composite mapping.} It is worth saying what the chain does not do. It does not produce a record that $p$ and $p_2$ are equivalent. Chapter 15 says that a chain of mappings yields a mapping only over the intersection of the scopes argued separately, and only if each link is present and stands. A contributor who wants the composite mapping inscribes it as a claim with its own argument, and the claim is then open to objection. The specification defines no automatic composition.
+
+\section{Defeating the middle link}\label{sec:defeat}
+
+\paragraph{An undermining objection.} Suppose an objection $u$ concludes that the report of the evidence behind $m_2$ is not accurate and applicable at the unit, for the units $\{cw,cr\}$. In the schematic story the concordance study behind $m_2$ used a device firmware that was not used for children, so its results do not apply to wrist readings of children. The active region of the attack is the intersection of the scope of $u$, the scope of the evidence item (taken here to be $\tau_2$) and the scope of $m_2$:
+\[
+\{cw,cr\}\cap\tau_2\cap\tau_2=\{cw\}.
+\]
+Undermining attacks succeed wherever they apply, so $u$ defeats $m_2$ on $\{cw\}$. Nothing attacks $u$, so it is $\IN$, and $m_2$ is $\OUT$ at $cw$.
+
+By the second result of Section~\ref{sec:rules}, $d_2$ is $\OUT$ at $cw$ too, and $u$ defeats $d_2$ there by hereditary attack. The table records the computed labels (Stage 2). The first link $d_1$ is untouched: the claim $q$ about low-activity periods is still $\IN$ at $cw$. The defeated middle link cuts the route from $p$ to $p_2$ at $cw$ and cuts nothing else. At $aw$ nothing changes, in line with the locality theorem of Chapter 7: an objection whose scope does not contain a unit cannot change labels there. The label of $m_2$ at $ar$ is also unchanged, although $\tau_2$ contains $ar$, because $u$ was filed for $\{cw,cr\}$ and its active region does not reach $ar$.
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{@{}llcccc@{}}
+\toprule
+stage & argument & $aw$ & $ar$ & $cw$ & $cr$\\
+\midrule
+1. no objection & $m_2$ & \IN & \IN & \IN & $\abs$\\
+ & $d_2$ & \IN & $\abs$ & \IN & $\abs$\\
+\addlinespace
+2. undermine $m_2$ on $\{cw,cr\}$ & $u$ & $\abs$ & $\abs$ & \IN & \IN\\
+ & $m_2$ & \IN & \IN & \OUT & $\abs$\\
+ & $d_1$ & \IN & $\abs$ & \IN & $\abs$\\
+ & $d_2$ & \IN & $\abs$ & \OUT & $\abs$\\
+\addlinespace
+3. add alternative mapping $m_2'$ on $\{cw\}$ & $m_2'$ & $\abs$ & $\abs$ & \IN & $\abs$\\
+ & $m_2$ & \IN & \IN & \OUT & $\abs$\\
+ & $d_2$ & \IN & $\abs$ & \OUT & $\abs$\\
+ & $d_2'$ & $\abs$ & $\abs$ & \IN & $\abs$\\
+\addlinespace
+2$'$. rebut instead: $u'$ for $\nk{\EQ(q,p_2)}$ on $\{cw,cr\}$ & $u'$ & $\abs$ & $\abs$ & \UND & \IN\\
+ & $m_2$ & \IN & \IN & \UND & $\abs$\\
+ & $d_2$ & \IN & $\abs$ & \UND & $\abs$\\
+\addlinespace
+3$'$. reply $r$ undermines $u'$ on $\{cw\}$ & $r$ & $\abs$ & $\abs$ & \IN & $\abs$\\
+ & $u'$ & $\abs$ & $\abs$ & \OUT & \IN\\
+ & $m_2$ & \IN & \IN & \IN & $\abs$\\
+ & $d_2$ & \IN & $\abs$ & \IN & $\abs$\\
+\bottomrule
+\end{tabular}
+\caption{Labels by unit in the invented example. A dot means the argument is not present at the unit. Stages 1 to 3 are cumulative. Stages 2$'$ and 3$'$ replace stage 2 by a rebutting objection and, in 3$'$, a reply. All labels were computed by a grounded-labeling program (Section~\ref{sec:checks}).}\label{tab:stages}
+\end{table}
+
+\paragraph{An alternative mapping argument.} Stage 3 adds $m_2'$, a second, independently argued mapping argument for the same mapping claim $\EQ(q,p_2)$, asserted only over $\{cw\}$ and resting on different evidence, with the transported argument $d_2'$ built from $d_1$ and $m_2'$. The objection $u$ targets the evidence of $m_2$ and does not touch $m_2'$, so $m_2'$ is $\IN$ at $cw$ and so is $d_2'$. At $cw$ the route through $m_2$ is $\OUT$ and the route through $m_2'$ stands. The conclusion $p_2$ at $cw$ therefore has a standing argument again, and nothing was edited: $m_2$, $u$ and $d_2$ remain in the ledger, each with its label.
+
+This is the place where the third clause of the defeasibility result needs care. It says that at a unit where \emph{every} argument for the mapping claim is $\OUT$, no transported argument stands. In stage 2 the mapping claim $\EQ(q,p_2)$ has exactly one argument, $m_2$, and it is $\OUT$ at $cw$, so the clause applies and $d_2$ is $\OUT$ there. In stage 3 the mapping claim has a second argument that is $\IN$ at $cw$, the hypothesis of the clause fails, and the conclusion of the clause does not apply. The defeat of $m_2$ removed one route, not the claim.
+
+\paragraph{A rebuttal instead.} In stage 2$'$ the objection $u'$ concludes the negation of the mapping kernel, $\nk{\EQ(q,p_2)}$, over $\{cw,cr\}$, claiming that the two terms disagree there. A rebuttal is symmetric: $u'$ and $m_2$ attack each other on $\{cw\}$, the intersection of their scopes, and under the default policy neither stands. Both are $\UND$ at $cw$, and $d_2$ is $\UND$ there because $u'$ hereditarily attacks it and is not itself $\OUT$. Away from $cw$ nothing changes: $u'$ is $\IN$ at $cr$, where $m_2$ is absent. In stage $3'$ a reply $r$ undermining the evidence behind $u'$ on $\{cw\}$ is $\IN$, $u'$ becomes $\OUT$ at $cw$, and $m_2$ and $d_2$ are reinstated there. This follows the pattern of reinstatement in Chapter 7.
+
+The difference between stages 2 and $2'$ is worth stating. An undermining attack succeeds whenever it applies, so $m_2$ fell to $\OUT$. A rebuttal of a mapping claim leaves a disputed mapping, and a disputed mapping leaves the transported argument disputed, not refuted. Chapter 15 lists the disputed mapping among the ordinary kinds of mapping: a mapping claim with an objection, or with arguments both for and against, whose status is not settled at some unit.
+
+\paragraph{Directions matter.} The argument $d_1$ transports \emph{along} $m_1$ from $p$ to $q$ and $d_2$ along $m_2$ from $q$ to $p_2$. As written, each warrant carries a finding from the first kernel of the mapping kernel to the second, and each use needs its own argument. Through $\TR_{\IMP}$ a finding about the narrower kernel carries to the broader one, and a finding about the broader kernel carries nowhere. Chapter 15 provides only the forward warrant. A contributor who wants to carry a denial backward along an implication would supply an ordinary warrant for that purpose, valid in the same models but not part of the specification, and its use would be open to objection like any warrant.
+
+\section{What a defeat says}\label{sec:says}
+
+It is easy to read the $\OUT$ label of $m_2$ at $cw$ as a statement that $q$ and $p_2$ differ there. It is not. The label records that the argument for the mapping does not stand at that unit under the ledger and policy. By the entailment theorem of Chapter 4 a claim entails nothing beyond its own restrictions, and the mapping claim $\EQ(q,p_2)$ over $\{cw\}$ has not been refuted by a stated denial in stage 2. Only in stage $2'$ is there a stated denial, and there the outcome is $\UND$, not a verdict. The $\OUT$ label also says nothing about whether $p_2$ holds at $cw$. The conclusion of $d_2$ might well be true; what is missing at $cw$ is an argument that establishes it by this route.
+
+Two features of the rules make this visible to a reader. The dossier for $p_2$ at $cw$ can show which arguments reach it (here $d_2$ and, in stage 3, $d_2'$), which mapping claims they pass through ($\EQ(p,q)$ and $\EQ(q,p_2)$), over what region each mapping was argued, and which objection removed which route. The proof object of Chapter 14 names the ontology versions and mapping claims used by any argument in the backward closure. A reader who distrusts one mapping can see which conclusions depend on it, and on which units.
+
+\paragraph{A remark on modality.} The transport warrants carry rung $\mathrm{none}$. By the admissibility clause (W2) of Chapter 6, an argument whose conclusion has causal modality needs a warrant whose rung is not $\mathrm{none}$. Read together, these say that a transport step cannot by itself conclude a claim of causal modality. A causal finding in one vocabulary reaches a causal claim in another only if a warrant with a suitable rung is separately supplied and argued. This is a consequence of the two definitions as stated, and is noted here because the example has been purely descriptive.
+
+\section{Ontology versions}\label{sec:versions}
+
+Suppose ontology $P$ is revised and the meaning of \emph{quiet} changes, giving a new ontology version. Kernel identity includes the ontology version, so the kernel $p_2$ under the new version is a different object from $p_2$ under the old one. By the rule against silent identification, nothing carries the mapping $m_2$ across the revision. A contributor who believes the old and the new sense coincide over some scope states that as a mapping claim between the two kernels, argues for it, and exposes it to objection. Until then, findings about the old kernel are findings about the old kernel.
+
+This has two practical consequences. Revising a vocabulary does not silently change what earlier findings and earlier mappings said, since they refer to versions. And it makes the cost of a revision visible: the mapping claims that would have to be restated, and the regions over which each can be.
+
+\section{What was checked by computation}\label{sec:checks}
+
+All numbers and labels in this case were computed, not derived by hand.
+\begin{itemize}[nosep]
+\item The soundness and tightness statements of Section~\ref{sec:chain} were checked by exhaustive enumeration of the 4096 models over three kernels and four units.
+\item The labels of Table~\ref{tab:stages} were computed by a short program implementing the structural attack, hereditary attack and grounded labeling of Chapter 7 unit by unit, on the frameworks described.
+\item The three clauses of the defeasibility result were checked on 3000 randomly generated frameworks with one or two source arguments, one to three mapping arguments for one mapping claim, the corresponding transported arguments, extra attackers and random mutual rebuttals. In all of them, every transported argument was $\OUT$ at each unit where its mapping argument was $\OUT$, every defeater of the mapping argument also defeated the transported one, and every transported argument was $\OUT$ at each unit where all mapping arguments were $\OUT$. The second check is close to the definition of hereditary attack in the implementation, so it tests the implementation more than the statement.
+\end{itemize}
+These checks support the statements on small cases. They are not proofs, and the proofs are those of Chapter 15.
+
+\section{What this essay does not show}\label{sec:notshown}
+
+\begin{itemize}
+\item That any mapping between real vocabularies is correct. The vocabularies, terms, units, concordance studies and objections are invented, and the labels show how the rules behave, not what a concordance study would find.
+\item That a single universal vocabulary is possible or needed. The specification provides none and requires none; evaluation needs no canonical ontology (Chapter 15).
+\item That a mapping claim is a good idea in a given case. A mapping claim can be wrong, can be asserted over too wide a scope, and can be defeated. The result is only that transport is sound relative to the mapping, and that it is exactly as defeasible as the mapping.
+\item That an $\OUT$ or $\IN$ label settles anything about the world. Labels record standing under a ledger and a policy.
+\item That the composite of two mappings is itself a mapping claim. Nothing in the specification composes them.
+\item That real ontologies behave like the invented ones. Applying the method to real ontologies requires a separate check of their published definitions, which has not been done.
+\item Anything about mappings in which the graph of terms has cycles, or about a mapping family that cannot be satisfied together. That is a different question, which belongs to the treatment of gluing in the monograph.
+\end{itemize}
+
+\section*{Notes}
+
+Chapters of the monograph used: 4 (kernels, ontology versions, claims, truth in a model, the entailment theorem); 6 (warrants, arguments, scope discipline (W1), admissibility (W2)); 7 (attack, hereditary attack, defeat, grounded labeling, locality, reinstatement); 14 (proof objects); 15 (plural ontologies, mapping claims, transport warrants, the soundness, defeasibility and chain results). Related work is deliberately not surveyed in this draft.
+
+% TODO(literature): cover work on ontology alignment and mapping repair, data integration, and schema mapping composition; do not characterize any of it from memory.
+% TODO(check): the remark on modality (W2 and rung none) is derived here from the definitions as stated; confirm it is intended.
+% TODO(check): Chapter 15 does not state the grain of the derived kernels EQ and IMP; this essay uses kernels of finest grain throughout.
+
+\end{document}

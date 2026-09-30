@@ -1,0 +1,96 @@
+\section{What a claim says}\label{sec:semantics}
+
+A claim asserts its kernel of every unit in its scope. The semantics below makes that precise and fixes what follows from a claim by logic alone. Anything that follows only because of further assumptions must enter the graph as an argument (Chapter~\ref{ch:warrant}).
+
+\begin{definition}[Model, truth]\label{def:model}
+Assume, as a standing convention, that a kernel and its negation have the same grain. A \emph{model} $M$ assigns to every kernel $\kap$ a set $[\kap]_M\subseteq\Om$ such that
+\begin{enumerate}[label=(\roman*)]
+\item $[\nk{\kap}]_M=\Om\setminus[\kap]_M$, and
+\item $[\kap]_M$ is a union of blocks of $\Gamma(\kap)$.
+\end{enumerate}
+Otherwise the assignments are unconstrained: distinct kernel pairs $\{\kap,\nk{\kap}\}$ are assigned independently. A claim $c=(\kap,\sigma,\dots)$ is \emph{true in} $M$, written $M\models c$, iff $\sigma\subseteq[\kap]_M$.
+\end{definition}
+
+This is a universal reading: the claim holds of \emph{every} unit in its scope. The choice is deliberate and has a consequence worth stating at once. An existential statement (``there is a population in which the intervention harms'') is not a claim in this sense. It enters the graph as \emph{evidence} about a witness scope, asserting the negated kernel throughout the units actually observed (Chapter~\ref{ch:evidence}). A single counterexample is then a universal statement about its witness scope, and it conflicts with a broader claim exactly where the two scopes overlap (Proposition~\ref{prop:conflict}).
+
+\subsection{Scope monotonicity}
+
+For a claim $c=(\kap,\sigma,m,\pi,\nu)$ and a nonempty scope $\tau\preceq\sigma$ admissible for $\kap$, write $c|_\tau=(\kap,\tau,m,\pi,\nu)$ for the \emph{restriction} of $c$ to $\tau$. (In the ledger a restriction is a new claim version that cites $c$; Chapter~\ref{ch:ledger}.)
+
+\begin{theorem}[Scope monotonicity and additivity]\label{thm:monotone}
+Let $\kap$ be a kernel and $M$ a model.
+\begin{enumerate}[label=(\alph*)]
+\item \emph{(Downward monotone.)} If $M\models(\kap,\sigma)$ and $\tau\subseteq\sigma$ is an admissible scope, then $M\models(\kap,\tau)$.
+\item \emph{(Additive.)} For admissible scopes $\sigma_1,\dots,\sigma_n$, $M\models(\kap,\sigma_1\cup\dots\cup\sigma_n)$ iff $M\models(\kap,\sigma_i)$ for every $i$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) $\tau\subseteq\sigma\subseteq[\kap]_M$. (b) A union is contained in a set iff each member is.
+\end{proof}
+
+Part (b) is the sheaf-like condition on which distinction and gluing rest (Chapter~\ref{ch:distinction}): a universal claim over a union of scopes is exactly the conjunction of its claims over the parts.
+
+\begin{corollary}[Iterated restriction]\label{cor:iterated}
+If $\sigma_1\supseteq\sigma_2\supseteq\dots$ is a chain of admissible scopes and $M\models(\kap,\sigma_1)$, then $M\models(\kap,\sigma_n)$ for every $n$.
+\end{corollary}
+
+\begin{counterexample}[Why grain is required]\label{cex:simpson}
+Drop the grain condition and read an aggregate kernel $\kap_{\mathrm{agg}}$, ``the mean effect is positive,'' as follows. Let a model carry weights $w:\Om\to(0,\infty)$ and effects $e:\Om\to\mathbb R$, and say the claim holds on $\sigma$ iff $\sum_{x\in\sigma}w(x)e(x)>0$. Take $\Om=\{a,b\}$ with $w(a)=9$, $e(a)=1$, $w(b)=1$, $e(b)=-5$. On $\sigma=\{a,b\}$ the sum is $9-5=4>0$, so the claim holds; on $\tau=\{b\}\subset\sigma$ the sum is $-5<0$, so it fails. Aggregate claims are not downward monotone.
+
+Adversaria does not adopt this reading. It gives $\kap_{\mathrm{agg}}$ the grain $\Gamma(\kap_{\mathrm{agg}})=\{\Om\}$, one block, so that $\{b\}$ is not an admissible scope and the claim $(\kap_{\mathrm{agg}},\{b\})$ cannot be formed. A statement about subpopulation $b$ is a claim about a \emph{different kernel}, ``the mean effect in $b$ is positive,'' whose grain separates $b$ from $a$. Passing from the coarse kernel to the finer one is a distinction (Chapter~\ref{ch:distinction}); it is never a restriction, and Theorem~\ref{thm:monotone} is never invoked across it.
+\end{counterexample}
+
+\subsection{Entailment is exactly restriction}
+
+\begin{definition}
+For claims $c,d$ write $c\models d$ if every model satisfying $c$ satisfies $d$.
+\end{definition}
+
+\begin{theorem}[Completeness of the restriction order]\label{thm:entail}
+Let $c=(\kap,\sigma,\dots)$ and $d=(\kap',\tau,\dots)$ be claims. Then $c\models d$ iff $\kap'=\kap$ and $\tau\subseteq\sigma$.
+\end{theorem}
+
+\begin{proof}
+($\Leftarrow$) is Theorem~\ref{thm:monotone}(a). For ($\Rightarrow$) suppose it is not the case that $\kap'=\kap$ and $\tau\subseteq\sigma$. We build a model satisfying $c$ but not $d$. Recall that $\tau\ne\varnothing$.
+
+\emph{Case 1: $\kap'=\kap$ and $\tau\not\subseteq\sigma$.} Set $[\kap]_M=\sigma$ and $[\nk{\kap}]_M=\Om\setminus\sigma$, both unions of blocks since $\sigma$ is admissible. Then $M\models c$, and a unit of $\tau\setminus\sigma$ shows $\tau\not\subseteq[\kap]_M$, so $M\not\models d$.
+
+\emph{Case 2: $\kap'=\nk{\kap}$.} Set $[\kap]_M=\Om$ and $[\nk{\kap}]_M=\varnothing$. Then $M\models c$, while $\tau\ne\varnothing$ is not contained in $\varnothing$, so $M\not\models d$.
+
+\emph{Case 3: $\kap'\notin\{\kap,\nk{\kap}\}$.} Set $[\kap]_M=\Om$ and $[\kap']_M=\varnothing$ (with $[\nk{\kap'}]_M=\Om$), the two pairs being independent. Then $M\models c$ and $M\not\models d$ as in Case 2.
+\end{proof}
+
+The theorem says that a claim entails nothing beyond its own restrictions. In particular it entails nothing about other kernels, however related they look in ordinary language. Every inference from one kernel to another must therefore be made through an explicit warrant, which is itself a claim-like object with a scope (Chapter~\ref{ch:warrant}). This is the formal reason support is not implicitly transitive (Theorem~\ref{thm:nowarrant}).
+
+\subsection{Conflict is local}
+
+Two claims can appear opposed and still be compatible. The semantics locates conflict exactly.
+
+\begin{proposition}[Conflict localization]\label{prop:conflict}
+Let $c=(\kap,\sigma,\dots)$ and $d=(\nk{\kap},\tau,\dots)$. Then $c$ and $d$ are jointly satisfiable, that is, some model satisfies both, iff $\sigma\cap\tau=\varnothing$.
+\end{proposition}
+
+\begin{proof}
+If $x\in\sigma\cap\tau$ and $M\models c,d$, then $x\in[\kap]_M$ and $x\in[\nk{\kap}]_M=\Om\setminus[\kap]_M$, a contradiction. Conversely if $\sigma\cap\tau=\varnothing$, take $[\kap]_M=\sigma$ and $[\nk{\kap}]_M=\Om\setminus\sigma\supseteq\tau$.
+\end{proof}
+
+\begin{proposition}[The conflict region is minimal]\label{prop:localize}
+Let $\rho=\sigma\cap\tau\ne\varnothing$. For any admissible scope $\rho'\subseteq\rho$, the claims $(\kap,\sigma\setminus\rho')$ and $(\nk{\kap},\tau)$ are jointly satisfiable iff $\rho'=\rho$ (when $\sigma\setminus\rho'$ is nonempty).
+\end{proposition}
+
+\begin{proof}
+Their scopes meet in $(\sigma\setminus\rho')\cap\tau=\rho\setminus\rho'$, which is empty iff $\rho'=\rho$. Apply Proposition~\ref{prop:conflict}.
+\end{proof}
+
+So two claims never contradict one another globally. They contradict each other on $\sigma\cap\tau$, and only there, and removing exactly that region from either one restores consistency. This is what allows rival positions to coexist in one dossier without rival edits to a single sentence: each is a claim with its own scope, and the system computes where they collide. Chapter~\ref{ch:objection} turns this location into a defeat relation.
+
+\subsection{Rules that follow}
+
+\begin{designrule}[Scope and modality are mandatory]\label{rule:scope}
+A submission that declares no scope, a void scope, or no modality may be inscribed in the ledger but is not admitted as a claim; it carries no status and takes part in no argument. It is marked incomplete, with the missing field named. This is a schema-level protection against exaggeration, not a style recommendation.
+\end{designrule}
+
+\begin{remark}[Parameter families and boundary conditions]
+Many disputes arise because a sentence stands for a family $c(\theta)$ with $\theta$ specifying a threshold, an exposure, an outcome or an estimand. Treat such parameters as dimensions of $\Om$. Evidence for the sentence then supports a region $\Theta_E$ of the parameter space; contrary evidence removes a region $\Theta_D$; and the surviving claim is $\Theta_E\setminus\Theta_D$, a scope by Proposition~\ref{prop:boolean}. Boundary conditions are regions. The apparatus of this chapter requires nothing else.
+\end{remark}

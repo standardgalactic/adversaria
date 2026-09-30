@@ -1,0 +1,109 @@
+\chapter{The Claim}\label{ch:claim}
+
+Wikipedia stores sentences inside articles. Wikidata stores triples with qualifiers. Neither stores what a reader most needs in order to disagree usefully: the exact proposition being asserted, the units over which it is asserted, the meanings its terms carry, and the conditions under which it would fail. Adversaria's basic object is therefore a \emph{claim}: a scoped, typed, versioned proposition. This chapter defines the space in which claims are scoped, the algebra of scopes, and the claim itself. The next chapter states what a claim means and proves the first structural guarantees.
+
+\section{Units and the unit space}
+
+Every claim is about some collection of things: people, materials, periods, settings, instruments. The model does not enumerate these collections. It describes them by coordinates.
+
+\begin{definition}[Unit space]\label{def:unitspace}
+A \emph{unit space} is a finite set $D$ of \emph{dimensions} together with a nonempty set $U_d$ of \emph{values} for each $d\in D$. Its elements are \emph{units}:
+\[
+\Om=\prod_{d\in D}U_d .
+\]
+\end{definition}
+
+Four kinds of dimension recur in practice, and the schema reserves names for them without treating them differently in the mathematics:
+
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+Dimension & Typical values\\
+\midrule
+population & adults, adolescents, a clinical sample, a species\\
+context & laboratory, daily life, a jurisdiction, a historical period\\
+time & an interval, an epoch, a version of a standard\\
+measurement regime & an instrument, a protocol, an estimand, a threshold\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+A unit is one combination of values, for example (adults, daily life, 2010--2020, momentary sampling). The space is a modelling device: contributors state scopes in these terms, and nothing requires the values to be finite or to be enumerated in advance. Where the mathematics needs finiteness it derives it from the finitely many scopes actually present in a dossier (Chapter~\ref{ch:objection}).
+
+\section{Boxes, regions and the scope algebra}
+
+\begin{definition}[Box, region]
+A \emph{box} is a set $\prod_{d}S_d$ with $S_d\subseteq U_d$ for every $d$. A \emph{region} is a finite union of boxes. Write $\B(\Om)$ for the set of regions.
+\end{definition}
+
+A contributor's declared scope is usually a box: ``adults, in daily life, under momentary sampling.'' Boxes alone are not enough, because the operation the system most needs is subtraction. A claim that survives an objection survives \emph{outside} the region the objection removes, and the difference of two boxes is generally not a box.
+
+\begin{example}
+Let $D=\{\text{population},\text{context}\}$ with population $\in\{a,c\}$ (adults, children) and context $\in\{\ell,f\}$ (laboratory, field). Remove the box $\{c\}\times\{\ell\}$ from $\{a,c\}\times\{\ell,f\}$. What remains is $\{(a,\ell),(a,f),(c,f)\}$, which is not a box: a box containing $(a,\ell)$ and $(c,f)$ would also contain $(c,\ell)$. It is, however, a region: $\{a\}\times\{\ell,f\}\ \cup\ \{a,c\}\times\{f\}$.
+\end{example}
+
+\begin{proposition}[Regions form a Boolean algebra]\label{prop:boolean}
+$\B(\Om)$ contains $\varnothing$ and $\Om$ and is closed under finite union, finite intersection and complement in $\Om$. Consequently $(\B(\Om),\subseteq)$ is a Boolean algebra, a subalgebra of the power set of $\Om$.
+\end{proposition}
+
+\begin{proof}
+Closure under finite union is the definition of a region, and $\Om=\prod_d U_d$ is a box. The intersection of two boxes $\prod_d S_d$ and $\prod_d T_d$ is the box $\prod_d(S_d\cap T_d)$. Since intersection distributes over union, the intersection of two finite unions of boxes is a finite union of pairwise intersections of boxes, hence a region.
+
+For complements, let $B=\prod_dS_d$ be a box. A unit $x$ lies outside $B$ exactly when $x_d\notin S_d$ for some $d$, so
+\[
+\Om\setminus B=\bigcup_{d\in D}B_d,\qquad B_d=\Bigl(\prod_{e\ne d}U_e\Bigr)\times(U_d\setminus S_d),
+\]
+a finite union of boxes. The complement of a finite union of boxes is the intersection of the complements of the boxes; each complement is a region, and regions are closed under intersection, so the result is a region.
+\end{proof}
+
+\begin{definition}[Scope]
+A \emph{scope} is a region. Scopes are ordered by inclusion, $\sigma\preceq\tau$ iff $\sigma\subseteq\tau$. Meet is intersection, join is union, and relative complement $\sigma\setminus\tau$ is defined for all scopes. A scope is \emph{void} if it is empty.
+\end{definition}
+
+\begin{remark}[Hulls are not needed]
+If the schema admitted only boxes, the join of two scopes would have to be a representable \emph{hull} (the smallest box containing both) and subtraction would be unavailable. Working in $\B(\Om)$ avoids both problems: join is exact, and every surviving remainder of a constrained claim is itself a scope. The user-facing interface can still present scopes as boxes, or unions of a few boxes, without the algebra changing.
+\end{remark}
+
+\section{Kernels, negation and grain}
+
+Two sentences with the same words can express different propositions, and two sentences with different words can express the same one. The model therefore individuates the \emph{content} of a claim by more than its wording.
+
+\begin{definition}[Kernel]\label{def:kernel}
+A \emph{kernel} $\kap$ consists of
+\begin{enumerate}[label=(\roman*)]
+\item an exact statement, a string that states one proposition about a unit;
+\item \emph{operational meanings} $\mu$: for each term of the statement that needs one, a reference to a definition object fixing how the term is applied;
+\item an \emph{ontology version} naming the vocabulary in which the statement and $\mu$ are written;
+\item a \emph{negation} $\nk{\kap}$, another kernel with $\nk{\nk{\kap}}=\kap$ and $\nk{\kap}\ne\kap$, stating that the proposition fails at the unit;
+\item a \emph{grain} $\Gamma(\kap)$, a partition of $\Om$ into blocks.
+\end{enumerate}
+Two kernels are equal iff they agree in all five components.
+\end{definition}
+
+Kernel identity includes $\mu$ and the ontology version. ``Emotional differentiation improves regulation'' with differentiation defined as within-person granularity of momentary reports, and the same sentence with differentiation defined as a score on a self-report scale, are different kernels. A dispute that turns on which definition is meant is then visible as such and does not masquerade as a factual disagreement (Chapter~\ref{ch:distinction}).
+
+The grain records the level at which a kernel is evaluated. A kernel about individuals has the finest grain, in which every unit is its own block. A kernel that states an aggregate, such as ``the mean effect is positive,'' is evaluated only for a whole cell of a population design and cannot be asked of an individual or of half a cell. Its blocks are those cells.
+
+\begin{definition}[Admissible scope]
+A scope $\sigma$ is \emph{admissible for} $\kap$ if it is a union of blocks of $\Gamma(\kap)$. Admissible scopes for $\kap$ form a Boolean subalgebra of $\B(\Om)$.
+\end{definition}
+
+\section{The claim}
+
+\begin{definition}[Claim]\label{def:claim}
+A \emph{claim} is a tuple
+\[
+c=(\kap,\ \sigma,\ m,\ \pi,\ \nu)
+\]
+with
+\begin{itemize}
+\item $\kap$ a kernel;
+\item $\sigma=\scope(c)$ a nonempty scope admissible for $\kap$;
+\item $m\in\{\text{descriptive},\text{associational},\text{causal},\text{mechanistic},\text{normative},\text{speculative}\}$ the epistemic modality;
+\item $\pi$ a provenance record naming the ledger record that introduced $c$ (Chapter~\ref{ch:ledger});
+\item $\nu$ a version identifier, the identifier of that record.
+\end{itemize}
+The pair $(\kap,\sigma)$ is the \emph{core} of $c$.
+\end{definition}
+
+The core carries the meaning; the other three fields govern how the claim may be argued for and how it is stored. The modality does not change what the claim says. It changes which evidence kinds may ground it and which warrants may connect them (Chapter~\ref{ch:warrant}), and those are design rules, not theorems. Provenance and version make every relation in the system a relation between claim \emph{versions}: an objection targets the version it was written against, never an unversioned sentence.

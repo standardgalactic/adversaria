@@ -1,0 +1,336 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.2in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Om}{\Omega}
+\newcommand{\Ob}{\mathrm{Ob}}
+\newcommand{\Zt}{\mathbb{Z}/2}
+\newcommand{\IN}{\textsf{IN}}
+\newcommand{\UND}{\textsf{UND}}
+\newcommand{\OUT}{\textsf{OUT}}
+
+\title{Signed Identifications and the Obstruction Region}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+Separately maintained pages that each identify their subject with, or distinguish it from, the subject of another page can be pairwise compatible and still impossible to assemble. For identifications modelled as signed binary constraints this is classical: a satisfying assignment exists exactly when every cycle has an even number of negative edges (Harary's balance theorem). We state that theorem in the form needed when each identification holds only over a region of a space of units: the set of units on which the pages cannot be assembled is the union, over negative simple cycles, of the intersections of the edge regions, and it is itself a region. We separate what is classical from what is new. The criterion is not new. Its use to localize the failure of scoped identification claims, the treatment of distinctness under identity semantics (where the relevant condition is weak balance, not balance), the generalization to parity constraints with arbitrarily many variables, and an NP-completeness result for deciding whether the obstruction region is nonempty when regions are boxes over many dimensions, are stated with proofs. We then show how the ordinary acts of a public claim graph (an objection that stands, a declared distinction between senses, or leaving the problem open) act on the region, and we state exactly where the cohomological reading is valid and where it is not. The contribution is an exact localization layer and its integration with an argumentative repair calculus, and not a new graph theorem.
+\end{abstract}
+
+\section{Introduction}\label{sec:intro}
+
+Reference works are written in modules. A page treats one topic, one tradition or one language edition, and its authors check it against the sources they know. When several pages discuss a figure under a common name and each says how its figure relates to the figure discussed on another, every pair of pages may be compatible while the collection is not. The smallest example is three pages: the first identifies its figure with the second's, the second with the third's, and the third distinguishes its figure from the first's. No two of these are in conflict, and no editor of any one page is placed to notice.
+
+The mathematics needed to state this exactly is old. Identifications with signs are signed graphs, and the condition under which they can all hold is Harary's balance theorem \cite{harary1953}. Its switching formulation is due to Zaslavsky \cite{zaslavsky1982}. Over the two-element field it is the special case of solvability of a linear system with two variables per equation. The contribution of this paper is not in that part.
+
+What the paper adds is a careful treatment of four things that arise when the identifications are \emph{scoped}, that is, each asserted only over a region of a space of units, which is how the problem presents itself in a shared record of claims.
+\begin{enumerate}[label=(\arabic*)]
+\item \textbf{Localization} (Section~\ref{sec:loc}). The set of units where the active identifications cannot be satisfied together is exactly a union of intersections of edge regions. We state it, with its closure properties, and distinguish the exact set from regions merely detected by a procedure that examines some cycles.
+\item \textbf{Two readings of distinctness} (Section~\ref{sec:readings}). A negative edge can mean that a specified property differs, or that two entities are not identical. The first gives balance; the second gives weak balance in the sense of Davis \cite{davis1967}. The obstruction regions differ and the difference matters for applications.
+\item \textbf{Parity constraints in general} (Section~\ref{sec:xor}) and \textbf{complexity} (Section~\ref{sec:cx}). The localization formula extends to arbitrary systems of parity constraints, and deciding whether the obstruction region is empty is NP-complete when regions are boxes over many binary dimensions.
+\item \textbf{Repair as recorded act} (Section~\ref{sec:repair}). The acts available in a public record, namely an objection that stands, a declared distinction between senses, or deliberate non-resolution, are acts on the regions of the edges. We state which of them are monotone for the obstruction and which depend on a labeling semantics.
+\end{enumerate}
+Section~\ref{sec:coh} states the cohomological reading and its limits. Section~\ref{sec:related} places the results in the literature as far as we were able to check it, and Section~\ref{sec:claims} lists what is not claimed.
+
+\paragraph{Provenance of the setting.} The setting is that of the monograph \emph{Adversaria: A Specification for a Public Claim Graph}, Chapter 8 and the schematic case of Chapter 19, in which identifications are conclusions of arguments and have a status at each unit. Sections~\ref{sec:setting} to~\ref{sec:cx} are purely mathematical and can be read without it.
+
+\section{Setting}\label{sec:setting}
+
+Let $\Om$ be a set of \emph{units} and let $\mathcal B$ be a Boolean algebra of subsets of $\Om$, whose elements we call \emph{regions}. (In the monograph $\mathcal B$ is the algebra of finite unions of boxes in a product space; nothing below needs that structure, except in Section~\ref{sec:cx}.) Let $[n]=\{1,\dots,n\}$ be a finite set of \emph{pages}.
+
+\begin{definition}[Signed identification]\label{def:edge}
+A \emph{signed identification} is a quadruple $e=(i,j,s,R)$ with $i\ne j$ in $[n]$, a sign $s\in\{+1,-1\}$ and a region $R\in\mathcal B$. A \emph{family} is a finite multiset $\mathcal E$ of such quadruples. For $x\in\Om$ let $G_x$ be the signed multigraph on $[n]$ whose edges are those $e\in\mathcal E$ with $x\in R_e$. An \emph{assignment} at $x$ is a map $v:[n]\to\{+1,-1\}$; it \emph{satisfies} $e=(i,j,s,R)$ if $v_j=s\,v_i$. A \emph{solution at $x$} satisfies every edge of $G_x$. A \emph{global assignment} is a map $v:\Om\to\{+1,-1\}^n$ such that $v(x)$ is a solution at $x$ for every $x$.
+\end{definition}
+
+Loops are excluded. A negative loop would be unsatisfiable at once and a positive loop is vacuous. Parallel edges are allowed, and two parallel edges of opposite sign form a cycle of length two.
+
+\begin{definition}[Cycles, balance]
+A \emph{cycle} of a signed multigraph is a simple closed path with at least two edges. Its \emph{sign} is the product of the signs of its edges, and it is \emph{negative} if the sign is $-1$. A signed multigraph is \emph{balanced} if it has no negative cycle.
+\end{definition}
+
+\begin{definition}[Obstruction region]\label{def:ob}
+$\Ob(\mathcal E)=\{x\in\Om:\ G_x\text{ is not balanced}\}$.
+\end{definition}
+
+\begin{remark}[On the name]
+In sheaf-theoretic work on contextuality, an \emph{obstruction} is a cohomology class attached to a section \cite{abramsky2015}. Here $\Ob$ is a subset of the space of units, defined by the pointwise criterion below, and is not a class in any cohomology group. The name is kept for continuity with the monograph. Section~\ref{sec:coh} says what cohomological statement is exact.
+\end{remark}
+
+\section{The pointwise criterion}\label{sec:pointwise}
+
+The first theorem is classical. We give a proof so that the statement about the solution set, and later the regional statement, rest on a stated argument.
+
+\begin{theorem}[Pointwise criterion]\label{thm:pointwise}
+Let $G$ be a signed multigraph on $[n]$ without loops, and let $c$ be the number of its connected components, counting isolated vertices.
+\begin{enumerate}[label=(\alph*)]
+\item A solution exists if and only if $G$ is balanced.
+\item If a solution exists, the set of solutions has exactly $2^{c}$ elements, and any two solutions differ by a sign change that is constant on each connected component.
+\item A solution $v$ exists if and only if the signature $s'(e)=v_i\,s(e)\,v_j$ is identically $+1$ for some $v$; that is, $G$ is balanced if and only if it is switching equivalent to the all-positive signature.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) Suppose $v$ is a solution and $C=i_1,\dots,i_m$ is a cycle with edges $e_1,\dots,e_m$ joining consecutive vertices and $i_m$ back to $i_1$. Going once around, $v_{i_1}=\bigl(\prod_r s(e_r)\bigr)v_{i_1}$, so the sign of $C$ is $+1$. Conversely, suppose $G$ is balanced. In each connected component choose a spanning tree and a root, and put $v_{\mathrm{root}}=+1$. For a vertex $u$ let $v_u$ be the product of the signs on the tree path from the root to $u$. Tree edges are satisfied by construction. A non-tree edge $e$ joining $u$ and $w$ closes, with the tree paths, a cycle whose sign is $s(e)\,v_uv_w$ (the shared part of the two paths contributes twice). This cycle is positive, so $v_w=s(e)v_u$ and $e$ is satisfied.
+
+(b) Let $v$ be a solution and $w$ any other assignment, and put $u_k=v_kw_k$. For an edge $e=(i,j,s)$ we have $w_j=s\,w_i$ if and only if $u_j=v_jw_j=(s\,v_i)(s\,w_i)=u_i$. So $w$ is a solution exactly when $u$ is constant along every edge, that is, constant on every connected component. There are $2^c$ such $u$.
+
+(c) For $v\in\{\pm1\}^n$ and an edge $e=(i,j,s)$, the equation $v_j=s\,v_i$ holds if and only if $v_i\,s\,v_j=+1$, since $v_iv_j=\pm1$. Hence $v$ is a solution if and only if the switched signature is all positive.
+\end{proof}
+
+\begin{remark}
+Part (b) is the precise content of ``unique up to componentwise switching''. A balanced family does not determine the assignment. It determines it up to one free sign per connected component, and for a component that contains no edge at the unit, the sign is wholly free. Nothing in this paper depends on uniqueness.
+\end{remark}
+
+\section{Localization to a region}\label{sec:loc}
+
+Units are independent in Definition~\ref{def:edge}: a global assignment is a choice of a solution at each unit, with no coupling between units. Under that modelling assumption, the regional statement follows from the pointwise one.
+
+\begin{theorem}[Localization]\label{thm:loc}
+Let $\mathcal E$ be a finite family of signed identifications, and let $\mathcal C^-$ be the set of negative cycles of the multigraph $H$ formed by all edges of $\mathcal E$, ignoring regions.
+\begin{enumerate}[label=(\alph*)]
+\item $\displaystyle \Ob(\mathcal E)=\bigcup_{C\in\mathcal C^-}\ \bigcap_{e\in C}R_e$. In particular $\Ob(\mathcal E)\in\mathcal B$.
+\item A global assignment exists if and only if $\Ob(\mathcal E)=\varnothing$. More precisely, $\Ob(\mathcal E)$ is exactly the set of units at which no solution exists.
+\item (\emph{Monotonicity.}) If $\mathcal E'$ arises from $\mathcal E$ by replacing some regions $R_e$ with subregions, or by deleting edges, then $\Ob(\mathcal E')\subseteq\Ob(\mathcal E)$.
+\item (\emph{Restriction.}) For $S\in\mathcal B$, let $\mathcal E|_S$ replace each $R_e$ by $R_e\cap S$. Then $\Ob(\mathcal E|_S)=\Ob(\mathcal E)\cap S$.
+\item (\emph{Superadditivity.}) $\Ob(\mathcal E\cup\mathcal E')\supseteq\Ob(\mathcal E)\cup\Ob(\mathcal E')$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) By Theorem~\ref{thm:pointwise}(a), $x\in\Ob(\mathcal E)$ if and only if $G_x$ has a negative cycle. A cycle of $H$ is a cycle of $G_x$ exactly when $x\in R_e$ for every edge $e$ of the cycle. There are finitely many cycles, so $\Ob$ is a finite union of finite intersections of regions, hence a region. (b) The first statement is the second, combined with the independence of units. For the second, $x\in\Ob$ iff $G_x$ is unbalanced iff no solution exists at $x$. (c) and (d) are read off from (a), since each set in the union is monotone in the regions, and intersecting every region with $S$ intersects each term with $S$. (e) Every negative cycle of one family is a negative cycle of the union.
+\end{proof}
+
+\begin{definition}[Detected region, covering set]
+For a set $\mathcal C\subseteq\mathcal C^-$ of negative cycles, the \emph{region detected by $\mathcal C$} is $\bigcup_{C\in\mathcal C}\bigcap_{e\in C}R_e$. A set $\mathcal C$ is \emph{covering} if its detected region equals $\Ob(\mathcal E)$.
+\end{definition}
+
+The exact obstruction region is thus the detected region of the set of all negative cycles. A procedure that examines only some cycles, for example only triangles, returns a subset of $\Ob(\mathcal E)$ and may miss units. Inclusion-minimal covering sets exist because $\mathcal C^-$ is finite. They are not unique, and the paper does not study smallest covering sets.
+
+\begin{remark}[Exact, minimal, and certifying]
+Three things are easily confused. The set $\Ob(\mathcal E)$ is the \emph{exact} failure set: it is neither an over- nor an under-approximation, and no smaller region has the property that solutions exist outside it. A \emph{certificate} for a unit $x\in\Ob$ is a negative cycle all of whose edge regions contain $x$. The \emph{region of a certificate} is the intersection of its edge regions, which may be strictly smaller than $\Ob$. So a report of the form ``here is a cycle and the region on which it is active'' explains part of $\Ob$, and the whole of $\Ob$ is the union of such explanations.
+\end{remark}
+
+\begin{example}[Three pages]\label{ex:triangle}
+Let $\Om=A\times S$ with $A=\{a_1,\dots,a_4\}$ and $S=\{s_1,s_2\}$. Take $e_{12}=(1,2,+,\{a_1,a_2,a_3\}\times S)$, $e_{23}=(2,3,+,\{a_2,a_3,a_4\}\times S)$ and $e_{31}=(3,1,-,\{a_3,a_4\}\times S)$. There is one cycle, the triangle, with sign $-1$. So
+\[
+\Ob=\{a_1,a_2,a_3\}\times S\ \cap\ \{a_2,a_3,a_4\}\times S\ \cap\ \{a_3,a_4\}\times S=\{a_3\}\times S .
+\]
+At $a_1$ only $e_{12}$ is active, at $a_2$ the edges $e_{12},e_{23}$, at $a_4$ the edges $e_{23},e_{31}$. Each is a path, so balanced.
+\end{example}
+
+\section{Two readings of distinctness}\label{sec:readings}
+
+The signed model says $v_j=s\,v_i$ for binary variables. A positive edge says two pages agree on a binary property, and a negative edge says they \emph{disagree} on it. That is a statement about a property. It is not the same as saying that two entities are distinct. Under identity semantics, with entities drawn from an unrestricted set of labels, a distinctness claim says only that the labels differ.
+
+\begin{definition}[Identity reading]\label{def:idreading}
+In the \emph{identity reading} an assignment at $x$ is a map $f:[n]\to L$ into a set $L$ with $|L|\ge n$. A positive edge $(i,j,+,R)$ with $x\in R$ requires $f(i)=f(j)$, and a negative edge requires $f(i)\ne f(j)$. A solution at $x$ is such an $f$ satisfying all edges of $G_x$.
+\end{definition}
+
+\begin{definition}[Weak balance]
+A signed multigraph is \emph{weakly balanced} if it has no cycle with exactly one negative edge.
+\end{definition}
+
+\begin{proposition}[Identity reading]\label{prop:identity}
+\begin{enumerate}[label=(\alph*)]
+\item A solution in the identity reading exists at $x$ if and only if $G_x$ is weakly balanced, if and only if no negative edge of $G_x$ joins two vertices that are connected by positive edges of $G_x$.
+\item Let $\Ob_{\mathrm{id}}(\mathcal E)$ be the set of units at which no identity-reading solution exists. Then
+\[
+\Ob_{\mathrm{id}}(\mathcal E)=\bigcup_{e\ \mathrm{negative}}\ \bigcup_{P}\Bigl(R_e\cap\bigcap_{e'\in P}R_{e'}\Bigr),
+\]
+where $P$ ranges over the positive simple paths of $H$ joining the endpoints of $e$ without using $e$. In particular $\Ob_{\mathrm{id}}\in\mathcal B$.
+\item $\Ob_{\mathrm{id}}(\mathcal E)\subseteq\Ob(\mathcal E)$, and the inclusion can be strict. If $|L|=2$ the two readings coincide.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) If a negative edge joins $u,w$ and a positive path joins them, then $f(u)=f(w)$ along the path and $f(u)\ne f(w)$ by the edge, a contradiction. Conversely, if no negative edge lies inside a component of the positive subgraph, label each vertex by the identifier of its positive component; since $|L|\ge n$ there are enough labels. Positive edges are satisfied, and every negative edge joins two components. The equivalence with the absence of cycles having exactly one negative edge is immediate: such a cycle is a negative edge together with a positive path between its endpoints. This is Davis's characterization of weak balance \cite{davis1967}.
+
+(b) By (a), $x\in\Ob_{\mathrm{id}}$ if and only if some negative edge $e$ active at $x$ has endpoints joined by a positive path in $G_x$, and a simple path suffices. The path is active at $x$ exactly when $x$ lies in the intersection of its edge regions.
+
+(c) A cycle with exactly one negative edge has sign $-1$, so it is a negative cycle, which gives the inclusion. Strictness is shown by three pairwise-distinct pages: edges $(1,2,-),(2,3,-),(3,1,-)$ on a common nonempty region form a negative cycle (product $-1$), so the region lies in $\Ob$, but no cycle has exactly one negative edge and three distinct entities exist, so the region misses $\Ob_{\mathrm{id}}$. If $|L|=2$ the condition $f(i)\ne f(j)$ is $v_j=-v_i$ under the identification of $L$ with $\{\pm1\}$, and the readings coincide.
+\end{proof}
+
+\begin{remark}
+The triangle of Example~\ref{ex:triangle} has exactly one negative edge. So $\Ob_{\mathrm{id}}=\Ob=\{a_3\}\times S$ there, and the example stands under either reading. The general statement of balance, however, should not be applied to entity distinctness without saying which reading is meant. Any application to pages about ``the same'' entity must decide whether a negative edge asserts that a property differs, in which case balance is the right condition, or merely that the entities are not identical, in which case weak balance is.
+\end{remark}
+
+\section{Parity constraints with any number of variables}\label{sec:xor}
+
+The localization formula does not depend on edges having two endpoints. Write $v=(-1)^z$ with $z\in(\mathbb Z/2)^N$, so that a signed identification $(i,j,s)$ becomes the equation $z_i+z_j=b$, with $b=0$ if $s=+1$ and $b=1$ if $s=-1$. More generally let $a_1,\dots,a_m\in(\mathbb Z/2)^N$, $b_1,\dots,b_m\in\mathbb Z/2$, and let $R_1,\dots,R_m\in\mathcal B$. Call the triple $(a_k,b_k,R_k)$ a \emph{scoped parity constraint}. At $x$ the \emph{active system} consists of the equations $a_k\cdot z=b_k$ with $x\in R_k$.
+
+\begin{proposition}[Dependencies]\label{prop:xor}
+The active system at $x$ is unsolvable if and only if there is a set $Y$ of active rows with $\sum_{k\in Y}a_k=0$ and $\sum_{k\in Y}b_k=1$. Consequently, with $\mathcal Y$ the set of such $Y\subseteq\{1,\dots,m\}$ over all rows,
+\[
+\Ob=\bigcup_{Y\in\mathcal Y}\ \bigcap_{k\in Y}R_k ,
+\]
+and it suffices to take the inclusion-minimal members of $\mathcal Y$.
+\end{proposition}
+
+\begin{proof}
+The active system is $Az=b$ over the field $\mathbb Z/2$ with $A$ the matrix of active rows. It is solvable if and only if $b$ is orthogonal to every vector $y$ with $y^{\top}A=0$ (the Fredholm alternative for finite-dimensional linear algebra). Such a $y$ is the indicator of a set $Y$ of active rows with $\sum_{Y}a_k=0$, and orthogonality fails if and only if $\sum_{Y}b_k=1$. A set $Y\in\mathcal Y$ is active at $x$ if and only if $x\in\bigcap_{k\in Y}R_k$. If $Y'\subseteq Y$ are both in $\mathcal Y$, then $\bigcap_{Y}R_k\subseteq\bigcap_{Y'}R_k$, so non-minimal sets add nothing.
+\end{proof}
+
+For a signed graph the row of an edge $(i,j,s)$ is $e_i+e_j$. A set of rows sums to zero if and only if every vertex has even degree in the corresponding subgraph, that is, the subgraph is a disjoint union of cycles, and the $b$-sum is the number of negative edges modulo 2. An Eulerian subgraph with an odd number of negative edges contains a negative cycle, because it decomposes into edge-disjoint cycles and the product of their signs is $-1$. So the minimal members of $\mathcal Y$ are exactly the negative simple cycles, and Theorem~\ref{thm:loc}(a) is recovered.
+
+\begin{remark}
+This is the general setting of the parity arguments in the contextuality literature, where a proof that no global assignment exists is an inconsistent linear system over $\mathbb Z/2$ (see \cite{abramsky2015} for the treatment of such ``all-versus-nothing'' arguments). The regional version adds only that each row has a region, and the formula follows by the same intersection argument.
+\end{remark}
+
+\section{Complexity}\label{sec:cx}
+
+The pointwise test is linear. The regional question is harder, because the space of units can be exponentially large in the number of dimensions, and because the number of cycles can be exponential in the number of pages.
+
+\begin{proposition}[Membership and emptiness]\label{prop:cx}
+\begin{enumerate}[label=(\alph*)]
+\item Given $x\in\Om$, deciding $x\in\Ob(\mathcal E)$ takes time linear in $|\mathcal E|$, when membership in each region can be tested in constant time.
+\item Suppose $\Om=\prod_{d\in D}U_d$ with $|D|$ part of the input and each region a box. Deciding whether $\Ob(\mathcal E)\ne\varnothing$ is NP-complete, already when every $U_d=\{0,1\}$.
+\item If the set of units is given explicitly, or if the number of pages $n$ is bounded by a constant, emptiness is decidable in polynomial time.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) Build $G_x$ and test $2$-colourability with parities by depth-first search. (b) The problem is in NP: guess $x$ and test by (a). For hardness, reduce from CNF-SAT. Given clauses $K_1,\dots,K_m$ over variables $y_1,\dots,y_q$, let $D=\{1,\dots,q\}$, $U_d=\{0,1\}$, and take the vertex set $\{0,1,\dots,m\}$. For each clause $K_t$ and each literal $\ell$ of $K_t$, add a positive edge between $t-1$ and $t$ whose region is the box $\{x: x_d=1\}$ if $\ell=y_d$ and $\{x:x_d=0\}$ if $\ell=\neg y_d$, leaving other coordinates free. Add one negative edge between $m$ and $0$ with region $\Om$. A negative cycle in $G_x$ must use the negative edge, since every other edge is positive, and then it consists of a path from $0$ to $m$ through positive edges. Such a path exists at $x$ if and only if, for each $t$, some literal edge between $t-1$ and $t$ is active, that is, some literal of $K_t$ is true at $x$. So $x\in\Ob$ if and only if $x$ satisfies the formula, and $\Ob\ne\varnothing$ if and only if the formula is satisfiable. The construction is polynomial. (c) Explicit $\Om$: apply (a) to each unit. Bounded $n$: the number of simple cycles of a multigraph on $n$ vertices with $m$ edges is at most $m^n$, and each intersection of boxes is tested in polynomial time.
+\end{proof}
+
+\begin{remark}
+The hardness is in the product structure of the space of units and does not lie in the signed-graph criterion. The reduction uses many edges in parallel, which correspond to a realistic case in which many pages each assert an identification over different parts of the space. We do not claim the result is unknown. It is a short reduction and may be folklore, and we have not found it in the literature we were able to consult.
+\end{remark}
+
+\section{From claims to edges: repair as recorded acts}\label{sec:repair}
+
+In a public claim graph an identification is the conclusion of an argument, and an argument has, at each unit, a status: standing ($\IN$), defeated ($\OUT$) or unresolved ($\UND$). The regions in which each status holds are regions (Chapter 7 of the monograph). Let $\mathrm{In}(e)\subseteq R_e$ be the region where the argument for $e$ is $\IN$ and $\mathrm{Und}(e)\subseteq R_e$ where it is $\UND$.
+
+\begin{definition}[Standing and potential obstruction]
+Let $\mathcal E_{\IN}$ be the family obtained by replacing each $R_e$ by $\mathrm{In}(e)$, and $\mathcal E_{\IN\cup\UND}$ the family with $\mathrm{In}(e)\cup\mathrm{Und}(e)$. The \emph{standing obstruction} is $\Ob(\mathcal E_{\IN})$ and the \emph{potential obstruction} is $\Ob(\mathcal E_{\IN\cup\UND})\setminus\Ob(\mathcal E_{\IN})$.
+\end{definition}
+
+By Theorem~\ref{thm:loc}(c), $\Ob(\mathcal E_{\IN})\subseteq\Ob(\mathcal E_{\IN\cup\UND})$. The potential obstruction is the set of units at which the identifications that stand are consistent but would not be if the unresolved ones were to stand. It is a region.
+
+\paragraph{Three acts.}
+\begin{enumerate}[label=(\roman*)]
+\item \emph{An objection that stands.} A contributor files an undercutter against the warrant behind an identification $e$. If it has no defeater at a unit, it stands there and the argument for $e$ is defeated there. In the simplest configuration, where the argument for $e$ was unattacked and the undercutter stands on a region $R_u$, $\mathrm{In}(e)$ becomes $R_e\setminus R_u$ and the edge is removed at the units of $R_u$. If the undercutter itself is unresolved at a unit, the edge moves from $\IN$ to $\UND$ there, and any obstruction resting on it becomes potential.
+\item \emph{A declared distinction.} A pooling declaration confines identifications to sense slices, replacing $R_e$ by $R_e\cap\Om_{\text{sense}}$. This replaces regions with subregions.
+\item \emph{Nothing done.} The regions, and hence $\Ob$, are unchanged. This is a recorded state, not an absence.
+\end{enumerate}
+
+\begin{proposition}[What the repair acts can do]\label{prop:repair}
+\begin{enumerate}[label=(\alph*)]
+\item An act that only replaces regions by subregions or removes edges cannot enlarge the obstruction region (Theorem~\ref{thm:loc}(c)). In particular a distinction between senses can dissolve an obstruction and cannot create one. Specifically, if a negative cycle $C$ has $\bigcap_{e\in C}R'_e=\varnothing$ after the confinement, it contributes nothing.
+\item An act that adds edges, or enlarges regions, can create an obstruction.
+\item Whether a given record shrinks $\mathrm{In}(e)$ depends on the labeling semantics, which in general is not monotone in the set of records: a new record can restore a previously defeated argument by defeating its defeater. The effect of an objection on $\Ob(\mathcal E_{\IN})$ is therefore determined by recomputing the regions $\mathrm{In}(e)$, and is not guaranteed to be a reduction unless the configuration is of the simple kind described in (i).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) and (b) are Theorem~\ref{thm:loc}(c) and the formula (a) of that theorem; (b) adds to the union of intersections. For (c), grounded labeling is not monotone in the set of arguments: if $u$ defeats $b$ and $b$ defeats $a$, adding $u$ changes $a$ from defeated to standing. The region $\mathrm{In}(e)$ of an identification argument can therefore grow when a record that attacks one of its attackers is added.
+\end{proof}
+
+\begin{remark}[The obstruction attacks nothing]
+In the model the labeling of the identification arguments does not depend on $\Ob$. Nothing in the record is defeated because the collection is inconsistent. A rule that made an obstruction an attack on its edges would be a policy choice with consequences, such as privileging the earliest or the most cited page, and would have to be stated and justified as such. It is not a consequence of the mathematics. The design reports the obstruction as a region and lists the negative cycles that explain it.
+\end{remark}
+
+\begin{example}[Repairs on the three pages]\label{ex:repairs}
+Return to Example~\ref{ex:triangle}. (i) An undercutter that stands, with region $\{a_3,a_4\}\times S$, removes $e_{31}$ at $a_3$ and $a_4$, and $\Ob(\mathcal E_{\IN})=\varnothing$. If it is merely unresolved at $a_3$, then $\Ob(\mathcal E_{\IN})=\varnothing$ and the potential obstruction is $\{a_3\}\times S$. (ii) A distinction confines $e_{12}$ and $e_{23}$ to $S_1=\{s_1\}$ and $e_{31}$ to $S_2=\{s_2\}$. The three regions have empty intersection, so $\Ob=\varnothing$ with no edge deleted. (iii) With nothing done, $\Ob=\{a_3\}\times S$, stated in the record.
+\end{example}
+
+\section{The cohomological reading and its limits}\label{sec:coh}
+
+Fix a unit $x$ and regard $G_x$ as a one-dimensional cell complex with no $2$-cells. Identify $\pm1$ with $\mathbb Z/2$ by $s=(-1)^{\bar s}$. The signature is a $1$-cochain $\bar s:E(G_x)\to\Zt$ and an assignment is a $0$-cochain $\bar v:[n]\to\Zt$ with coboundary $(\delta\bar v)(e)=\bar v_i+\bar v_j$. The equations hold if and only if $\bar s=\delta\bar v$. Since there are no $2$-cells every $1$-cochain is a cocycle, so $H^1(G_x;\Zt)=C^1/\delta C^0$.
+
+\begin{proposition}[Cohomological form at a unit]\label{prop:h1}
+$G_x$ is balanced if and only if the class $[\bar s]\in H^1(G_x;\Zt)$ vanishes.
+\end{proposition}
+
+This is exact for the signed binary model and for that model only. Several qualifications are part of the statement.
+\begin{itemize}[nosep]
+\item The coefficient group is $\Zt$ and the complex is the graph $G_x$ at one unit. The regional set $\Ob$ is a union over units of the loci where this class is nonzero. It is not claimed to be the support of a class in any cohomology of $\Om$, which would require a topology or cover on $\Om$ and is not constructed here.
+\item For general sheaves, vanishing of an obstruction class does not by itself guarantee that local sections glue, and false positives, meaning compatible families that are not global sections, can arise. In the treatment of contextuality by Abramsky, Barbosa, Kishida, Lal and Mansfield \cite{abramsky2015} the obstruction class is sound in one direction, and complete for parity (all-versus-nothing) arguments, but not in general.
+\item The identity reading of Section~\ref{sec:readings} is not a $\Zt$-cohomological condition. Weak balance does not come from a $1$-cochain equation, and the ordinary $H^1$ class does not capture it.
+\item For non-abelian groups, for example identifications that are bijections between attribute sets, the relevant notion is holonomy around cycles and is not a class in $H^1$ with abelian coefficients. Zaslavsky's gain and voltage graphs \cite{zaslavsky1982} are the natural setting; we do not develop it.
+\end{itemize}
+In this paper, then, $H^1$ appears only after the coefficient group and the complex have been specified, and only as an interpretation of Theorem~\ref{thm:pointwise}. It carries no content that Theorem~\ref{thm:pointwise} does not.
+
+\section{Related work}\label{sec:related}
+
+\paragraph{Balance and switching.} Harary's balance theorem \cite{harary1953} is the criterion of Theorem~\ref{thm:pointwise}(a). Zaslavsky \cite{zaslavsky1982} gives the switching formulation (a signed graph is balanced if and only if it is switching equivalent to an all-positive graph, Corollary 3.3 there) and introduces voltage graphs over arbitrary groups. The notion extends to gain and biased graphs \cite{zaslavsky1989}. Davis \cite{davis1967} characterizes weak balance, which we use for the identity reading. The comprehensive reference for this area is Zaslavsky's bibliography \cite{zaslavskybib}.
+
+\paragraph{Parity constraints.} Systems of equations over $\mathbb Z/2$ are standard linear algebra. The case with two variables per equation reduces to the parity of cycles, and arbitrary systems are solved by elimination. Proposition~\ref{prop:xor} is the regional form of the same fact.
+
+\paragraph{Sheaves, contextuality, databases.} That pairwise consistency of local data need not imply global consistency is classical in database theory, where acyclicity of the scheme is the condition under which it does \cite{bfmy1983}. Abramsky and Brandenburger \cite{abramsky2011} present contextuality as the obstruction to global sections, and Abramsky, Barbosa, Kishida, Lal and Mansfield \cite{abramsky2015} treat the cohomology of such obstructions, including its limits. Abramsky \cite{abramsky2013} shows that, for relational databases, the gluing condition for local tables is exactly the existence of a universal relation, reports that deciding it is NP-complete (citing Honeyman, Ladner and Yannakakis, 1980), and exhibits parity arguments (the GHZ models, and counting arguments of Kochen--Specker type) as obstructions of the same kind as ours. The general gluing problem is therefore hard, and the signed binary case studied here is a tractable special case at each unit; the hardness in Proposition~\ref{prop:cx}(b) is of a different origin, namely the product structure of the space of units. For cellular sheaves on graphs, $H^0$ is the space of global sections and $H^1$ is the cokernel of the coboundary \cite{hansenghrist2019}. The paper's use of these ideas is deliberately limited to the signed binary case.
+
+\paragraph{Identity management.} The identity-management literature for linked data treats \texttt{owl:sameAs} as an equivalence and notes that \texttt{owl:differentFrom} statements are very rare in practice; detection of erroneous identity links proceeds by network metrics and community structure and by constraint violations, and the survey of Raad et al.\ \cite{raad-survey} does not, in the parts we read, state a global cycle criterion. See also \cite{halpin2010,raad2018,papaleo2014}. We did not read \cite{papaleo2014} and do not characterize it beyond its title.
+
+\paragraph{Ontology alignment and revision.} Repair of mappings between ontologies and revision in networks of aligned ontologies are treated by Meilicke et al.\ \cite{meilicke2007} and by Euzenat \cite{euzenat2015}, the latter as belief revision in which inconsistency is local to an ontology or alignment, or global between them. These address deletion or revision of links. The repairs considered here are non-destructive records acting on regions.
+
+\paragraph{Clustering and synchronization.} Correlation clustering \cite{bbc2004} partitions vertices given similarity and dissimilarity labels; the relation between perfect clusterings and weak balance is as in Proposition~\ref{prop:identity}(a). Cycle consistency of pairwise permutations is the non-abelian analogue of the same condition \cite{pachauri2013}.
+
+\paragraph{Dynamic signed networks.} Balance has been studied in signed networks that change over time (for example \cite{dynamic1,dynamic2}). We have not read these and make no claim about whether they define the set of times at which a graph is unbalanced. The localization of Section~\ref{sec:loc} may overlap with that work.
+
+\section{What is and is not claimed}\label{sec:claims}
+
+\paragraph{Established mathematics.} Theorem~\ref{thm:pointwise} is Harary's theorem with Zaslavsky's switching formulation and a count of solutions. Proposition~\ref{prop:xor} is the Fredholm alternative over $\mathbb Z/2$. The weak-balance criterion of Proposition~\ref{prop:identity}(a) is Davis's.
+
+\paragraph{New, or at least not found.} The application of the criterion to scoped identification claims in a shared record. The regional formulas of Theorem~\ref{thm:loc}, Proposition~\ref{prop:identity}(b) and Proposition~\ref{prop:xor}, with the restriction identity and the distinction between the exact region, a detected region and a certificate. Proposition~\ref{prop:cx}(b). The account of repair acts in Section~\ref{sec:repair}, where the non-monotonicity of labeling is stated as a limit on what can be guaranteed. These are small results, and some may be folklore.
+
+\paragraph{Not claimed.}
+\begin{itemize}[nosep]
+\item That the criterion is new, or that $H^1$ gives a general gluing criterion.
+\item That the localization is a deep graph theorem. It follows at once from the pointwise criterion.
+\item That a real family of pages has an obstruction. Whether it does depends on what its pages assert, and requires research into sources before any graph is built.
+\item That real prose can be turned into signed edges without interpretation. Doing so is an act open to challenge.
+\item That the repair calculus is complete, that every obstruction has a repair, or that the record should choose a repair.
+\item A smallest covering set of cycles, a minimum repair (the frustration index of a signed graph is a separate and hard problem), or any analysis of scaling beyond Proposition~\ref{prop:cx}.
+\end{itemize}
+
+\paragraph{Open problems.} (1) The status of the localization against the literature on time-varying signed networks. (2) A sheaf-theoretic construction over $\Om$ whose support recovers $\Ob$, if one exists. (3) Regional obstruction for non-abelian identification structures (for example partial bijections between attributes). (4) A treatment of repair acts under labeling semantics other than grounded. (5) Smallest covering sets and minimum repairs.
+
+\paragraph{Verification.} Each formula in Theorems~\ref{thm:pointwise} and~\ref{thm:loc} and Propositions~\ref{prop:identity}, \ref{prop:xor} and~\ref{prop:cx} was checked against exhaustive unit-by-unit computation on several hundred random small instances, and the reduction of Proposition~\ref{prop:cx}(b) against brute-force satisfiability on four hundred random formulas. This is a sanity check on the statements and is not part of any proof.
+
+\begin{thebibliography}{99}
+\bibitem{harary1953} F.~Harary, On the notion of balance of a signed graph, \emph{Michigan Math.\ J.} 2 (1953/54), 143--146.
+\bibitem{cartwrightharary} D.~Cartwright and F.~Harary, Structural balance: a generalization of Heider's theory, \emph{Psychological Review} 63 (1956).
+\bibitem{davis1967} J.~A.~Davis, Clustering and structural balance in graphs, \emph{Human Relations} 20(2) (1967), 181--187.
+\bibitem{zaslavsky1982} T.~Zaslavsky, Signed graphs, \emph{Discrete Applied Mathematics} 4 (1982), 47--74.
+\bibitem{zaslavsky1989} T.~Zaslavsky, Biased graphs. I. Bias, balance, and gains, \emph{J.\ Combin.\ Theory Ser.\ B} 47 (1989), 32--52.
+\bibitem{zaslavskybib} T.~Zaslavsky, A mathematical bibliography of signed and gain graphs and allied areas, \emph{Electronic J.\ Combinatorics}, Dynamic Survey DS8.
+\bibitem{bfmy1983} C.~Beeri, R.~Fagin, D.~Maier and M.~Yannakakis, On the desirability of acyclic database schemes, \emph{J.\ ACM} 30(3) (1983), 479--513.
+\bibitem{abramsky2011} S.~Abramsky and A.~Brandenburger, The sheaf-theoretic structure of non-locality and contextuality, \emph{New J.\ Phys.} 13 (2011), 113036.
+\bibitem{abramsky2013} S.~Abramsky, Relational databases and Bell's theorem, arXiv:1208.6416 (2013); also in LNCS 8000 (2013).
+\bibitem{abramsky2015} S.~Abramsky, R.~S.~Barbosa, K.~Kishida, R.~Lal and S.~Mansfield, Contextuality, cohomology and paradox, in \emph{CSL 2015}, LIPIcs.
+\bibitem{hansenghrist2019} J.~Hansen and R.~Ghrist, Toward a spectral theory of cellular sheaves, \emph{J.\ Appl.\ Comput.\ Topol.} 3 (2019), 315--358.
+\bibitem{raad-survey} J.~Raad, N.~Pernelle, F.~Sa\"{i}s, W.~Beek and F.~van Harmelen, The sameAs problem: a survey on identity management in the Web of Data, \emph{Semantic Web} (IOS Press).
+\bibitem{halpin2010} H.~Halpin, P.~Hayes et al., When owl:sameAs isn't the same: an analysis of identity in linked data, ISWC 2010.
+\bibitem{raad2018} J.~Raad et al., Detecting erroneous identity links on the web using network metrics, ISWC 2018.
+\bibitem{papaleo2014} L.~Papaleo, N.~Pernelle, F.~Sa\"{i}s and C.~Dumont, Logical detection of invalid sameAs statements in RDF data, EKAW 2014.
+\bibitem{meilicke2007} C.~Meilicke, H.~Stuckenschmidt and A.~Tamilin, Repairing ontology mappings, AAAI 2007.
+\bibitem{euzenat2015} J.~Euzenat, Revision in networks of ontologies, \emph{Artificial Intelligence} 228 (2015), 195--216.
+\bibitem{bbc2004} N.~Bansal, A.~Blum and S.~Chawla, Correlation clustering, \emph{Machine Learning} 56 (2004), 89--113.
+\bibitem{pachauri2013} D.~Pachauri, R.~Kondor and V.~Singh, Solving the multi-way matching problem by permutation synchronization, NIPS 2013.
+\bibitem{dynamic1} The evolution of structural balance in time-varying signed networks, \emph{Future Generation Computer Systems} (details to be confirmed).
+\bibitem{dynamic2} Inference for balance in dynamic signed networks, arXiv:2606.08786.
+\end{thebibliography}
+
+\end{document}

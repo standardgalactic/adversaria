@@ -1,0 +1,37 @@
+\chapter{Predecessors and Departures}\label{ch:predecessors}
+
+The design draws on four traditions, and departs from each at a specific place. This chapter states the departures. It describes each predecessor only as far as the comparison needs, and it treats their failure modes as design constraints and not as verdicts on their authors' aims.
+
+\section{Article encyclopedias}\label{sec:articles}
+
+The article is a strong unit for reading and a weak one for adjudication. Its scope is carried by prose, its evidence by citation at the level of a paragraph or sentence, and its disagreements by editorial process: one version at a time is current, and a dispute is settled by editing or by hedged wording. The modularity that makes an encyclopedia scalable, with each topic maintained in its own page and language edition, is the same feature that lets conflicting statements coexist without any place that records the conflict (Chapter~\ref{ch:unit}). Adversaria keeps the article as a presentation of a set of claims, and stores the claims.
+
+\section{Large ontologies}\label{sec:ontology}
+
+Cyc attempted to encode common knowledge in a single logical ontology with general inference. Two design problems are usually identified with that program. Concepts in ordinary use are context-sensitive, purpose-relative and contested at their boundaries, and a single engineered vocabulary must either fix them or localize them; the microtheory mechanism localizes them, but then the system must decide which microtheory governs a statement and how conclusions cross between microtheories. And unrestricted inference over a large, imperfectly consistent theory grows quickly and is difficult to audit. Adversaria's responses are that ontologies are versioned objects in the graph and that mappings between them are argued claims (Chapter~\ref{ch:ontology}), and that inference is local, through explicit warrants, with no closure under support (Theorem~\ref{thm:nowarrant}).
+
+\section{Statement stores}\label{sec:statements}
+
+Wikidata-style statement stores improve on bare triples with qualifiers, references and ranks. The center remains a subject, a property and a value. The qualifiers can describe a statement but do not naturally say why a cited source supports it, which warrant connects them, what the strongest undercutter is, whether the source merely reports the claim, or which operationalization was used. References can therefore act as markers of authority and not as parts of an argument. A rank is a scalar per statement and resolves disagreement by preference within one property. Adversaria replaces the triple by the argument as the carrier of epistemic force, makes scope mandatory and region-valued (Design rule~\ref{rule:scope}), and replaces the rank by a status vector with no scalar aggregation (Theorem~\ref{thm:noscalar}). Large automated imports in statement stores raise a further problem, that record count can look like consensus; the treatment is by independence families (Chapter~\ref{ch:imports}).
+
+\section{Argument maps and abstract argumentation}\label{sec:argmaps}
+
+The design owes most to the literature on argument. Toulmin's layout of claim, grounds, warrant, backing, qualifier and rebuttal is the source of the components of an argued proposition. Dung's abstract argumentation frameworks and the grounded labeling supply the evaluation, and the structured-argumentation literature, notably ASPIC-style systems, supplies the distinction among rebutting, undermining and undercutting attacks. Belnap's four values supply the informational layer of the status.
+
+The departures are these. First, every element is scoped: an attack has an active region, and labels are computed at each unit of a product space, so that a defeat can remove part of a claim and leave the rest (Theorem~\ref{thm:regions}). Second, attack is structural and derived from what an objection concludes, while defeat is policy-relative (Theorem~\ref{thm:policy}), so that different communities can share one graph and differ only in a declared preference. Third, the store is an append-only ledger, and the evaluation is a function of it, which gives replay determinism and traceable divergence (Theorems~\ref{thm:replay} and~\ref{thm:trace}). Fourth, the design refuses a scalar summary and proves why (Theorem~\ref{thm:noscalar}), where argument-mapping tools commonly present one.
+
+\section{Summary of departures}\label{sec:departures}
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l X X@{}}
+\toprule
+predecessor & shared assumption declined & replacement\\
+\midrule
+article encyclopedia & the page is the unit of maintenance and of truth & claims stored, pages projected\\
+large ontology & one canonical vocabulary with global inference & plural versioned ontologies, argued mappings, local inference\\
+statement store & a value with annotations is the unit, a rank settles disputes & argued proposition, status vector\\
+argument map & evaluation is unscoped and score-like & regional labeling, policy-relative defeat, no scalar\\
+\bottomrule
+\end{tabularx}
+\end{center}

@@ -1,0 +1,132 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+% Script macros. Every frame is a table row: number, panel description, caption and dialogue.
+\newcommand{\nm}[1]{\textsc{#1}}
+\newcommand{\cp}[1]{\textsc{Caption.}\enspace #1\par\vspace{2pt}}
+\newcommand{\sy}[2]{\nm{#1:}\enspace #2\par\vspace{2pt}}
+\newcommand{\fr}[3]{\textbf{#1} & {\small #2} & {\small #3} \\ \midrule}
+\newenvironment{sheet}[1]
+ {\par\noindent{\footnotesize\textsc{Script page #1 of 8}}\par\vspace{2pt}\noindent
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.28in} >{\raggedright\arraybackslash}p{2.35in} >{\raggedright\arraybackslash}p{3.0in}@{}}\toprule
+  \footnotesize No. & \footnotesize Panel description & \footnotesize Caption and dialogue \\ \midrule}
+ {\end{tabular}\newpage}
+
+\title{Adversaria in Forty Frames}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+This is a script for a forty-frame comic in the manner of the short, plain-spoken tract: a small cast, direct captions, a temptation, and a closing page that addresses the reader. It follows one invented claim, about crushed shell and garden slugs, as it is recorded, challenged, tempted toward deletion and toward a star rating, narrowed, and left on the record with its open question visible. One frame states the three rules of the design: \emph{Record traces, not intentions. Compute standing, never edit history. Measure vectors, reject scalar scores.} The story and every character are invented, and no real person or organization appears. The script is laid out for an illustrator and adds no claim absent from the essays and monograph it illustrates. The labels in the story were checked by computation.
+\end{abstract}
+
+\section{How to use this script}
+
+Each frame has a number, a description of the picture, and its words. \textsc{Caption} is narration in a box; lines marked with a speaker's name are speech balloons. Five frames fill a script page, eight pages in all, and an illustrator may regroup them freely. Panels that show a \emph{map} use one small grid each time: two soils (sand, clay) by two seasons (dry, wet). A cell is pale blue and marked \emph{stands}, pale yellow and marked \emph{unresolved}, pale grey and marked \emph{defeated}, or dashed, empty and marked \emph{not asserted}. The word is always written in the cell, so nothing depends on color. Frame 36 states the three rules as a banner, and frames 37 to 39 illustrate one each.
+
+\subsection*{Cast (all invented)}
+
+\begin{itemize}[nosep]
+\item \nm{Dot Halloran}, a home gardener who makes a claim.
+\item \nm{Ewan Pike}, a gardener on heavy clay who challenges it.
+\item \nm{Nell}, a neighbor who reads the page and asks the questions a reader asks.
+\item \nm{The Clerk}, who keeps the Ledger, a large book on a high desk.
+\item \nm{Mr.\ Tally}, a salesman in a bow tie, sandwich board reading ONE NUMBER FOR EVERY CLAIM.
+\end{itemize}
+
+\newpage
+
+\begin{sheet}{1}
+\fr{1}{Dot's garden at dusk. She kneels over a row of lettuce seedlings, holding a jar of crushed shell. Two slugs approach from the left edge. Close on her determined face.}{\cp{Dot Halloran has a claim.}\sy{Dot}{A ring of crushed shell keeps slugs off lettuce seedlings. I have watched it for two seasons.}}
+\fr{2}{Dot's kitchen table. Notebooks fan out. On the left a drawing of a sand bed with paired rows of seedlings, on the right a clay bed. Tally marks fill the margins.}{\cp{Two seasons of counts, on two kinds of soil.}}
+\fr{3}{A high wooden desk in a bare room, the Ledger open on it, big as a door. Behind the desk the Clerk, in sleeve garters. A sign above reads: THE LEDGER. WHAT WAS DONE, NOT WHAT WAS MEANT.}{\sy{Clerk}{State your claim. Then state where you claim it.}\sy{Dot}{Where?}\sy{Clerk}{Soils, seasons, conditions. Everything you do not name, you do not claim.}}
+\fr{4}{Dot at the desk filling in a large index card. The card is shown in close-up, in plain block letters.}{\cp{The card reads: ``Crushed shell mulch keeps slugs off lettuce seedlings. Keeps off means fewer than two damaged plants in twenty over fourteen days. Sand soil, dry and wet seasons. Clay soil, dry season.''}}
+\fr{5}{The Clerk brings down a stamp. Close on the page: RECORDED, VERSION 1, and under it a short receipt listing who filed it, what sources it cites, what method produced the counts, and the order of filing.}{\sy{Clerk}{We keep traces. Who, from what, by which method, in what order.}\sy{Dot}{Not why I did it?}\sy{Clerk}{Nobody can open a book and read why.}}
+\end{sheet}
+
+\begin{sheet}{2}
+\fr{6}{Dot sets two photo albums on the desk. One is labeled ``sand, both seasons, matched beds, shell or no shell chosen by coin.'' The other is labeled ``clay, dry season.'' The Clerk lifts each with both hands.}{\cp{The grounds: what she observed and how.}}
+\fr{7}{Dot writes on a narrow slip. Close on the slip, pinned beside the albums.}{\cp{The warrant: ``Matched beds, assigned by chance, counted the same way, support a claim about slug damage on these soils.'' This is the rule that lets the grounds speak for the claim.}}
+\fr{8}{The page as a reader sees it. A small grid, two soils by two seasons. Sand-dry and sand-wet are pale blue, each marked \emph{stands}. Clay-dry is pale blue, marked \emph{stands}. Clay-wet is dashed and empty, marked \emph{not asserted}.}{\cp{Version 1, on the page. Three cells claimed. One cell left alone.}}
+\fr{9}{Nell leans over the desk, reading the page on a tablet. The Clerk points to a box at the foot of the page marked OBJECTIONS, empty.}{\sy{Nell}{What if she is wrong?}\sy{Clerk}{Anyone may object. To object, you must argue.}}
+\fr{10}{Dot crosses her arms and grins. Behind her the grid glows faintly.}{\cp{A claim that names its scope can be challenged only where it was asserted.}\sy{Dot}{Let them come.}}
+\end{sheet}
+
+\begin{sheet}{3}
+\fr{11}{A heavy-clay garden in rain. Ewan Pike, in a waxed coat, crouches at a ring of crushed shell. The shell has crusted into a flat plate. A slug glides across it like a man on a footbridge.}{\cp{Ewan Pike gardens on clay.}\sy{Ewan}{Well. That is not keeping anything off.}}
+\fr{12}{Ewan's shed wall. Photographs of rings of shell pinned in rows, each with a date in chalk. A clipboard hangs from a nail.}{\cp{Three seasons of counts on clay, dry and wet.}}
+\fr{13}{Ewan stands at the Ledger desk, cap in hand. The Clerk writes without looking up.}{\sy{Clerk}{Name what you are objecting to, and where.}\sy{Ewan}{Her claim, on clay. The opposite holds there, dry season or wet.}}
+\fr{14}{Close on Ewan's index card, written in pencil.}{\cp{The card reads: ``Crushed shell mulch does not keep slugs off lettuce seedlings on clay soil. Keeps off means the same as on her card. Clay soil, dry and wet seasons.''}}
+\fr{15}{The Clerk lays the two cards side by side. A thin line joins the single point where they overlap on a small grid: clay in the dry season.}{\sy{Clerk}{Her cells and yours overlap in one place. Clay, dry season.}\sy{Ewan}{The wet season is mine alone.}\sy{Clerk}{Nobody else claims it, so nobody contests it.}}
+\end{sheet}
+
+\begin{sheet}{4}
+\fr{16}{Two maps on one page. Left, Dot's: sand-dry and sand-wet \emph{stands}, clay-dry \emph{unresolved} in pale yellow, clay-wet dashed \emph{not asserted}. Right, Ewan's: clay-wet \emph{stands}, clay-dry \emph{unresolved} in pale yellow, both sand cells dashed \emph{not asserted}.}{\cp{The page after Ewan's objection, as a reader sees it.}}
+\fr{17}{Dot bursts through the door, waving her notebook. The Clerk raises one palm.}{\sy{Dot}{My claim is under attack!}\sy{Clerk}{At one cell. Look at sand. Nothing there has changed.}}
+\fr{18}{Close on the Clerk's ledger entry, drawn as a balance with a stone of the same size in each pan, both pans level.}{\sy{Clerk}{Her counts say one thing on dry clay, his say the other. Each has challenged the other. Neither challenge has been answered.}\cp{The record says \emph{unresolved}. It does not pick a winner.}}
+\fr{19}{Nell looks from one map to the other, frowning.}{\sy{Nell}{So who wins?}\sy{Clerk}{Nobody yet. The page says where it is open.}}
+\fr{20}{Dot alone on the bench outside the office, the notebook on her knees, the light going.}{\cp{Dot does not like the word \emph{unresolved}.}}
+\end{sheet}
+
+\begin{sheet}{5}
+\fr{21}{Mr.\ Tally arrives in a bow tie and a striped jacket, a sandwich board over his shoulders: ONE NUMBER FOR EVERY CLAIM. He doffs his hat to Dot.}{\sy{Tally}{Madam, you look troubled. Let me help.}}
+\fr{22}{Tally steers Nell by the elbow away from the Ledger desk. Behind them the two maps hang on the wall.}{\sy{Tally}{Why read two maps, my dear, when I can give you one number?}}
+\fr{23}{Tally holds up a placard showing three and a half stars beside Dot's card. Dot's eyes are wide.}{\cp{The placard reads: Dot's claim, three and a half stars.}\sy{Tally}{Sand, clay, doubts, counts, all in one. Simple.}}
+\fr{24}{The Clerk steps between Tally and the placard, holding up two cards side by side: one showing a single careful trial, the other three independent field notes.}{\sy{Clerk}{This claim has one careful trial. That one has three separate field notes. Which ranks higher?}}
+\fr{25}{Tally opens his mouth, then shuts it. A drop of sweat crosses his brow. Behind the Clerk a blackboard shows two columns: ``how well the method rules out other explanations'' and ``how many independent groups found it.''}{\sy{Tally}{Well, that depends on...}\sy{Clerk}{On a rate nobody declared. Your number decided it and did not say so.}}
+\end{sheet}
+
+\begin{sheet}{6}
+\fr{26}{Night. Dot at her kitchen table, the tablet glowing, her finger over a button marked DELETE. Tally's face floats in the dark window behind her.}{\sy{Tally}{Delete it. Start clean. Nobody will know.}}
+\fr{27}{The Clerk appears at Dot's shoulder, carrying the Ledger. Tally's face vanishes from the window.}{\sy{Clerk}{The book does not erase. If you withdraw the claim, the withdrawal is another entry beside it.}}
+\fr{28}{Dot slumps, hands over her face.}{\sy{Dot}{Then I am stuck with it.}\sy{Clerk}{You are not stuck. You may narrow.}}
+\fr{29}{The Clerk lays Dot's Version 1 card on the table and draws a circle around the two sand cells with a pencil.}{\sy{Clerk}{Claim only what still stands. Sand. File a new version that points back at the old.}}
+\fr{30}{Dot studies the circled cells, then her own sand-bed notes. She nods slowly.}{\cp{A claim narrowed to a smaller region is at least as secure as it was over the larger one.}}
+\end{sheet}
+
+\begin{sheet}{7}
+\fr{31}{The Clerk's stamp comes down again. Close on the page: RECORDED, VERSION 2, and beneath it ``cites Version 1.''}{\cp{Version 2: crushed shell mulch keeps slugs off lettuce seedlings on sand soil, dry and wet seasons.}}
+\fr{32}{The page as a reader sees it. Two small maps stacked. Top, Version 2: sand-dry and sand-wet \emph{stands}, clay cells dashed \emph{not asserted}. Below, Version 1, still present: sand cells \emph{stands}, clay-dry \emph{unresolved}, clay-wet dashed.}{\cp{Version 1 is still on the page. Version 2 sits beside it and says less.}}
+\fr{33}{Ewan reads the page on Dot's garden fence. She leans on the other side, arms folded but not hostile.}{\sy{Ewan}{Hers stands on sand. Mine stands on wet clay. Dry clay is still open.}\sy{Dot}{That is what the page says.}}
+\fr{34}{The two gardeners shake hands across the fence. Each holds a notebook. Between them lies a dry clay bed with two chalk-marked halves.}{\sy{Ewan}{If either of us finds more, it goes in the book the same way.}\sy{Dot}{The same way.}}
+\fr{35}{Nell, at the Ledger desk, pages through the lineage: Version 1, Version 2, and the objection, joined by arrows. Next to it, Ewan's card.}{\sy{Nell}{Nothing has gone. Everything that happened is still there.}\sy{Clerk}{That is the point of a record.}}
+\end{sheet}
+
+\begin{sheet}{8}
+\fr{36}{The Clerk unrolls a banner across the whole panel, lettered in plain capitals with the three rules on three lines. Dot, Ewan and Nell look up at it. Mr.\ Tally is half visible at the edge, folding his sandwich board.}{\cp{The three rules.}\cp{Record traces, not intentions. Compute standing, never edit history. Measure vectors, reject scalar scores.}}
+\fr{37}{First rule. Nell holds up Dot's receipt. The receipt lists sources, method, filing order. A thought balloon over Nell's head holds a question mark that the Clerk gently waves away.}{\sy{Nell}{Was Dot honest?}\sy{Clerk}{The book holds what was done, and the sources and method can be opened and checked. What anyone meant is not in it.}}
+\fr{38}{Second rule. The Clerk's hand turns the pages of the Ledger: Version 1 and Version 2 side by side, the objection, the stamp on each. A pencil lies unused on the desk.}{\sy{Clerk}{Standing is worked out from the records each time it is asked for. No one edits the past to change it.}}
+\fr{39}{Third rule. Nell reads a single row of facts on the page, a short table with separate columns, and no total. Mr.\ Tally's sandwich board, folded flat, leans against the wall behind her.}{\sy{Nell}{Kind of evidence, independent groups, method, open challenges. No star.}\sy{Clerk}{Each is a separate fact, and a reader who wants an order can name the rule that makes it.}}
+\fr{40}{The last panel, in the tract manner. The Clerk looks straight out of the page at the reader, one finger raised. Behind the Clerk, the grid with its cells: \emph{stands}, \emph{unresolved}, \emph{not asserted}. A plain box at the foot reads THE END.}{\cp{Every claim you meet has a scope, grounds, and someone who may object.}\sy{Clerk}{Ask where it stands. Ask who can answer. Ask what was left on the record.}}
+\end{sheet}
+
+\section{What this script does not show}
+
+The script does not show that any real record behaves as this one does. The claim about crushed shell, the soils, the counts, the gardeners and the clerk are invented, and the claim is not offered as a finding about slugs or gardens. It does not show that a comic would change how anyone judges a claim, that readers would follow it, or that the tract idiom suits the subject. It does not describe any interface. It presents the design as a story in which every step is ordinary, and it does not show that real disputes would unfold so cleanly, with every objection naming its region, every reply arriving, and everyone agreeing to record further findings the same way. It does not settle whose claim about dry clay is right; the story ends with that cell unresolved and the record able to take more.
+
+It also adds nothing to the argument. The three rules are a short form of commitments treated at length in the monograph, and the incidents in the story are cases of results stated there.
+
+\section*{Notes}
+
+% TODO(literature): where a related-work discussion would go, cover the history of the tract and short-form educational comic, and work on comics as a medium for explaining technical or legal structure.
+
+Related work is deliberately not surveyed in this draft.
+
+The story uses the following chapters of the monograph \emph{Adversaria: A Specification for a Public Claim Graph}. The claim with its scope, terms and restriction to a narrower scope, and the fact that a narrowed claim is at least as secure as the broader one (Chapter 4). Grounds and warrants (Chapters 5 and 6). Objections that must name the region where they apply, that answer one another, that leave a symmetric challenge unresolved, and that cannot reach outside the region they declare (Chapter 7). The survivor of a partly defeated claim (Chapter 11). The status as separate components with no total, the dominance order, and the reason no scalar represents it (Chapter 12). Traces of an act and the refusal to store intentions (Chapter 2). The ledger, versions that cite earlier versions, withdrawal as a further record, and replay from the same records (Chapter 9). The ten commitments summarized in Chapter 18, of which the first says that the ledger records acts and not truth. The wording of the three rules is a compression made for this script. It is not quoted from the monograph, and each rule corresponds to the chapters named here (traces in Chapter 2, history and standing in Chapters 7 and 9, vectors and the absence of a scalar in Chapter 12). The essays \emph{The Unit of Knowledge}, \emph{Standing Without Scores} and \emph{A Contested Effect} cover the same ground in prose.
+
+The labels shown in the maps were computed with a small per-unit grounded-labeling script on the invented graph behind the story: two arguments for the claim (sand, and dry clay) pooled into one, an opposing argument on clay, and a restriction of the pooled argument to sand. The computation gave \emph{stands} on both sand cells and on wet clay (for the opposing claim), \emph{unresolved} on dry clay for both positions, no change on sand after the objection, and no change on any cell from the narrowing. It also confirmed that a withdrawal of the dry-clay argument, which the story does not use, would leave the opposing claim standing on dry clay.
+
+\end{document}

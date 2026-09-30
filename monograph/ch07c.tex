@@ -1,0 +1,96 @@
+\section{Disagreement, cycles and reinstatement}
+
+The guarantees above hold whatever the defeat graph looks like. The results below say what particular shapes of disagreement look like once labeled. Each is stated at a single unit $x$; regions follow by reading them across all units.
+
+\begin{proposition}[Acyclic disagreement is always decided]\label{prop:acyclic}
+If the defeat graph at $x$ has no directed cycle, then $\UND_x=\varnothing$.
+\end{proposition}
+
+\begin{proof}
+Define the depth of $a$ as the length of the longest defeat path ending at $a$; it is finite because the graph is finite and acyclic. Induct on depth. Every defeater of $a$ has smaller depth, so by hypothesis lies in $\IN_x\cup\OUT_x$. If some defeater is in $\IN_x$ then $a\in\OUT_x$. Otherwise all defeaters are in $\OUT_x$, and $a\in\IN_x$ by Theorem~\ref{thm:labels}(c).
+\end{proof}
+
+\begin{proposition}[Symmetric defeat stays open; reinstatement resolves it]\label{prop:mutual}
+Let $a,b$ defeat one another at $x$.
+\begin{enumerate}[label=(\alph*)]
+\item If neither has any other defeater at $x$, then $a,b\in\UND_x$.
+\item If $a$ has no defeater other than $b$ and $s\in\IN_x$ defeats $b$, then $a\in\IN_x$ and $b\in\OUT_x$.
+\item More generally (\emph{reinstatement}), if every defeater of $a$ is in $\OUT_x$ then $a\in\IN_x$.
+\end{enumerate}
+More generally, a defeat cycle in which no member has a defeater outside the cycle leaves all its members in $\UND_x$.
+\end{proposition}
+
+\begin{proof}
+(a) $\Phi_x(\varnothing)$ consists of the unattacked arguments, which excludes $a$ and $b$. On $\{a,b\}$ the least fixed point is therefore empty, so neither is in $\IN_x$, and neither is defeated by a member of $\IN_x=\varnothing$. The same argument covers any cycle without outside defeaters: no member is unattacked, so $\IN_x$ misses the cycle and $\OUT_x$ does too. (b) $b\in\OUT_x$ by definition, and its being $\OUT$ makes every defeater of $a$ $\OUT$, so $a\in\IN_x$ by Theorem~\ref{thm:labels}(c). (c) is Theorem~\ref{thm:labels}(c).
+\end{proof}
+
+The grounded semantics never resolves a symmetric conflict by fiat. If two rebutting arguments stand on equal footing, both remain unresolved until someone adds a defeater, a reply or a preference. This is the behavior the dossier needs: an honest ``contested'' in place of a winner chosen by whoever edited last.
+
+Combining this with conflict localization (Proposition~\ref{prop:conflict}) gives the basic picture of scoped disagreement.
+
+\begin{proposition}[Scoped disagreement]\label{prop:scoped}
+Let $p$ be an argument for $c=(\kap,\sigma)$ and $q$ an argument for $d=(\nk{\kap},\tau)$ with $\sigma(p)=\sigma$ and $\sigma(q)=\tau$, and assume that they are the only arguments in the ledger and have no sub-arguments. Under the default policy,
+\[
+\In(p)=\sigma\setminus\tau,\quad \Und(p)=\sigma\cap\tau,\qquad \In(q)=\tau\setminus\sigma,\quad \Und(q)=\sigma\cap\tau.
+\]
+If a policy makes $q$ strictly less preferred than $p$ exactly on $\rho\subseteq\sigma\cap\tau$, then in addition $\In(p)\supseteq\rho$ and $\Out(q)=\rho$, and $\Und(p)=\Und(q)=(\sigma\cap\tau)\setminus\rho$.
+\end{proposition}
+
+\begin{proof}
+By Definition~\ref{def:attack} the two rebut one another with active region $\sigma\cap\tau$. Outside that region no attack applies, so each is unattacked and $\IN$ on its own scope by Theorem~\ref{thm:labels}(c). On $\sigma\cap\tau$ apply Proposition~\ref{prop:mutual}(a). Under the stated policy $p$ defeats $q$ on all of $\sigma\cap\tau$ while $q$ defeats $p$ only off $\rho$: at units of $\rho$, $q$ has no successful attack on $p$, so $p$ is unattacked and $\IN$, and $q$ is $\OUT$; at the remaining units the defeat is still symmetric.
+\end{proof}
+
+Two rival positions therefore coexist in one dossier, each standing on the part of its scope the other does not reach, and each showing exactly which units remain contested.
+
+\section{Policies, and objects that fall out of play}
+
+\begin{theorem}[Policy-relative defeat]\label{thm:policy}
+\begin{enumerate}[label=(\alph*)]
+\item Theorems~\ref{thm:labels}, \ref{thm:regions}, \ref{thm:local}, \ref{thm:direction} and Lemma~\ref{lem:hereditary} hold for every policy.
+\item Two policies can assign different labels to the same ledger with identical structural attacks.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) Each proof uses only that, for each unit, the defeat graph is finite (and, for Theorem~\ref{thm:regions}, that preference regions are scopes, which Definition~\ref{def:policy} requires).
+(b) Let $\Om=\{x\}$, and let $a,b$ be arguments with opposite conclusion kernels and scope $\Om$. Structurally each rebuts the other. Under $\policy_0$ both are $\UND$ by Proposition~\ref{prop:mutual}(a). Under a policy with $\langle b\prec a\rangle=\Om$, the attack of $b$ on $a$ fails while that of $a$ on $b$ succeeds, so $a$ is $\IN$ and $b$ is $\OUT$.
+\end{proof}
+
+Since policies are ledger objects, two communities can share every record and differ only in a policy, and the difference in their dossiers is then traceable to that policy (Theorem~\ref{thm:replay}).
+
+\begin{lemma}[Arguments that are out are inert]\label{lem:outinert}
+If $b\in\OUT_x$, deleting $b$ and all defeats involving it leaves the labels of all other arguments at $x$ unchanged.
+\end{lemma}
+
+\begin{proof}
+Let $\Phi,\Phi'$ be the operators before and after deletion, $\IN=\IN_x$, and $\IN'$ the least fixed point of $\Phi'$. Note $b\notin\IN$.
+
+\emph{$\IN'\subseteq\IN$.} Let $a\in\Phi'(\IN)$: each defeater of $a$ other than $b$ is defeated by a member of $\IN$. Since $b\in\OUT_x$, $b$ is also defeated by a member of $\IN$. So every defeater of $a$ is defeated by $\IN$, and $a\in\Phi(\IN)=\IN$. Thus $\Phi'(\IN)\subseteq\IN$, and by monotonicity $\Phi'^{\,n}(\varnothing)\subseteq\IN$ for all $n$.
+
+\emph{$\IN\subseteq\IN'$.} Put $S_n=\Phi^n(\varnothing)$ and $S'_n=\Phi'^{\,n}(\varnothing)$. We show $S_n\subseteq S'_n$ by induction. If $a\in S_{n+1}$, each defeater of $a$ is defeated by a member of $S_n\subseteq\IN$; members of $\IN$ differ from $b$, so the defeaters of $a$ remaining after deletion are defeated by members of $S_n\subseteq S'_n$, giving $a\in S'_{n+1}$.
+
+So $\IN=\IN'$. An argument is $\OUT$ after deletion iff a member of $\IN'=\IN$ defeats it, and $b$ was never such a member, so the $\OUT$ sets agree too.
+\end{proof}
+
+The lemma is what makes withdrawal safe (Chapter~\ref{ch:ledger}): an argument that has fallen out of play can be removed from consideration without disturbing anything else, and nothing it attacked stays attacked.
+
+\section{A worked example}\label{sec:worked7}
+
+The example is schematic. It exercises the definitions and reports no empirical result. Take two dimensions, population (adults $A$, adolescents $K$) and context (daily life $D$, laboratory $L$), giving four units $AD,AL,KD,KL$. Let $\kap$ be a kernel ``differentiation improves regulation,'' with a fixed operational meaning. There are three arguments $p_1,p_2,p_3$, each from one evidence item, concluding $\kap$ over $\{AD\}$, $\{AL\}$, $\{KD\}$ respectively, and a pooling argument $a$ (structural warrant \textsc{Pool}) concluding $c=(\kap,\{AD,AL,KD\})$ with those three as sub-arguments. Nothing addresses $KL$.
+
+An objection $q$ from a different evidence item concludes $(\nk{\kap},\{KD\})$. It rebuts $p_3$ and $a$, both symmetrically, over $\{KD\}$. A reply $r$ concludes $\nk{\mathrm{acc}(e_q)}$ over $\{KD\}$: it undermines the evidence of $q$. Under a second policy, $q$ is strictly less preferred than $p_3$ and than $a$ over $\{KD\}$.
+
+\begin{center}
+\begin{tabular}{@{}llllll@{}}
+\toprule
+stage & $AD$ & $AL$ & $KD$ & $KL$ & \\
+\midrule
+1. no objection & $a$ in & $a$ in & $a$ in & no argument &\\
+2. $q$ filed, default policy & $a$ in & $a$ in & $a,p_3,q$ undecided & no argument &\\
+3. reply $r$ filed & $a$ in & $a$ in & $a,p_3$ in;\ $q$ out;\ $r$ in & no argument &\\
+2$'$. $q$ filed, $q\prec p_3,a$ on $KD$ & $a$ in & $a$ in & $a,p_3$ in;\ $q$ out & no argument &\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+At stage 2 the claim $c$ is supported on the adult cells and open on $KD$: $\In(a)=\{AD,AL\}$, $\Und(a)=\{KD\}$. A single objection has narrowed what stands without deleting anything and without touching the other cells (Theorem~\ref{thm:local}). At stage 3 the reply defeats $q$, and $p_3$ and $a$ are reinstated on $KD$ (Proposition~\ref{prop:mutual}(b) and Lemma~\ref{lem:hereditary}(ii) in the other direction). Stage $2'$ reaches the same standing on $KD$ by a different route: the policy, not a reply, decides which rebuttal succeeds. Both routes are visible in the record, and the difference between them is a fact about the ledger and the policy, not about the claim. The labels above were also computed independently by a short program implementing Definitions~\ref{def:hereditary}--\ref{def:grounded} and agree with the table.

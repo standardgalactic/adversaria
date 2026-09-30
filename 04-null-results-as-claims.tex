@@ -1,0 +1,135 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+\newcommand{\nk}[1]{\neg #1}
+
+\title{Null Results as Claims}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+A failed search for an effect is not a demonstration that the effect is absent, and a record that stores ``no effect found'' as the negation of ``effect'' has already mistaken one for the other. This essay separates four things that are commonly called a null result: a null detection, a bounded effect, an opposite effect, and a failed replication. Each is a different claim, resting on a different kind of design and warrant, and each can support a different conclusion. The essay works one invented example through all four and then states what follows for a shared record: a null detection opposes nothing by itself, a bounded effect supports the negation directly, an opposite effect supports it by entailment, and a failed replication adds to a count without being evidence for any claim. It also states a property that is easy to overlook, that the rules of evaluation contain no built-in preference for positive claims, so that any asymmetry a reader sees comes from what has been recorded. The formal statements are proved in the monograph \emph{Adversaria: A Specification for a Public Claim Graph}.
+\end{abstract}
+
+\section{The habit of reading ``no'' as ``not''}
+
+Shared records lean toward positive assertions, because their sources do. Papers announce findings, and a study that finds nothing is harder to publish, harder to summarize and easier to forget. When a negative result does enter a record, it usually enters in whatever shape the record has for negation. In a store of statements, that shape is typically a flipped value or a deprecation: the claim that an effect exists is replaced by, or opposed to, a claim that it does not.
+
+That shape conflates situations that methodologists have long kept apart. A study fails to reject a null hypothesis. It might be underpowered, it might have measured the wrong thing, it might have been a fair test of a small effect, or it might have been a fair test of a large one. The right reading differs in each case. A record that turns every such outcome into ``effect: no'' either overstates what was learned or, worse, sets the result against claims it does not actually bear on and leaves a reader to assume that the matter was tested and settled.
+
+The argument of this essay is that null results should be stored as what they are, which is several different kinds of claim. Doing so is not an extra burden on top of a fair record. It is what makes a fair record possible.
+
+\section{Four things called a null}\label{sec:four}
+
+Fix a claim. Call its kernel $\kappa$, and let it say: \emph{the effect is at least $\delta$}, where the bound $\delta$ is part of what the claim means. The negation $\nk\kappa$ says that the effect is below $\delta$. Note that $\nk\kappa$ is a substantive claim, which is not the same as the statement that no study has found $\kappa$.
+
+A study of some design $D$, over some set of units, can report a negative outcome in four distinct ways.
+
+\begin{enumerate}[label=(\roman*)]
+\item \textbf{Null detection.} The test did not reject its null under the design. The result is a statement about the test: a test of $\kappa$ under design $D$ did not detect it. It is neither $\kappa$ nor $\nk\kappa$.
+\item \textbf{Bounded effect.} The reported interval excludes effects of size $\delta$ or more. This is a claim about the effect, namely $\nk\kappa$, and a design warrants it only if it was built to show smallness: an equivalence or noninferiority design with adequate precision at the bound.
+\item \textbf{Opposite effect.} The study supports an effect of the opposite sign, of size at least $\delta$. This is a different directional claim, which entails $\nk\kappa$ because an effect of the wrong sign is below the bound.
+\item \textbf{Failed replication.} An attempt, declared in advance as following the protocol of an earlier study, did not reproduce that study's specified result. This is a statement about the attempt and its outcome.
+\end{enumerate}
+
+These are four claims, each of them negative in a loose sense. They differ in what they are about, what kind of design produces them, and what can be concluded from them. The next section makes the differences concrete.
+
+\section{An invented example}\label{sec:example}
+
+All numbers below are constructed for illustration and describe no real study. Consider the claim $\kappa$: \emph{a daily reading-aloud program raises vocabulary scores in six-year-olds by at least 0.2 standard deviations}. Four studies report.
+
+\paragraph{Study A, a small trial.} Forty children per arm. The estimated effect is 0.15, with a 95\% interval of roughly $-0.29$ to $0.59$. The test does not reject zero. This is a null detection. The interval includes 0.2, and it also includes effects well above it and effects below zero. Nothing is excluded that matters. What the study supports is the statement that this design, with this precision, did not detect the effect. It does not support the claim that the effect is below 0.2.
+
+\paragraph{Study B, an equivalence trial.} Four hundred children per arm, designed in advance to show that the effect lies within $\pm 0.2$. The estimated effect is 0.02, with an interval of roughly $-0.12$ to $0.16$. The whole interval lies below 0.2. This is a bounded effect, and it supports $\nk\kappa$ directly, since it is the claim that the effect is below the bound, reported by a design intended to establish exactly that.
+
+\paragraph{Study C, a large trial.} Four hundred per arm again, and the estimated effect is $-0.365$, with an interval of roughly $-0.50$ to $-0.23$. The program appears to lower scores by at least the bound. This is an opposite effect. It is not just a failure to find $\kappa$, it is positive evidence of the contrary directional claim. Because an effect at least 0.2 in the negative direction is certainly below 0.2 in the positive direction, it entails $\nk\kappa$, through a warrant that any reader can check.
+
+\paragraph{Study D, a replication attempt.} A group declares in advance that it will follow the protocol of an earlier study that reported a positive effect, and reports that the result was not reproduced. This is a failed replication. It records that the specified result did not recur under the attempt.
+
+Put the four on one page of a record and the difference is plain. Study B and Study C each bear on whether the effect is below the bound. Study A does not bear on that question by itself, and Study D bears on the earlier study and not on the effect at all.
+
+\section{What each can support}\label{sec:support}
+
+The record's rules follow from these differences and can be summarized in a table.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l X X@{}}
+\toprule
+outcome & what it is a claim about & what it can support\\
+\midrule
+null detection & the test: it did not detect $\kappa$ under $D$ & nothing about the effect unless a further warrant is supplied and survives challenge\\
+bounded effect & the effect: it is below $\delta$ & $\nk\kappa$ directly, if the design can warrant smallness\\
+opposite effect & the effect: it is at least $\delta$ in the other direction & $\nk\kappa$ by entailment\\
+failed replication & the attempt: it did not reproduce an earlier result & a count of failed replications, and no claim\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\paragraph{Null detection opposes nothing by itself.} Its content is neither $\kappa$ nor the negation of $\kappa$, so it is not the conclusion of an argument for $\nk\kappa$, and no attack arises between it and any argument for $\kappa$. A reader may still want to draw the inference from a null detection to a bound on the effect. The record allows this, but only through an ordinary warrant: that a design of adequate power would have detected an effect of size $\delta$ if one were present. That warrant needs a backing that states the power. It can be undercut, for instance by an argument that the stated power assumed a variance that was too small. The inference is therefore on the record as an inference, with its premises visible and its weak point identified, which is where it belongs.
+
+Applied to Study A, the record would show the null detection, and any argument from it to $\nk\kappa$ would show the power assumption. Given the interval above, that assumption is weak, and an objection is easy to file. The dossier does not hide the tension. It displays the argument together with the objection that shows why it fails.
+
+\paragraph{Bounded effect supports the negation directly.} The kernel of a bounded-effect item is the negation itself. An argument from it to $\nk\kappa$ has no gap to fill except the quality of the evidence. This is why the design condition matters: a study not built to show smallness cannot warrant it, however the result is described.
+
+\paragraph{Opposite effect supports the negation by entailment.} The warrant here is one of logical consequence. Whenever the opposite claim has its stated meaning, the original claim fails. It is hard to undercut, which does not mean the study is beyond criticism. Its scope, design and measurement can all be attacked, but the inference from the opposite claim to the negation is not where the dispute will be.
+
+\paragraph{Failed replication contributes to a count and to nothing else.} It adds to the number of failed replication families that a claim's status records. It is not evidence for any claim, including the claim that the original finding was wrong. That restraint is deliberate, and it is fair to the attempt as well. A failure to reproduce may reflect a change in protocol, an underpowered attempt, a difference in population, or a false original finding. The record states what happened and leaves the interpretation as an argument someone may make and others may answer.
+
+\section{Absence of evidence, and its warrant}\label{sec:search}
+
+The same structure applies to a search. A contributor searches a corpus for a phenomenon and finds no match. The record holds an evidence item reporting the protocol, the corpus, the date, and the outcome: no match in this corpus at this time. That is a fact about the search.
+
+To conclude that the phenomenon is absent from what the corpus represents, an argument needs a further premise, that a search of this kind would have found the phenomenon if it were present. That premise is a warrant, with a backing that names the search's sensitivity, and it can be undercut. A search that missed a spelling variant, or covered only part of the territory, would not warrant absence over the rest. The dossier then records both the search and the assumption that turns it into a finding, so a reader can see which one is contested. A case in which the search was careful and the warrant stands is a strong negative finding, and a case in which the warrant is weak shows as such.
+
+\section{No built-in preference for positives}\label{sec:symmetry}
+
+A natural suspicion is that a system like this must, somewhere, favor positive claims, because the machinery of support and attack seems to treat ``the effect exists'' as the thing to be defended. The suspicion can be answered precisely.
+
+Take any renaming of the claims in a record that sends each claim to some claim and preserves negation: if a claim is renamed to another, its negation is renamed to the negation of the other. Apply the renaming everywhere, to claims, evidence and warrants, and leave scopes alone. The resulting argument framework is isomorphic to the original, and every argument gets exactly the label it had before, under a correspondingly renamed policy.
+
+Take the renaming that sends each claim to its negation. It exchanges every finding with its opposite. The conclusion is that a bounded-effect finding is exactly as strong, under the rules, as a positive finding of the same scope, kind of evidence and independence. Nothing in the rules makes ``effect exists'' the default.
+
+A null detection is a different kernel from $\nk\kappa$, and the previous section says what it takes to use it. The symmetry is between a claim and its negation, and it does not turn a failure to detect into a finding of smallness.
+
+What remains is asymmetry in what is recorded. If a record is full of positive findings and has few well-designed equivalence studies, a dossier will reflect that. The asymmetry is in the evidence, which is where it should be, and not in the rules, where it could not be seen or contested.
+
+\section{Failing well}\label{sec:credit}
+
+A record that stores null results properly still has to ask how contributors are credited for them. A well-executed failed attempt, such as a careful replication that does not reproduce or an equivalence trial that shows an effect to be small, is among the most useful things anyone can add. The specification treats credit as a vector, not a score, and does not lower a contributor's standing because an attempt failed. Credit attaches after downstream events: an act earns credit for evidential quality when it is inscribed, and for verification only once independent parties confirm it or fail to defeat it. Confirmation by records from the contributor's own family does not count, so one cannot manufacture it by volume.
+
+The point for the present essay is narrow. A record that penalizes failed attempts teaches contributors not to report them, and a record that treats failures as the mirror of successes teaches contributors to misdescribe them. Storing each kind as what it is, and crediting careful work of any outcome, removes both pressures.
+
+\section{Objections and replies}\label{sec:objections}
+
+\paragraph{``A practically null result is for most purposes no effect.''} For a decision, perhaps, and then the decision rests on a claim that the effect is below a practically relevant bound. That is a bounded effect, and the record has a place for it. What the record does not do is let a failure to detect stand in for that bound without the warrant that connects them.
+
+\paragraph{``Four categories are too many for contributors.''} The taxonomy reflects what study designs actually license, and an interface can guide the choice by asking what the design was built to show: detection, smallness, direction, or reproduction. A contributor who is unsure can record the outcome as a null detection, which is the most conservative reading, and others can add a warrant.
+
+\paragraph{``Publication bias remains.''} It does. A record cannot store what was never reported. What it can do is make unreported work easier to add, credit it, and mark a claim whose support comes from a thin or selected set of studies. It does not repair the literature.
+
+\paragraph{``A Bayesian analysis would dissolve the distinction.''} A full posterior would say more about the effect than any binary outcome. The record can hold such an analysis as an evidence item with its own kernel, and the same questions arise about what it warrants. The taxonomy is not an argument against richer analyses, only against collapsing whatever was reported into a yes or no.
+
+\section{What this essay does not show}\label{sec:limits}
+
+It does not show that null results are unimportant, or that they are always informative. A null detection from a poor design may add nothing, and the record says so by requiring a warrant for any use of it. It does not show that publication bias is solved, that power analysis is unnecessary, or that the four categories exhaust what a study can report. The example is invented, and the figures were chosen to illustrate the categories, not to describe any real program. It does not claim that contributors will classify their own results correctly, only that the record gives a place for each classification and lets others challenge it.
+
+What it does establish is narrow. Four things called a null result are different claims. A null detection is about the test, and opposes nothing alone. A bounded effect supports the negation directly, if the design can warrant smallness. An opposite effect supports it by entailment. A failed replication adds to a count and is evidence for no claim. The rules of evaluation are symmetric under the exchange of a claim and its negation, so any asymmetry a dossier shows comes from what has been recorded. A record built on these distinctions can say what a failed search showed, and can say where the inference to absence is weak.
+
+\section*{Notes}
+
+The formal results are in \emph{Adversaria: A Specification for a Public Claim Graph}, Chapter 17: the negative-outcome taxonomy and what each can support, symmetry under exchange of a kernel and its negation, the unsuccessful-search example, and credit as a vector with no self-validation. Kernels and negation are defined in Chapter 4, warrants and their undercutting in Chapters 6 and 7, and the replication coordinate in Chapter 12.
+
+\end{document}

@@ -1,0 +1,178 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\title{Reversibility and Standing}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+Claims are acted on before they are settled. A shared record of arguments is edited, a projection is changed, a page is restricted, all while an objection is open or two communities read the same evidence differently. This essay argues that such action needs a reading of standing that keeps contested status visible, and that the status vector of the monograph \emph{Adversaria: A Specification for a Public Claim Graph} supplies one while a scalar hides it. Three readings are compared on invented schematic cases checked by computation: a single figure, a bare label of whether the claim stands, and the vector together with its frontier and its policy index. The figure and the label collapse situations that call for different responses, namely no evidence, a balanced dispute and an open methodological attack. The reconstruction gate of the monograph is then read as an example of a rule that needs the third reading: it asks an actor to engage with the frontier on both sides of a dispute, which is computable from the vector and not from any figure, and it is position-neutral. The essay states what the gate guarantees, which is narrow, and what it does not: it authorizes acts on a shared surface and does not decide what anyone should do. It then lists which acts on the surface are correctable, in a precise and limited sense, and which are not. The essay is an argument from the design, not a theorem, and it says where the theorems stop.
+\end{abstract}
+
+\section{Acting before the dispute ends}\label{sec:acting}
+
+Nothing waits for agreement. A reference page is revised while the claim it states is contested. A dossier is opened to new contributors while two positions remain. A set of edits is held for review because the topic has become heated. Each of these is an act taken under a claim that is not settled, and each can be done well or badly depending on what the actor can see of the claim's standing.
+
+The monograph gives the question a precise shape. A contributor may inscribe anything; what is gated is the contribution to a shared surface, such as the default projection of a claim over a region of units (Chapter 16). The monograph also says what the record offers an actor who is about to make such a contribution: a status for the claim at each unit (Chapter 12), computed from the labeling of arguments (Chapter 7). The essay asks which reading of that status is fit to act on when the claim is unsettled, and answers that a reading is fit only if it keeps visible what is unsettled about the claim and in which way.
+
+The word \emph{reversibility} in the title has a narrow sense here, taken from the monograph. It concerns the record and not the world outside it. Section~\ref{sec:correctable} lists the acts on the shared surface that the monograph proves can be undone in the sense that matters for projections, and those it does not. Nothing in the monograph speaks to the consequences of an action taken outside the ledger, and this essay makes no claim about them. An existing essay of the author's bears on the same title words; it is not summarized here and nothing below relies on it.
+
+The argument is a design argument. Where a formal result of the monograph supports a step, it is cited by chapter and name; where the step is a judgment about what a reading should keep visible, it is said to be one.
+
+% TODO(literature): place the argument relative to work on decision under unresolved disagreement, on reversible and irreversible action under uncertainty, and on the design of status displays; none is used here.
+
+\section{What there is to read}\label{sec:read}
+
+The status of a claim in the monograph is a field over its scope. At each unit it has components that are not derived from one another: the kinds of evidence among the arguments that stand, the replication count by independence families, the highest rung on the identification ladder, the coverage of the territory, the set of unresolved defeaters, and, displayed but never compared, the agreement of contributors (Chapter 12). Beside the vector sits an informational layer: the evidential state at a unit is one of four values recording whether any argument for the claim, or for its opposite, is present at all. It is a record of what has been offered, whatever its fate.
+
+The four values matter because the monograph proves that four situations with the same interface label (``disputed'', ``unclear'') have four different signatures (Chapter 12, the Proposition on four situations). A claim may have no argument at all. It may have argument on both sides that stand on equal footing, each unresolved by the other. It may have a supporting argument that is itself held open by an unresolved methodological attack, so that nothing is pitted against it on the merits but its basis is in question. Or it may be supported at some units and opposed at others, with the two never overlapping. These call for different responses from an actor. More evidence is the answer to the first. A tie-breaker, a reply or a preference is the answer to the second. Repair of the method is the answer to the third. A finer scope claim is the answer to the fourth.
+
+The labeling that feeds all this is not monotone in the ledger (Chapter 9). An objection can turn an argument that stands into one that is unresolved, and a reply can turn it back. What stands at a unit under one record is a fact about that record. A reader who sees only the present outcome has no way to tell a position that has been stable from one that stands on a single reply.
+
+Finally, the status is indexed by policy. The same ledger evaluated under two policies that different communities would each accept can give different statuses (Chapter 12, the Proposition on indexed status). The monograph separates two kinds of doubt: uncertainty about the claim, reduced by adding arguments, and disagreement about evaluation, reduced by no addition to the ledger because the ledger is the same for every policy. An actor who cannot tell which kind is at issue cannot tell whether waiting for more evidence could help.
+
+\section{Three readings of standing}\label{sec:readings}
+
+A \emph{reading of standing} is a function from the record at a unit to what an actor is shown. Three are compared.
+
+\begin{itemize}[nosep]
+\item \textbf{A figure.} One number or grade per claim: a score, a confidence, a rank. The monograph's Theorem on scalar inadequacy (Chapter 12) says what any such figure must do: it exists and can respect every strict dominance, but it must compare every pair of statuses that dominance leaves incomparable, and for each such pair some dominance-respecting figure orders it either way. The figure therefore carries a decision about exchange rates that the record does not contain. Weighted sums make the decision visible as weights and can delete a claim that nothing dominates (Chapter 12, the counterexample on frontier points).
+\item \textbf{A bare label.} Whether the claim stands at the unit, in the sense of the grounded labeling: yes or no.
+\item \textbf{The vector, the frontier and the policy index.} The status vector at each unit, the set of claims that nothing beats, and the statuses under each policy the reader chooses to compare (Chapter 12).
+\end{itemize}
+
+The figure and the label are not straw positions. A figure is easy to sort and to act on quickly, and a label is what a yes-or-no decision wants. The point is to see what each leaves out.
+
+\subsection{A computed comparison}
+
+The first comparison uses the four situations on one unit, with invented schematic arguments. The figure is one illustrative choice, the number of standing arguments for the claim minus the number standing for its opposite; any figure must also collapse some pair by the theorem cited above, and this choice makes the collapse easy to see. The situations were built and evaluated by a short program implementing the labeling of Chapter 7, and the values below are its output.
+
+\begin{center}
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.27\textwidth} >{\raggedright\arraybackslash}p{0.11\textwidth} >{\raggedright\arraybackslash}p{0.13\textwidth} >{\raggedright\arraybackslash}p{0.33\textwidth}@{}}
+\toprule
+situation & figure & stands? & evidential state; arguments standing; unresolved defeaters\\
+\midrule
+no argument present & $0$ & no & neither; none; none\\
+balanced dispute (mutual rebuttal, nothing else) & $0$ & no & both; none; the opposing argument\\
+supporting argument held open by an objection that is itself unresolved & $0$ & no & pro only; none; that objection\\
+support at one unit, opposition at another & $+1$ and $-1$ & yes at one, no at the other & pro only at the first, con only at the second\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The first three situations receive the same figure and the same label. They are told apart only by the evidential state and the unresolved defeaters, which the vector carries. The fourth is distinguished by the figure at each unit but disappears as soon as the figure is aggregated over units: the two values cancel in a sum and average to zero, which is the same as the first three. An actor deciding whether to change a projection on the strength of ``$0$'' cannot tell whether the dossier is empty, whether it is deadlocked, or whether a supporting argument is waiting on a methodological point. The right act differs: to add evidence, to supply a tie-breaker, to resolve the attack, or to state a finer scope.
+
+\subsection{Policy and route}
+
+The second comparison concerns the two kinds of doubt and the route by which a standing was reached. The schematic case is the one used in Chapter 7 of the monograph: four units (adult or adolescent, by daily life or laboratory), a pooled argument for a claim over three of them (every cell but the adolescent laboratory cell, which has no argument), and an objection that concerns one unit, called here the adolescent daily-life cell. The case is invented. It has four stages: no objection; the objection filed; a reply that undermines the objection's evidence; and, as an alternative to the reply, a policy that holds the objection strictly less preferred than the supporting argument on that cell. The program evaluated each stage.
+
+\begin{center}
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.25\textwidth} >{\raggedright\arraybackslash}p{0.27\textwidth} >{\raggedright\arraybackslash}p{0.13\textwidth} >{\raggedright\arraybackslash}p{0.17\textwidth}@{}}
+\toprule
+stage & pooled argument at the contested cell & evidential state there & share of its three cells where it stands\\
+\midrule
+1. no objection & stands & pro only & $3/3$\\
+2. objection filed & unresolved; one open defeater & both & $2/3$\\
+3. reply filed & stands again & both & $3/3$\\
+2$'$. same records as 2, policy prefers the support & stands & both & $3/3$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Read through the last column, stages 1, 3 and $2'$ are the same. They are not the same for an actor. At stage 1 nothing has been said against the claim. At stage 3 an objection has been filed and answered, and its standing depends on the reply; the objection's argument is out, and a later record that defeats the reply would bring the dispute back. At stage $2'$ no record answers the objection, and its defeat rests on a preference that other communities need not share. The evidential state distinguishes stage 1 from the others, the record of which act defeated the objection distinguishes stage 3 from $2'$, and the policy index shows that stage $2'$ is one of at least two readings of a single ledger. The monograph proves that a difference between two projections is traceable to records or to a policy (Chapter 9, the Theorem on traceable divergence); the vector with its index makes that traceability usable at the moment of action.
+
+\section{The gate that reads the frontier}\label{sec:gate}
+
+The reconstruction gate of Chapter 16 is the monograph's answer to a question close to the one above: what may be asked of an actor who wishes to modify the default projection of a contested claim, without testing which side the actor takes?
+
+\subsection{What the gate asks}
+
+To modify the default projection of a claim $c$ over a scope $\tau$, an actor inscribes a reconstruction record that references five things. For each unit of $\tau$ at which claims of the kernel exist, an admitted argument for some claim on the frontier of the claims of that kernel at that unit, or for a claim the surface's dossier policy names in its place. The same for the negation of the kernel. A claim stating the principal empirical uncertainty. A distinction or scope claim stating the principal scope distinction. And, for each of the two positions, an observation that would count against it. The first two are checked by computation. The last three are graded by graders who are not the author, on whether they name the actual open uncertainty, distinction and observations in the dossier.
+
+The frontier is the set of claims at the unit to which no other claim at that unit is strictly superior under dominance (Chapter 12). It is nonempty when the set of claims is, and every claim outside it is dominated by one inside it (Chapter 12, the Proposition on the frontier). It is computed from the vector.
+
+\subsection{Why the frontier and not a strongest argument}
+
+The monograph states the reason in one sentence: the gate uses no notion of a strongest argument, because the model defines no scalar strength. The frontier supplies what ``strongest'' would have supplied without the exchange rate. The consequence can be seen on the small counterexample of Chapter 12, which is restated here with its arithmetic checked. Three claims at a unit have codings $(1,0)$, $(0,1)$ and $(0.4,0.4)$ on two components. None dominates another, so all three are on the frontier. For every pair of positive weights $w_1,w_2$, the weighted sum of the third is $0.4(w_1+w_2)\le0.8\max(w_1,w_2)<\max(w_1,w_2)$, so the third is never the maximizer. (A search over weights from $0.01$ to $3.99$ in steps of $0.01$ found none that selected it, as the inequality requires.)
+
+Suppose a gate demanded an argument for the ``strongest'' claim on each side, with strength a positive weighted sum. The balanced third claim could never satisfy it, although nothing is better than it. The actor who had reconstructed exactly that claim would be refused. More importantly, the choice of weights would settle which arguments an actor must engage with, and that choice is a matter of exchange rates that the dossier does not contain. A gate that fixed the weights would embed a view into an authorization rule; a gate that allowed them to vary by surface or by side would admit exactly the dependence on position that the gate is meant to exclude. The frontier requires no such choice.
+
+\subsection{What the gate guarantees}
+
+The monograph proves that the gate is position-neutral (Chapter 16, the Proposition on reconstruction gates). Position-neutrality means that an act on the claim and the corresponding act on its negation, differing only in the exchange of the two, pass or fail together. The proof is short: the five conditions refer to the pair consisting of the kernel and its negation and are unchanged when the two are exchanged, the frontier is the same construction applied to each, and grading is by the same criteria on both sides. An actor who passes may act on the claim and on its negation over that scope, and one who fails may act on neither. An actor may pass while opposing the prevailing view and fail while agreeing with it.
+
+That is all the proposition says. The monograph states the limits itself. It does not guarantee that graders are unbiased, or that the tests are well chosen. Those are matters for the invariants listed in the chapter, three of which are proved, four enforced by validation, and three left to the design of each community's gates.
+
+\subsection{What the gate does not do}
+
+Two further facts from Chapter 16 bound the gate's role. First, passing a gate makes an act eligible for admission. It does not change the label of any argument, does not change any defeat relation, and does not defeat anything (the Proposition on capability and standing). The gate authorizes an act on a shared surface. It does not say what the act should be, whether it should be done, or what the claim's standing is. Second, the gate is not a procedure for deciding between the two positions. An actor who passes it may use the authorization to change the default projection in either direction. The gate ensures only that the actor has engaged, by a checkable test and a graded one, with the strongest undominated statements of both sides and with the open uncertainty, distinction and disconfirming observations.
+
+What the gate needs, in order to do even that, is the third reading of standing. The frontier is not a function of any figure, the set of open defeaters is not a function of any label, and the requirement to state the principal uncertainty and scope distinction presupposes that the dossier shows them. A gate built on the first or second reading would be unable to ask for what it asks.
+
+\section{Correctable acts}\label{sec:correctable}
+
+Acting under a contested claim is more reasonable when mistakes can be corrected. The monograph proves several statements of that kind, each narrow, and the essay lists them with what they do not say.
+
+\begin{itemize}
+\item \emph{Withdrawal.} A withdrawal of an argument labels it, and every argument built on it, $\mathsf{out}$ at the units they share, and leaves every other label as it would be if the withdrawn arguments had been deleted (Chapter 9, the Theorem on withdrawal; Chapter 17 for batches). The withdrawn argument stays in the ledger and stays citable. Only the author of an argument may withdraw it under the default policy, so an act of another contributor is not undone this way.
+\item \emph{Restrictions expire.} Every restriction has a finite effective interval and needs no record to end it unless a renewal covers the act; its justification is an ordinary argument on a surface where it cannot be gated (Chapter 16, the Proposition on expiry and the rule on stratified justifications).
+\item \emph{Revocation is prospective.} A revoked capability leaves earlier acts as they were. Only an explicit invalidation changes the disposition of earlier acts, and it says so (Chapter 16, the Proposition on revocation).
+\item \emph{Historical projections are immutable.} The projection at a past prefix of the ledger never changes; later projections differ from it only through later records (Chapter 16, the Proposition on prefixes). A reconstruction made later says so by carrying its own index.
+\item \emph{Revisions never overwrite.} A superseded claim stays addressable and objectable, and its status continues to be computed (Chapter 9, the Theorem on lineage).
+\item \emph{A successful appeal repairs the rule.} This one is a design rule and not a theorem (Chapter 16, the rule on appeals).
+\end{itemize}
+
+Three limits apply. The first is that these results concern the projection and the record. They say that the \emph{displayed} state can be brought back to what it would have been, up to labeling, not that the history is erased; the history is kept on purpose. The second is that the list is not a general theorem. There is no statement in the monograph that every act on the shared surface can be undone, and some cannot: under the default policy an objection filed by one contributor cannot be withdrawn by another, and a clearance stands unless its capability is invalidated. The third is that nothing is said about what an actor does outside the ledger on the basis of a displayed status. The notion of correctability used here is the ledger's, and it should not be extended.
+
+The connection with standing is this. Correctability is what makes it reasonable to let acts proceed on contested claims, and the vector is what tells an actor how much of a standing rests on something that could be reversed. A figure that falls from $0.8$ to $0.5$ after an objection and rises to $0.8$ after a reply records the movement and not its cause. The unresolved defeaters at each unit, the regions where the claim stands and where it is unresolved, and the evidential state say which part of the standing is exposed and to what. The labels are not monotone in the ledger (Chapter 9), and a reading that shows only the present outcome gives an actor no way to see how much weight it will bear.
+
+\section{A schematic case}\label{sec:case}
+
+The case is invented and continues the one of Section~\ref{sec:readings}. A shared surface hosts a dossier on a claim that a practice improves an outcome, with the four units and the stage-2 record: the pooled argument stands at the two adult cells, is unresolved at the adolescent daily-life cell where an objection is open, and there is no argument at the adolescent laboratory cell. Two communities read the dossier. One contributor wishes to revise the default projection so that the claim is shown as established over the whole scope.
+
+Under the first reading the contributor sees a figure, for instance the share of the claim's three cells at which it stands, $2/3$, and may take the revision as a small step. Under the second the contributor sees that the claim stands at some cells and not at others, with nothing to say why.
+
+Under the third the contributor sees where the claim stands and where it does not, and why. It stands at the adult cells. At the adolescent daily-life cell it is unresolved, one open defeater is named, and the evidential state is both: argument has been offered on each side. At the adolescent laboratory cell there is no argument at all, which is not the same as opposition. On the frontier of the claims of that kernel at the contested cell there may be several claims that dominance cannot order (one with stronger identification, one with broader replication), and the frontier for the opposing kernel contains the objection's claim. Under the two policies the communities use, the status at the contested cell agrees in one and differs in the other. To pass the gate the contributor must reference an argument for some claim on each frontier, state the principal uncertainty (the contested cell), state the principal scope distinction (adolescent against adult), and state for each position an observation that would count against it.
+
+None of this decides whether the revision should be made. It shows what the revision would consist of. A revision that displays the claim as established everywhere would misstate the record on three counts: a cell with no argument, a cell where the standing is open, and a policy that does not agree. A revision that narrows the claim to the units where it stands is the survivor of Chapter 11, and the record shows what removed the rest. Whether either revision is made is for the actor and the surface's governance. The gate and the status together ensure only that the choice is made with the contest in view.
+
+\section{Objections and replies}\label{sec:objections}
+
+\paragraph{``An actor needs a decision, not a display.''} The display is for the actor's decision and does not replace it. Where a decision procedure is needed it can be stated as a named view with a declared exchange rate (Chapter 12), and then the rate is open to objection. What the essay argues against is storing the rate in the status, or letting an authorization rule depend on one that nobody declared.
+
+\paragraph{``The frontier may be large.''} It may. A large frontier is a finding: there are many incomparable positions at the unit. The gate asks for an argument for \emph{some} member on each side, not for all of them, so a large frontier does not make the gate unsatisfiable.
+
+\paragraph{``Position-neutrality is cheap if the graders are biased.''} It is, and the monograph says so. The proposition is about the structure of the predicate and not about the graders. The recommended mitigations, blind grading and reversed items (Chapter 16), are design rules whose effect is measured in an audit.
+
+\paragraph{``Correctable acts make caution unnecessary.''} They do not. Correctability is a property of the ledger's projection. It does not reach outside the ledger, and labels that can change are a reason to look at what a standing rests on, not a reason to ignore it.
+
+\section{What this essay does not show}\label{sec:limits}
+
+It does not show that an actor should act or refrain from acting on any contested claim, or that the reconstruction gate decides what to do. The gate authorizes acts on a shared surface and confers no standing on the act or on its conclusion.
+
+It does not show that the status vector is the right set of components, that dominance is the right comparison, or that the frontier is the right set to require engagement with. Those are design choices of the monograph, open to replacement. The arguments here are that a reading which keeps the components visible can ask for things a figure cannot, and that the figure collapses situations that call for different responses. The second is shown on invented cases, by computation, for one illustrative figure; the general statement is the theorem on scalar inadequacy, which is about every figure.
+
+It does not show that the gate's graded conditions are fairly graded, or that the tests are well chosen. It does not treat the consequences of any action taken outside the ledger. The correctable acts listed are those the monograph proves correctable in the sense of the projection, with the limits stated, and there is no claim that all acts are correctable.
+
+It does not survey the literature on decisions under unresolved disagreement or on reversible action. Related work is deliberately not surveyed in this draft. It does not rely on, or summarize, the existing essay mentioned at the start.
+
+\section*{Notes}
+
+Monograph chapters used. Chapter 7: labeling, symmetric defeat, the schematic case. Chapter 9: non-monotone labels, withdrawal, lineage, traceable divergence. Chapter 11: the survivor of a claim. Chapter 12: the status vector, evidential state and its four situations, dominance, the frontier, scalar inadequacy, weighted sums and the counterexample on frontier points, policy-indexed status, declared views. Chapter 16: ledger time and immutable prefixes, capability and standing, the reconstruction gate and its position-neutrality, restrictions, revocation, appeals and the ten invariants. Chapter 17: batch withdrawal. The comparison tables in Section~\ref{sec:readings} and the arithmetic of Section~\ref{sec:gate} were checked by computation.
+
+\end{document}

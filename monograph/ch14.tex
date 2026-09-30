@@ -1,0 +1,127 @@
+\chapter{The Pipeline}\label{ch:pipeline}
+
+This chapter specifies how a submission passes from being stored to affecting what readers see. The path has five stages, each a distinct state transition, and each with a stated dependence. Nothing here adds a rule to the semantics of Part~III; the chapter fixes the boundary at which each existing rule applies.
+
+\section{Records}\label{sec:recordtypes}
+
+The ledger contains records of a fixed set of types. Every record has a type, a payload, a list of references to earlier records, an author identifier, a sequence number, a \emph{claimed time} (provenance only, never consulted by admission) and a declared origin mode. Ledger time is not a field; it is derived from anchor records (Section~\ref{sec:ledgertime}).
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.34\textwidth} X l@{}}
+\toprule
+type & payload & defined in\\
+\midrule
+\textsf{EVIDENCE} & an evidence item & Ch.~\ref{ch:evidence}\\
+\textsf{WARRANT} & a warrant with backing & Ch.~\ref{ch:warrant}\\
+\textsf{CLAIM} & a claim: kernel, scope, modality, provenance, version & Ch.~\ref{ch:claim}\\
+\textsf{ARGUMENT} & a tree over a warrant with fillers and a conclusion & Ch.~\ref{ch:warrant}\\
+\textsf{EQUIVALENCE} & a signed identification, including independence-family claims & Ch.~\ref{ch:distinction}\\
+\textsf{DISTINCTION} & a pooling declaration & Ch.~\ref{ch:distinction}\\
+\textsf{REVISION} & a new claim version with supersession references & Ch.~\ref{ch:ledger}\\
+\textsf{WITHDRAWAL} & a reference to an argument authored by the actor & Ch.~\ref{ch:ledger}\\
+\textsf{STANCE} & acceptance or rejection of a claim by an actor & Ch.~\ref{ch:status}\\
+\textsf{CAPABILITY}, \textsf{REVOCATION}, \textsf{INVALIDATION}, \textsf{RESTRICTION}, \textsf{CLEARANCE} & gate records & Ch.~\ref{ch:gates}\\
+\textsf{BATCH} & a declared set of records with a common origin & Ch.~\ref{ch:imports}\\
+\textsf{ANCHOR} & a commitment ordering a set of records into ledger time & Ch.~\ref{ch:gates}\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Objections are not a separate type: an objection is an \textsf{ARGUMENT} whose conclusion denies a component of its target (Chapter~\ref{ch:objection}). The absence of a separate type is deliberate, since it prevents a class of records that defeat without arguing.
+
+\section{Five stages}\label{sec:fivestages}
+
+\begin{definition}[Stages]\label{def:stages}
+A submission passes through the following, in order, and can stop at any of them.
+\begin{enumerate}
+\item \textsc{Inscribe}: the record is appended to the ledger, with a receipt (its content hash and record identifier).
+\item \textsc{Validate}: structural checks. References resolve, identifiers agree with contents, the reference order is acyclic (Definition~\ref{def:valid}), the payload conforms to its type's schema, and no executable payload is present in a field that must be inert.
+\item \textsc{Admit}: the disposition $D_\policy(r,\ledger)$ of Definition~\ref{def:disposition} is computed for a given surface's policy. The record takes part in evaluation on that surface if and only if it is $\mathrm{ADMITTED}$.
+\item \textsc{Project}: a dossier is chosen: a claim family, a scope and a query, over the surface's active set.
+\item \textsc{Activate}: a consumer other than evaluation, namely a ranking, a notification, or a credit computation, is permitted to consume the record.
+\end{enumerate}
+\end{definition}
+
+The stages differ in what they may depend on, and it is the dependence and not the label that carries the guarantee.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l X X@{}}
+\toprule
+stage & depends on & does not depend on\\
+\midrule
+inscribe & the record & policy, gates, labels\\
+validate & the record and the records it references & policy, labels\\
+admit & record, references' dispositions, policy, authorization projection, ledger time & routing, reader, view counts, claimed time\\
+project & the surface's active set, the query, and $\Lab$ & the reader context\\
+activate & any consumer input, including labels & no label depends on it\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{proposition}[Stored, admitted and endorsed are different]\label{prop:stored}
+There are valid ledgers with records that are stored and not admitted; admitted and not $\IN$; and $\IN$ and not endorsed by any actor.
+\end{proposition}
+
+\begin{proof}
+A trace-null act is stored and $\mathrm{QUARANTINED}$ (Definition~\ref{def:disposition}). An admitted argument may be $\OUT$ or $\UND$, as in Proposition~\ref{prop:mutual}(a) and Counterexample~\ref{cex:hidden}. An unattacked argument is $\IN$ (Theorem~\ref{thm:labels}(c)) whether or not any actor has recorded a stance (Proposition~\ref{prop:agreement}).
+\end{proof}
+
+\section{Every submission receives a disposition}\label{sec:totality}
+
+\begin{proposition}[Totality and stable receipt]\label{prop:totality}
+In a valid ledger every record has exactly one disposition for each policy. A record's content hash and record identifier are fixed at inscription and do not depend on its disposition or on any later record, and its ledger time is fixed once the anchor that first includes it is inscribed.
+\end{proposition}
+
+\begin{proof}
+$D_\policy$ is defined by induction along the reference order, which is acyclic in a valid ledger, and assigns one of the seven values to every record. The hashes are functions of content, type, author and sequence.
+\end{proof}
+
+The proposition is what underwrites the \emph{submission contract}. A submitter is owed, whatever the load or the policy: a receipt, retention of the record or a declared term of retention, exportability of the ledger, and an explicit disposition with a reason (Chapter~\ref{ch:gates}). A submitter is not owed immediate indexing, review, inference or prominent placement. The ledger has no quota on the number of claims per actor; the scarce things, namely computation, attention and review time, are governed elsewhere in the pipeline and allocated by the rules of Chapters~\ref{ch:gates} and~\ref{ch:imports}.
+
+\begin{designrule}[Content addressing]\label{rule:cas}
+Payloads are stored once, keyed by content hash, and records carry references to payloads. The storage cost of $n$ submissions of identical content is that of one payload plus $n$ fixed-size record headers. Large payloads may be held in cold storage, and indexing of a payload is decoupled from its inscription.
+\end{designrule}
+
+\section{Proof objects and certificates}\label{sec:proofobjects}
+
+Every status shown to a reader has a bounded object that justifies it, and the object is worth as much as what certifies its completeness.
+
+\begin{definition}[Proof object]\label{def:proofobject}
+For an argument $a$ and a unit $x$, the \emph{proof object} of the label $\Lab(a,x)$ is the tuple consisting of the argument tree of $a$, a set $B$ claimed to be the backward closure $B_x(a)$ with, for each pair in it, the defeat region and the policy clause that produced it, the policy version, the ontology versions and mapping claims used by any argument in $B$, and the labels of the members of $B$. It is \emph{complete} if $B=B_x(a)$, the backward closure in the framework on the active set of the surface.
+\end{definition}
+
+\begin{proposition}[A complete proof object can be rechecked locally]\label{prop:proofcheck}
+Given a complete proof object for $\Lab(a,x)=\lambda$, a checker that reads only the proof object and the policy can verify that $\lambda$ is the grounded label of $a$ at $x$, by recomputing the least fixed point on the induced framework of $B$.
+\end{proposition}
+
+\begin{proof}
+By Theorem~\ref{thm:direction}, $\Lab(a,x)$ is determined by the defeat graph restricted to $B_x(a)$. Since $B=B_x(a)$, the proof object contains that graph and each defeat's region and policy clause, from which membership of $x$ in each region is checked against the policy. The recomputation of $\Phi_x$ by iteration terminates in at most $|B|$ rounds.
+\end{proof}
+
+The proposition is conditional on completeness, and a checker that reads only the proof object cannot verify completeness. A producer that omitted one standing defeater would supply an induced graph that yields a different label. Completeness therefore needs a separate certificate.
+
+\begin{definition}[Closure certificate]\label{def:closurecert}
+An anchor record (Chapter~\ref{ch:gates}) may carry a \emph{commitment} $\mathsf{root}$ to the surface's active argument set at its ledger prefix and to an index that lists, for each active argument $b$ and each unit pattern, all arguments defeating $b$ there under the policy, the commitment being a Merkle-style hash of the sorted entries. A \emph{closure certificate} for $(a,x)$ consists of the anchor, and for each member $b\in B$ a membership proof of $b$ and a membership proof of the index entry listing all defeaters of $b$ at $x$, each verifiable against $\mathsf{root}$.
+\end{definition}
+
+\begin{proposition}[Certified labels]\label{prop:certified}
+Assume the hash is collision-resistant and that $\mathsf{root}$ commits to the true active set and defeat index of its prefix. If a proof object comes with a valid closure certificate against that root, and $B$ is closed under the listed defeaters, then $B=B_x(a)$ and the recomputation of Proposition~\ref{prop:proofcheck} yields the grounded label of $a$ at $x$ in the committed prefix.
+\end{proposition}
+
+\begin{proof}
+Each membership proof ties an index entry to the root, and by collision resistance the entry is the committed one. Closure of $B$ under the listed defeaters means no defeater of a member is omitted, so $B_x(a)\subseteq B$; every member of $B$ is reached from $a$ through listed defeaters, so $B\subseteq B_x(a)$. Proposition~\ref{prop:proofcheck} then applies.
+\end{proof}
+
+The proposition is relative to the commitment being correct. The index is computable from the active set and the policy, so a party that can recompute it can audit the root; a checker that cannot recompute it relies on the anchoring authority, and the specification says so. The display of a proof object states which certificate, if any, accompanies it, so that ``proof object'' does not come to mean an excerpt that persuades. A query may be given a budget, and when it is exceeded the display says the object is truncated; the label is unaffected, since it is computed on the full active set (Design rule~\ref{rule:statusfull}).
+
+\section{Idempotence and order}\label{sec:idempotence}
+
+\begin{proposition}[Ingestion is idempotent and order-independent]\label{prop:ingest}
+Inscribing a record already in the ledger, and inscribing records in any order that respects references, yield the same ledger and, for any policy, the same projection.
+\end{proposition}
+
+\begin{proof}
+A ledger is a set of records with consistent identifiers, and union is idempotent and commutative. The projection is a function of the set and the policy (Theorem~\ref{thm:replay}).
+\end{proof}

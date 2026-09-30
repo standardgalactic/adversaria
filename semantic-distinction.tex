@@ -1,0 +1,1810 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools,mathrsfs}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=black,urlcolor=blue,citecolor=black,pdftitle={Semantic Distinction}}
+\usepackage{bookmark}
+\usepackage{fancyhdr}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small Semantic Distinction}\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}
+\setlength{\emergencystretch}{3em}
+\setlength{\parskip}{0.25em}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\title{Semantic Distinction\\\large Behavioral Consequences and Contextual Neural Differentiation}
+\author{Flyxion}\date{September 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+Franch and colleagues report a positive correspondence between
+hippocampal population-response distances and contextual language-model
+embedding distances that changes sign within a restricted range of
+closely related embeddings. This geometrical observation does not
+establish an adaptive contrastive mechanism, and neural--model alignment
+does not establish algorithmic identity. This commentary advances a
+narrower hypothesis: independently normed, probe-relative consequences
+of substituting situated interpretations predict neural differentiation
+beyond embedding, linguistic, and fitted-mapping baselines. A controlled
+experiment would measure substitution consequences in a separate
+behavioral sample before neural analysis, then test their association
+with population distances and held-out discrimination. The proposal
+distinguishes representational geometry from recoverable information and
+task consequence, specifying which observations would support contextual
+differentiation while leaving its biological mechanism open.
+
+\end{abstract}
+\noindent\textit{Theoretical commentary. No new experimental data or fitted analyses are reported.}
+
+\hypertarget{the-problem-of-preserving-relations}{%
+\section{The problem of preserving
+relations}\label{the-problem-of-preserving-relations}}
+
+Understanding an expression requires recognizing what it shares with
+other expressions while retaining what makes its present occurrence
+different. A representation that supports only similarity risks
+conflating distinctions; a representation that isolates every occurrence
+loses the regularities through which comprehension becomes possible.
+Semantic organization consequently involves a tension between
+generalization and discrimination. This tension becomes especially
+visible when related expressions occupy nearby positions in an embedding
+space, yet their substitution changes the interpretation of a sentence.
+A category can remain stable while the relation asserted within it
+changes. The difference between an object being available and being
+unavailable, for example, is small in the vocabulary required to
+describe it and substantial in the continuation that the description
+permits.
+
+The hippocampal recordings reported by Franch et al.~(2026) provide an
+empirical occasion for examining this problem. Their study concerns
+neural responses during narrative listening, and its principal
+contribution is evidence about population representation rather than a
+complete theory of meaning. The present paper develops an interpretation
+of that evidence: semantic geometry may preserve relations through an
+interaction between contextual integration and selective
+differentiation. This interpretation is a theoretical extension, not a
+claim that the experiment directly measured the practical consequences
+of semantic distinctions.
+
+The explanatory object is contextual discriminability within population
+representations. Relational memory supplies background motivation for
+how occurrences might be bound to discourse, but the proposed experiment
+does not identify binding by measuring separation alone. ``Relational''
+is therefore used below for the relevant memory literature or for
+geometrical relations among responses, with those senses distinguished
+explicitly. The central claim concerns whether a population preserves
+distinctions required by an independently specified comprehension task.
+It neither treats relations as an exhaustive account of semantics nor
+dispenses with reference and the bodily or social conditions of
+understanding.
+
+\hypertarget{predictive-compression-as-a-theoretical-perspective}{%
+\subsection{Predictive compression as a theoretical
+perspective}\label{predictive-compression-as-a-theoretical-perspective}}
+
+Tishby, Pereira, and Bialek's information bottleneck method (1999;
+archived 2000) formalizes compression of an input X while preserving
+information about a relevance variable Y. In schematic form, a
+representation T is selected by minimizing \(I(X;T)\)-beta I(T;Y), with
+mutual information I and trade-off parameter beta. Applied here as a
+theoretical perspective, X could be the speech history and Y an
+independently specified future comprehension outcome. Surface
+differences may then be compressed when they carry no information about
+Y, while small differences remain relevant when they change its
+conditional distribution. Neither lexical identity nor acoustic
+variation is intrinsically irrelevant; relevance depends on Y. This
+framework motivates the consequence measure without identifying it with
+mutual information.
+
+The application is conditional rather than a demonstrated optimization
+process in hippocampus. Compression and predictive retention alone do
+not determine a Euclidean or cosine geometry, a local correlation sign
+change, or an evolutionary explanation. Even information-equivalent
+representations can have different distances under invertible changes of
+coordinates. A bottleneck account of the reported geometry would
+additionally require a specified representational family, noise model,
+relevance variable, and readout. The useful connection to Section~5 is
+that preserving similarity must be evaluated relative to what a
+representation needs to predict; it is not a derivation of contrastive
+separation from efficient coding alone.
+
+For a discrete illustration, mutual information is
+
+\begin{equation}
+I(U;V)=\sum_{u,v}p(u,v)\log\frac{p(u,v)}{p(u)p(v)},\qquad
+\mathcal J_{\mathrm{IB}}=I(X;T)-\beta I(T;Y).
+\end{equation}
+
+The sum uses the convention that zero-probability terms contribute zero.
+Compression concerns dependence between input and representation;
+predictive retention concerns dependence between representation and the
+declared relevance variable. If two contexts induce the same conditional
+distribution of Y, merging their codes need not lose predictive
+information about that Y. If their conditional distributions differ,
+merging may incur a predictive loss. This supplies a rationale for
+task-relative consequentiality, without equating the finite probe score
+Q with an information-theoretic optimum. In continuous deterministic
+representations, mutual-information expressions can be infinite or
+require additional regularity; applying this objective to real-valued
+neural codes would require an explicit stochastic encoder or another
+declared regularization. The commentary therefore uses the framework
+conceptually rather than assigning an unmeasured information rate to the
+hippocampus.
+
+\hypertarget{what-the-hippocampal-study-establishes}{%
+\section{What the hippocampal study
+establishes}\label{what-the-hippocampal-study-establishes}}
+
+Franch et al.~recorded 356 hippocampal neurons in ten native
+English-speaking patients undergoing monitoring for epilepsy.
+Participants listened to approximately 47 minutes of narrative speech
+containing 7,346 word occurrences and 1,351 unique words. Encoding
+models related neural activity to linguistic features, including
+semantic embeddings, with analyses controlling for phonetic and
+grammatical information. Individual neurons exhibited mixed selectivity
+across words and semantic categories, while population patterns carried
+information about contextual semantic organization. These observations
+support distributed representation under the conditions examined,
+without requiring every neuron to contribute equally or eliminating more
+selective responses elsewhere in the brain.
+
+The stimulus consisted of six Moth podcast monologues. Firing-rate
+epochs began 80 ms after word onset and lasted for that word's duration,
+with rates normalized by duration. The Word2Vec Poisson ridge encoding
+model fit 222 of 356 recorded neurons, or 62\%; its median explained
+variance was 26\%, including duration and interaction contributions. The
+article describes isolated single neurons in its Results, while Extended
+Data Fig. 1 illustrates single- and multi-unit isolation; a reanalysis
+should verify the released unit classifications rather than infer their
+proportions from this illustration. The comparison uses the final BERT
+representation designated layer 13 and GPT-2 layer 37 in the article's
+indexing convention.
+
+The study also compares distances among neural responses with distances
+among language-model embeddings. Contextual representations from BERT
+and later GPT-2 layers corresponded more closely to the observed
+population organization than static Word2Vec representations. Across the
+full comparison, neural and contextual semantic distances showed small
+positive correlations. Within a restricted range of especially similar
+embeddings, the relationship became negative, a pattern the authors
+interpret as possible contrastive coding. They report that the local
+reversal was associated with different word pairs rather than repeated
+occurrences of identical words and that related patterns appeared in
+analyses conducted separately for individual patients.
+
+The numerical strength and the inferential character of these findings
+both matter. Overall distance correlations were approximately 0.06 for
+BERT and 0.09 for GPT-2. The authors estimate that these values capture
+substantial fractions of the recoverable association under their noise
+model, but a noise-ceiling estimate is conditional on the assumptions
+used to construct it. Encoding-model performance also includes
+contributions from duration and interactions, so total explained
+variance should not be described as variance attributable exclusively to
+semantics. Population decoding of semantic embeddings explained
+approximately 1--6\% of variance, depending on the embedding model.
+These results establish measurable correspondence; they do not establish
+reconstruction of a listener's complete meaning representation.
+
+For exact numerical anchoring, Fig. 3d reports BERT r=0.0635, and
+Extended Data Fig. 7a reports GPT-2 layer-37 r=0.0932; the Results prose
+gives nearby values of 0.0650 and 0.0921, respectively. The
+caption-specific values should not be silently treated as identical to
+the prose values. The authors report approximately 54\% and 76\% of
+their modeled noise ceilings for BERT and GPT-2. Those percentages
+describe modeled recoverability, not percentages of semantic content
+decoded or a proof of a shared mechanism. Fig. 3f reports r=-0.1536 in
+the BERT distance interval 0.15--0.35, containing 2.16\% of the pairwise
+observations. This restricted coverage increases sensitivity to range
+boundaries and composition of the eligible pairs; the pair count does
+not supply an equivalent number of independent biological observations.
+The corresponding negative association for different-word pairs is
+reported as approximately -0.151, while identical-word pairs show a
+small nonsignificant positive association. Reduced-rank decoding reaches
+patient-averaged 1-NSE=0.06 for GPT-2, with a median optimal rank of 12;
+neither number should be read as a complete dimensionality estimate of
+hippocampal semantics.
+
+Frequency and polysemy also require distinctions between analyses.
+High-frequency categories are centrally located in the two-dimensional
+projection while showing greater separation in the full population
+space. In the regression predicting distance across occurrences of the
+same word, polysemy and duration are significant predictors. The
+separate pair-distance regression includes semantic distance, frequency,
+duration, category, and polysemy differences. These results concern
+particular distance outcomes, not an unrestricted claim that polysemy
+and duration explain all neural variance.
+
+The authors explicitly acknowledge that controlled follow-up studies are
+needed to test their contrastive interpretation. That acknowledgment
+sets the appropriate evidential boundary for this commentary. The
+distance reversal is an observation; a mechanism that increases
+separation to reduce semantic confusion is an explanatory hypothesis.
+The two deserve different verbs and different standards of confirmation.
+
+The local negative association is a departure from the modest positive
+associations just reported, rather than a reversal of an otherwise
+near-perfect correspondence. Its interpretation depends on the
+definition of the local range. The article reports approximately
+0.15--0.35 for a focal BERT analysis and approximately 0.14--0.4 for
+related analyses; these numerical cosine-distance ranges refer to the
+particular comparison embeddings and do not define a universal threshold
+of semantic similarity. A selected range can emphasize curvature or a
+local fluctuation, especially when its location and endpoints are chosen
+after viewing the association. The commentary therefore treats the
+reported sign change as a candidate scale-dependent pattern whose
+stability should be tested across independently specified ranges, rather
+than as an established boundary between two coding mechanisms.
+
+\hypertarget{relational-representation-in-the-existing-literature}{%
+\section{Relational representation in the existing
+literature}\label{relational-representation-in-the-existing-literature}}
+
+\hypertarget{relational-memory-and-language-use}{%
+\subsection{Relational memory and language
+use}\label{relational-memory-and-language-use}}
+
+Konkel and Cohen (2009) characterize hippocampal memory through binding
+and flexible retrieval of spatial, sequential, and associative
+relations; Duff and Brown-Schmidt (2012) extend relational binding and
+representational flexibility to discourse and shared knowledge. These
+accounts motivate investigating contextual integration during language
+use without treating distances between word-evoked responses as
+measurements of relational binding. Geometry among responses and memory
+for experienced relations remain connected hypotheses rather than
+interchangeable observations. The present experiment tests contextual
+discriminability; identifying a binding contribution would require a
+separate relational manipulation.
+
+\hypertarget{separation-and-integration-as-complementary-demands}{%
+\subsection{Separation and integration as complementary
+demands}\label{separation-and-integration-as-complementary-demands}}
+
+McClelland, McNaughton, and O'Reilly (1995) formulate complementary
+learning systems as an account of how rapid acquisition of specific
+experiences can coexist with the gradual extraction of shared structure.
+Their computational argument identifies interference as a problem for
+learning systems and motivates different representational and learning
+properties in hippocampus and neocortex. This provides a precedent for
+the tension developed here, although the present question concerns
+differentiation during contextual language processing rather than the
+complete architecture of consolidation. The commentary does not
+introduce the general problem of preserving specificity while learning
+regularities.
+
+Bakker et al.~(2008) use high-resolution functional imaging to examine
+responses consistent with pattern separation in the combined human
+CA3/dentate-gyrus region. Their evidence links similar inputs to
+hippocampal processing that distinguishes them, but its measurement
+scale and stimulus paradigm differ from single-neuron responses during
+narrative listening. Pattern separation is conventionally understood as
+a transformation of input similarity into less overlapping output
+representations. A negative association between neural distances and
+distances in a comparison embedding is not by itself a direct
+measurement of that transformation, since the embedding is not a
+recording of the hippocampus's biological input. Anatomical localization
+also matters: a hippocampal population result does not alone establish a
+dentate-gyrus mechanism.
+
+Schlichting, Mumford, and Preston (2015) provide a particularly close
+precedent for treating integration and differentiation jointly. Their
+study of overlapping associations identifies learning-related
+integration and separation signatures in different hippocampal and
+prefrontal regions, with learning conditions influencing the outcome.
+The result cautions against assigning a single representational policy
+to the entire hippocampus. It also motivates a distinction between the
+separation of events that share elements and the integration of elements
+that connect events. The proposed semantic account extends this question
+to occurrences in discourse; it does not claim that a word-pair distance
+reversal identifies the same process or reproduces the same regional
+dissociation.
+
+Together, these precedents constrain the interpretation of
+``contrastive.'' It can name a descriptive geometrical pattern, a
+hypothesized input--output transformation, or an adaptive learning
+process that changes representations over time. These meanings require
+different evidence. The Franch et al.~result supplies a candidate
+descriptive pattern; the experiment proposed below would test its
+sensitivity to contextual demands. Establishing a learning mechanism
+would additionally require observations of representational change under
+controlled exposure or intervention.
+
+\hypertarget{mixed-selectivity-and-population-readout}{%
+\subsection{Mixed selectivity and population
+readout}\label{mixed-selectivity-and-population-readout}}
+
+Rigotti et al.~(2013) show that nonlinear mixed selectivity in monkey
+prefrontal cortex can support high-dimensional representations and
+flexible readout during a sequence-memory task. Their analyses connect
+population dimensionality to behavioral performance. This establishes a
+computational precedent for information residing in combinations of
+responses that are not easily interpreted neuron by neuron. It does not
+make mixed selectivity a sufficient condition for semantic
+representation, and selectivity across several word categories should
+not automatically be equated with the particular nonlinear interactions
+analyzed in their task. The hippocampal findings motivate a population
+account, while additional analyses would be needed to establish which
+interaction structure supports contextual discrimination.
+
+Mixed selectivity thus motivates a population-level inquiry, while its
+functional interpretation requires the noise-aware readout and
+independent behavioral criterion specified in Section~5.2.
+
+\hypertarget{contextual-meaning-within-a-wider-semantic-architecture}{%
+\subsection{Contextual meaning within a wider semantic
+architecture}\label{contextual-meaning-within-a-wider-semantic-architecture}}
+
+Deniz et al.~(2023) show that linguistic context affects semantic
+representations and their measurement across words, sentences, and
+narratives, motivating the situated-occurrence analysis without equating
+every context effect with polysemy. Patterson, Nestor, and Rogers (2007)
+locate conceptual knowledge within a distributed architecture involving
+modality-specific representations and a transmodal anterior temporal
+hub. These precedents constrain the hippocampal interpretation:
+contextual differentiation can coexist with relatively enduring
+conceptual structure, and hippocampal coding does not make that region
+the sole repository of meaning. Neither architecture nor contextual
+variability alone predicts the local distance sign change; the
+operational question is which independently consequential distinctions
+remain recoverable.
+
+\hypertarget{language-model-correspondence-and-its-evidential-level}{%
+\subsection{Language-model correspondence and its evidential
+level}\label{language-model-correspondence-and-its-evidential-level}}
+
+Goldstein et al.~(2022) report correspondences between neural responses
+during narrative comprehension and autoregressive language models,
+including contextual representation, anticipatory prediction, and
+responses associated with surprise. Their work establishes precedent for
+using naturalistic language-model predictions to investigate neural
+processing. These are specified computational correspondences under the
+analyses performed, not evidence that every operation or learning
+process is shared. The hippocampal result should be interpreted within
+that comparative program while preserving its distinct anatomical target
+and measurement scale.
+
+Goldstein et al.~(2024) examine contextual embedding geometry using
+dense intracranial recordings from the inferior frontal gyrus of three
+participants listening to a podcast. Their zero-shot mapping analyses
+relate neural representations of held-out words to language-model
+geometry and find an advantage for contextual over static embeddings.
+This provides a direct precedent for studying common geometrical
+patterns in language representations. Franch et al.~extend the
+comparison to hippocampal single-neuron populations and identify a
+scale-dependent discrepancy. The difference is theoretically
+informative, but the regional and recording differences prevent treating
+it as a controlled comparison of hippocampal and frontal coding
+policies.
+
+The explicit puzzle is that contextual embeddings outperform static
+representations in both studies, whereas the hippocampal paper reports a
+local sign change that is not established as a matched frontal result in
+this comparison. Is this discrepancy related to hippocampal
+differentiation, or would equivalent sampling and local-distance
+analyses reveal it in frontal responses as well? Lack of a matched
+report is not evidence of absence. A regional claim requires the same
+stimuli, comparable measurement and preprocessing, and prespecified
+range analyses in both regions.
+
+The contribution of the present commentary is correspondingly narrower
+than the discovery of vectorial or contextual semantics. It proposes
+that independently measured consequences of confusion could help explain
+when geometrical separation becomes useful. Neither shared geometry nor
+disagreement establishes that explanatory variable; it must be
+manipulated or measured outside the embedding and neural-distance
+analyses.
+
+\hypertarget{representational-similarity-and-the-limits-of-geometrical-inference}{%
+\subsection{Representational similarity and the limits of geometrical
+inference}\label{representational-similarity-and-the-limits-of-geometrical-inference}}
+
+Kriegeskorte, Mur, and Bandettini (2008) introduce representational
+similarity analysis as a framework for comparing relations among
+activity patterns with computational and behavioral models. Its
+relevance here is that correspondence among distance structures concerns
+relations within representations, even when individual measurement
+channels have no direct counterparts. They also emphasize that distances
+sharing observations are dependent and motivate inference through
+condition-label randomization. This precedent supports treating geometry
+as an object of inquiry while requiring uncertainty estimates that
+respect the structure of the observations. It also makes independent
+behavioral comparison central to the proposed functional interpretation.
+
+A related methodological point follows from considering a linear mapping
+\(r=Az\) from contextual embeddings z to neural responses r. Even
+without an additional term, a general A need not preserve cosine
+distance or local distance order. A geometrical discrepancy can
+therefore occur without an additional separation mechanism. Evidence for
+selective differentiation requires comparison with mappings that already
+allow such distortions, followed by evaluation on held-out conditions.
+Otherwise, an unexplained residual risks naming whatever the initial
+mapping fails to capture. The strongest version of the proposal asks
+whether contextual confusion consequences explain reproducible structure
+beyond suitable contextual, linguistic, and mapping baselines.
+
+This focused narrative review identifies precedents and evidential
+boundaries rather than claiming exhaustive coverage. Its synthesis is
+that relational binding, mixed selectivity, context dependence, and the
+integration--separation tension are established research themes. The
+open question advanced here concerns their conjunction in semantic
+discrimination: whether the practical consequence of confusing situated
+occurrences predicts population differentiation beyond the comparison
+embedding distance.
+
+\hypertarget{coordinates-metric-structure-topology-and-readout}{%
+\subsection{Coordinates, metric structure, topology, and
+readout}\label{coordinates-metric-structure-topology-and-readout}}
+
+Recent work gives empirical motivation for separating coordinate-level
+tuning from population organization. Yan et al.~(2026) report shared
+semantic geometry across English and Spanish in human hippocampal
+recordings despite differences in individual-neuron tuning, with
+language-specific readout axes within a common recorded population.
+Their result supports distinguishing metric correspondence from
+coordinate identity. The readout axes identified analytically do not
+themselves establish which downstream biological circuit decodes those
+responses, and the authors' interference interpretation remains a
+functional hypothesis. Shared cross-language geometry also does not
+demonstrate the consequence-dependent differentiation proposed here.
+
+Topology supplies a complementary description rather than another name
+for distance. Brown and Farivar (2025) use persistent homology to
+characterize components, loops, and higher-dimensional structure across
+distance thresholds, showing why high correlation between dissimilarity
+matrices can conceal differences in shape. This does not mean that a
+complete distance matrix contains no topological information: their
+analysis itself uses distance relations. The limitation concerns the
+scalar comparison applied to those matrices. Coordinates, the declared
+metric, topology of the sampled or hypothesized support, and
+recoverability under a readout should therefore be distinguished as
+structures with different invariances, rather than treated as a strict
+ladder of explanations. None alone supplies an independent measure of
+comprehension consequence.
+
+\hypertarget{situated-occurrences-as-representational-units}{%
+\section{Situated occurrences as representational
+units}\label{situated-occurrences-as-representational-units}}
+
+A lexical type provides a convenient index for grouping occurrences, but
+grouping is not an explanation of how those occurrences are understood.
+The same expression can acquire different relations through its position
+in a narrative, its grammatical environment, and the expectations
+established by preceding speech. Franch et al.~examine this contextual
+variability through both embedding-based measures and a WordNet measure
+of polysemy. Their findings associate variation across occurrences with
+variation in neural responses. The distinction between an
+embedding-based contextual measure and a lexical inventory of senses
+remains important, since contextual variability can occur without a
+clean division into dictionary senses.
+
+The theoretical consequence is a change in the unit of analysis. Instead
+of beginning with a representation r(w) assigned once to word w,
+consider a representation r(w,c), where c denotes the context relevant
+to that occurrence. This notation does not explain how context is
+computed, how much preceding material is retained, or whether different
+neural populations contribute distinct contextual variables. It merely
+prevents lexical identity from being mistaken for representational
+identity. Two occurrences of the same word may remain recognizably
+related while differing in their encoded contribution to the current
+discourse.
+
+More precisely, write the occurrence as
+\(o_i\)=(\(w_i\),\(t_i\),\(e_i\)), identifying its lexical type, onset
+time, and narrative episode, and write \(c_i\)=C(\(H_{t_i}\),\(e_i\)),
+where H denotes the linguistic history available before or during the
+measured response. Context is not assumed to be the entire recording
+session, nor is it restricted in advance to one sentence. Candidate
+operationalizations should distinguish preceding words, sentence-level
+information, and the currently maintained narrative episode, with
+separate variables for prior knowledge and experimentally supplied task
+instructions. The present commentary brackets the biological computation
+of C and the duration of its effective memory; it proposes comparing
+these candidate scopes. Model context windows and biological integration
+timescales must also remain distinct, since a model window is an
+analytical choice rather than evidence that a listener retains exactly
+that interval. Within each tested condition, \(c_i\) should be specified
+from the stimulus and design independently of the neural outcome.
+
+Context sensitivity also changes the interpretation of averaging. An
+average over occurrences can reveal a stable lexical component, yet it
+can obscure systematic contextual distinctions. Conversely, variation
+among occurrences need not all be meaningful: recording noise,
+adaptation, timing, and unmeasured narrative variables can contribute. A
+relational analysis should therefore seek reproducible context-dependent
+structure within the variation, rather than treating either the average
+or the variability as automatically authoritative.
+
+\hypertarget{mathematical-objects-and-distinction-preservation}{%
+\subsection{Mathematical objects and distinction
+preservation}\label{mathematical-objects-and-distinction-preservation}}
+
+The operational hypothesis requires interpretation, comparison
+representation, response variability, and task outcome to be specified
+separately, so the following vocabulary fixes their domains before any
+distance or consequence is compared. Let \(\mathcal O\) be the set of
+situated occurrence records, \(\mathcal K\) the experimental conditions,
+\(\mathcal M\) a declared interpretation space, \(\mathcal Z\) the
+comparison-representation space, and \(\mathcal Y\) the task-outcome
+space. An occurrence record \(o_i=(w_i,t_i,e_i)\) identifies a token
+through its lexical type, onset, and episode; its analytical context
+\(c_i^{(k)}\) is supplied by the history and design under condition
+\(k\). Distinct occurrence records may share a lexical type. For the
+proposed experiment, \(\mathcal M\) is a finite set of explicitly
+specified discourse interpretations admissible for the stimulus, such as
+alternative assignments of a referent or relation. Each interpretation
+is an experimental description with declared propositions and
+probe-answer implications, rather than an identified biological state or
+a complete theory of meaning. \(P(M\mid o_i,k)\) records uncertainty
+over those alternatives, including an indeterminate category when the
+protocol permits it. Equality of interpretation labels, selection of an
+admissible alternative, and a protocol-defined substitution are
+permitted operations; no intrinsic metric on \(\mathcal M\) is assumed.
+The operational measurements of \(Y\) and \(Q\) are more developed than
+this interpretation space, intentionally, because the hypothesis does
+not require exhaustive semantic states. Neither an interpretation label
+nor lexical identity determines a unique neural response. Lexical
+non-identification is the relevant principle: shared lexical type does
+not determine shared context, interpretation distribution, or population
+response.
+
+The comparison encoder and neural measurement have different domains and
+noise commitments:
+
+\begin{equation}
+E:\mathcal O\times\mathcal K\longrightarrow\mathcal Z,\qquad
+\mathscr R_s:\mathcal O\times\mathcal K
+\longrightarrow\mathcal P(\mathbb R^{n_s}),\qquad
+r_{si}^{(k)}\sim\mathscr R_s(o_i,k).
+\end{equation}
+
+Here \(\mathcal P(\mathbb R^{n_s})\) denotes response distributions for
+participant \(s\), while \(z_i^{(k)}=E(o_i,k)\) is the model
+representation under declared preprocessing. Neural distances compare
+realized or prespecified estimated response vectors within a
+participant, whereas readout discrimination depends on their conditional
+distributions. These are parallel measurements of an occurrence. There
+is no assumed causal chain from interpretation to embedding to recorded
+neurons, and no assumption that neural coordinates correspond across
+participants.
+
+A probe protocol \(\pi\) specifies the questions and their weighting,
+answer criterion, norming population, and aggregation rule. Write
+\(\rho_i^{(k,\pi)}=P(Y\mid o_i,k,\pi)\) for its independently
+characterized outcome distribution. A declared divergence between two
+such distributions defines a task-predictive distinction, not a
+geometric distance between representations. For example, total variation
+gives
+
+\begin{equation}
+\Delta_{Y,\pi}(i,j;k)
+=\frac12\sum_{y\in\mathcal Y}
+\left|\rho_i^{(k,\pi)}(y)-\rho_j^{(k,\pi)}(y)\right|.
+\end{equation}
+
+For a neural readout \(g_s\) that returns an outcome distribution,
+define its averaged prediction
+\(\widehat\rho_i=\mathbb E[g_s(R)\mid o_i,k]\). Relative to the declared
+pair and task, an approximate preservation criterion is
+\(\operatorname{TV}(\widehat\rho_i,\rho_i)\le\varepsilon\) at each
+endpoint. The triangle inequality then gives
+\(\operatorname{TV}(\widehat\rho_i,\widehat\rho_j)\ge\Delta_{Y,\pi}(i,j;k)-2\varepsilon\).
+This is a sufficient approximate criterion for preserving the declared
+outcome distributions, not a necessary-and-sufficient characterization
+of all semantic discrimination. When the task-predictive distinction
+exceeds twice the error tolerance, the predicted distributions must
+remain distinct, without prescribing a Euclidean distance. It must be
+evaluated using a declared readout class and held-out observations;
+accurate population-average prediction alone need not preserve every
+rare distinction. The expectation averages response variability:
+matching outcome distributions on average does not establish successful
+trial-wise interpretation classification. Section~5.2 gives an
+illustrative noise-aware classification analysis, and Section~8
+specifies separate held-out tests of distribution preservation and
+discrimination.
+
+The substitution score in Section~8 is a separate functional of a
+protocol and directional intervention. Write it fully as
+\(Q_{ij}^{(k;\pi)}\), with \(Q_{ij}^{(k)}\) used as shorthand only when
+\(\pi\) is fixed. A substitution operator must specify which
+interpretation is introduced into which receiving context, and the
+independently normed comparison must be assigned to occurrence pairs
+before neural analysis. The score records probe-relative answer changes
+under that intervention; it is not automatically the total variation
+between outcomes of two unmodified occurrences. Nor is it confusion
+susceptibility, severity, or a universal semantic distance. This
+distinction prevents the behavioral score from being inferred from
+neural geometry or imported from an item pair without a declared
+occurrence assignment.
+
+Functional equivalence is consequently relative to a task and readout
+class. Two representation--readout pairs are equivalent for the declared
+task when they generate the same conditional outcome predictions over
+the eligible domain. Invertible reparameterizations preserve that
+equivalence when the transformed readout remains in the allowed class,
+but generally change coordinate distances. This observation unifies the
+linear-map and CPC examples without asserting equivalence under every
+biologically restricted readout. Geometry, predictive information,
+recoverability, behavioral consequence, and randomized assignment
+effects are distinct evidential objects; the empirical hypothesis links
+them rather than identifying them.
+
+\hypertarget{multiple-temporal-horizons}{%
+\subsection{Multiple temporal
+horizons}\label{multiple-temporal-horizons}}
+
+Lerner et al.~(2011) use scrambled narrative speech to investigate a
+hierarchy of cortical temporal receptive windows. Their results motivate
+distinguishing sensitivity to local speech structure from integration
+over longer narrative intervals. Baldassano et al.~(2017) investigate
+event structure in continuous narratives, linking cortical event
+representations with hippocampal responses around event boundaries.
+These precedents support testing multiscale and event-dependent context,
+without establishing a particular decay law for hippocampal semantic
+responses.
+
+A candidate analytical representation is
+\(c_i\)=(\(h_1\)(\(t_i\)),\ldots,\(h_L\)(\(t_i\)),s(\(e_i\))), where
+\(h_l\)(t) integrates features of preceding input under a kernel \(K_l\)
+and s represents episode-level information. An exponential kernel is a
+parsimonious baseline because it represents recency weighting with one
+timescale and permits recursive updating with a finite state; neither
+property establishes its biological adequacy. Power-law mixtures and
+boundary-gated kernels supply alternatives to compare on held-out
+material. For example, an exponential kernel with timescale \(\tau_l\)
+supplies a testable baseline; an event-gated kernel can reduce carryover
+at an independently annotated episode boundary. These are candidate
+predictors, not identified neural mechanisms. Region-specific
+combinations of horizons could be investigated along the hippocampal
+long axis or in hippocampal--cortical networks, including regions
+associated with the default mode network. The model must not assume that
+anterior and posterior populations instantiate particular timescales
+solely from their anatomy. Comparisons should fit kernels on training
+material and test them on held-out episodes, keeping independently
+annotated boundaries separate from boundaries estimated using the neural
+outcome.
+
+For a feature stream \(\phi(t)\), one such normalized history predictor
+is
+
+\begin{equation}
+h_l(t)=\int_0^\infty K_l(u)\phi(t-u)\,du,\qquad
+K_l(u)=\tau_l^{-1}e^{-u/\tau_l},\quad \tau_l>0.
+\end{equation}
+
+For a finite recording, the stream must be defined before its beginning
+or the truncated kernel renormalized. An episode gate g(t,u) can set
+contributions preceding an independently annotated boundary to zero,
+replacing the kernel by \(K_l\)(u)g(t,u) divided by its integral.
+Exponential decay encodes a particular recency assumption; abrupt gating
+encodes a different assumption about boundary-related updating.
+Comparing their held-out performance would test descriptive temporal
+models, not identify the biological storage process. Identifiability
+also depends on stimulus variation: highly correlated horizons may not
+support separate timescale estimates, even if their combined predictor
+improves fit.
+
+\hypertarget{event-scripts-task-framing-and-hierarchical-recall}{%
+\subsection{Event scripts, task framing, and hierarchical
+recall}\label{event-scripts-task-framing-and-hierarchical-recall}}
+
+Research on event scripts motivates enriching context beyond elapsed
+time. Baldassano, Hasson, and Norman (2018) identify schematic sequences
+shared across restaurant and airport narratives. De Soares et al.~(2024)
+examine overlapping location and social scripts and show that top-down
+attention shifts behavioral segmentation and the alignment of medial
+prefrontal event boundaries. These findings motivate distinguishing
+stimulus history from the script made relevant by instructions. They do
+not establish that hippocampal word-distance changes arise through the
+same mechanism.
+
+An extended analytical context is \(c_i=C(H_{t_i},e_i,S_i,G_i)\), with S
+denoting a candidate script and G task framing. Script identity,
+temporal horizon, and segmentation are distinct variables: listeners can
+hear the same history while weighting different transitions as relevant.
+A controlled experiment could hold the recording constant while varying
+location-focused or socially focused instructions. Consequence norming
+must use the corresponding frame, since relevance depends on the
+questions asked. Frame effects may also reflect attention and retrieval
+demands, which must remain alternative explanations.
+
+Zhong et al.~(2025) provide a complementary account of narrative
+compression. Its random-tree model represents narratives through
+hierarchies of summarized segments and constrains retrieval by
+working-memory capacity. It addresses quantitative regularities in
+recall length and the narrative portions summarized by individual recall
+clauses. A model tree node is not an identified hippocampal state or an
+information-bottleneck optimum. The account helps distinguish
+abstraction during recall from temporal integration during listening and
+preservation of task-relevant distinctions. Agreement with aggregate
+recall statistics does not determine word-level neural geometry.
+
+\hypertarget{similarity-and-discriminability}{%
+\section{Similarity and
+discriminability}\label{similarity-and-discriminability}}
+
+An embedding distance can be useful without functioning as a universal
+ordering of substitutability. Two expressions may be close because they
+concern the same participants, objects, or circumstances while differing
+in a relation that comprehension must preserve. This observation
+motivates a distinction between broad semantic affinity and contextual
+discriminability. The former supports transfer and association; the
+latter determines whether a listener can retain a difference required by
+the present interpretation.
+
+The reported local reversal is compatible with this distinction. If
+closely related meanings would otherwise produce responses that are
+difficult to distinguish under biological noise, additional
+differentiation could preserve their identity without abolishing their
+broader affinity. The argument is functional rather than demonstrative:
+it identifies a problem that contrastive coding could solve. The
+observational result does not prove that neural responses were moved
+apart by an adaptive process, that the relevant words were behaviorally
+confused, or that separation improved comprehension.
+
+Several explanations can coexist at this stage. Contextual binding could
+create differences that a particular embedding compresses. The measured
+distance could change with normalization or representational
+dimensionality. Different linguistic properties could contribute
+residual structure despite the reported controls. A mechanism supporting
+memory differentiation could also produce a semantic pattern without
+having been specialized for lexical discrimination. Treating the result
+as a question about these alternatives makes the theoretical claim more
+useful: it directs inquiry toward the conditions under which local
+separation occurs and what that separation accomplishes.
+
+\hypertarget{distance-distortion-and-an-explicit-counterexample}{%
+\subsection{Distance distortion and an explicit
+counterexample}\label{distance-distortion-and-an-explicit-counterexample}}
+
+The distinction between geometrical correspondence and mechanism can be
+made exact. For \(z\in\mathbb R^d\) and \(r\in\mathbb R^n\), let
+\(A\in\mathbb R^{n\times d}\) define the linear map \(r=Az\). Squared
+Euclidean response distance becomes
+
+\begin{equation}
+\|r_i-r_j\|_2^2=(z_i-z_j)^{\mathsf T}A^{\mathsf T}A(z_i-z_j).
+\end{equation}
+
+Thus a linear mapping induces a positive-semidefinite quadratic form
+\(G=A^{\mathsf T}A\) on embedding differences. If G=aI for a positive
+scalar a on the relevant subspace, Euclidean distances are uniformly
+rescaled and their ordering is preserved. A general G stretches
+directions unequally; distances of two pairs can change order because
+their difference vectors point in different directions. This is a
+property of the mapping rather than evidence of an added differentiation
+process.
+
+For a concrete example, take embedding difference vectors
+\(\delta_1\)=(0.1,0) and \(\delta_2\)=(0,0.2), and let A=diag(3,1).
+Their original distances are 0.1 and 0.2, but mapped distances are 0.3
+and 0.2. The more similar pair becomes more distant in the response
+space under a fixed linear transform. This example establishes the
+possibility of an ordering change, not a reproduction of the article's
+distribution-wide local correlation. Replicating that correlation would
+additionally require a specified distribution of pairs and measurement
+noise. It nevertheless demonstrates why an observed local ordering
+discrepancy cannot identify an adaptive separation mechanism on its own.
+
+For nonzero vectors, cosine distance after mapping is
+
+\begin{equation}
+d_{\cos}(Az_i,Az_j)=1-
+\frac{z_i^{\mathsf T}Gz_j}
+{\sqrt{z_i^{\mathsf T}Gz_i}\sqrt{z_j^{\mathsf T}Gz_j}}.
+\end{equation}
+
+The same induced quadratic form changes angles as well as lengths. On
+the represented subspace, a positive scalar multiple of an orthogonal
+transformation preserves cosine geometry; arbitrary linear maps do not.
+Additive baselines and nonlinear transformations can produce further
+changes. A consequence-augmented model must therefore be assessed
+against mapping baselines of declared complexity, with regularization
+and out-of-sample evaluation preventing a flexible mapping from merely
+memorizing the tested pairs.
+
+An invertible linear transformation is a homeomorphism of the ambient
+Euclidean space, so it preserves the ordinary topology of a represented
+support while potentially changing its metric geometry.
+Persistent-homology birth and death scales can nevertheless change
+because the filtration depends on the selected distances. Conversely,
+projection or undersampling can obscure a support's topology. Brown and
+Farivar's (2025) analysis consequently motivates an additional testable
+description, not a topological explanation of the reported local sign
+change. A topology claim here would require a specified support,
+sampling assumptions, filtration, and uncertainty analysis; no such
+claim follows from the distance correlation alone.
+
+\hypertarget{separation-noise-and-usable-discrimination}{%
+\subsection{Separation, noise, and usable
+discrimination}\label{separation-noise-and-usable-discrimination}}
+
+Distance has a functional interpretation only under assumptions about
+response variability and readout. Consider an illustrative binary
+discrimination problem in which response R conditioned on interpretation
+a or b follows a multivariate Gaussian with means \(\mu_a\) and
+\(\mu_b\) and a common positive-definite covariance Sigma. With equal
+class priors, the optimal linear discriminant depends on the squared
+Mahalanobis separation
+
+\begin{equation}
+\delta^2=(\mu_a-\mu_b)^{\mathsf T}\Sigma^{-1}(\mu_a-\mu_b).
+\end{equation}
+
+Under these assumptions, its minimum classification error is
+\(\Phi(-\delta/2)\), where \(\Phi\) is the standard normal cumulative
+distribution function. To see this, project R onto
+\(\Sigma^{-1}(\mu_a-\mu_b)\). The projected class means differ by delta
+squared and their common variance is delta squared; a midpoint threshold
+therefore lies \(\delta/2\) standard deviations from either mean.
+Increasing \(\delta\) reduces error in this model. Increasing raw
+Euclidean distance need not do so if the separation grows along a
+direction of high or increasing noise. Likewise, two populations with
+the same cosine distance can differ in discriminability because their
+covariance structures differ.
+
+This calculation is an analytical example, not a Gaussian model fitted
+to hippocampal spiking. Neural spike counts may have mean-dependent
+variance, correlated fluctuations, and temporal dependence. The
+example's purpose is to identify the missing bridge between geometry and
+function: a readout-relevant signal-to-noise quantity and an independent
+behavioral criterion. A future experiment should evaluate discrimination
+using held-out responses or suitably regularized covariance estimation.
+Covariance parameters must be estimated without using test observations,
+especially when recorded-unit dimension is large relative to repeat
+count. Single presentations provide limited information about
+condition-specific response distributions; controlled repetitions would
+strengthen this part of the functional test.
+
+\hypertarget{predictive-distinction-without-a-prescribed-geometry}{%
+\subsection{Predictive distinction without a prescribed
+geometry}\label{predictive-distinction-without-a-prescribed-geometry}}
+
+The information bottleneck gives a normative interpretation of relevant
+distinction: its distortion compares conditional outcome distributions
+rather than points in an embedding or neural space. Under the declared
+encoder assumptions, its expected KL distortion is lost predictive
+information, or excess expected log loss. The stationary-encoder
+condition favors codes whose predictions approximate those required by
+the input, but does not require a particular Euclidean or cosine
+separation. Appendix A derives this relation and illustrates the
+compression trade-off with a binary example. Predictive distortion,
+embedding distance, and neural representational distance remain
+different mathematical quantities. Likewise, IB code bifurcations do not
+identify the reduced-rank predictive dimensions reported by Franch et
+al.; relating them would require an additional fitted model.
+
+\hypertarget{operational-hypothesis}{%
+\section{Operational hypothesis}\label{operational-hypothesis}}
+
+The central hypothesis is that increasing independently normed,
+probe-relative substitution consequence predicts greater neural
+representational differentiation beyond lexical, contextual-embedding,
+task-difficulty, and fitted-mapping baselines under a controlled
+manipulation. Susceptibility to making that substitution is a separate
+behavioral quantity, rather than part of the definition of Q. Section~8
+specifies how both are measured before neural analysis. An adequately
+powered failure to find the predicted differentiation would count
+against this functional extension even if the original local sign change
+replicated. This is an operational hypothesis, not an optimization model
+or a derivation of the reported sign change; no loss function is needed
+to state its independent measurement requirement.
+
+For participant s and comparison condition k, let \(r_{si}^{(k)}\) be
+the recorded population response to occurrence i, and let \(z_i^{(k)}\)
+be its contextual embedding. Define
+
+\begin{equation}
+D_{r,sij}^{(k)}=d_r(r_{si}^{(k)},r_{sj}^{(k)}),\qquad
+D_{z,ij}^{(k)}=d_z(z_i^{(k)},z_j^{(k)}),\qquad i<j.
+\end{equation}
+
+Each neural distance is computed within a participant's population;
+neurons from different participants are not assumed to be corresponding
+coordinates. Neural and embedding metrics need not be identical, but
+their preprocessing, handling of zero vectors, and scaling must be
+prespecified. Cosine distance is one candidate for nonzero vectors.
+Euclidean distance requires a declared scale and normalization policy.
+Let \(Q_{ij}^{(k)}\) denote the symmetric consequence score assigned
+from independent norming to an eligible item pair and condition.
+Averaging the two directional substitution scores must precede analysis
+of a symmetric neural distance; directional scores could instead support
+a separate directional behavioral analysis. Only pairs with a defined
+normed comparison enter the consequence analysis. Q is not imputed to
+every pair in a narrative merely because those occurrences have
+embeddings.
+
+Thus \(r_{si}^{(k)}\) belongs to \(\mathbb{R}^{n_s}\), where \(n_s\) is
+that participant's recorded unit count; the total of 356 across the
+published sample is not the dimension of every participant's response
+vector. Cosine distance and the article's word-aligned response window
+provide replication-oriented defaults, with alternative metrics and
+windows declared as sensitivity analyses. The published 0.15--0.35 BERT
+range can define a replication target under matching preprocessing, but
+its transfer to a new stimulus set or embedding model requires
+independent calibration.
+
+Before choosing a regression, define the associational target. Let \(W\)
+collect the declared embedding, linguistic, task, and mapping baselines
+for an eligible comparison, with a prespecified participant--stimulus
+weighting distribution. Where a differentiable conditional mean is
+meaningful, write
+
+\begin{equation}
+\mu(q,w)=\mathbb E[D_r\mid Q=q,W=w],\qquad
+\tau_Q(q,w)=\frac{\partial\mu(q,w)}{\partial q}.
+\end{equation}
+
+The hypothesis predicts a positive conditional consequence association
+in the declared regime. This derivative is not a causal effect of
+setting the behavioral score. Because the finite probe score has
+discrete support, a prespecified difference in conditional means between
+supported score levels is an alternative estimand; a smooth derivative
+then reflects a working model, not an assumption that every intermediate
+score is experimentally realizable. Baselines, support, and target
+weighting must be specified before the estimator and test are chosen.
+
+A candidate regression for those eligible pairs is
+
+\begin{equation}
+\begin{aligned}
+D_{r,sij}^{(k)}={}&\alpha+f(D_{z,ij}^{(k)})
++\theta M_{sij}^{(k)}+\boldsymbol\gamma^{\mathsf T}\mathbf X_{sij}^{(k)}\\
+&+(\beta_Q+b_{Qs})Q_{ij}^{(k)}
++\beta_R I_{ij}^{(k)}
++\beta_{QR}Q_{ij}^{(k)}I_{ij}^{(k)}\\
+&+b_{0s}+a_i+a_j+v_{si}+v_{sj}+\epsilon_{sij}^{(k)},
+\end{aligned}
+\end{equation}
+
+where \(I_{ij}^{(k)}\) indicates a prespecified local embedding-distance
+range and f is a prespecified smooth baseline, such as a penalized
+thin-plate regression spline. M is the distance predicted by a
+contextual-embedding-to-neural mapping fitted on independent training
+data. The nuisance vector X includes duration contrasts and, where
+appropriate, pair means, phonetic distance, declared syntactic features,
+frequency, temporal separation, and independently normed susceptibility
+and difficulty. A syntactic tree distance must be operationally defined
+for occurrences in different sentences rather than presumed to have a
+unique value. Smoothness, feature selection, mapping complexity, and
+scaling are fixed or selected within training folds. Strong collinearity
+among these terms limits the estimability of a unique consequence
+association and must be reported.
+
+The participant intercept \(b_{0s}\) and consequence slope \(b_{Qs}\)
+may be modeled jointly as mean-zero Gaussian effects with an estimated
+covariance. Shared stimulus-occurrence effects \(a_i\) capture item
+variation across participants, while participant-specific occurrence
+effects \(v_{si}\) capture repeated use of a recorded endpoint in that
+participant's distances. The same occurrence effect contributes at
+either endpoint, preserving symmetry under exchange of i and j. These
+effects are candidate covariance components rather than a guarantee of
+independent residuals: distances also share population measurements and
+temporal structure. The estimable random-effects structure should be
+preregistered subject to declared simplification rules, with
+design-based inference and simulation-based calibration used to assess
+remaining dependence.
+
+Without the interaction, the proposed conditional association is
+\(\beta_Q\)\textgreater0. With the interaction, the outside-range slope
+is \(\beta_Q\) and the inside-range slope is \(\beta_Q\)+\(\beta_QR\).
+Enhanced local differentiation requires \(\beta_QR\)\textgreater0;
+positive differentiation within the local range separately requires
+\(\beta_Q\)+\(\beta_QR\)\textgreater0. A positive interaction alone is
+insufficient if the total local slope remains negative. Conversely, a
+positive local consequence slope does not demonstrate a negative
+embedding-distance slope. The latter concerns the derivative of the
+embedding-distance relationship, with other predictors controlled, and
+must be tested separately. A continuous alternative replaces \(\beta_R\)
+I with h(\(D_z\)) and \(\beta_Q\) Q+\(\beta_QR\) QI with Qg(\(D_z\)),
+using prespecified smooth functions and simultaneous uncertainty bands.
+It avoids hard boundaries but still requires a declared criterion for
+stronger consequence effects at high similarity.
+
+Evidence for added predictive information would additionally require
+improvement over the same baseline without Q and its interaction on
+held-out stimulus blocks. All pairs involving a held-out occurrence must
+be excluded from training when testing generalization to new
+occurrences. A random split of pairwise rows would leak shared endpoints
+across folds. These regressions specify estimands and comparisons; no
+coefficients are estimated in this commentary, and an adjusted
+consequence association alone would not establish causality.
+
+\hypertarget{identifiability-and-held-out-prediction}{%
+\subsection{Identifiability and held-out
+prediction}\label{identifiability-and-held-out-prediction}}
+
+The conditional estimand requires overlap: eligible comparisons with
+different consequence scores must exist at sufficiently similar baseline
+features. If the consequence score is determined by those features, a
+partial association cannot be identified by adding more controls. The
+regression is one working model for the estimand, rather than its
+definition. Nuisance adjustment must address both the outcome and the
+consequence predictor, while uncertainty must accommodate shared
+endpoints and participants. Appendix B gives the elementary projection
+identity and a held-out predictive-gain statistic. The substantive
+requirements are a declared direction of association, predictive
+improvement on genuinely unseen occurrences, and an independent
+discrimination outcome; success on one does not substitute for the
+others.
+
+\hypertarget{conditional-association-and-randomized-intervention}{%
+\subsection{Conditional association and randomized
+intervention}\label{conditional-association-and-randomized-intervention}}
+
+Randomization identifies the effect of the assigned context manipulation
+under its design assumptions, not automatically the causal effect of its
+derived consequence score. Let \(K\) be a randomized context assignment
+and \(D_p(k)\) the potential neural distance for an eligible comparison
+under assignment \(k\). Its design-based target is
+\(\tau_K=\mathbb E[D_p(1)-D_p(0)]\) under the prespecified comparison
+weighting. This assignment effect and \(\tau_Q(q,w)\) are different
+estimands and have no general equality. Randomization supports
+estimation of this contrast when assignments, interference assumptions,
+and missingness are handled appropriately. It does not establish that
+every effect of K passes through Q, because context can also change
+attention, prediction, acoustic interpretation, or other semantic
+variables.
+
+Accordingly, the experiment should separate a primary assignment
+contrast from the adjusted Q association. Conditioning on variables
+caused by K, such as a context-sensitive surprisal measure, changes the
+estimand and may remove part of the total assignment effect. A mediation
+interpretation would require further identification assumptions and a
+dedicated design. The commentary's principal prediction remains that
+consequential distinctions are associated with additional usable
+differentiation under controlled conditions, not that a regression
+coefficient uniquely measures an adaptive biological mechanism.
+
+\hypertarget{model-alignment-and-predictive-learning-comparisons}{%
+\section{Model alignment and predictive-learning
+comparisons}\label{model-alignment-and-predictive-learning-comparisons}}
+
+Language-model embeddings provide a tractable comparison space, but
+their usefulness should not be confused with their authority as a
+definition of meaning. Neural alignment shows that aspects of one
+measured organization can be related to aspects of another. It does not
+establish shared training objectives, equivalent learning histories,
+identical memory operations, or equivalent relationships to action and
+experience. Franch et al.~explicitly distinguish shared geometry from
+shared algorithm.
+
+The comparison is particularly informative when it reveals disagreement.
+A model that captures broad relations while missing a local pattern can
+help identify which distinctions its geometry underrepresents relative
+to the neural measurement. Yet disagreement alone does not determine
+which representation is functionally superior. Superiority requires an
+independently specified criterion, such as discrimination performance or
+successful contextual interpretation. Likewise, stronger alignment by
+one model among those tested establishes a comparative result within
+that analysis, rather than a general ranking of architectures as
+theories of cognition.
+
+The broader case for vector representations developed by Piantadosi et
+al.~(2024) makes such comparisons theoretically intelligible: vectors
+can support similarity, relations, and compositional operations within a
+common representational framework. The hippocampal findings sharpen a
+further question about how these capacities are reconciled when
+generalization and differentiation impose competing requirements.
+Representational format leaves open the processes that construct and use
+it.
+
+Fodor and Suzuki (2026) review 57 fMRI studies using computational
+semantic models and identify substantial methodological variation,
+alongside robust model--brain associations often dominated by word-level
+features. Their synthesis supports asking what measured feature explains
+correspondence before interpreting it as a semantic mechanism. Because
+their review concerns fMRI rather than hippocampal single-unit geometry,
+it supplies a methodological precedent rather than direct evidence for
+the present consequence hypothesis.
+
+Cheng, Vaidya, and Antonello (2026) connect intermediate-layer brain
+predictivity in language and speech models with intrinsic dimensionality
+and semantic abstraction, using fMRI and ECoG comparisons as well as
+model interventions. Their results motivate testing representation
+properties alongside predictive performance. They do not establish that
+prediction is irrelevant to biological comprehension or identify the
+origin of the hippocampal local sign change. The distinction is between
+an objective that trains a model and the properties of its learned
+representation that explain a particular alignment result.
+
+\hypertarget{contrastive-learning-as-a-structural-comparison}{%
+\subsection{Contrastive learning as a structural
+comparison}\label{contrastive-learning-as-a-structural-comparison}}
+
+Contrastive predictive coding (CPC; van den Oord, Li, and Vinyals, 2018)
+trains a context representation to identify a future observation among
+sampled alternatives. Under its stipulated sampling scheme, InfoNCE
+supplies a lower bound on predictive mutual information; it does not
+impose the explicit input-rate penalty of IB. Appendix C states the
+objective, density-ratio interpretation, and sampling assumptions. These
+frameworks therefore supply comparisons whose relevance to the present
+hypothesis can be assessed without assuming that hippocampal learning
+instantiates either algorithm.
+
+The key geometrical limitation can be stated directly. CPC's
+log-bilinear score is \(f_k(u,c)=\exp\{Z(u)^{\mathsf T}W_kc\}\). For an
+invertible matrix \(B\), replacing \(Z(u)\) by \(BZ(u)\) and \(W_k\) by
+\(B^{-\mathsf T}W_k\) leaves every predictive score unchanged while
+generally changing Euclidean and cosine distances among targets. Thus
+functional equivalence does not fix representational geometry, and
+improving InfoNCE does not by itself predict the published negative
+local distance correlation. The same qualification applies to claims
+that increased predictive information entails increased neural distance.
+
+The experimental question is narrower: whether making particular
+alternative interpretations available changes held-out discrimination or
+neural differentiation at fixed target and independently normed
+consequence. Recently activated interpretations, alternative referents,
+and recalled episodes are possible sources of competition. A positive
+competitor-availability effect would establish functional sensitivity
+without identifying biological negative sampling. The behavioral test of
+consequential distinction remains intelligible if CPC is rejected as a
+model of the underlying neural process.
+
+\hypertarget{experiments-that-distinguish-the-interpretations}{%
+\section{Experiments that distinguish the
+interpretations}\label{experiments-that-distinguish-the-interpretations}}
+
+A controlled follow-up should vary contextual distinction independently
+of lexical similarity. Closely related expressions could appear in
+contexts where substituting one for the other either preserves or
+changes the interpretation required by a subsequent comprehension
+question. Frequency, duration, phonetic similarity, and syntactic
+structure would need balancing or explicit modeling. The central outcome
+would be whether neural separation tracks the contextual consequence of
+substitution beyond what the comparison embedding predicts. This design
+would translate the integration--separation question exemplified by
+Schlichting et al.~(2015) into a language paradigm, while testing a
+different manipulation. Where anatomy and sample size permit, separate
+analyses along the hippocampal long axis would help avoid averaging
+across potentially distinct coding regimes.
+
+The primary operationalization of the probe-relative substitution
+consequence would use an independent behavioral sample, collected and
+fixed before the neural data are analyzed. For each item pair and
+context condition, norming participants would receive either the
+intended interpretation or an explicitly specified substituted
+interpretation, followed by the same balanced set of forced-choice
+comprehension probes. The answer key would be defined from the narrative
+content. Define \(q_{ij}^{(k)}\) as the proportion of probes for which
+the normed answer under the substituted interpretation differs from the
+answer under the intended interpretation, averaging both substitution
+directions where appropriate. Agreement thresholds and exclusion rules
+would be prespecified, with poorly understood or inconsistently
+interpreted items revised or removed before neural recording. This
+measure captures a task-relative consequence of substitution, not
+subjective severity or a universal semantic cost. It involves no neural
+measurement and does not use embedding distance to define
+consequentiality.
+
+The item-pair-to-occurrence assignment used to construct Q must be fixed
+before neural analysis. Norming uncertainty should be retained through
+resampling of norming participants and probes, or through an explicitly
+specified measurement-error model. Probe selection is part of the
+estimand: a consequence score depends on which comprehension questions
+are sampled. Balancing probe types and testing robustness to alternative
+prespecified probe sets would limit dependence on an idiosyncratic
+answer key.
+
+Writing the consequence score explicitly clarifies its domain. Let
+\(A_{i\to j,l}^{(k)}\) and \(A_{i,l}^{(k)}\) be the independently normed
+categorical answers for probe l under a substituted and intended
+interpretation, respectively. For L prespecified probes, define
+
+\begin{equation}
+q_{i\to j}^{(k)}=\frac{1}{L}\sum_{l=1}^{L}
+\mathbf 1\{A_{i\to j,l}^{(k)}\ne A_{i,l}^{(k)}\},\qquad
+Q_{ij}^{(k)}=\frac{q_{i\to j}^{(k)}+q_{j\to i}^{(k)}}{2}.
+\end{equation}
+
+The symmetric definition requires both directions to be meaningful and
+normed under the specified comparison design; otherwise the pair should
+be excluded from this analysis or a prespecified alternative estimand
+used. A score of one means every sampled answer changes, not that
+confusion is maximally harmful in every possible context. Normed
+categorical answers should be accompanied by agreement estimates, since
+a modal answer can conceal ambiguity. Probability-based
+answer-distribution contrasts could provide a separate sensitivity
+measure, but their choice and normalization must be declared in advance.
+Consequence, confusion probability, and subjective severity are distinct
+quantities.
+
+A distinct norming block would present the original speech without
+instructing a substitution and measure the rate of foil-consistent
+comprehension errors, with reaction time recorded as a secondary index
+of difficulty. These outcomes estimate susceptibility and processing
+demand separately from q. In the recording sample, the same probe types
+would verify comprehension and supply a behavioral outcome; they would
+not redefine q after the neural results are known. The primary analysis
+would test whether the prespecified consequence measure predicts
+held-out neural differentiation after accounting for independently
+estimated confusion susceptibility and difficulty. Matching attention
+and task demand remains essential, because a consequence effect alone
+would not distinguish semantic differentiation from more general task
+engagement.
+
+A fuller test of the compression--relevance interpretation would
+manipulate relevance separately from the availability of a distinction.
+The same recordings could be presented under counterbalanced task
+instructions that make a particular semantic contrast informative for
+the forthcoming probe in one condition and irrelevant in another.
+Independent norming should establish both that the interpretations
+remain discriminable under either instruction and that their
+contribution to the declared outcome changes. Merely selecting different
+probes after seeing neural responses would not constitute this
+manipulation. Instructions, probe distributions, incentives, and
+analysis contrasts must be fixed in advance, with attention and
+difficulty assessed independently. Event-script framing provides a
+precedent for altering relevance while preserving the stimulus, but does
+not remove these alternative explanations.
+
+For a prespecified matched pair, let \(D_{s,ij}(g)\) denote neural
+distance under randomized relevance assignment \(g\in\{0,1\}\). A
+participant- and stimulus-aware analysis could test the assignment
+contrast
+
+\begin{equation}
+\Delta_{\mathrm{rel}}=\mathbb E_{s,(i,j)}
+\big[D_{s,ij}(1)-D_{s,ij}(0)\big].
+\end{equation}
+
+A positive contrast accompanied by improved held-out recovery of the
+task-relevant interpretation would support relevance-sensitive
+differentiation under the declared metric and readout. It would not
+demonstrate IB optimization: increased distance is only one possible
+implementation of improved recovery, and a complete bottleneck test
+would also require an identified measure of compression and explicit
+model comparison. The narrower consequence experiment tests whether
+independently normed substitution consequences explain usable
+differentiation; the relevance extension asks whether changing the
+task's predictive target changes which distinctions are retained. These
+are related hypotheses with distinct estimands, and their randomization
+tests must follow their actual assignment units rather than permuting
+pairwise cells.
+
+The distribution-preservation criterion of Section 4.1 can be evaluated
+in a controlled repeated-condition extension. Estimate the independently
+normed outcome distribution for each eligible condition under the same
+fixed probe protocol, including probe identity in the outcome when
+answers to different questions cannot be pooled meaningfully. Fit a
+probabilistic neural readout within training folds, then average its
+predictions over held-out responses to estimate \(\widehat\rho_i\).
+Endpoint-wise total-variation errors and their participant-, stimulus-,
+and norming-aware uncertainty can be compared with a prespecified
+tolerance. The criterion provides an interpretable task-distinction
+bound only where both endpoint errors are sufficiently small. Trials
+supporting response averaging must be repetitions of a declared stimulus
+condition or draws from a justified condition ensemble, not silently
+pooled distinct narrative occurrences. Separately evaluate trial-wise
+interpretation or answer prediction against a baseline that has no
+neural response input. Classification accuracy alone does not estimate
+total-variation calibration, and this readout extension does not
+redefine the substitution score \(Q\) from neural data.
+
+This first experiment tests contextual discriminability. Relational
+binding would require a separate manipulation, such as assigning matched
+occurrences to the same or different narrative episodes while holding
+substitution consequences constant, together with a probe of memory for
+that episode association. Such a factorial extension could ask whether
+binding modulates discrimination, but it is not necessary to the
+narrower claim and is not inferred from distance measurements alone.
+
+A complementary experiment could hold an ambiguous word constant while
+varying cues that establish different interpretations. Such a design
+would separate lexical identity from contextual differentiation and
+allow repeated presentations within each condition. Independent
+behavioral judgments would help distinguish successful disambiguation
+from neural variability without a demonstrated semantic consequence.
+Recording across the relevant sequence could also clarify whether
+separation follows the disambiguating cue, precedes it through
+expectation, or emerges through later integration.
+
+Acoustic and lexical baselines should be specified at the occurrence
+level before pairwise contrasts are constructed. Candidate controls
+include intensity, pitch and prosodic prominence, phoneme identity and
+timing, coarticulation, lexical frequency, cohort size, phonological
+neighborhood density, and contextual surprisal, alongside duration and
+syntactic structure. Frequency is a lexical distributional measure,
+whereas surprisal is conditional on a specified predictive model and
+context; they cannot be substituted for one another. Closely adjacent
+response windows may also share acoustic or neural activity, requiring
+temporal-separation controls and declared overlap exclusions. Where
+feasible, identical target recordings embedded in counterbalanced
+contexts would reduce target-acoustic variation, while preserving
+natural prosody would require explicit checks rather than assuming
+splicing is innocuous.
+
+These controls do not make semantics statistically pure. Semantic,
+syntactic, and predictive features covary, and indiscriminately
+orthogonalizing embeddings against acoustic or surprisal predictors can
+remove task-relevant structure or make conclusions depend on
+residualization order. Baseline and consequence-augmented models should
+instead be compared on the same held-out data; any residualization must
+be fitted within training folds, with its direction declared. Unique
+predictive improvement is conditional on the included baselines, not an
+exhaustive attribution of residual variance to semantic distinction.
+Because surprisal and task engagement may mediate effects of context,
+analyses with and without them should distinguish a conditional
+association from the total effect of a randomized context manipulation.
+
+Analytical robustness is equally necessary. Similarity ranges and
+distance measures should be prespecified using an independent stimulus
+set or selected in a training partition and evaluated in held-out
+narratives. Report the full association alongside local slopes and their
+uncertainty, including sensitivity to shifted range endpoints and a
+continuous nonlinear model that does not require a hard boundary.
+Repetition across BERT and GPT-2 is informative, but ranges should be
+calibrated separately for each representation rather than assuming that
+equal numerical distances imply equal semantic similarity. A sign change
+that depends narrowly on one endpoint choice would weaken the
+interpretation of a distinct coding regime.
+
+Pairwise comparisons reuse occurrences and cannot be treated as millions
+of independent biological replications. One concrete approach is to
+estimate participant-specific slopes or contrasts and summarize them
+with participant-level uncertainty. Another is a multilevel model with
+participant effects and crossed occurrence effects for both members of a
+pair, supplemented by stimulus or narrative effects where the design
+permits. Label permutations must act on the occurrence-level assignment
+and regenerate the full distance matrix, preserving shared endpoints,
+rather than independently shuffling pairwise cells. For naturalistic
+speech, the permutation scheme should respect exchangeability through
+matched blocks or a justified temporal procedure; arbitrary shuffling
+can destroy narrative dependencies. Hierarchical bootstrap resampling of
+participants and narrative blocks provides a complementary sensitivity
+analysis. These recommendations specify alternatives for future testing
+and do not imply that the published analyses omitted all such controls.
+
+The permutation null must match the regression claim. Shuffling
+occurrence labels across a whole narrative tests a broad alignment null
+and generally disrupts the legitimate relations among Q, embeddings, and
+nuisance features; it is not automatically a valid test of the adjusted
+Q coefficient. In a randomized experiment, the primary randomization
+test would reassign the context or consequence manipulation at its
+actual assignment unit within the permitted blocks. For every
+reassignment, one must reconstruct affected occurrence labels and
+pair-level predictors and refit the same preregistered analysis,
+including any data-dependent steps permitted within training folds. A
+whole-matrix label permutation, when exchangeable, must use the same
+permutation for rows and columns rather than permuting cells
+independently. If several participants receive the same randomized item
+assignment, the test must preserve that shared assignment structure
+rather than independently permuting each participant.
+
+Where Q varies observationally and no defensible assignment or
+exchangeability scheme exists, an exact permutation test of its
+conditional effect should not be claimed. Participant- and
+stimulus-aware uncertainty estimation, a calibrated model-based
+bootstrap, and held-out prediction are alternatives with their own
+assumptions. Stimulus blocks shared across participants should be
+resampled jointly in a crossed participant--stimulus procedure,
+preserving endpoint identities and reconstructing distances, rather than
+resampled independently within each participant. With few narratives,
+stimulus-generalization uncertainty may remain poorly determined. Null
+simulations should assess type-I error under shared-endpoint noise and
+temporal dependence, and the primary coefficient or contrast,
+local-range rule, multiplicity adjustment, and smallest effect of
+interest should be fixed before testing. An inconclusive interval is not
+evidence against the hypothesis; a sufficiently precise interval
+excluding the prespecified meaningful positive effect would provide the
+relevant negative result.
+
+A reproduction across independently specified ranges and measures would
+strengthen the geometrical claim, while a relation between
+experimentally manipulated confusion consequences and held-out neural
+differentiation would strengthen the proposed functional extension.
+Learning-related change or intervention would be needed to identify the
+mechanism. This separates three possible achievements: reproducing a
+sign change, explaining its relation to comprehension, and establishing
+the process that produces it.
+
+\hypertarget{conclusion}{%
+\section{Conclusion}\label{conclusion}}
+
+The hippocampal study offers evidence that semantic organization during
+narrative listening is distributed, contextual, and not uniformly
+captured by a simple correspondence between embedding distance and
+neural distance. Its theoretical interest lies in the conjunction of
+broad relational structure with local differentiation. A listener must
+preserve the affinities through which expressions become intelligible
+and the distinctions through which their present interpretation remains
+determinate.
+
+The contextual-discrimination hypothesis proposed here treats those
+requirements as complementary constraints on representation, with
+relational memory providing motivation rather than an inferred binding
+mechanism. Context changes which similarities can support generalization
+and which differences must remain recoverable. The reported local sign
+change makes this proposal worth testing, while leaving its adaptive and
+mechanistic explanations open. A mature account of semantic geometry
+would therefore connect population organization to independently
+measured discrimination and comprehension, explaining how continuity
+across contexts can coexist with the preservation of consequential
+differences.
+
+\appendix
+
+\hypertarget{predictive-distortion-and-the-information-bottleneck}{%
+\section{Predictive distortion and the information
+bottleneck}\label{predictive-distortion-and-the-information-bottleneck}}
+
+The information-bottleneck framework permits an exact statement of why
+similar inputs may need distinct predictive codes. Let \(p(x,y)\) be a
+joint distribution, and let a stochastic encoder \(p(t\mid x)\) satisfy
+the Markov condition \(Y-X-T\), meaning that the representation is
+generated from X without additional access to Y. For discrete variables
+define
+
+\begin{equation}
+d_{\mathrm{IB}}(x,t)=D_{\mathrm{KL}}\bigl(p(Y|x)\|p(Y|t)\bigr),\qquad
+D_{\mathrm{KL}}(p\|q)=\sum_y p(y)\log\frac{p(y)}{q(y)}.
+\end{equation}
+
+The divergence is directed and can be infinite when q assigns zero
+probability to an outcome having positive probability under p.~It is not
+a metric between neural vectors. Its expectation satisfies
+
+\begin{equation}
+\mathbb E_{X,T}d_{\mathrm{IB}}(X,T)
+=H(Y|T)-H(Y|X)=I(X;Y)-I(T;Y)\geq0.
+\end{equation}
+
+Expanding the expected logarithm and using conditional independence
+gives the first equality; the definition of mutual information gives the
+second. The quantity measures lost predictive information, equivalently
+excess expected logarithmic prediction loss, under the stated model. It
+cannot be equated with cosine distance or applied to arbitrary neural
+observations without a probabilistic specification.
+
+Tishby et al.'s stationary encoder equation makes the role of distortion
+explicit:
+
+\begin{equation}
+p(t|x)=\frac{p(t)}{Z_\beta(x)}e^{-\beta d_{\mathrm{IB}}(x,t)},\qquad
+Z_\beta(x)=\sum_t p(t)e^{-\beta d_{\mathrm{IB}}(x,t)}.
+\end{equation}
+
+The representative prediction \(p(y\mid t)\) depends on the encoder and
+joint distribution, so this is a self-consistency condition. At fixed
+representative predictions, assigning an input to a code with greater
+predictive distortion receives less probability, other factors equal.
+Divergent predictions can therefore motivate retaining different codes,
+but they do not require those codes to have greater neural Euclidean or
+cosine distance.
+
+For an elementary example, let X take equally probable values a and b,
+with \(p(Y=1\mid a)=\epsilon\) and \(p(Y=1\mid b)=1-\epsilon\) for
+\(0<\epsilon<1/2\). Merging them into a single code gives
+\(p(Y=1\mid t)=1/2\) and loses predictive information
+
+\begin{equation}
+\log2-H_{\mathrm b}(\epsilon),\qquad
+H_{\mathrm b}(\epsilon)=-\epsilon\log\epsilon
+-(1-\epsilon)\log(1-\epsilon).
+\end{equation}
+
+A deterministic two-code representation removes that loss while raising
+\(I(X;T)\) from zero to log 2. Comparing only these two candidate
+encoders, retention is favored when \(\beta\) times the lost predictive
+information exceeds log 2. Stochastic encoders can produce intermediate
+trade-offs, so the comparison is not a general phase-transition result.
+It illustrates why arbitrarily close comparison embeddings can conceal
+consequential predictive differences, without deriving any
+neural-distance sign change.
+
+Tishby et al.~also discuss bifurcations of code solutions as \(\beta\)
+changes in the information plane. Such changes concern predictive
+quantizations and code cardinality. Franch et al.'s reduced-rank
+regression instead estimates linear predictive dimensions for different
+embedding models. Rank 12 for GPT-2 and rank 3 for Word2Vec therefore do
+not demonstrate bottleneck bifurcations or hierarchical code splitting.
+Connecting the quantities would require a fitted generative model
+relating code structure to regression rank.
+
+Futrell and Hahn (2026) offer a related but distinct
+sequential-processing account. They define predictive information as
+dependence between a process's past and future and show that codes
+constrained to have low predictive information can express approximately
+independent meaning features systematically and locally, with
+cross-linguistic corpus comparisons supporting their structural
+argument. This concerns the organization of linguistic signals under
+processing constraints. It is not evidence that a hippocampal
+representation minimizes the IB objective, and minimizing predictive
+dependence within a signal is not equivalent to maximizing CPC's
+predictive-information bound. The contribution is a precedent for
+deriving structural hypotheses from explicitly specified information
+constraints rather than inferring an objective from alignment alone.
+
+\hypertarget{adjustment-and-predictive-improvement}{%
+\section{Adjustment and predictive
+improvement}\label{adjustment-and-predictive-improvement}}
+
+In an ordinary linear regression with independent errors, the
+conditional coefficient can be written using projections. For \(N\)
+eligible observations, let \(B\in\mathbb R^{N\times p}\) be the baseline
+design matrix and \(y,q\in\mathbb R^N\) the outcome and consequence
+vectors. Write \(P_B=BB^+\) for the orthogonal projection onto the
+column space of \(B\), where \(B^+\) is its Moore--Penrose
+pseudoinverse, and set \(M_B=I_N-P_B\). Both projection operators are
+\(N\times N\); when \(B\) has full column rank,
+\(P_B=B(B^{\mathsf T}B)^{-1}B^{\mathsf T}\). Provided
+\(q^{\mathsf T}M_Bq\) is positive,
+
+\begin{equation}
+\widehat\beta_Q=
+\frac{q^{\mathsf T}M_B y}{q^{\mathsf T}M_B q}.
+\end{equation}
+
+This expression shows why nuisance adjustment applies to both the
+outcome and the consequence predictor: it compares their components not
+accounted for by B. Residualizing y alone and regressing it on
+unadjusted q is generally a different procedure. The expression is
+explanatory; the proposed hierarchical analysis requires
+covariance-aware estimation and cannot import independent-error standard
+errors from this elementary case. Small residual variation in q makes
+estimation unstable even when its raw variation is substantial.
+
+Predictive improvement can be stated independently of coefficient
+significance. For held-out eligible pairs \(P_test\), define
+
+\begin{equation}
+\Delta_{\mathrm{pred}}=
+\frac{1}{|P_{\mathrm{test}}|}\sum_{p\in P_{\mathrm{test}}}
+\left[(y_p-\widehat y_{0p})^2-(y_p-\widehat y_{1p})^2\right],
+\end{equation}
+
+where model 0 contains the declared baselines and model 1 additionally
+includes consequence and the prespecified interaction. Positive
+improvement indicates lower test error for the augmented model. Pairwise
+test losses remain dependent, so uncertainty must respect their
+participant and stimulus structure. Weighting should also be specified:
+equal weighting of pairs favors participants or narratives contributing
+many eligible comparisons, whereas averaging participant-specific losses
+targets a different population summary. Coefficient direction,
+predictive gain, and behavioral discrimination are complementary
+criteria rather than interchangeable evidence.
+
+\hypertarget{contrastive-predictive-coding-objective-and-assumptions}{%
+\section{Contrastive predictive coding: objective and
+assumptions}\label{contrastive-predictive-coding-objective-and-assumptions}}
+
+Contrastive predictive coding (CPC; van den Oord, Li, and Vinyals, 2018)
+offers a predictive-learning comparison whose assumptions can be stated
+explicitly. Its encoder constructs latent observations, while an
+autoregressive network summarizes their history into a context
+representation. To avoid confusing the CPC notation with the
+commentary's situated context, write this learned summary as \(C_t\) and
+a future observation as \(U=x_{t+k}\). For each context, a candidate set
+contains one positive observation drawn from \(p(u\mid C_t)\) and
+\(N-1\) independent alternatives drawn from the marginal \(p(u)\). With
+a positive scoring function \(f_k\), its population objective and
+information bound are
+
+\begin{equation}
+\mathcal L_{N,k}=-\mathbb E\log
+\frac{f_k(U^+,C_t)}{\sum_{j=1}^{N}f_k(U_j,C_t)},\qquad
+I(U;C_t)\ge\log N-\mathcal L_{N,k}.
+\end{equation}
+
+The expectation is over the joint context--positive distribution and the
+stipulated negative-sampling distribution. The bound concerns that
+population objective, rather than every finite-sample estimate, and its
+maximum possible value is \(\log N\). It is a lower bound on predictive
+information, not an estimate of the information rate compressed from the
+entire speech history. In particular, CPC does not include the explicit
+input-rate penalty in the IB objective. Architectural restrictions may
+constrain capacity, but a compact vector and a penalized
+mutual-information rate are different commitments. Thus IB and CPC
+supply related perspectives on predictive retention without constituting
+equivalent optimization problems.
+
+The density-ratio interpretation follows from the
+candidate-identification problem. When the positive index is uniformly
+distributed, the Bayes posterior is proportional to
+\(p(U_j\mid C_t)/p(U_j)\). An unrestricted optimal score consequently
+recovers this ratio up to a context-dependent multiplicative factor. CPC
+uses a log-bilinear critic; writing its target latent vector as \(Z(u)\)
+gives
+
+\begin{equation}
+f_k(u,c)\propto\frac{p(u\mid c)}{p(u)},\qquad
+f_k(u,c)=\exp\{Z(u)^{\mathsf T}W_kc\}.
+\end{equation}
+
+The first relation describes the ideal density-ratio solution, whereas
+the second specifies a restricted parameterization that need not attain
+it. Neither relation is a metric between two word-response vectors.
+Indeed, replacing \(Z(u)\) by \(BZ(u)\) for an invertible matrix \(B\)
+and \(W_k\) by \(B^{-\mathsf T}W_k\) leaves every score unchanged while
+potentially altering Euclidean and cosine distances among target
+vectors. This invariance parallels the mapping concern in Section~5:
+equivalent predictive scores do not determine a unique distance
+geometry. A competitor can receive a lower score through a changed
+critic or context representation without requiring increased pairwise
+neural distance. Under these assumptions, optimizing InfoNCE therefore
+does not predict a negative local semantic--neural distance correlation.
+
+The selection of alternatives is equally consequential. The standard
+bound assumes marginal negatives. Sampling only semantically similar
+alternatives, or excluding same-episode observations, changes the
+candidate distribution and requires a correspondingly derived objective;
+the original mutual-information interpretation cannot simply be carried
+over. False negatives are also possible when two observations preserve
+the same relevant interpretation. CPC predicts sampled future
+observations, whereas the commentary's behavioral variable concerns
+consequences for declared comprehension probes. Future predictability
+can retain acoustic regularities or other features without preserving
+the intended task distinction, so identifying these targets would
+require evidence rather than terminology. BERT and GPT-2 in the
+hippocampal comparison are not thereby shown to have been trained with
+InfoNCE.
+
+The biological question is what would select the alternatives. Candidate
+competitors include recently activated interpretations, alternative
+referents, or recalled episodes sharing cues. Experimentally
+manipulating which alternatives are available, while holding the target
+and its independently normed consequence score constant, could test
+whether differentiation depends on competitor availability. Such an
+effect would support a functional role for competition without
+identifying negative sampling, a density-ratio critic, or InfoNCE
+optimization in neural circuitry. The joint information-theoretic
+interpretation is therefore deliberately conditional: IB specifies which
+declared predictive distinctions compression should preserve, and CPC
+illustrates one way to train predictive scores against sampled
+alternatives. A model that connects either objective to the reported
+hippocampal geometry must additionally specify its representation,
+noise, readout, and competitor distribution.
+\clearpage
+\begin{thebibliography}{99}
+\bibitem{ref1}
+Bakker, A., Kirwan, C. B., Miller, M., and Stark, C. E. L. (2008).
+Pattern separation in the human hippocampal CA3 and dentate gyrus.
+\emph{Science}, 319(5870), 1640--1642.
+https://doi.org/10.1126/science.1152882.
+
+\bibitem{ref2}
+Baldassano, C., Chen, J., Zadbood, A., Pillow, J. W., Hasson, U., and
+Norman, K. A. (2017). Discovering event structure in continuous
+narrative perception and memory. \emph{Neuron}, 95(3), 709--721.e5.
+https://doi.org/10.1016/j.neuron.2017.06.041.
+
+\bibitem{ref3}
+Baldassano, C., Hasson, U., and Norman, K. A. (2018). Representation of
+real-world event schemas during narrative perception. \emph{Journal of
+Neuroscience}, 38(45), 9689--9699.
+https://doi.org/10.1523/JNEUROSCI.0251-18.2018.
+
+\bibitem{ref4}
+Brown, S., and Farivar, R. (2025). The topology of representational
+geometry. \emph{Frontiers in Neuroscience}, 19, 1597899.
+https://doi.org/10.3389/fnins.2025.1597899.
+
+\bibitem{ref5}
+Cheng, E., Vaidya, A. R., and Antonello, R. (2026). Abstraction induces
+the brain alignment of language and speech models. In \emph{Proceedings
+of the 43rd International Conference on Machine Learning}, PMLR 306,
+19008--19031. https://proceedings.mlr.press/v306/cheng26l.html.
+
+\bibitem{ref6}
+De Soares, A., Kim, T., Mugisho, F., Zhu, E., Lin, A., Zheng, C., and
+Baldassano, C. (2024). Top-down attention shifts behavioral and neural
+event boundaries in narratives with overlapping event scripts.
+\emph{Current Biology}, 34(20), 4729--4742.e5.
+https://doi.org/10.1016/j.cub.2024.09.013.
+
+\bibitem{ref7}
+Deniz, F., Tseng, C., Wehbe, L., Dupré la Tour, T., and Gallant, J. L.
+(2023). Semantic representations during language comprehension are
+affected by context. \emph{Journal of Neuroscience}, 43(17), 3144--3158.
+https://doi.org/10.1523/JNEUROSCI.2459-21.2023.
+
+\bibitem{ref8}
+Duff, M. C., and Brown-Schmidt, S. (2012). The hippocampus and the
+flexible use and processing of language. \emph{Frontiers in Human
+Neuroscience}, 6, 69. https://doi.org/10.3389/fnhum.2012.00069.
+
+\bibitem{ref9}
+Fodor, J., and Suzuki, S. (2026). Using computational semantics to study
+meaning in the brain. \emph{Neuroscience \& Biobehavioral Reviews}, 181,
+106514. https://doi.org/10.1016/j.neubiorev.2025.106514.
+
+\bibitem{ref10}
+Franch, M., Mickiewicz, E. A., Belanger, J. L., et al.~(2026). A
+population code for semantics in human hippocampus. \emph{Nature
+Neuroscience}. https://doi.org/10.1038/s41593-026-02436-4.
+
+\bibitem{ref11}
+Futrell, R., and Hahn, M. (2026). Linguistic structure from a bottleneck
+on sequential information processing. \emph{Nature Human Behaviour}, 10,
+589--600. https://doi.org/10.1038/s41562-025-02336-w.
+
+\bibitem{ref12}
+Goldstein, A., Grinstein-Dabush, A., Schain, M., et al.~(2024).
+Alignment of brain embeddings and artificial contextual embeddings in
+natural language points to common geometric patterns. \emph{Nature
+Communications}, 15, 2768. https://doi.org/10.1038/s41467-024-46631-y.
+
+\bibitem{ref13}
+Goldstein, A., Zada, Z., Buchnik, E., et al.~(2022). Shared
+computational principles for language processing in humans and deep
+language models. \emph{Nature Neuroscience}, 25, 369--380.
+https://doi.org/10.1038/s41593-022-01026-4.
+
+\bibitem{ref14}
+Konkel, A., and Cohen, N. J. (2009). Relational memory and the
+hippocampus: Representations and methods. \emph{Frontiers in
+Neuroscience}, 3(2), 166--174.
+https://doi.org/10.3389/neuro.01.023.2009.
+
+\bibitem{ref15}
+Kriegeskorte, N., Mur, M., and Bandettini, P. (2008). Representational
+similarity analysis: Connecting the branches of systems neuroscience.
+\emph{Frontiers in Systems Neuroscience}, 2, 4.
+https://doi.org/10.3389/neuro.06.004.2008.
+
+\bibitem{ref16}
+Lerner, Y., Honey, C. J., Silbert, L. J., and Hasson, U. (2011).
+Topographic mapping of a hierarchy of temporal receptive windows using a
+narrated story. \emph{Journal of Neuroscience}, 31(8), 2906--2915.
+https://doi.org/10.1523/JNEUROSCI.3684-10.2011.
+
+\bibitem{ref17}
+McClelland, J. L., McNaughton, B. L., and O'Reilly, R. C. (1995). Why
+there are complementary learning systems in the hippocampus and
+neocortex: Insights from the successes and failures of connectionist
+models of learning and memory. \emph{Psychological Review}, 102(3),
+419--457. https://doi.org/10.1037/0033-295X.102.3.419.
+
+\bibitem{ref18}
+Patterson, K., Nestor, P. J., and Rogers, T. T. (2007). Where do you
+know what you know? The representation of semantic knowledge in the
+human brain. \emph{Nature Reviews Neuroscience}, 8, 976--987.
+https://doi.org/10.1038/nrn2277.
+
+\bibitem{ref19}
+Piantadosi, S. T., Muller, D. C. Y., Rule, J. S., Kaushik, K.,
+Gorenstein, M., Leib, E. R., and Sanford, E. (2024). Why concepts are
+(probably) vectors. \emph{Trends in Cognitive Sciences}, 28(9),
+844--856. https://doi.org/10.1016/j.tics.2024.06.011.
+
+\bibitem{ref20}
+Rigotti, M., Barak, O., Warden, M. R., Wang, X.-J., Daw, N. D., Miller,
+E. K., and Fusi, S. (2013). The importance of mixed selectivity in
+complex cognitive tasks. \emph{Nature}, 497, 585--590.
+https://doi.org/10.1038/nature12160.
+
+\bibitem{ref21}
+Schlichting, M. L., Mumford, J. A., and Preston, A. R. (2015).
+Learning-related representational changes reveal dissociable integration
+and separation signatures in the hippocampus and prefrontal cortex.
+\emph{Nature Communications}, 6, 8151.
+https://doi.org/10.1038/ncomms9151.
+
+\bibitem{ref22}
+Tishby, N., Pereira, F. C., and Bialek, W. (1999; arXiv deposit 2000).
+The information bottleneck method. \emph{Proceedings of the 37th Annual
+Allerton Conference on Communication, Control, and Computing}. Author
+manuscript: https://arxiv.org/abs/physics/0004057.
+
+\bibitem{ref23}
+van den Oord, A., Li, Y., and Vinyals, O. (2018; revised 2019).
+Representation learning with contrastive predictive coding. \emph{arXiv
+preprint}, arXiv:1807.03748. https://arxiv.org/abs/1807.03748.
+
+\bibitem{ref24}
+Yan, X., Chavez, A. G., Krishna, A., et al.~(2026). Shared neural
+geometries for bilingual semantic representations in human hippocampal
+neurons. \emph{Cell}, 189(16), 5065--5080.e10.
+https://doi.org/10.1016/j.cell.2026.05.020.
+
+\bibitem{ref25}
+Zhong, W., Can, T., Georgiou, A., Shnayderman, I., Katkov, M., and
+Tsodyks, M. (2025). Random tree model of meaningful memory.
+\emph{Physical Review Letters}, 134, 237402.
+https://doi.org/10.1103/g1cz-wk1l.
+
+\end{thebibliography}
+\end{document}
+

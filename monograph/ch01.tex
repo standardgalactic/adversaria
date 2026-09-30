@@ -1,0 +1,56 @@
+\chapter{The Unit of a Public Knowledge Base}\label{ch:unit}
+
+A public knowledge base is organized around a unit, and the unit decides which failures the system can express and which it must hide. Encyclopedias take the article as the unit. Knowledge graphs take the statement, usually a subject, a property and a value with some annotation. This monograph specifies a system whose unit is the \emph{argued proposition}: a claim, the grounds offered for it, the warrant that connects grounds to claim, the scope over which it is asserted, the objections raised against it, and the status these currently yield. The system is called Adversaria.
+
+The specification follows one principle. It does not store what a community says is true. It stores what has been claimed, why it may be true, what limits it, and what would make it fail. Everything else, including any display of what currently stands, is computed from that record under a stated policy and can be recomputed.
+
+\section{A family of pages that disagree}\label{sec:pagefamily}
+
+A familiar failure of article-based encyclopedias is structural and not editorial. Take a figure discussed in several traditions: a page on the figure as presented in one scripture, a page on the same figure in another religious tradition, and a separate language edition with its own page. Each page is internally maintained, cited and reviewed. Each is locally coherent. Yet the pages make statements about what is nominally one subject, and some of those statements conflict. No page is wrong by its own standards, and the family has no place where the conflict is stated, because the conflict lies between pages and every editorial process operates within one.
+
+The specification treats this as a gluing problem. Each page is a local section of what would be a global description; the local sections agree wherever they overlap in what they assert, or they do not. If they do not, the failure is not in any one section, and no amount of local editing removes it. Chapter~\ref{ch:distinction} gives the exact form for a family of pages whose overlaps are binary identifications: there is an obstruction if and only if a certain cycle exists, and the region on which the obstruction lives is itself a scope (Theorem~\ref{thm:obs}). What a distinction between senses can then do is dissolve the obstruction by declaring that the pages were not about one thing; what it can never do is create one (Proposition~\ref{prop:dissolve}). Chapter~\ref{ch:adam} works the case through.
+
+The point for the present chapter is only that the page is the wrong unit for detecting this. The unit must be something two pages can both bear on, with a scope, so that the overlap is computable.
+
+\section{Three candidate units}\label{sec:units}
+
+The three units can be compared by asking what each can say about a disputed proposition.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l X X X@{}}
+\toprule
+ & page & statement & argued proposition\\
+\midrule
+carries & prose about a topic & subject, property, value, with qualifiers and references & claim, scope, grounds, warrant, objections\\
+scope & implicit in the prose & optional qualifiers & mandatory, region-valued\\
+conflict & editorial dispute, one winner or hedged prose & two values, ranks & localized to overlapping scope, both preserved\\
+why supported & citations at paragraph level & references attached to a statement & explicit argument with warrant\\
+what fails & the page is edited & the value is deprecated or deleted & a component is attacked; a narrower claim can survive\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+None of the three is wrong for every purpose. A page is a good way to read. A statement store is a good way to serve a stable lookup. The argued proposition is the unit that the machinery of disagreement needs, and the other two can be produced from it as presentations. The reverse is not true: a page does not determine which claims it contains or their scopes.
+
+\section{What is stored and what is computed}\label{sec:stored}
+
+The specification keeps three layers apart and never lets an interface label move between them.
+\begin{enumerate}
+\item The \emph{ledger} records what happened: which records were inscribed, by which acts, referencing which earlier records. It is append-only (Chapter~\ref{ch:ledger}).
+\item The \emph{argument graph} represents inferential relations among admitted records: which arguments have which conclusions, which attack which (Chapters~\ref{ch:warrant} and~\ref{ch:objection}).
+\item The \emph{presentation}, or dossier, is a policy-relative reading of the argument graph: labels, regions of standing, and the status vector (Chapters~\ref{ch:objection} and~\ref{ch:status}).
+\end{enumerate}
+A label such as ``accepted'' is easily read at once as a historical fact (someone accepted it), a logical consequence (it follows) and a community consensus (most agree). Here these are three different objects. Only the first is in the ledger; the second is a relation in the graph; the third is a computation, and Theorem~\ref{thm:replay} says the computation depends on the set of records and the policy and on nothing else.
+
+\section{What the specification guarantees and what it leaves open}\label{sec:guarantees}
+
+The specification separates results that are proved from choices that are argued. The proved results, collected in the appendix, include that narrowing a scope never breaks a valid claim (Theorem~\ref{thm:monotone}); that conflict between opposite-kernel claims is confined to the overlap of their scopes (Proposition~\ref{prop:conflict}); that a label can be computed regionally and is consistent (Theorems~\ref{thm:labels} and~\ref{thm:regions}); that contradictory arguments do not license arbitrary conclusions (Corollary~\ref{cor:explosion}); that replicas holding the same records under the same policy hold the same projection (Theorem~\ref{thm:replay}); and that no scalar represents the ordering of statuses (Theorem~\ref{thm:noscalar}).
+
+The choices are of a different kind, and are not dressed as theorems. They include what counts as an admissible warrant for a given kind of evidence, how strong a rung of the identification ladder each method reaches, which preferences a policy may adopt, and how scarce attention is allocated. These are set out as definitions, design rules and design arguments. A reader who disagrees with a choice can replace it and keep the results that do not depend on it. Where a result depends on a choice, the dependence is stated.
+
+The specification also leaves some things unspecified on purpose. It does not say which proposition is true. It does not rank contributors, claims or dossiers by a single figure. It does not define a universal ontology. Each refusal is argued in the chapter where it arises, and each is a decision about what a shared record ought to promise.
+
+\section{Organization}\label{sec:organization}
+
+Part~I (this chapter and Chapter~\ref{ch:traces}) states the problem and the treatment of provenance. Part~II (Chapter~\ref{ch:predecessors}) places the design among its predecessors. Part~III, Chapters~\ref{ch:claim} to~\ref{ch:status}, is the formal model and the source of every proved result. Part~IV, Chapters~\ref{ch:routing} to~\ref{ch:federation}, is the protocol: it separates routing from adjudication, and specifies admission, ontologies, capability gates, imports and federation, each in terms the formal model supports. Part~V works two cases. Later parts depend on earlier ones and never the reverse: nothing in the protocol part adds a semantic rule to the model.

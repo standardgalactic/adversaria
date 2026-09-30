@@ -1,0 +1,128 @@
+\documentclass[11pt,openany]{book}
+
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo}
+\usepackage[a4paper,margin=1.2in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{booktabs,tabularx,array,longtable}
+\usepackage[expansion=false]{microtype}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+
+\setlist{itemsep=2pt,topsep=4pt}
+\setlength{\parindent}{1.4em}
+\setlength{\parskip}{0.2em}
+\linespread{1.06}
+
+% ---------- theorem environments ----------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{counterexample}[theorem]{Counterexample}
+\newtheorem{designrule}[theorem]{Design rule}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% ---------- macros ----------
+\newcommand{\Om}{\Omega}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\Pow}{\mathcal{P}}
+\newcommand{\kap}{\kappa}                 % kernel of a claim
+\newcommand{\scope}{\operatorname{scope}}
+\newcommand{\concl}{\operatorname{concl}}
+\newcommand{\Sub}{\operatorname{Sub}}
+\newcommand{\Arg}{\operatorname{Arg}}
+\newcommand{\Att}{\operatorname{Att}}
+\newcommand{\Act}{\operatorname{Act}}
+\newcommand{\reg}{\operatorname{reg}}     % active region of an attack
+\newcommand{\IN}{\mathsf{in}}
+\newcommand{\OUT}{\mathsf{out}}
+\newcommand{\UND}{\mathsf{und}}
+\newcommand{\Lab}{\mathsf{L}}
+\newcommand{\In}{\mathrm{In}}
+\newcommand{\Out}{\mathrm{Out}}
+\newcommand{\Und}{\mathrm{Und}}
+\newcommand{\atk}{\rightsquigarrow}       % structural attack
+\newcommand{\dfeat}{\rhd}                 % policy-relative defeat
+\newcommand{\nk}[1]{\overline{#1}}          % negated kernel
+\newcommand{\ledger}{\mathcal{L}}
+\newcommand{\policy}{\mathsf{p}}
+\newcommand{\Proj}{\Pi}
+\newcommand{\Hash}{\mathsf{H}}
+\newcommand{\dom}{\operatorname{dom}}
+\newcommand{\Kn}{\mathcal{K}}
+\newcommand{\rest}[2]{#1{\restriction}_{#2}}
+\newcommand{\Zt}{\mathbb{Z}/2}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\small\nouppercase{\leftmark}}
+\fancyhead[RO]{\small\nouppercase{\rightmark}}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+
+% include a file only if it exists (allows incremental builds)
+\newcommand{\safeinput}[1]{\IfFileExists{#1.tex}{\input{#1}}{}}
+
+\title{\Huge\bfseries Adversaria\\[0.6em]
+\Large A Specification for a Public Claim Graph}
+\author{Flyxion\\[0.3em]\normalsize Independent Researcher}
+\date{September 2026}
+
+\setlength{\emergencystretch}{3em}
+\begin{document}
+
+\frontmatter
+\maketitle
+
+\safeinput{preface}
+
+\tableofcontents
+
+\mainmatter
+\part{Problem}
+\safeinput{ch01}
+\safeinput{ch02}
+
+\part{Predecessors}
+\safeinput{ch03}
+
+\part{Formal Model}
+\safeinput{ch04a}
+\safeinput{ch04b}
+\safeinput{ch05}
+\safeinput{ch06}
+\safeinput{ch07a}
+\safeinput{ch07b}
+\safeinput{ch07c}
+\safeinput{ch08a}
+\safeinput{ch08b}
+\safeinput{ch09a}
+\safeinput{ch09b}
+\safeinput{ch10}
+\safeinput{ch11}
+\safeinput{ch12a}
+\safeinput{ch12b}
+
+\part{Protocol}
+\safeinput{ch13}
+\safeinput{ch14}
+\safeinput{ch15}
+\safeinput{ch16}
+\safeinput{ch17}
+\safeinput{ch18}
+
+\part{Cases}
+\safeinput{ch19}
+\safeinput{ch20}
+
+\appendix
+\safeinput{inventory}
+
+\end{document}

@@ -1,0 +1,254 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+% Dialogue macros. Speakers are invented: Maren (an editor), Teodor (a statistician), Sabine (a skeptic).
+\newcommand{\say}[2]{\par\noindent\textsc{#1.}\enspace #2\par}
+\newcommand{\MA}[1]{\say{Maren}{#1}}
+\newcommand{\TE}[1]{\say{Teodor}{#1}}
+\newcommand{\SA}[1]{\say{Sabine}{#1}}
+\newcommand{\stage}[1]{\par\noindent{\small\emph{#1}}\par}
+
+\title{Dialogue on the Unit}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+Three invented speakers argue about what one entry in a shared knowledge base should be. An editor defends the page, a statistician defends the statement and then the argued proposition, and a skeptic presses the strongest objection: that a well-edited page is enough. The dialogue reaches the thesis of the essay \emph{The Unit of Knowledge}: the choice of unit fixes which failures a shared record can express, and a unit carrying scope, warrant and objection can localize a conflict, tell an attack on evidence from an attack on inference, keep a narrower claim alive, and compute standing from records and a declared policy. The skeptic's objection receives a full reply and is partly conceded. The speakers are invented. The formal statements are proved in the monograph \emph{Adversaria: A Specification for a Public Claim Graph}.
+\end{abstract}
+
+\stage{A reading room with a long table. Three speakers: \textup{\textsc{Maren}}, who edits a reference work made of pages; \textup{\textsc{Teodor}}, a statistician; \textup{\textsc{Sabine}}, who distrusts new machinery. All examples they use are invented.}
+
+\section{What a unit is}
+
+\SA{Maren tells me you have a proposal for her pages, Teodor. I have not yet heard what is wrong with them.}
+
+\TE{Nothing is wrong with them as pages. The proposal concerns what the smallest thing in the system ought to be. Let me ask you both something. When Maren's staff fix an error, what is it that they fix?}
+
+\MA{An article. Sometimes a paragraph inside one, but the article is the thing with a title, an author history, a review status. That is what we create, cite and correct.}
+
+\TE{Then the article is your unit. A unit is simply the smallest thing that can be created, cited, disputed and corrected. A structured data store has a different one, the statement: a subject, a property, a value, and some note on where the value came from. A journal has the paper, a forum the post, a court the opinion.}
+
+\SA{A taxonomy of containers. I see no argument yet.}
+
+\TE{The argument is that the unit is not a matter of convenience. It fixes the grammar of every dispute afterward. If the unit is the article, a dispute is a dispute about prose, and its resolutions are edits. If the unit is the statement, a dispute is a disagreement between two values, and its resolutions are to rank them, deprecate one, or delete one.}
+
+\MA{Those are the resolutions we use. They seem adequate to me.}
+
+\TE{For many disputes they are. Consider four that careful people meet often. A claim is true over part of the territory and not over another part. The evidence is sound and the inference drawn from it is not. Two sides use one word for two different things. A search for an effect fails, and someone asks whether that shows there is none. What would you do with each on a page?}
+
+\MA{Write a careful paragraph. I do it constantly.}
+
+\TE{And in the statement store?}
+
+\SA{Nothing, I suspect. There is no field for any of those.}
+
+\TE{There is a qualifier field, which covers some of the first. For the others there is no word at all. That is my first claim, stated plainly: these situations are not exotic, and a unit able to express them exists.}
+
+\section{Three units, compared}
+
+\MA{Then let me hear the third unit, so that I can dislike it with full information.}
+
+\TE{It is called the argued proposition. It holds a claim, the region over which the claim is asserted, the grounds offered, the warrant that connects grounds to claim, the objections raised, and the standing these currently yield. I will come to each part. First a fair comparison. Ask the same five questions of all three units: what does it carry, over what territory does it speak, what happens when two entries conflict, why should one believe it, and what happens when it fails.}
+
+\SA{Go on.}
+
+\TE{The page carries prose, and its territory is implicit in the prose. A conflict between two pages is an editorial dispute, ending in one winner or in hedged text. Its support is citation, usually at the level of a paragraph. When it fails, it is edited. The statement carries a subject, a property and a value with some qualifiers and references. Its territory is whatever the qualifiers say, if anyone added them. A conflict is two values, perhaps ranked. When it fails, the value is deprecated or deleted. The argued proposition carries claim, scope, grounds, warrant and objections. Its scope is mandatory and is a region. A conflict is localized to the overlap of the scopes, with both positions preserved. Its support is an explicit argument with a stated warrant. When it fails, one component is attacked, and a narrower claim can survive.}
+
+\MA{A table, and the third column wins. Tables persuade and do not prove.}
+
+\TE{I have not said that. A page is the best way to read, because connected prose carries context that no list of assertions can. A statement store is the best way to serve a stable lookup, because someone who wants a value wants one value. What I claim is an asymmetry. You can produce a page from argued propositions, as a readable arrangement of claims with their scopes and standing. You can produce a lookup from them as a projection under a stated policy. You cannot go the other way. A page does not determine which claims it contains or over what territory each is meant. A statement store that dropped the warrant cannot get it back.}
+
+\SA{So pages and statements are what remain when you forget part of the argued proposition.}
+
+\TE{That is exactly how I would put it. The forgotten part is the part a dispute needs.}
+
+\section{Three pages that cannot all be right}
+
+\MA{Show me the failure. Everyone says there is a failure; I should like to see one.}
+
+\TE{An invented one. A proposed measurement standard is discussed in three places: a page in one community, a page in a second community that uses the standard slightly differently, and a page in another language edition. Suppose the first page says that the standard, in its form, applies to the same quantity as the second page's. The second says it applies to the same quantity as the third's. The third says it is a different quantity from the first's. Each statement is reasonable where it stands.}
+
+\MA{Then each page is fine.}
+
+\TE{Each is fine, and any two of the three statements can be true together. All three cannot. Go around the triangle: same, same, different. If the first and second are the same, and the second and third are the same, then the first and third must be the same, and the third page says they differ.}
+
+\SA{A reviewer would catch that.}
+
+\TE{Which reviewer? One who reads the first page sees one identification. One who reads the first two pages sees two, and they agree. The problem exists only when all three are considered together. Every editorial process operates within one page.}
+
+\MA{I grant that, reluctantly. What do you do about it?}
+
+\TE{The monograph treats it as a gluing problem. Each page is a local description, and local descriptions either agree wherever they overlap in what they assert or they do not. For a family whose overlaps are binary identifications, each marked as same or different over some region, there is an exact criterion. Over a given unit of the territory there is a joint description if and only if no cycle of identifications active there has an odd number of differences. The set of units where such a cycle is active is itself a region, called the obstruction region.}
+
+\SA{And then you fix it.}
+
+\TE{No, and this is the modest part. A distinction between senses of the shared name can remove the obstruction, by saying that the pages were never about one thing. It can never create an obstruction. The repair is a new record that changes which claim means what where, and no page needs rewriting.}
+
+\SA{Suppose I accept this for the triangle. It is one example, and I have not seen why it needs a new unit and not a note.}
+
+\TE{Keep that thought, because it is your real objection and I will answer it properly. For now, notice what the detection required: something two pages can both bear on, with a declared territory, so that overlap can be computed. A page has neither property.}
+
+\section{The parts of the unit}
+
+\MA{Then describe the parts. I want to see whether any of them asks my contributors for more than they will give.}
+
+\TE{The claim. It is more than a sentence. It has a kernel and a scope. The kernel fixes content: the exact statement, the operational meaning of each term that needs one, the vocabulary it is written in, and what it would be for the statement to fail. Two sentences with identical words and different operational definitions are different kernels.}
+
+\MA{That is useful. Half our quarrels are about a definition nobody stated.}
+
+\TE{Then a dispute about the definition appears as that, and does not pass as a disagreement about the facts. Second, the scope. A region of a space of units, where units are described by coordinates such as population, context, period and measurement regime. The class of regions is closed under union, intersection and complement, and the reason is subtraction.}
+
+\SA{Subtraction of what?}
+
+\TE{Of whatever an objection removes. Take a screening questionnaire, invented, asserted for adults and children in both laboratory and field settings. A contributor objects that in children the laboratory administration is invalid, because of a known comprehension problem. Remove that one cell. What survives is adults in both settings and children in the field. Is that a rectangle in the space of populations and settings?}
+
+\SA{Draw it. Adults in the laboratory, adults in the field, children in the field. A rectangle containing the first and the last also contains children in the laboratory. So no.}
+
+\TE{Correct, and it is nonetheless a perfectly good scope. A system confined to rectangles must refuse the objection, discard the whole claim, or approximate the survivor with a scope that again contains the invalid cell. A system that represents regions keeps exactly what survives.}
+
+\MA{I would write that in a paragraph. Adults anywhere, children only in the field.}
+
+\TE{You would, and a reader would understand. Hold on to that. Third, the grounds and the warrant. Grounds are evidence, each with an account of its origin and extent. The warrant is the rule that licenses the step from grounds to claim: that evidence of this kind, collected this way, supports a claim of this kind over this region.}
+
+\SA{A warrant, in a dispute, is usually unspoken.}
+
+\TE{And keeping it explicit allows the fourth part, the objections, to be stated. There are three kinds. To undermine is to show that the grounds are not what they were presented as. To undercut is to show that evidence of this kind does not support a claim of this kind here. To rebut is to assert the opposite over some region. They leave different things standing. Undermine an item of evidence and the warrant is untouched, so the same warrant applied to other evidence can still support the claim. Undercut a warrant and the evidence is untouched, so it can still support other claims. Rebut, and both are intact and two argued positions face each other.}
+
+\MA{A unit with no place for the warrant cannot distinguish the second from the third.}
+
+\TE{Nor say that a study was fine and the inference drawn from it was not. Fifth and last, the standing. For each unit of a claim's scope, the system computes whether the claim currently stands, is defeated, or is unresolved. Standing is not stored. It is the output of a computation from the recorded arguments and a declared policy.}
+
+\section{What becomes computable}
+
+\SA{A computation over a pile of contributions. What does it decide that a good editor does not?}
+
+\TE{Four things, each proved in the monograph. First: narrowing a scope never breaks a valid claim. If a claim is supported over a region, it is supported over any smaller region whose units the claim can be asked of separately. It sounds trivial. It is what makes an objection constructive, because a response to an objection can always be to narrow the claim, and the narrowed claim is at least as secure as the original.}
+
+\MA{An editor says ``in adults, at least,'' and moves on.}
+
+\TE{And in an edit-or-delete grammar that move has no status. Second: conflict is confined to overlap. Two claims with opposite kernels conflict only where their scopes overlap. Two pages that disagree look as if they disagree everywhere, because nothing marks where they touch.}
+
+\SA{Third?}
+
+\TE{Contradiction does not explode. Two arguments reaching incompatible conclusions do not license an arbitrary third. An argument whose chain of defeaters contains neither of them keeps its standing. Any realistic body of claims contains contradictions, so a system where one contradiction spoils everything cannot be used. And fourth: the same records under the same policy give the same standing. Two replicas that hold the same records compute the same result, whatever order the records arrived in.}
+
+\MA{In my office a disagreement about what a page should say becomes a dispute about which version is authoritative.}
+
+\TE{Here it becomes a dispute about a policy, which is a declared, versioned object. A reader who disagrees can name the policy under which they disagree, and need not assert that the display is wrong.}
+
+\section{The strongest objection}
+
+\SA{Now I will say what I have been keeping. Everything you have described is something a well-edited page can do. The page can state its scope in a sentence. It can say, in a paragraph, that a study was sound and that the inference is doubtful. It can list the objections that have been raised and the replies. It can say which terms it is using and how. It can be revised when the evidence changes, and a good editor will keep the revision history. I do not deny that your machinery is exact. I deny that the exactness buys anything that careful prose does not already provide, and I see a large cost in contributors, in computation and in explaining it to anyone. A well-edited page is enough.}
+
+\MA{I confess that this is my view as well, and I would like to hear the answer.}
+
+\TE{It is a good objection, and I will give it the concession it deserves first. For a settled question, it is correct. Nothing here replaces a page where a page suffices. A well-edited page on a question that is not in dispute is the right artifact, and the argued proposition would be overhead. The essay I am drawing on does not claim that the hard situations are the majority of entries.}
+
+\SA{You concede the whole point, then.}
+
+\TE{I concede a region of it. The question is which region is left. I offer four reasons, each about what prose cannot do, which is different from what good prose does not do.}
+
+\TE{The first is that the failure does not live on a page. Your objection describes what one page can say about itself. The triangle of three pages, each excellent, is a failure between pages. No editor of any one of them has anything to edit. The obstruction appears only when all three identifications are taken together, and only in the aspects where all three speak. A page can contain a sentence saying that it differs from another page; it cannot contain the fact that two other pages, which it has never seen, jointly conflict with it.}
+
+\SA{Then write a fourth page, about the three.}
+
+\TE{It faces the same difficulty one level up. Which brings me to the second reason. A sentence in prose that says ``in children, only in the field'' carries information, and it cannot be computed with. The system cannot take two such sentences from two pages and return the region where they collide. A reader can do this for two pages. No one can do it for two hundred, and no one can do it reliably when the statements are stated in different words.}
+
+\MA{I can picture pages contradicting each other at scale, and nobody finding out until a reader complains.}
+
+\TE{The third reason concerns the inference and the evidence. You said a page can say that a study was sound and its inference doubtful. It can. What it cannot do is let a later contributor attack the inference and leave the evidence standing, while a reader asks what remains supported by the same evidence under a different inference. On a page that is a rewrite. In the argued proposition it is an undercut of a warrant, which a computation can carry through every claim that uses the warrant.}
+
+\SA{That is an improvement for a specialist. It is not an improvement for most readers.}
+
+\TE{I have not said it is. The fourth reason is the one I think matters most. You said a good editor will keep the revision history. Consider what a page's standing is. It is the editor's current decision about what the page says. A reader who disagrees with the page has two recourses: to edit, or to complain. The standing is stored, in the sense that it is whatever the last careful person wrote. In the argued proposition standing is computed from the records and a declared policy, history is never edited to change it, and a withdrawal is a new record, not a deletion. So the disagreement that used to be about who holds the pen becomes a disagreement that can be located: same records, different policy, and the place where the preferences differ.}
+
+\SA{You have moved the dispute and you have not ended it.}
+
+\TE{I agree, and I would say that moving it is the claim. The system does not decide who is right. It decides where the disagreement is.}
+
+\MA{From the editor's side, the page and the argued proposition need not compete. On some pages I would never want the machinery. On others I write ``some sources say, others say, in some settings,'' and that is a summary of an argument I cannot show.}
+
+\TE{There the page is the presentation: the best arrangement of claims, scopes and standing that a reader can take in, and the argued propositions are what it arranges. A good page can carry the scope and the caveat. It cannot be the place the caveat is computed.}
+
+\SA{I grant the triangle, and I grant that prose cannot be intersected. I do not grant that these are common enough to justify the cost, and you have said you do not claim they are.}
+
+\TE{I have said so because it is true. The claim is narrower: they are the situations on which a shared record most often misleads, and misleads without anyone being at fault. Whether that justifies the cost is a question on which you and I may differ, and I will say below what the cost is.}
+
+\section{Costs}
+
+\MA{Then state it. Start with my contributors.}
+
+\TE{Requiring a scope on every claim asks contributors to say more than they usually do. A claim with an undeclared scope is asserted over everything, which is stronger than most intend and more exposed to objection. An interface can default to a broad scope and invite narrowing, and the cost of declaring is paid once, where the cost of an undeclared scope is paid by every later reader. That is an argument and not a proof. The burden is real, and it would shape who contributes.}
+
+\SA{Next. Every shared system is gamed.}
+
+\TE{This one has its own surfaces. A contributor can file many similar items to look like independent evidence. The specification treats a batch of imports, or a set of items from one origin, as a single family whose members do not count as independent. Volume does not become support. Self-validation has no place in the credit vector, so a contributor cannot raise standing by endorsing their own work. These are mitigations with stated limits. A coordinated ring that has not yet been shown to be dependent counts as independent, for instance.}
+
+\MA{And the computation?}
+
+\TE{Labeling every unit of every claim's scope is not free. Scopes are finite unions of boxes and a dossier involves finitely many of them, which keeps the problem finite, but finite is not cheap. Whether a practical system can keep it within reach is an open engineering question.}
+
+\SA{And the structure itself?}
+
+\TE{Some of it is contestable. Which items form a family, which terms need operational meanings, which mappings between vocabularies hold: reasonable people differ on all of these. The specification handles this by making each such decision a record that can be argued about in the same way as any other. That does not remove the difficulty. It relocates it to a place where it can be seen.}
+
+\section{Three refusals}
+
+\SA{You said the system does not say who is right. Then what does it tell me?}
+
+\TE{What follows, given the records and the policy. There are three things it declines to do, and each is a design decision and not a theorem. The monograph says so, and keeps what is proved apart from what is chosen.}
+
+\TE{It does not say what is true. It records what has been claimed, why it may hold, what limits it and what would make it fail. A reader who wants a verdict reads the standing under a policy, and the policy is an object the reader can change.}
+
+\TE{It does not reduce standing to a number. Standing has several dimensions: the quality and independence of the evidence, how far it is challenged, whether objections remain open, how much of the territory is covered. They admit a partial order in which one position dominates another only when it is at least as good on every dimension. Take one claim resting on a single controlled trial and another resting on three independent observational studies. The first is stronger on how well the method rules out rival explanations. The second is stronger on independent replication. Neither dominates.}
+
+\MA{Then any number ranks them anyway.}
+
+\TE{A number has to, and that is the point. Any scalar that respects everything the record establishes must still order that pair, strictly or as a tie, and the record has nothing to say about how. The number carries an exchange rate between replication and method strength that nobody declared. Weighted sums also have a second flaw: a balanced claim, moderate on every dimension and dominated by none, can fail to come first under any positive weighting, so the ranking silently deletes it. So the design publishes the vector and allows ranked displays only as named, versioned views whose exchange rates are visible.}
+
+\SA{A declared view is a scalar with extra steps.}
+
+\TE{In one respect yes. In the respect that matters it is not, because the rate is named, public, versioned and open to objection, and it is kept out of the status that other computations depend on.}
+
+\TE{Third, it does not read a failed detection as a negation. A study that fails to find an effect has not shown that there is none. Depending on its design such a result can support a bound on the effect, support a claim of no effect within a stated margin, support an opposite effect, or support nothing about the effect and only a claim about the study. These are different claims over different regions with different warrants, and a unit that stores ``no effect'' as the negation of ``effect'' has already run them together.}
+
+\section{Closing}
+
+\SA{Let me say where I stand. I accept that a family of excellent pages can be jointly impossible with no one at fault, and that prose statements of scope cannot be intersected. I accept that a page which says ``studies differ'' is summarizing an argument it does not contain. I do not accept that I have been shown this is the best unit, that contributors would use it, or that a shared record governed this way would be governed better.}
+
+\TE{You have not been shown any of those, and I do not claim them. The claim is that a unit carrying scope, warrant and objection can localize a conflict, tell an attack on evidence from an attack on inference, keep a narrower claim alive when a broader one fails, and compute standing from records and a declared policy, and that a page cannot do the first two and a statement cannot do the first three. The rest is cost, which I have tried to state, and choice, which anyone may replace.}
+
+\MA{And for my settled pages?}
+
+\TE{Keep them as they are. The best of them will be what the argued propositions are read through.}
+
+\SA{I will keep my objection, then, and I will attach a scope to it. It applies to questions that are settled. On the others I will read the dossier.}
+
+\section{What this essay does not show}
+
+The dialogue does not show that any deployed system suffers from the failures it describes. The family of pages is invented, the questionnaire is invented, and the three speakers are invented and stand for no person. It does not show that the argued proposition is the best possible unit, only that it expresses situations a page and a statement cannot and that its guarantees can be stated exactly. It does not show that contributors would adopt it, that the computation is tractable at scale, or that governance of a shared record would improve. It does not settle which of two contested propositions is correct. The skeptic's objection is answered on four grounds and conceded for settled questions. It is not refuted in general, and the dialogue leaves open how often the hard situations arise.
+
+Nothing in the dialogue goes beyond the essay \emph{The Unit of Knowledge} and the monograph, and the dialogue states no result that is not proved there.
+
+\section*{Notes}
+
+% TODO(literature): where a related-work discussion would go, cover how other shared records treat the unit question (page, statement, argued claim) and the prior literature on structured argument and on gluing of local descriptions.
+
+Related work is deliberately not surveyed in this draft.
+
+The results mentioned in speech are in \emph{Adversaria: A Specification for a Public Claim Graph}: the unit and the three-unit comparison (Chapter 1); scope algebra, kernels, monotonicity under narrowing and conflict localization (Chapter 4); duplicates as one family (Chapter 5); warrants (Chapter 6); objections, hereditary attack, policies, labeling and non-explosion (Chapter 7); the signed-cycle criterion and obstruction region (Chapter 8); replay determinism and withdrawal as a new record (Chapter 9); the status vector, dominance and scalar inadequacy (Chapter 12); what each negative outcome can support (Chapter 17); the listed limits (Chapter 18). The essays \emph{Standing Without Scores} and \emph{Null Results as Claims} treat the second and third refusals at length.
+
+\end{document}

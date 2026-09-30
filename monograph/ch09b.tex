@@ -1,0 +1,100 @@
+\section{Revision lineage}
+
+Claims change: scopes are narrowed after an objection, kernels are split, wording is repaired. The ledger never edits a claim. A revision is a new record that names what it supersedes.
+
+\begin{definition}[Revision and lineage]\label{def:lineage}
+A \emph{revision} is a record introducing a new claim version $c'$ with one or more designated references $\mathsf{supersedes}(c')=\{c_1,\dots,c_m\}$ to earlier claim versions. Restriction, distinction and constraint each produce their results as revisions. The \emph{lineage graph} has claim versions as nodes and an edge $c'\to c_i$ for each supersession.
+\end{definition}
+
+Several successors of one version are allowed (a fork, when a disputed claim branches into a broader formulation, a restricted one and an opposing one), and a revision with several predecessors is allowed (a merge). Nothing overwrites anything: a superseded version stays addressable, citable and objectable, and its status continues to be computed. ``Superseded'' is a fact about lineage, displayed as such, and is not a label of the defeat semantics.
+
+\begin{theorem}[Lineage integrity]\label{thm:lineage}
+In a valid ledger:
+\begin{enumerate}[label=(\alph*)]
+\item The lineage graph is acyclic, and every version has at least one root ancestor (a version with no supersession references), so no version is orphaned.
+\item \emph{(History is preserved.)} Every ancestor of a claim version is present in the ledger, and remains present and unchanged in every valid ledger extending it.
+\item \emph{(No in-place change.)} A revision does not alter the earlier version, and therefore every record that refers to that version still refers to the same content.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) Supersession references are references, so an edge of the lineage graph is an edge of the reference graph, which is acyclic by Definition~\ref{def:valid}(iii). A finite acyclic graph in which every node has finitely many out-edges reaches a node with none by following out-edges, and that node is a root. (b) Closure gives presence, and Theorem~\ref{thm:valid}(c) gives stability. (c) The earlier version is an existing record; by (b) its content is unchanged in any extension, and references name it by identifier, which determines its content.
+\end{proof}
+
+\section{Withdrawal}
+
+A contributor may retract an argument. In an append-only ledger retraction cannot be deletion, so it is another record.
+
+\begin{definition}[Withdrawal]\label{def:withdrawal}
+A \emph{withdrawal} of an argument $a$ is a record referencing $a$, admitted only if authorized (in the default policy, only the author of $a$ may withdraw it). In the argument graph it contributes a node $w_a$ with $\sigma(w_a)=\sigma(a)$ that attacks $a$ on all of $\sigma(a)$, succeeds under every policy, and has no targets: no objection can be filed against a withdrawal.
+\end{definition}
+
+\begin{theorem}[Withdrawal is deletion, up to labeling]\label{thm:withdraw}
+Let $\ledger'$ extend $\ledger$ by a withdrawal of $a$. Write $Z_x$ for the set consisting of $a$ and every argument $d\in\mathcal A_x$ with $a\in\Sub(d)$ and $x\in\sigma(a)$, for $x\in\sigma(a)$. Then:
+\begin{enumerate}[label=(\alph*)]
+\item $\Lab'(a,x)=\OUT$ for every $x\in\sigma(a)$.
+\item $\Lab'(d,x)=\OUT$ for every $d\in Z_x$.
+\item For every $x\in\sigma(a)$ and every argument $b\notin Z_x$, $\Lab'(b,x)$ equals the label of $b$ at $x$ in the framework obtained from $\mathcal A_x(\ledger)$ by deleting $Z_x$ and all defeats involving its members. At units outside $\sigma(a)$ no label changes.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) $w_a$ has no defeaters, so it is $\IN$ at every $x\in\sigma(a)$ by Theorem~\ref{thm:labels}(c), and it defeats $a$, so $a$ is $\OUT$. (b) Apply Lemma~\ref{lem:hereditary}(ii) to $a\in\Sub(d)$.
+(c) By (a) and (b) every member of $Z_x$ is $\OUT$ at $x$. Delete them one at a time. By Lemma~\ref{lem:outinert} each deletion leaves all other labels unchanged, and the remaining members of $Z_x$ remain $\OUT$ (their labels do not change either). After all deletions, $w_a$ defeats no remaining argument, since its defeats were on members of $Z_x$, so it is an isolated $\IN$ node and does not affect the rest. The remaining framework is the original one with $Z_x$ removed. For $x\notin\sigma(a)$, $w_a$ is absent and the framework is unchanged.
+\end{proof}
+
+An argument that stands on a withdrawn argument by \textsc{Pool} continues to stand at units its other fillers cover, and is $\OUT$ only where the withdrawn part was its only support. Withdrawal changes admissibility without rewriting history: the withdrawn record, and what everyone did with it, stay in the ledger.
+
+\section{Replay, merging and traceability}
+
+Write $\Proj(\ledger,\policy)$ for the projection consisting of the active set, the labeling and the regions computed from them.
+
+\begin{theorem}[Replay determinism and convergence]\label{thm:replay}
+\begin{enumerate}[label=(\alph*)]
+\item $\Proj(\ledger,\policy)$ depends only on the set $\ledger$ and on $\policy$, not on the order or multiplicity with which records arrived.
+\item Merging is union: it is commutative, associative and idempotent on valid ledgers with consistent identifiers. Hence any two replicas holding the same set of records and the same policy hold the same projection, whatever the order of exchange.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) The disposition $D_\policy(r,\ledger)$ is defined by recursion along the reference order and depends only on $r$, on the dispositions of its references, and on $\policy$; the recursion is well-founded on the acyclic reference graph and returns the same value for any linear extension used to evaluate it. The duplicate rule uses record identifiers, not arrival order. The labeling is a function of the active set and $\policy$. (b) Union of sets is commutative, associative and idempotent, and it preserves validity by Theorem~\ref{thm:valid}(b).
+\end{proof}
+
+The convergence is of state, not of belief. Labels are not monotone in the ledger: filing an objection can turn an $\IN$ argument $\UND$, and filing a reply can turn it $\IN$ again (Section~\ref{sec:worked7}). Two replicas converge because they end with the same records, not because their statuses only ever move in one direction.
+
+\begin{theorem}[Federated divergence is traceable]\label{thm:trace}
+Let two members hold valid ledgers $\ledger_1,\ledger_2$ and policies $\policy_1,\policy_2$.
+\begin{enumerate}[label=(\alph*)]
+\item If $\ledger_1=\ledger_2$ and $\policy_1=\policy_2$ their projections are equal.
+\item Suppose $\policy_1=\policy_2$ and $\Lab_1(a,x)\ne\Lab_2(a,x)$. Then the symmetric difference of the two active sets contains an argument in the backward closure $B_x(a)$ computed in the union of the two frameworks.
+\item Suppose the two active sets are equal, the admissibility relations are equal, and the two preferences agree on all pairs of active arguments. Then labels agree.
+\end{enumerate}
+Consequently every difference between two projections is attributed either to records or to a policy, and, when the policy is shared, to records in an identifiable neighbourhood of the disputed argument.
+\end{theorem}
+
+\begin{proof}
+(a) is Theorem~\ref{thm:replay}(a).
+
+(b) With one policy, the defeat between two arguments is determined by the arguments themselves and $\policy$, independent of the rest of the ledger; so the frameworks $F_1,F_2$ at $x$ are subframeworks of the union framework $F$ and agree on every pair they share. Let $U=B_x(a)$ in $F$ and suppose $U$ contains no member of the symmetric difference, so $U\subseteq\mathcal A_1\cap\mathcal A_2$ (if $a$ itself were absent from one member it would be in the difference). All defeaters in $F$ of members of $U$ lie in $U$, hence in both frameworks, so $U$ is the backward closure of $a$ in $F_1$ and in $F_2$, and the two frameworks agree on it. By Theorem~\ref{thm:direction} the labels of $a$ agree, a contradiction.
+
+(c) The frameworks at every $x$ are then identical, so the labels are.
+\end{proof}
+
+\section{Evaluation depends on arguments only}\label{sec:separation}
+
+The architecture separates four functions: storage, routing (which material reaches which person or workspace), admission and evaluation. They exchange information, and none silently determines another. The following is the precise form of that separation for evaluation.
+
+\begin{proposition}[Evaluation ignores non-argumentative metadata]\label{prop:separation}
+The labeling depends on the ledger only through $\Act(\ledger,\policy)$ and on $\policy$. It does not depend on routing weights, view counts, notification state, search rank, contributor reputation, controversy flags or agreement tallies. Consequently:
+\begin{enumerate}[label=(\alph*)]
+\item If two states have the same active set and policy, their labelings coincide however their metadata differ.
+\item A controversy flag, which may legitimately gate admission, has no bearing on status: flagging a claim does not make it false or unsupported, and unflagging it does not support it.
+\item Passing a capability gate authorizes an act, that is, makes admission possible. It does not make the act's conclusion $\IN$: an admitted argument may be $\OUT$ or $\UND$ under the same rules as any other.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+The labeling is a function of the active argument set and $\policy$ (Definition~\ref{def:grounded}), and Proposition~\ref{prop:inert} applies. (b) and (c) follow, using in (c) that a gated act's only effect is through $D_\policy$ and hence through $\Act$; an example of an admitted argument left $\UND$ is Proposition~\ref{prop:mutual}(a).
+\end{proof}
+
+What a gate legitimately changes is \emph{whether} a contribution takes part, and that change appears in the ledger as a disposition with a stated reason. It never changes \emph{how} a participating contribution is evaluated. The consequence, developed in the protocol part, is that routing a claim to someone, or restricting who may change a shared surface, is not a truth procedure: relevance to a reader does not establish support, and support does not establish relevance.

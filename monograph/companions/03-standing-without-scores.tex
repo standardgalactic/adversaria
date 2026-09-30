@@ -1,0 +1,149 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\title{Standing Without Scores}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+Wherever a shared record has to say how well a claim is doing, there is a strong pull toward one number: a score, a grade, a probability of truth. This essay argues that the number should be refused, for reasons that can be stated exactly. A claim's standing has several components that are not derived from one another. They can be compared by dominance, and dominance leaves some pairs incomparable. Any scalar must rank those pairs anyway, and the ranking is an exchange rate between components that the record itself does not contain. Weighted sums make the exchange rate explicit and can also delete a balanced claim that nothing dominates. A published figure then becomes a target. The design answer is to publish the vector, to show the set of claims that nothing beats, and to allow ranked displays only as named, versioned views whose exchange rates are declared. The formal results are proved in the monograph \emph{Adversaria: A Specification for a Public Claim Graph}; this essay states them in words with small numerical examples.
+\end{abstract}
+
+\section{The pull of one number}
+
+A reader looking at a contested claim wants to know how it stands. The most economical answer is a figure. Five stars, a grade from A to F, a confidence of 0.83, a rank of 12 in its field. A figure is easy to sort, easy to filter, easy to put in a table, and easy to understand at a glance. It can be computed once and reused everywhere. For a system that must serve many readers quickly, it is the obvious thing to build.
+
+The figure is also always a summary of something, and the question worth asking is what it summarizes and what it throws away. A claim might be well supported by one careful trial and poorly replicated. Another might be supported by many independent observational studies and have no controlled test. A third might be strong in one population and untested in another. A single figure has to place these relative to one another, and it does so by some rule. The rule is usually invisible to the reader, frequently invisible to the people who maintain the system, and never neutral.
+
+This essay is about that rule. It argues that the record should not contain it, that there are mathematical reasons why no rule can be extracted from what the record does contain, and that there is a workable alternative. The alternative is less convenient than a number and more honest about what is known.
+
+\section{What standing contains}\label{sec:contains}
+
+In the specification that this essay draws on, the standing of a claim is a \emph{field} over the region where the claim is asserted. At each unit of that region it has separate components.
+\begin{itemize}[nosep]
+\item The \emph{kinds of evidence} that enter the arguments which currently stand.
+\item \emph{Replication}: the number of independent families of evidence for the claim and against it, counted by family and not by record.
+\item \emph{Identification strength}: how far up a ladder of methods the best supporting argument reaches, from none, through observational, to interventional.
+\item \emph{Coverage}: how much of each dimension of the territory (populations, settings, periods, measurement regimes) the supporting arguments reach.
+\item \emph{Agreement}: how many contributors have registered a stance.
+\item \emph{Open defeaters}: objections that remain unresolved.
+\end{itemize}
+None of these is computed from the others. Replication is about how many independent sources there are, identification strength is about how well each can rule out rival explanations, and coverage is about where. A claim can be high on one and low on another for unrelated reasons.
+
+One component is treated differently. Agreement is recorded and displayed, and it plays no part in any comparison of standing. The reason is that agreement has no power to defeat an argument, so giving it the power to promote one would create a route by which a count of acceptances moves a claim up in an ordering that is meant to reflect what stands. The rule is stated once and applies throughout: an ordering of claims uses the other five components, and a display that shows agreement shows it beside the ordering.
+
+\section{Dominance}\label{sec:dominance}
+
+Two claims defined at the same unit can be compared in the most conservative way available. One \emph{dominates} the other when it is at least as good on every component that bears on standing: its evidence kinds include the other's, it has at least as many supporting families and no more opposing ones, it reaches at least as high on the identification ladder, it covers at least as much in every dimension, and it has no more unresolved defeaters.
+
+Dominance is a preorder. It is reflexive and transitive, and its strict form is irreflexive and transitive, so it never loops. That much is routine. The important fact is that it is not total, and a small example shows why this is not a technicality.
+
+Take two claims at the same unit with no unresolved defeaters. The first rests on a single interventional trial. The second rests on three observational studies from three independent families. The first is stronger on identification: a trial reaches a higher rung than observational work. The second is stronger on replication: three families to one. Neither dominates. They are incomparable, and nothing in the record says which should be placed higher.
+
+The example is realizable in any ledger that has two kinds of evidence and a notion of independence, and it does not depend on the particular numbers. It depends only on two facts: replication and identification strength are separate components, and neither is derived from the other. A record that keeps those components separate will contain incomparable pairs as a matter of course.
+
+\section{What a scalar adds}\label{sec:scalar}
+
+A scalar summary is a function from statuses to numbers. In practice two things are asked of it: it should respect dominance, meaning that a strictly dominating claim gets a strictly higher number, and it should order all claims. The mathematics says that the first is available, the second is available only by making a choice the record does not contain, and the choice can go either way.
+
+\begin{enumerate}[label=(\alph*)]
+\item \textbf{A monotone scalar always exists.} For any finite set of statuses, one can assign to each status the length of the longest chain of strict dominances ending at it. If one status strictly dominates another, every chain ending at the lower one extends by one step, so the higher gets a strictly larger number. This is the same height function used to order any finite partial order.
+\item \textbf{For any incomparable pair, both orientations are possible.} There are monotone scalars that rank the first above the second, and there are others that rank the second above the first. Each respects every dominance the record establishes. They differ only on pairs that dominance leaves open.
+\item \textbf{A scalar represents the ordering exactly only when the ordering is total.} If even one incomparable pair exists, no number assignment can reproduce dominance, because numbers are always comparable and the pair is not.
+\end{enumerate}
+
+Part (b) is the substantive one. A scalar that is faithful to everything the record establishes must still rank each incomparable pair, possibly as a tie, and the record has nothing to say about how. Whatever the scalar does on those pairs is information that is not in the status. It is an exchange rate between replication and identification strength, between coverage and open defeaters, and it was supplied from outside.
+
+The specification draws the conclusion that no function of the status vector is stored as the standing of a claim. Such a function can be computed and shown, but it is a view, it carries its exchange rate on its face, and it is not part of what the record asserts.
+
+One qualification is worth stating. A scalar may tie incomparable pairs, and a tie is not a claim that the two are equal in every respect. The argument does not say that every scalar prefers one of two incomparable claims strictly. It says that a scalar must compare them, strictly or by tie, and that dominance does not determine which.
+
+\section{Weights are policy}\label{sec:weights}
+
+The most common scalar is a weighted sum: code each component as a number and add with weights. Its verdict on an incomparable pair depends on the weights, and the dependence can go entirely either way.
+
+Return to the trial against the three studies. Code replication by the number of supporting families, and identification strength by its rung. The difference between the two claims is two families in favor of the observational claim and some number $k$ of rungs in favor of the trial. The trial is ranked higher exactly when the weight on identification strength exceeds $2/k$ times the weight on replication. Every positive weighting is equally available, some favor the trial, some favor the three studies, and the record states no preference.
+
+So choosing the weights is choosing which kind of claim to reward. That is a substantive decision about what counts as good evidence, and it is one on which reasonable communities differ. A field with expensive trials and abundant observational data may set the rate one way. A field in which observational confounding is notorious may set it the other. A single published weighting settles that dispute silently, for everyone, in a place where nobody is asked.
+
+\section{The frontier point that no weighting finds}\label{sec:nonconvex}
+
+Weighted sums have a second and less obvious flaw. They can delete claims that nothing beats.
+
+Suppose two components coded as numbers and three claims with codings $(1,0)$, $(0,1)$ and $(0.4,0.4)$. The third is a balanced claim: moderate on both components. None of the three dominates another, since the third is below the first on the second component and below the second on the first. Yet for every choice of positive weights, the weighted sum of the third claim is smaller than the larger of the other two. The third is never first under any positive weighting.
+
+The consequence is that ranking by any such sum silently discards a claim that is undominated. The discarded claim may be exactly the balanced one: moderately replicated, moderately identified, moderately covered. That is a defensible thing for a record to contain and a poor thing for a ranking to delete. A reader who wants a claim that is decent on every axis will not find it at the top of any list built this way.
+
+\section{The frontier instead of a ranking}\label{sec:frontier}
+
+What can the record offer in place of a rank? A set that discards only what is strictly worse. The \emph{frontier} of a set of claims at a unit is the set of those to which no other claim is strictly superior. Every claim outside the frontier is beaten by some claim on it, and no claim on the frontier is beaten by anything.
+
+The frontier is nonempty for any nonempty finite set, and every claim is either on it or dominated by something on it. It answers the question ``which of these has nothing strictly better,'' and it does not answer ``which is best.'' A frontier with more than one member is a finding: the claims differ in ways that dominance cannot settle, and a display should show the coordinates on which they differ.
+
+In the trial and three-studies example, the frontier has two members. A display that shows both, with the components laid out side by side, tells the reader something true: here are two claims, one with a stronger method, one with more independent support, and which matters more depends on what you need. It is less tidy than a number. It is also the only statement of the situation that is fully supported by the record.
+
+\section{A number becomes a target}\label{sec:target}
+
+The mathematics above concerns what a scalar can represent. There is also a behavioral argument, which is a design argument and is not offered as a theorem.
+
+Any public display that orders claims or contributors by a single figure tells its audience which figure to raise. A contributor who optimizes the figure will do so along its cheapest coordinate, and a figure that was useful as a summary stops being useful once it is a target. Here the cheap coordinates are recognizable: evidence that looks replicated and comes from one family, agreement from a friendly audience, scopes drawn narrowly enough to be uncontroversial. Some of these are answered elsewhere in the design. Replication is counted by independent family and not by record. Agreement has no power to defeat or promote. The remaining defense is to not publish a figure that can serve as the target.
+
+A vector changes the incentive, it does not remove it. A contributor can still push one component up at the expense of another, but the trade is visible, and a reader can see which component moved. A contributor who wants a better vector has to improve some component without lowering the others, which is exactly what dominance measures. The ways of doing that are more independent replication, stronger identification, wider coverage and fewer open defeaters, and these are the ways of doing better work. The design argument is not that the vector cannot be gamed. It is that gaming it costs more, shows more, and leads more often through real improvement.
+
+\section{Declared views}\label{sec:views}
+
+None of this means that nobody may rank. Readers sometimes need an order, and communities sometimes agree on an exchange rate. The specification allows this with a constraint on where the rate lives.
+
+A \emph{view} is a named, versioned and public function or preorder that extends dominance. It says how it counts and what it ignores. Every view that respects dominance agrees with dominance wherever dominance speaks, and views disagree with one another only on the incomparable pairs. The disagreement between views is thereby located precisely. It is not diffuse or mysterious, it lies in the pairs that the record leaves open.
+
+A view is itself a contestable object. It can be proposed, criticized on stated grounds and replaced. It is never stored in the status of a claim and never enters the computation of what stands. A ranked display names the view that produced the order, shows the frontier, and says that the order within the frontier comes from the view.
+
+There is one more consequence. A query that presupposes an exchange rate nobody has declared may return the frontier and no order. That is a legitimate answer. A contest with no agreed rule for trading one dimension against another has no winner, and the response that says so is more accurate than one that names someone.
+
+\begin{quote}\small\hrule\medskip
+\textbf{An example from competitions.} Take a speed-solving contest for a puzzle cube, in which two variants expose what a time-only scoreboard hides. A \emph{dud} cube has a configuration that violates the cube's invariants and cannot be solved; the right response is a refusal that names the violated invariant, not a long failed attempt. A \emph{gradient} cube has stickers whose tones overlap, so classification must be revised until the inferred state satisfies the global invariants; classifying comes before transforming. Scored by time alone, both variants collapse into the ordinary one, since a fast refusal and a slow solve are just numbers. Scored by a vector of time, refusal accuracy and classification accuracy, they do not collapse, and any single ranking over that vector introduces an exchange rate nobody declared.
+\medskip\hrule
+\end{quote}
+
+\section{Two kinds of doubt}\label{sec:doubt}
+
+A reader can be unsure about a claim for two quite different reasons, and a single figure merges them. The first is uncertainty about the claim: the evidence is thin, objections are open, replication is sparse. This is what the status vector records, and it is reduced by adding arguments and evidence to the record. The second is disagreement about evaluation: the same record, read under rules that different communities would each accept, yields different standing. This is reduced by no addition to the record, because the record is the same under all the rules.
+
+The specification keeps them apart by allowing status to be indexed by a family of policies. The indexed status of a claim is the set of statuses it receives under the family. A claim whose set has one element is robust across policies. Asking for robust dominance, meaning dominance under every policy in the family, removes comparabilities, which is the honest price of not choosing a rule. A single score cannot distinguish a claim about which everyone agrees that little is known from one about which much is known and communities read the record differently. A vector indexed by policy can.
+
+\section{Objections and replies}\label{sec:objections}
+
+\paragraph{``Readers want a number.''} Some do, and a view can give it to them, with its exchange rate attached. The objection is to storing the number as a property of the claim, where it carries a decision nobody made openly. Where a number is offered it should say what it is.
+
+\paragraph{``A declared view is just a scalar with extra steps.''} In one respect it is. It produces a number and a ranking. In the respect that matters it differs: the exchange rate is named, public and versioned, it can be contested by those who would choose a different one, and it is kept out of the status that other computations depend on. The extra steps are what make the commitment inspectable.
+
+\paragraph{``A vector can be gamed too.''} It can, and the essay does not claim otherwise. Its claim is narrower: manipulating one component to raise a single figure is cheap and invisible, while manipulating components of a vector is more expensive and more visible. Some manipulations, such as manufacturing many items that look independent, are addressed by other parts of the design, and they are mitigations with stated limits.
+
+\paragraph{``The frontier may be huge and useless.''} It may. A frontier with many members is itself a finding about how many incomparable positions a question has. A display can summarize it, or can apply a declared view within it. What it should not do is shrink it by pretending the members are comparable.
+
+\paragraph{``A reader cannot use six components.''} A reader can use a few well-chosen ones, and the display may emphasize them. The components are what the system knows. The display decides how many to show, and the rule is only that what it shows be labeled as a view where it orders.
+
+\section{What this essay does not show}\label{sec:limits}
+
+It does not show that scalar summaries are useless for any purpose. A scalar can be a convenient index for sorting or sampling if nobody mistakes it for standing. It does not show that the six components are the right ones, or that dominance is the right comparison. Those are design choices, argued in the monograph and open to replacement. It does not show that vectors cannot be gamed, only that the incentive changes. It does not claim that ties are impossible under a scalar. It does not address how the components themselves are computed, what independence means, or how families are formed, which are matters on which the record can be contested.
+
+What it does establish is exact. Standing has components that are not derived from one another. Dominance over them is a preorder with incomparable pairs. A monotone scalar exists, any incomparable pair can be ordered either way by some monotone scalar, and no scalar represents dominance once an incomparable pair exists. Weighted sums make the exchange rate explicit and can delete an undominated claim. A record that stores a scalar as standing has stored a decision it did not make openly. The alternative is to store the vector, publish the frontier, and let named, versioned views carry the exchange rates where they can be seen and argued about.
+
+\section*{Notes}
+
+The formal results are in \emph{Adversaria: A Specification for a Public Claim Graph}, Chapter 12: dominance and its preorder, the incomparable pair, scalar inadequacy with the height-function proof and the linear-extension construction, weight dependence, the nonconvex counterexample, the frontier, policy-indexed status, and the rule on declared views. The exclusion of agreement from comparison and the counting of replication by family are treated in Chapters 5 and 12.
+
+\end{document}

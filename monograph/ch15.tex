@@ -1,0 +1,89 @@
+\chapter{Ontologies and Mappings}\label{ch:ontology}
+
+A kernel carries an ontology version and operational meanings (Chapter~\ref{ch:claim}). The specification does not choose a vocabulary. This chapter says how claims stated in different vocabularies can bear on one another without either being merged into the other, and it proves the soundness and the defeasibility of the one mechanism that connects them.
+
+\section{Plural ontologies}\label{sec:plural}
+
+An \emph{ontology version} is a versioned ledger object that fixes a vocabulary and, for each term, the operational meanings by which it is applied. Kernels are interpreted relative to one ontology version. Two ontology versions may define the same word differently, may define different words for one construct, or may draw the same boundary in different places. The specification does not require, and does not provide, a canonical ontology.
+
+\begin{designrule}[No silent identification of kernels]\label{rule:nomerge}
+No record identifies, subsumes or merges two kernels except a mapping claim of the kind defined below. In particular, neither an editor nor an automated process may treat two kernels as synonymous because their statements look alike, and no evaluation rule treats two kernels as equal unless they are the same object.
+\end{designrule}
+
+The rule is what separates the mechanism here from a synonym table. A synonym table asserts an identity outside the argument graph. A mapping claim asserts it inside.
+
+\section{Mapping claims}\label{sec:mappingclaims}
+
+Two kernels $\kap,\kap'$ over the same unit space give rise to two derived kernels whose extensions in a model $M$ are determined by those of $\kap$ and $\kap'$:
+\[
+[\mathsf{EQ}(\kap,\kap')]_M=\Om\setminus\bigl([\kap]_M\,\triangle\,[\kap']_M\bigr),\qquad
+[\mathsf{IMP}(\kap,\kap')]_M=\Om\setminus\bigl([\kap]_M\setminus[\kap']_M\bigr).
+\]
+A \emph{mapping claim} is a claim whose kernel is $\mathsf{EQ}(\kap,\kap')$ or $\mathsf{IMP}(\kap,\kap')$, with a scope $\tau$ over which it is asserted. It is an ordinary claim: it has arguments, objections and a status. The kinds of mapping in ordinary use are expressed as follows.
+\begin{itemize}
+\item \emph{Equivalent} over $\tau$: $\mathsf{EQ}(\kap,\kap')$ over $\tau$.
+\item \emph{Narrower}: $\mathsf{IMP}(\kap,\kap')$, every case of $\kap$ is a case of $\kap'$.
+\item \emph{Broader}: $\mathsf{IMP}(\kap',\kap)$.
+\item \emph{Operationally substitutable} over $\tau$: $\mathsf{EQ}$ over $\tau$, with the operational meanings named in the arguments.
+\item \emph{Disputed}: a mapping claim with an objection, or with arguments both for and against it, whose status is not settled at some unit.
+\item \emph{Historically related}: not a mapping claim; a relation in the dossier that licenses nothing.
+\end{itemize}
+A mapping is a graded, scoped statement. It is asserted over $\tau$ and nowhere else, and two vocabularies may be equivalent for adults in a laboratory and not for children in a classroom.
+
+\section{Transport}\label{sec:transport}
+
+Consider an argument that concludes $\kap$ over a scope. It bears on a claim about $\kap'$ only if some warrant connects them, and here the connecting warrant is an ordinary one.
+
+\begin{definition}[Transport warrants]\label{def:transport}
+For kernels $\kap,\kap'$ the warrants
+\[
+\mathsf{TR}_{\mathsf{EQ}}=(\kap,\ \mathsf{EQ}(\kap,\kap')\Rightarrow\kap';\ \Om;\ \mathrm{none};\ \varnothing),\qquad
+\mathsf{TR}_{\mathsf{IMP}}=(\kap,\ \mathsf{IMP}(\kap,\kap')\Rightarrow\kap';\ \Om;\ \mathrm{none};\ \varnothing)
+\]
+are the \emph{transport warrants}. An argument that fills the premise $\mathsf{EQ}(\kap,\kap')$ (or $\mathsf{IMP}(\kap,\kap')$) with an argument for a mapping claim, and the premise $\kap$ with an argument for $\kap$, concludes $\kap'$ over the intersection of their scopes.
+\end{definition}
+
+The transport warrants are not structural exceptions like \textsc{Restrict}, \textsc{Pool} and \textsc{Lift}. They are ordinary warrants and so are subject to (W1)--(W5). Their validity is proved, not stipulated.
+
+\begin{theorem}[Transport is sound]\label{thm:transport}
+Let $\mathcal M_{\mathrm{map}}$ be the class of models in which mapping kernels are interpreted as above. Every model in $\mathcal M_{\mathrm{map}}$ validates $\mathsf{TR}_{\mathsf{EQ}}$ and $\mathsf{TR}_{\mathsf{IMP}}$. Consequently every well-formed argument built on a transport warrant, with fillers sound in a model $M\in\mathcal M_{\mathrm{map}}$, is sound in $M$ (Theorem~\ref{thm:sound}).
+\end{theorem}
+
+\begin{proof}
+Let $M\in\mathcal M_{\mathrm{map}}$ and $x\in[\kap]_M\cap[\mathsf{EQ}(\kap,\kap')]_M$. Since $x\notin[\kap]_M\triangle[\kap']_M$ and $x\in[\kap]_M$, we get $x\in[\kap']_M$. The argument for $\mathsf{IMP}$ is the same, since $x\in[\kap]_M$ and $x\notin[\kap]_M\setminus[\kap']_M$ give $x\in[\kap']_M$. The second statement is Theorem~\ref{thm:sound} for ordinary warrants.
+\end{proof}
+
+\begin{theorem}[Transport is exactly as defeasible as its mapping]\label{thm:transportdefeat}
+Let $d$ be an argument built on a transport warrant, with an argument $m$ for the mapping claim as a filler. Then at every unit $x\in\sigma(d)$:
+\begin{enumerate}[label=(\alph*)]
+\item if $\Lab(m,x)=\OUT$ then $\Lab(d,x)=\OUT$;
+\item any defeater of $m$ at $x$ defeats $d$ at $x$, by hereditary attack (Definition~\ref{def:attack});
+\item a \emph{defeated} mapping, one whose arguments are all $\OUT$ at $x$, leaves at $x$ no transported argument that stands.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) $m\in\Sub(d)$ and $x\in\sigma(d)\subseteq\sigma(m)$ by (W1). Apply Lemma~\ref{lem:hereditary}(ii). (b) This is the definition of hereditary attack through sub-arguments. (c) Every transported argument has a mapping argument among its sub-arguments; by (a) each of them is $\OUT$ at $x$ when its mapping argument is.
+\end{proof}
+
+\begin{corollary}[Chained mappings intersect scopes]\label{cor:chainmap}
+If $m_1$ maps $\kap_1$ to $\kap_2$ over $\tau_1$ and $m_2$ maps $\kap_2$ to $\kap_3$ over $\tau_2$, then an argument transporting $\kap_1$ to $\kap_3$ through both has scope contained in $\tau_1\cap\tau_2\cap\sigma$, where $\sigma$ is the scope of the source argument. Where $\tau_1\cap\tau_2=\varnothing$, no such argument exists.
+\end{corollary}
+
+\begin{proof}
+Two applications of (W1); this is Theorem~\ref{thm:nowarrant}(a) applied to the chain.
+\end{proof}
+
+Mappings are therefore not closed under composition in any implicit sense. A chain of mappings yields a mapping only over the intersection of the scopes that were separately argued, and only if each link is present and stands. The dossier for a claim in one vocabulary can show which arguments in others reach it, through which mapping claims, and over what region.
+
+\section{Consequences}\label{sec:ontconsequences}
+
+\begin{proposition}[Evaluation needs no canonical ontology]\label{prop:noontology}
+The labeling is defined for any set of admitted arguments whatever ontology versions their kernels use. Two members that use different ontology versions for the same subject may share a ledger, and their projections differ exactly where their policies or admitted mapping claims differ.
+\end{proposition}
+
+\begin{proof}
+The definition of attack (Definition~\ref{def:attack}) compares kernels by equality and negation only, and the labeling uses only attacks, regions and policy. No definition refers to the content of an ontology. Differences between projections are attributed to records or policy by Theorem~\ref{thm:trace}, and mapping claims are records.
+\end{proof}
+
+Two things follow for pages. A dispute that arises only because two pages use one word for two operational meanings is not a rebuttal in the model, since the kernels are different objects and neither is the negation of the other; it appears as a gluing question, where a signed identification claim links them and a distinction dissolves it (Chapter~\ref{ch:distinction}, Proposition~\ref{prop:dissolve}). And a bot that judges two terms synonymous cannot make them so; it can inscribe a mapping claim, and then the claim is open to objection like any other.

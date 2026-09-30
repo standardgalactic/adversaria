@@ -1,0 +1,95 @@
+\section{Pages as local sections}\label{sec:gluing}
+
+Encyclopedic knowledge is written in modules. A page treats one topic, one tradition or one language edition, and its authors check it against the sources they know. Nobody checks the collection. Suppose separate pages, in separate traditions or language editions, each discuss a figure under the same name, and each makes claims about how its figure relates to the figure discussed elsewhere. Each page may be locally coherent and every pair of pages may look compatible on its own. The collection can still fail to assemble into one account, and no editor of any single page is in a position to notice. The name for that situation is a gluing failure, and this section gives the problem and the one case in which its obstruction can be characterized completely.
+
+\subsection{The general gluing problem}
+
+\begin{definition}[Pages and gluing]\label{def:gluing}
+Let $\mathcal K$ be a finite set of binary variables (kernels, each read as true or false at a unit). A \emph{page} is a triple $P_i=(U_i,\mathcal K_i,C_i)$ with a scope $U_i$, a sub-vocabulary $\mathcal K_i\subseteq\mathcal K$, and, for each $x\in U_i$, a set $C_i(x)\subseteq\{0,1\}^{\mathcal K_i}$ of \emph{locally admissible} assignments: what the page permits at $x$. A \emph{global solution at $x$} is an assignment $\tau\in\{0,1\}^{\mathcal K}$ with $\tau|_{\mathcal K_i}\in C_i(x)$ for every page with $x\in U_i$. Pages $P_i,P_j$ are \emph{compatible at $x$} if the projections of $C_i(x)$ and $C_j(x)$ to $\mathcal K_i\cap\mathcal K_j$ intersect. The family is \emph{pairwise compatible} if every pair is compatible at every unit both cover. An \emph{obstruction at $x$} is a pairwise compatible family with no global solution at $x$.
+\end{definition}
+
+Whether pairwise compatibility suffices depends on how the vocabularies of the pages overlap. I record three facts of different strength.
+
+\begin{proposition}[One kernel: pairwise checking suffices]\label{prop:single}
+Let $\{(\kap^{\varepsilon_i},\sigma_i)\}_i$ be finitely many claims about one kernel, with $\kap^{+}=\kap$, $\kap^{-}=\nk{\kap}$ and $\varepsilon_i\in\{+,-\}$. They have a common model iff $\sigma_i\cap\sigma_j=\varnothing$ whenever $\varepsilon_i\ne\varepsilon_j$.
+\end{proposition}
+
+\begin{proof}
+($\Rightarrow$) is Proposition~\ref{prop:conflict}. ($\Leftarrow$) Let $P=\bigcup_{\varepsilon_i=+}\sigma_i$ and $N=\bigcup_{\varepsilon_j=-}\sigma_j$. Then $P\cap N=\bigcup(\sigma_i\cap\sigma_j)=\varnothing$ over pairs of opposite polarity. Take $[\kap]_M=P$, admissible as a union of admissible scopes, so that $N\subseteq\Om\setminus P=[\nk{\kap}]_M$.
+\end{proof}
+
+This is the gluing (sheaf) condition for universal claims of Theorem~\ref{thm:monotone}: for a single kernel, local agreement on overlaps is all there is to global agreement. Two facts from the literature mark its limits; they are cited, not reproved here. For relational data, pairwise consistency of local tables implies global consistency exactly when the hypergraph of the tables' vocabularies is acyclic (Beeri, Fagin, Maier and Yannakakis, 1983). And for general systems of local sections, pairwise-compatible families with no global section arise routinely; this is the phenomenon studied as contextuality (Abramsky and Brandenburger, 2011). Cyclic overlap of vocabularies is the place where obstructions live.
+
+\subsection{Signed identifications, exactly}
+
+The case that matters most for pages about ``the same'' entity is the identification of one page's referent with another's.
+
+\begin{definition}[Signed identification]
+Let $v_1,\dots,v_n$ be binary variables, thought of as $\pm1$-valued at each unit. A \emph{signed identification} is a triple $e=(\{i,j\},s_e,R_e)$ with $s_e\in\{+1,-1\}$ and $R_e$ a scope, asserting that on every unit of $R_e$, $v_j=s_e\,v_i$: same value if $s_e=+1$, opposite if $s_e=-1$. A family $\mathcal E$ of such claims is \emph{satisfiable} if some assignment $v_i:\Om\to\{\pm1\}$ satisfies each on its region. For a unit $x$ let $G_x$ be the signed multigraph on $\{1,\dots,n\}$ whose edges are the $e$ with $x\in R_e$. A cycle is \emph{negative} if the product of its signs is $-1$, and $G_x$ is \emph{balanced} if it has no negative cycle.
+\end{definition}
+
+\begin{theorem}[Signed cycle criterion]\label{thm:signed}
+At each unit $x$ there is an assignment $v\in\{\pm1\}^n$ satisfying all edges of $G_x$ iff $G_x$ is balanced.
+\end{theorem}
+
+\begin{proof}
+($\Rightarrow$) Let $i_1,\dots,i_m$ be a cycle with edges $e_1,\dots,e_m$ joining consecutive vertices and back. From $v_{i_{r+1}}=s_{e_r}v_{i_r}$ we get, going once around, $v_{i_1}=\bigl(\prod_r s_{e_r}\bigr)v_{i_1}$, and since $v_{i_1}=\pm1\ne0$ the product is $+1$.
+
+($\Leftarrow$) Suppose $G_x$ is balanced. In each connected component choose a spanning tree and a root, and set $v_{\mathrm{root}}=+1$. For any vertex $u$ set $v_u$ to the product of the signs along the tree path from the root. Tree edges are then satisfied by construction. A non-tree edge $e$ joining $u,w$ closes a cycle with the two tree paths; that cycle is positive, its sign being $s_e$ times the product of the two path signs, that is $s_e\,v_uv_w=+1$. Hence $v_w=s_ev_u$, and $e$ is satisfied.
+\end{proof}
+
+\begin{counterexample}[Locally fine, globally impossible]\label{cex:triangle}
+Take three variables and three identifications on a common region $R\neq\varnothing$: $e_{12}=(\{1,2\},+,R)$, $e_{23}=(\{2,3\},+,R)$ and $e_{31}=(\{3,1\},-,R)$. Any single edge is satisfiable, and so is any pair: two edges form a path, whose endpoints can always be assigned consistently. Every pair of pages is therefore compatible on every unit. But the triangle has sign product $(+1)(+1)(-1)=-1$, so at every unit of $R$ there is no assignment, by Theorem~\ref{thm:signed}. Nothing in the family is a pairwise contradiction, and no argument defeats another.
+\end{counterexample}
+
+The example is the point of this section. Contradiction detection that examines claims two at a time cannot see it, and neither can the labeling of Chapter~\ref{ch:objection}, which resolves pairwise defeat. Here every argument is unattacked and $\IN$ at every unit of $R$, and the collection is unsatisfiable.
+
+\begin{definition}[Obstruction region]\label{def:obstruction}
+For a family $\mathcal E$ of signed identifications, the \emph{obstruction region} is $\mathrm{Ob}(\mathcal E)=\{x\in\Om: G_x\text{ is unbalanced}\}$.
+\end{definition}
+
+\begin{theorem}[The obstruction region is a scope and characterizes satisfiability]\label{thm:obs}
+Let $\mathcal E$ be a finite family of signed identifications.
+\begin{enumerate}[label=(\alph*)]
+\item $\mathrm{Ob}(\mathcal E)=\bigcup_{C}\bigcap_{e\in C}R_e$, the union over negative simple cycles $C$ of the multigraph of all edges; hence $\mathrm{Ob}(\mathcal E)$ is a scope.
+\item $\mathcal E$ is satisfiable iff $\mathrm{Ob}(\mathcal E)=\varnothing$.
+\item $\mathrm{Ob}$ is monotone: shrinking any of the regions $R_e$ (or deleting an edge) never enlarges it.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) $G_x$ is unbalanced iff it contains a negative simple cycle. (Fundamental cycles are simple, so the proof of Theorem~\ref{thm:signed} shows that if all simple cycles are positive the graph is balanced; conversely a negative simple cycle is a negative cycle.) A simple cycle of the full multigraph lies in $G_x$ iff $x\in R_e$ for each of its edges. Finitely many simple cycles exist, so $\mathrm{Ob}$ is a finite union of finite intersections of scopes, a scope by Proposition~\ref{prop:boolean}.
+(b) Units are independent: an assignment $v:\Om\to\{\pm1\}^n$ is a choice of assignment at each unit. By Theorem~\ref{thm:signed} a choice satisfying the edges active at $x$ exists for every $x$ iff every $G_x$ is balanced.
+(c) The formula in (a) is monotone in each $R_e$.
+\end{proof}
+
+\subsection{The cohomological reading, and its limits}
+
+Identify $\pm1$ with $\mathbb Z/2$ by $s=(-1)^{\bar s}$. For fixed $x$ the signs form a function $\bar s$ from the edges of the graph $G_x$ to $\Zt$, a 1-cochain. A choice of assignment $v$ is a 0-cochain $\bar v$ on the vertices, and its coboundary is $(\delta\bar v)(e)=\bar v_i+\bar v_j$. The edges are all satisfied iff $\bar s=\delta\bar v$. A graph has no 2-cells, so every 1-cochain is a cocycle and $H^1(G_x;\Zt)=C^1/\delta C^0$. Hence:
+
+\begin{proposition}[Cohomological form of the criterion]\label{prop:h1}
+$G_x$ is balanced iff the class $[\bar s]\in H^1(G_x;\Zt)$ vanishes.
+\end{proposition}
+
+This is exact for the binary identification model of Theorem~\ref{thm:signed}, and only for it. It should not be read as a general criterion. For sheaves of sets or groups other than this one, a nonzero class in a cohomology group of the cover may witness an obstruction; vanishing of $H^1$ is not by itself a guarantee that local sections glue; and families of pairwise compatible local sections that cannot glue exist for constraints that are not signed binary identifications, whose obstruction may live in a different Čech group or in no group at all. The specification proves the signed case (Theorem~\ref{thm:obs}), states the cohomology as its interpretation, and treats the wider machinery as an extension to be developed for each new kind of constraint.
+
+\subsection{What Adversaria does with an obstruction}
+
+Consider three pages $P_1,P_2,P_3$, in different traditions or language editions, each discussing a figure known by one name. Let $v_k$ record whether the figure on $P_k$ has some specified property, and let identification claims relate them: $P_1$ asserts its figure is the same as that of $P_2$, $P_2$ asserts the same of $P_3$, and $P_3$ asserts that its figure is distinct from that of $P_1$. This is exactly Counterexample~\ref{cex:triangle}. The example is schematic: it makes no assertion about what any actual page says.
+
+The response of the system has three parts.
+\begin{enumerate}
+\item \emph{Report, do not choose.} The dossier displays $\mathrm{Ob}$ and the negative cycles that witness it, the smallest ones first, as a first-class object. The system never selects an identity by fiat and never drops an edge to restore consistency.
+\item \emph{Count only standing claims.} The graph used is $G_x$ over identification claims that are $\IN$ at $x$; claims that are $\UND$ at $x$ are reported separately as a potential obstruction. An objection that defeats one identification removes an edge from the graph at the units it defeats, and can dissolve the obstruction there.
+\item \emph{Offer distinction as the repair.} If the name is overloaded, the honest repair is a pooling declaration (Definition~\ref{def:pooling}) that gives each sense its own kernel and confines each identification to the slices where it was meant.
+\end{enumerate}
+
+\begin{proposition}[Distinction can dissolve an obstruction and never creates one]\label{prop:dissolve}
+Let $\mathcal E'$ be obtained from $\mathcal E$ by replacing regions $R_e$ with subregions $R'_e\subseteq R_e$, as happens when identifications are confined to sense slices. Then $\mathrm{Ob}(\mathcal E')\subseteq\mathrm{Ob}(\mathcal E)$. If a negative cycle $C$ has $\bigcap_{e\in C}R'_e=\varnothing$, that cycle contributes nothing to $\mathrm{Ob}(\mathcal E')$.
+\end{proposition}
+
+\begin{proof}
+Both statements follow from the formula in Theorem~\ref{thm:obs}(a).
+\end{proof}
+
+In the schematic example, if the first two identifications concern one sense of the name and the third concerns another, no unit lies in all three regions, and the obstruction disappears without any page having been rewritten and without any identification having been deleted. That is the sense in which local pages can be repaired without editing them: the repair is a new record that changes which claim means what where.

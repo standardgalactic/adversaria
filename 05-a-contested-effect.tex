@@ -1,0 +1,219 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+\newcommand{\IN}{\textsf{IN}}
+\newcommand{\OUT}{\textsf{OUT}}
+\newcommand{\UND}{\textsf{UND}}
+\newcommand{\nk}[1]{\neg #1}
+
+\title{A Contested Effect}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+This is a case study in how a dispute about an effect can be taken apart. It follows one claim, that a training program raises reading scores, through an import, an objection, a reply, two evaluation policies, an equivalence result, a failed replication and a withdrawal, and it gives the status of the claim at every unit after every step. The case separates three things that ordinary argument runs together: scope (where the claim is asserted), equivalence of measurement (whether two results bear on the same thing), and policy preference (which kind of argument a community is willing to favor). Each is resolved by a different kind of act, and the labels change in a computable way as each is resolved. The case is schematic: the names are placeholders, the numbers exercise definitions, and no finding about any real program is reported. The formal statements it uses are proved in the monograph \emph{Adversaria: A Specification for a Public Claim Graph}, where Chapter 20 gives the original case. The failed-replication step is added here.
+\end{abstract}
+
+\section{Why work a case}
+
+A set of definitions is easy to state and hard to trust until it has been run. The rules for scope, pooling, objection, defeat, status and withdrawal each look reasonable alone. The real test is whether they compose: whether a realistic sequence of acts, each of them ordinary, produces results that a careful reader would accept as a fair account of where a dispute stands.
+
+The case below is built to exercise the rules in the order a reader meets them. It is small on purpose, with four units and a handful of arguments, so that every label can be checked by hand. Labels were computed by the grounded labeling of the specification and cross-checked by an independent implementation on the frameworks shown. Nothing in the case is taken from a real study.
+
+The point of the exercise is not to show which side of any dispute is right. It is to show what the record says at each step, and which act produces each change.
+
+\section{Setup}\label{sec:setup}
+
+Let the units be four combinations of participant and setting: children or adults, in school or in a clinic. Write them $CS$, $CC$, $AS$ and $AC$. Let $\kappa$ be the kernel \emph{the training raises mean reading scores by at least the declared bound $\delta$}, with a fixed operational meaning for each term. The claim of interest is $c$, which asserts $\kappa$ over $\{CS,CC,AC\}$. It does not assert $\kappa$ for adults in school.
+
+Four items of evidence are on the record.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l l l l X@{}}
+\toprule
+item & kind & scope & family & remark\\
+\midrule
+$e_{\mathrm{rct}}$ & randomized trial & $\{CS,CC\}$ & $F_1$ & kernel $\kappa$\\
+$e_1,\dots,e_{50}$ & registry export & $\{CS\}$ & $F_2$ & kernel $\kappa$; one batch, common origin\\
+$e_{\mathrm{coh}}$ & cohort study & $\{AC\}$ & $F_3$ & kernel $\kappa$\\
+$e_{\mathrm{eq}}$ & equivalence trial, margin $\delta$, powered & $\{AS\}$ & $F_4$ & kernel $\nk\kappa$ (effect below $\delta$)\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Three arguments support $\kappa$ and one opposes it.
+\begin{itemize}[nosep]
+\item $a_1$ concludes $\kappa$ over $\{CS,CC\}$ from $e_{\mathrm{rct}}$, under an ordinary warrant whose rung is interventional.
+\item $a_3$ concludes $\kappa$ over $\{AC\}$ from $e_{\mathrm{coh}}$, under a warrant whose rung is observational.
+\item $p$ applies the pooling rule to $a_1$ and $a_3$ and concludes $c$ over $\{CS,CC,AC\}$.
+\item $n$ concludes $d$, the claim $\nk\kappa$ over $\{AS\}$, from $e_{\mathrm{eq}}$, under an equivalence-design warrant whose backing states the power at the margin.
+\end{itemize}
+The fifty registry items are leaves of no argument for $c$. They enter its status only through the relation of replication, which is how an import of this kind is meant to be used.
+
+\section{Before any objection}\label{sec:before}
+
+At every unit of the scope of $c$ the pooled argument $p$ stands, and the claim stands everywhere it is asserted. Its status at the three units is as follows.
+
+\begin{center}
+\small
+\begin{tabular}{@{}l l l l l@{}}
+\toprule
+unit & evidence kinds & replication $(r^+,r^-)$ & identification & open defeaters\\
+\midrule
+$CS$ & randomized trial & $(2,0)$ & interventional & none\\
+$CC$ & randomized trial & $(1,0)$ & interventional & none\\
+$AC$ & cohort study & $(1,0)$ & observational & none\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The count at $CS$ needs a word. The randomized trial lies in family $F_1$, and the fifty registry items each have kernel $\kappa$ and a scope that overlaps $\{CS\}$, so they replicate it. But they form one batch with a common origin, and once the claim that the batch is one family stands, all fifty count as a single family. The replication count at $CS$ is therefore 2, not 51. The registry is displayed as information and is worth one family. A record that let fifty items count as fifty independent confirmations would let volume pass as support.
+
+Note also that the status is a field. The claim has a different status at each unit, and the table is a snapshot of that field. A single figure for the whole claim would hide the fact that $CC$ and $AC$ rest on one family each while $CS$ rests on two, and that $AC$ rests on weaker identification than the others.
+
+\section{An objection}\label{sec:objection}
+
+A contributor files an undercutter $u$ against the warrant used for the cohort study. The argument is a sensitivity analysis showing that unmeasured confounding of a plausible size could account for the estimate. The undercutter's region is $\{AC\}$, the only unit where that warrant is used.
+
+It attacks $a_3$ at $AC$, and by hereditary attack it also attacks the pooled argument $p$ there, since $p$ has $a_3$ as a sub-argument. Nothing attacks $u$, so $u$ stands. At $AC$, then, $a_3$ and $p$ are defeated. At $CS$ and $CC$ nothing changes, because the undercutter's region does not include them and the pooled argument reaches $CS$ and $CC$ through $a_1$, which $u$ does not touch.
+
+\begin{center}
+\small
+\begin{tabular}{@{}l l l l l@{}}
+\toprule
+unit & $u$ & $a_3$ & $p$ & claim $c$\\
+\midrule
+$CS$ & (not present) & (not present) & \IN & stands\\
+$CC$ & (not present) & (not present) & \IN & stands\\
+$AC$ & \IN & \OUT & \OUT & defeated\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The claim $c$ now stands on $\{CS,CC\}$ and is defeated on $\{AC\}$. The record does not delete $c$. The \emph{strongest surviving version} of $c$ is its restriction to the units where it still stands, $c|_{\{CS,CC\}}$, and the dossier shows what removed the rest and where. At $AC$ the status has no surviving evidence and no identification rung.
+
+This is the constructive move that a record built on pages or statements lacks. The objection did not refute the claim. It removed a region from it, and what is left is a claim with a smaller scope that is exactly as well supported as before.
+
+\section{A reply, and two policies}\label{sec:reply}
+
+A second contributor files $r$, an argument from a preregistered sensitivity analysis concluding that the cohort warrant is valid at $AC$. Its conclusion is the opposite of $u$'s and both have scope $\{AC\}$, so they rebut each other.
+
+What happens next depends on a preference. A rebuttal between two arguments succeeds only if the evaluating policy does not prefer the attacked argument to the attacker. Consider two policies over the same ledger.
+
+\begin{center}
+\small
+\begin{tabular}{@{}l l l l l@{}}
+\toprule
+policy & $u$ & $r$ & $a_3$, $p$ at $AC$ & where $c$ stands\\
+\midrule
+$\mathcal P$: no preferences & \UND & \UND & \UND & $\{CS,CC\}$\\
+$\mathcal P'$: prefers $r$ to $u$ at $AC$ & \OUT & \IN & \IN & all three units\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Under $\mathcal P$ the mutual rebuttal is symmetric and no argument is preferred. Neither $u$ nor $r$ can be shown to stand, so both are unresolved, and since $u$ would defeat $a_3$ and $p$ but is itself unresolved, they are unresolved too. The claim $c$ is unresolved at $AC$, with $u$ recorded as the open defeater. Under $\mathcal P'$, which prefers the preregistered analysis at $AC$, the rebuttal of $r$ by $u$ fails and that of $u$ by $r$ succeeds. The argument $r$ is unattacked and stands, $u$ is defeated, and $a_3$ and $p$ stand again.
+
+Two members who hold the same ledger and adopt $\mathcal P$ and $\mathcal P'$ respectively compute different dossiers. At $AC$ the status under $\mathcal P$ shows no surviving evidence and $u$ as an open defeater. Under $\mathcal P'$ it shows the cohort study, replication $(1,0)$, an observational rung and no open defeaters. At $CS$ and $CC$ the two agree.
+
+The divergence report for the two members has three features. The active sets are the same, so there is no disagreement about what was admitted. Admissibility is the same. There is exactly one pair on which the preferences differ, $(u,r)$, and that pair at that unit is the whole explanation. The disagreement is not about the evidence, and no further evidence in the ledger would resolve it. It is about whether a preregistered sensitivity analysis is to be preferred to an unregistered one, which is a question a policy answers and an argument can contest. The record has located the dispute. It has not decided it.
+
+\section{An equivalence result}\label{sec:equivalence}
+
+The argument $n$ concludes $\nk\kappa$ over $\{AS\}$, adults in school. Its scope is disjoint from that of $c$, so the two claims have opposite kernels and no unit in common. They can be jointly satisfied by a model in which $\kappa$ holds at $CS$, $CC$ and $AC$ and fails at $AS$. No rebuttal arises between them.
+
+In the dossier for $\kappa$ over all four units, the four situations are distinct: standing support at $CS$ and $CC$, contested support at $AC$ under $\mathcal P$, standing opposition at $AS$, and no contradiction anywhere. A page would have said that the program works in some studies and not in another, and left it there. The record says where.
+
+The equivalence finding is as strong, in the rules of evaluation, as a positive finding of the same kind, scope and independence. Its effect is confined to the units it covers. Suppose instead that the trial had failed to detect an effect without being designed to show smallness. Its kernel would then state only that a test under its design did not detect $\kappa$. That kernel is neither $\kappa$ nor $\nk\kappa$. It would oppose no argument and would leave $AS$ with no standing on either side. It would appear in the dossier as evidence, and a further warrant, that the test had adequate power, open to undercutting, would be needed to turn it into an argument for $\nk\kappa$. The difference between a null detection and a bounded effect is what separates the two versions of the equivalence step.
+
+\section{A failed replication}\label{sec:failed}
+
+This step is added here and is not in the monograph's version of the case.
+
+Suppose a research group declares in advance that it will follow the protocol of the randomized trial at the school setting, and reports that the specified result was not reproduced. It is an independent group, so its attempt lies in a new family. Call the attempt $f$, with scope $\{CS\}$.
+
+What changes? The rules say that a failed replication contributes to the count of failed replication families and to nothing else. It is not evidence for any kernel, including $\nk\kappa$, and it attacks no argument. So no label changes. The argument $a_1$ still stands at $CS$, $p$ still stands at $CS$, and the claim still stands there. What changes is the status vector at $CS$.
+
+\begin{center}
+\small
+\begin{tabular}{@{}l l l l@{}}
+\toprule
+unit $CS$ & evidence kinds & replication $(r^+,r^-)$ & identification\\
+\midrule
+before $f$ & randomized trial & $(2,0)$ & interventional\\
+after $f$ & randomized trial & $(2,1)$ & interventional\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Compared componentwise, the new status is no better on any component and is worse on one. The claim still stands, and the field now records that an independent attempt to reproduce its strongest evidence did not succeed. A reader who asks how well supported the claim is at $CS$ receives both facts. A record that turned the failed replication into a defeat would be saying more than the attempt shows, because a failure to reproduce may reflect a change in protocol, a difference in population, or an underpowered attempt. A record that ignored it would be saying less. The status vector says what happened.
+
+Because no defeat relation is involved, the change in this step is by definition and not by a new computation. That is a feature. The rules keep the informational effect of a failed attempt apart from the justificatory effect of a successful objection.
+
+\section{A withdrawal}\label{sec:withdrawal}
+
+Now suppose, under $\mathcal P'$, that the authors of the randomized trial withdraw $a_1$. The withdrawn argument is defeated on $\{CS,CC\}$, and so is every argument that has it as a sub-argument at those units, which includes $p$. At $AC$ nothing changes, since $p$ stands there through $a_3$ alone.
+
+\begin{center}
+\small
+\begin{tabular}{@{}l l l l@{}}
+\toprule
+unit & $a_1$ & $p$ & claim $c$\\
+\midrule
+$CS$ & \OUT & \OUT & defeated\\
+$CC$ & \OUT & \OUT & defeated\\
+$AC$ & (not present) & \IN & stands\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The claim has narrowed to the region where its only remaining support lives. The region that had the strongest evidence has none, because the withdrawn argument was the only thing standing there. The trial's record, the fifty registry items and the withdrawal all remain in the ledger, and the withdrawn argument can still be cited and objected to. At the level of labels, the graph is what it would have been had the argument never been made. In the ledger, everything that happened remains.
+
+The region now supported is the one with the weakest identification, and its support depends on the policy that prefers $r$ to $u$. A reader who asks about the claim is told both facts in the same place.
+
+\section{All stages at a glance}\label{sec:glance}
+
+The table collects the label of the pooled argument, and so the standing of $c$, at every unit after every step. Dashes mark units outside the scope of $c$.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}X l l l l@{}}
+\toprule
+stage & $CS$ & $CC$ & $AC$ & $AS$\\
+\midrule
+before any objection & stands & stands & stands & ---\\
+undercutter $u$ filed & stands & stands & defeated & ---\\
+reply $r$ filed, policy $\mathcal P$ & stands & stands & unresolved & ---\\
+reply $r$ filed, policy $\mathcal P'$ & stands & stands & stands & ---\\
+failed replication $f$ & stands, $r^-{=}1$ & stands & unchanged by $f$ & ---\\
+$a_1$ withdrawn, under $\mathcal P'$ & defeated & defeated & stands & ---\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+At $AS$ the claim $d$ stands throughout, through $n$, and is never attacked. Its row would read ``stands'' at every stage, and it is omitted to keep the table about $c$.
+
+\section{What the case shows, and what it does not}\label{sec:shows}
+
+The case exercises the pieces in the order a reader meets them. Scoped evidence makes the status a field and not a figure. An import counts as one family, so volume does not become support. A hereditary attack through a pooled argument is confined to the unit where the weak component was used. A partially defeated claim has a survivor, which is its restriction. Symmetric defeat is left unresolved and not broken by fiat. A difference of policy is located by the divergence report at a single pair and a single unit. An equivalence result conflicts with a broader claim only where their scopes meet, which here is nowhere. A failed replication changes the status vector and no label. A withdrawal is deletion up to labeling. No step used a scalar. At the end, a reader who asks how well supported the training claim is receives a field over four units and a list of records, and may be offered, if wanted, a named view that ranks it against other claims, with the frontier beside the order.
+
+The case does not show which side of any dispute is right. It does not describe any real program, trial or registry, and its numbers were chosen to exercise the definitions. It does not show that real disputes decompose as cleanly as this one, with every attack having a clear region and every preference being stated. It does not show that contributors would file the objections, replies and replications in this shape, or that a policy difference would be stated as crisply as the preference over $(u,r)$. It shows that if they did, the record would give a careful reader what the dispute needs: where the claim stands, where it does not, what removed it, which differences are about evidence and which are about policy, and what would have to change for the status to move.
+
+\section*{Notes}
+
+The original case is Chapter 20 of \emph{Adversaria: A Specification for a Public Claim Graph}. The rules used come from the following chapters: scopes and claims (4), evidence families and import batches (5 and 17), warrants and pooling (6 and 8), objection, defeat, labels and survivors (7 and 11), the status vector, dominance and policy-indexed status (12), withdrawal and divergence reports (9, 17 and 18), and the treatment of null outcomes (17).
+
+\end{document}

@@ -1,0 +1,112 @@
+\chapter{Federation, Queries and the Constitution}\label{ch:federation}
+
+The final chapter of the protocol part specifies how communities share records while keeping their own evaluation, what questions the system answers about arguments and scopes, and how the commitments of the whole design fit together. It closes with the limits of what has been specified.
+
+\section{Shared events, divergent projections}\label{sec:federation}
+
+A federation member $i$ holds a valid ledger $\ledger_i$ and a policy $\policy_i$, and computes the projection $G_i=\Proj(\ledger_i,\policy_i)$. Members exchange records. Merging is union (Theorem~\ref{thm:replay}(b)), so members that hold the same records hold the same ledger, whatever the order of exchange. Convergence is claimed at the event layer and nowhere else.
+
+\begin{proposition}[Convergence is of records, not of projections]\label{prop:eventlayer}
+\begin{enumerate}[label=(\alph*)]
+\item If $\ledger_i=\ledger_j$ and $\policy_i=\policy_j$ then $G_i=G_j$.
+\item If $\ledger_i=\ledger_j$ and $\policy_i\ne\policy_j$ it is possible that $G_i\ne G_j$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) is Theorem~\ref{thm:replay}(a). (b) Theorem~\ref{thm:policy} gives a ledger and two policies under which some argument has different labels at some unit.
+\end{proof}
+
+The second part is a feature and not a defect. It lets disagreement be inspected: two dossiers that differ, on a shared ledger, differ because their policies differ, and the difference can be located.
+
+\begin{definition}[Divergence report]\label{def:divreport}
+For members $i,j$ the \emph{divergence report} is the triple consisting of the symmetric difference $\Act(\ledger_i,\policy_i)\,\triangle\,\Act(\ledger_j,\policy_j)$, the set of pairs on which $\mathrm{Adm}_{\policy_i}$ and $\mathrm{Adm}_{\policy_j}$ differ, and the set of pairs $(b,a)$ of arguments active in both on which the preferences $\langle b\prec_{\policy_i}a\rangle$ and $\langle b\prec_{\policy_j}a\rangle$ differ.
+\end{definition}
+
+\begin{proposition}[Divergence is explained by the report]\label{prop:divexplain}
+If the projections of $i$ and $j$ assign different labels to some argument at some unit, then the divergence report is nonempty. If moreover $\policy_i=\policy_j$, the symmetric difference of the active sets contains an argument in the backward closure of the disputed argument, computed in the union of the two frameworks.
+\end{proposition}
+
+\begin{proof}
+The first statement is the contrapositive of Theorem~\ref{thm:trace}(c): if all three components were empty, the active sets would be equal, the admissibility relations equal, and the preferences would agree on all pairs of active arguments, and then the labels would agree. The second statement is Theorem~\ref{thm:trace}(b).
+\end{proof}
+
+Every difference between two dossiers is thus attributed either to records or to a policy, and, under a shared policy, to records in an identifiable neighbourhood of the disputed argument. What a member cannot do is claim that the graphs differ for reasons not visible in the record.
+
+A member may adopt another's policy by reference, since policies are ledger objects, and may publish its own. Dispositions are member-relative: a record refused by one member may be admitted by another without either violating a rule of the protocol. Nothing about any member's gates binds any other member's surfaces.
+
+\section{Queries over arguments and scopes}\label{sec:queries}
+
+A query is a function of the projection and its parameters. Its result depends on the ledger, the policy, a scope, and the query text.
+
+\begin{definition}[Query semantics]\label{def:query}
+A \emph{query} $Q$ is evaluated over $(\ledger,\policy,\sigma)$, where $\sigma\in\B(\Om)$ restricts the units considered, and yields a finite set of records, units or regions. The labeling used is the grounded labeling of Definition~\ref{def:grounded}. Other labelings are extensions and are not specified.
+\end{definition}
+
+\begin{proposition}[Queries are replica-independent]\label{prop:querydet}
+The result of a query depends only on the set $\ledger$, the policy $\policy$, the scope and the query. Two members holding the same records and policy return the same result.
+\end{proposition}
+
+\begin{proof}
+The query is a function of the projection, and the projection is a function of $\ledger$ and $\policy$ (Theorem~\ref{thm:replay}).
+\end{proof}
+
+The specification defines the following built-in queries, each in terms of objects already in the model.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l X@{}}
+\toprule
+query & definition\\
+\midrule
+strongest surviving version of $c$ & $\mathrm{Surv}(c)=c|_{\In(c)}$, the unique largest restriction of $c$ that is $\IN$ at every unit (Theorem~\ref{thm:survivor})\\
+smallest unresolved defeater & for $x\in\Und(c)$, the members of $U(c)(x)$ that are minimal under inclusion of their active regions\\
+regions without standing & $\sigma(c)\setminus\In(c)=\Out(c)\cup\Und(c)$\\
+claims depending on a withdrawn source & for an evidence item $e$, the claims with an argument having $e$ among its leaves, with the regions where those arguments are $\OUT$ after the withdrawal (Theorem~\ref{thm:withdraw})\\
+conclusions that change under another policy & $\{(c,x): S_{\policy}(c)(x)\ne S_{\policy'}(c)(x)\}$ (Section~\ref{sec:policyindexed})\\
+disputes caused only by operational non-equivalence & families of signed identifications with $\mathrm{Ob}(\mathcal E)\ne\varnothing$ for which some confinement to sense slices gives $\mathrm{Ob}(\mathcal E')=\varnothing$ (Proposition~\ref{prop:dissolve})\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+A query in the surface language combines conditions on evidence kind, scope, origin mode, labeling and policy. The example from the design notes reads: show the claims supported by peer-reviewed evidence, within the population of adults, excluding arguments defeated by a retraction, including unresolved scope objections. Each condition is a predicate over records or regions, and their conjunction is again a function of $(\ledger,\policy,\sigma)$.
+
+\section{The dossier}\label{sec:dossier}
+
+The presentation layer assembles, for a claim and a surface, what the earlier chapters define: the lineage of claim versions (Chapter~\ref{ch:ledger}); the arguments grouped by label at each region; the regions $\In$, $\Out$ and $\Und$ (Chapter~\ref{ch:constraint}); the status vector as a field, without a scalar (Chapter~\ref{ch:status}); the unresolved defeaters; any obstruction reported for a family of pages (Chapter~\ref{ch:distinction}); the indexed status over the policies the reader chooses to compare; and a proof object for any displayed label (Section~\ref{sec:proofobjects}). It is a function of $(\ledger,\policy,\text{query})$ and stores nothing of its own.
+
+\section{The ten decisions}\label{sec:constitution}
+
+The design can be summarized in ten commitments. The table gives, for each, where it is realized, and whether the realization is a proved property of the model, an enforced validation, or a design requirement.
+
+{\small
+\begin{longtable}{@{}p{0.03\textwidth} p{0.34\textwidth} p{0.34\textwidth} p{0.2\textwidth}@{}}
+\toprule
+& commitment & realized in & kind\\
+\midrule
+\endhead
+1 & The ledger records acts, not truth. & Def.~\ref{def:valid}; Prop.~\ref{prop:agreement}; Thm.~\ref{thm:replay} & proved\\
+2 & Claims are scoped, typed and versioned. & Thm.~\ref{thm:monotone}; Rule~\ref{rule:scope}; Thm.~\ref{thm:lineage} & proved; design\\
+3 & Arguments, not triples, carry epistemic force. & Thms.~\ref{thm:sound}, \ref{thm:tight}, \ref{thm:nowarrant} & proved\\
+4 & Ontologies are plural and mappings are contestable. & Thms.~\ref{thm:transport}, \ref{thm:transportdefeat}; Rule~\ref{rule:nomerge} & proved; design\\
+5 & Contradictions are preserved without explosion. & Cor.~\ref{cor:explosion}; Prop.~\ref{prop:noboth} & proved\\
+6 & Inference is local, budgeted and accompanied by proof objects. & Thm.~\ref{thm:nowarrant}; Prop.~\ref{prop:proofcheck} & proved; design (budget)\\
+7 & Inscription is open and shared projection is governed. & Props.~\ref{prop:openinscription}, \ref{prop:separation} & proved\\
+8 & Capabilities authorize acts, never opinions. & Props.~\ref{prop:capnostanding}, \ref{prop:reconneutral} & proved for the stated gate; design otherwise\\
+9 & Restrictions are explicit, temporary and appealable dispositions. & Props.~\ref{prop:expire}, \ref{prop:reasondet}; Rules~\ref{rule:stratified}, \ref{rule:appeal} & proved; design\\
+10 & No stored claim gains authority through volume, repetition, automation or status. & Props.~\ref{prop:indep}, \ref{prop:importfamily}, \ref{prop:agreement}, \ref{prop:noself}, \ref{prop:capnostanding} & proved, given the family structure\\
+\bottomrule
+\end{longtable}}
+
+\section{Limits of the specification}\label{sec:limits}
+
+The following are open, and are stated so that nothing above is read as settling them.
+\begin{enumerate}
+\item \emph{Family structure is contestable.} Every count of independent sources depends on the equivalence claims that stand. A coordinated ring not yet shown to be dependent counts as independent.
+\item \emph{The admissibility table and the rung ladder are design choices.} The proofs use their form, not their content.
+\item \emph{No information measure is defined.} Credit heuristics that appeal to informational change remain heuristics (Remark~\ref{rem:redundant}).
+\item \emph{The obstruction theory is exact only for signed binary identifications.} Broader sheaf-theoretic obstructions are an extension for each new kind of constraint (Chapter~\ref{ch:distinction}).
+\item \emph{Gate properties depend on gate design.} Position-neutrality is proved for the reconstruction gate; the quality of its graders and tests is an institutional matter.
+\item \emph{Costs are not analyzed.} The specification states finite computations and proof objects of bounded size, and does not analyze the computational cost of labeling at scale.
+\item \emph{Grounded labeling is the only labeling specified.} Other semantics from the argumentation literature are possible extensions.
+\end{enumerate}

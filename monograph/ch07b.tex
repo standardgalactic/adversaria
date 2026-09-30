@@ -1,0 +1,105 @@
+\section{Labeling an argument at a unit}
+
+Fix a ledger, a policy $\policy$ and the finite set $\mathcal A$ of \emph{active} arguments (Chapter~\ref{ch:ledger} says which records are active; until then read $\mathcal A$ as all admitted arguments). At a unit $x\in\Om$ the arguments present are $\mathcal A_x=\{a\in\mathcal A: x\in\sigma(a)\}$. Every defeat at $x$ connects members of $\mathcal A_x$, because a defeat region is contained in both the attacker's and the target's scope. So at each unit the ledger yields an ordinary finite defeat graph $(\mathcal A_x,\dfeat_\policy^x)$, and the model applies Dung's grounded semantics to it, unit by unit.
+
+\begin{definition}[Grounded labeling at $x$]\label{def:grounded}
+For $S\subseteq\mathcal A_x$ let
+\[
+\Phi_x(S)=\{a\in\mathcal A_x:\ \text{for every }b\dfeat^x_\policy a\text{ there is }s\in S\text{ with }s\dfeat^x_\policy b\}.
+\]
+Let $\IN_x$ be the least fixed point of $\Phi_x$, $\OUT_x=\{a:\exists s\in\IN_x,\ s\dfeat^x_\policy a\}$ and $\UND_x=\mathcal A_x\setminus(\IN_x\cup\OUT_x)$. The \emph{label} $\Lab(a,x)\in\{\IN,\OUT,\UND\}$ is the class of $a$ in this partition. The \emph{regions} of $a$ are
+\[
+\In(a)=\{x\in\sigma(a):\Lab(a,x)=\IN\},\quad \Out(a)=\{\dots=\OUT\},\quad \Und(a)=\{\dots=\UND\}.
+\]
+\end{definition}
+
+The labels record standing under a policy and a ledger. They are not truth. An argument that is $\IN$ at $x$ is one whose every defeater has itself been defeated; nothing in the semantics of Chapter~\ref{ch:claim} makes that a guarantee that the conclusion holds, and no theorem below says so.
+
+\begin{theorem}[Well-definedness and label consistency]\label{thm:labels}
+For every unit $x$:
+\begin{enumerate}[label=(\alph*)]
+\item $\Phi_x$ is monotone, the iteration $\Phi_x^n(\varnothing)$ increases and stabilizes, and its limit is the least fixed point $\IN_x$.
+\item $\IN_x$ is conflict-free: no member of $\IN_x$ defeats another. Hence $\IN_x$, $\OUT_x$, $\UND_x$ are pairwise disjoint and cover $\mathcal A_x$.
+\item $a\in\IN_x$ iff every defeater of $a$ at $x$ is in $\OUT_x$.
+\item $a\in\OUT_x$ iff some defeater of $a$ at $x$ is in $\IN_x$.
+\item If $a\in\UND_x$ then no defeater of $a$ is in $\IN_x$ and some defeater of $a$ is in $\UND_x$.
+\item (\emph{Minimality.}) If $(I,O,U)$ is any labeling satisfying (c) and (d) with $I$ for $\IN$ and $O$ for $\OUT$, then $\IN_x\subseteq I$. The grounded labeling is thus the most skeptical consistent one.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) If $S\subseteq S'$ then the condition ``some $s\in S$ defeats $b$'' implies the same with $S'$, so $\Phi_x(S)\subseteq\Phi_x(S')$. Hence $\varnothing\subseteq\Phi_x(\varnothing)$ gives an increasing chain, which stabilizes because $\mathcal A_x$ is finite, at a set $S^*$ with $\Phi_x(S^*)=S^*$. Any fixed point $T$ contains every $\Phi_x^n(\varnothing)$ by induction, so $S^*$ is the least.
+
+(b) First, each $S_n=\Phi_x^n(\varnothing)$ is conflict-free, by induction: $S_0=\varnothing$. Suppose $S_n$ is conflict-free and $a,b\in S_{n+1}$ with $b\dfeat a$. Since $a\in\Phi_x(S_n)$ there is $s\in S_n$ with $s\dfeat b$; since $b\in\Phi_x(S_n)$ there is $t\in S_n$ with $t\dfeat s$, contradicting conflict-freeness of $S_n$. Then $\IN_x$ is conflict-free as a union of a chain. If $a\in\IN_x\cap\OUT_x$, some $s\in\IN_x$ defeats $a\in\IN_x$, a conflict. So the three classes are disjoint, and they cover by definition of $\UND_x$.
+
+(c) If $a\in\IN_x=\Phi_x(\IN_x)$, each defeater $b$ of $a$ is defeated by a member of $\IN_x$, so $b\in\OUT_x$. Conversely, if every defeater of $a$ is in $\OUT_x$, each is defeated by a member of $\IN_x$, so $a\in\Phi_x(\IN_x)=\IN_x$. (d) is the definition of $\OUT_x$.
+
+(e) If $a\in\UND_x$ then $a\notin\OUT_x$ gives that no defeater is in $\IN_x$. Since $a\notin\IN_x$, by (c) some defeater $b$ is not in $\OUT_x$; it is not in $\IN_x$ either, so $b\in\UND_x$.
+
+(f) Condition (c) for $(I,O,U)$ says every defeater of $a$ is in $O$ iff $a\in I$; and (d) says $O$ is the set of arguments defeated by a member of $I$. So \begin{multline*}\Phi_x(I)=\{a:\text{every defeater of }a\text{ is defeated by }I\}\\=\{a:\text{every defeater is in }O\}=I\end{multline*}
+Thus $I$ is a fixed point and contains the least fixed point $\IN_x$.
+\end{proof}
+
+\begin{theorem}[Regions]\label{thm:regions}
+For every active argument $a$, the sets $\In(a)$, $\Out(a)$, $\Und(a)$ partition $\sigma(a)$ and each is a scope. If the ledger and policy use $k$ distinct scopes (argument scopes, target scopes and preference regions), each is a union of atoms of the partition of $\Om$ by membership in those $k$ regions, and there are at most $2^k$ atoms.
+\end{theorem}
+
+\begin{proof}
+Let $R_1,\dots,R_k$ be the regions and call the set $\{i:x\in R_i\}$ the \emph{pattern} of $x$. The set $\mathcal A_x$ is determined by the pattern of $x$, since $x\in\sigma(a)$ is one of the memberships. Each defeat region $D_\policy(b,a)$ is a finite union, over sub-arguments $a'$ and targets $t$, of sets of the form $\sigma(a)\cap\sigma(b)\cap\sigma_t\cap\sigma(a')$ possibly minus $\langle b\prec a'\rangle$; whether $x$ belongs to it is again determined by the pattern. So the defeat graph at $x$, and hence $\Lab(\cdot,x)$, depends on $x$ only through its pattern. Each pattern class is a Boolean combination of $R_1,\dots,R_k$, hence a scope by Proposition~\ref{prop:boolean}, and $\In(a)$, $\Out(a)$, $\Und(a)$ are unions of such classes. There are at most $2^k$ patterns.
+\end{proof}
+
+The theorem is what makes the status of a claim computable and finitely describable although $\Om$ may be infinite: one evaluates one representative per atom. The bound is exponential in the worst case, and implementation notes address it; ordinary dossiers touch few regions.
+
+\begin{proposition}[Grain is respected]\label{prop:grain}
+Let $\Gamma$ be a partition of $\Om$. If every scope and region used by the ledger and policy is a union of blocks of $\Gamma$, then $\Lab(a,x)=\Lab(a,x')$ whenever $x,x'$ lie in the same block.
+\end{proposition}
+
+\begin{proof}
+Units in one block have the same pattern.
+\end{proof}
+
+This is the operational meaning of the grain of Chapter~\ref{ch:claim}. A record that would cut an indivisible cell of an aggregate kernel is not admitted as it stands; its author is directed to state a finer kernel first (Chapter~\ref{ch:distinction}), after which the cut falls between blocks.
+
+\section{Three structural guarantees}
+
+\begin{theorem}[Objections are local]\label{thm:local}
+Let $\Sigma$ be a scope and let the ledger be extended by a set $N$ of new arguments, each with scope contained in $\Sigma$. Then for every unit $x\notin\Sigma$ and every argument $a$ already present, $\Lab(a,x)$ is unchanged. In particular this holds for a single objection $b$ with $\Sigma=\sigma(b)$, together with any restrictions of $b$ or arguments built on $b$ by an ordinary warrant.
+\end{theorem}
+
+\begin{proof}
+No new argument is present at $x\notin\Sigma$. Every defeat involving a new argument, as attacker or as target, has region contained in that argument's scope, hence in $\Sigma$. New arguments cannot be sub-arguments of arguments already present, so no existing argument acquires a new hereditary defeater. Thus for $x\notin\Sigma$ the defeat graph $(\mathcal A_x,\dfeat^x)$ is identical before and after, and so are its labels.
+\end{proof}
+
+(An argument built on $b$ with \textsc{Pool} is not covered, since it may extend beyond $\sigma(b)$ using other fillers; it is a new claim with new scope and is treated as such.)
+
+This is the formal content of ``an objection cannot reach beyond the scope it declares.'' It also bounds the damage of a careless or hostile contribution: it can only ever alter labels on the units where it has standing.
+
+\begin{theorem}[Directionality and non-explosion]\label{thm:direction}
+Fix $x$. The \emph{backward closure} $B_x(a)$ is the smallest set containing $a$ and containing every $b\in\mathcal A_x$ that defeats a member of the set. Then $\Lab(a,x)$ is determined by the defeat graph restricted to $B_x(a)$. Consequently, if new arguments and defeats are added but no new defeater of any member of $B_x(a)$ is introduced, $\Lab(a,x)$ is unchanged.
+\end{theorem}
+
+\begin{proof}
+Write $U=B_x(a)$; it is closed under taking defeaters. Let $\Phi_U$ be the operator of the framework restricted to $U$. We show $\Phi_x^n(\varnothing)\cap U=\Phi_U^n(\varnothing)$ by induction on $n$; $n=0$ is trivial. Suppose it holds for $n$ and put $T=\Phi_U^n(\varnothing)$. For $c\in U$, $c\in\Phi_x^{n+1}(\varnothing)$ iff each defeater $b$ of $c$ is defeated by some $s\in\Phi_x^n(\varnothing)$. Such a $b$ lies in $U$, and $s$, defeating $b$, lies in $U$ too, so $s\in\Phi_x^n(\varnothing)\cap U=T$. Conversely any $s\in T$ lies in $\Phi_x^n(\varnothing)$. So the condition is equivalent to $c\in\Phi_U(T)$. Hence the least fixed points agree on $U$, and so do the out-sets, since an $\OUT$ member of $U$ is defeated by an $\IN$ member, which lies in $U$.
+\end{proof}
+
+\begin{corollary}[Contradiction does not explode]\label{cor:explosion}
+Suppose the ledger contains arguments for a claim and for its opposite with overlapping scopes. Any argument $a$ whose backward closure at $x$ contains neither of them keeps its label at $x$, and no new argument for any other conclusion comes into existence.
+\end{corollary}
+
+\begin{proof}
+The first assertion is Theorem~\ref{thm:direction}. For the second, arguments exist only when someone inscribes them with explicit fillers and warrants; nothing in the semantics generates arguments from the mere presence of a conflict.
+\end{proof}
+
+\begin{remark}[Where explosion is avoided]
+The model theory of Chapter~\ref{ch:claim} is classical: two universal claims on opposite kernels with overlapping scopes have no common model and would entail everything. The system avoids explosion by never asking that theory to reason from the ledger's total contents. Truth in models is used only to justify a single argument (Theorem~\ref{thm:sound}), whose hypotheses concern that argument's own leaves and warrants; the status of a claim is computed by the local labeling above. A contested claim is a labeled state, not an inconsistency of the store.
+\end{remark}
+
+\begin{lemma}[Dependency soundness]\label{lem:hereditary}
+Let $a'\in\Sub(a)$ and $x\in\sigma(a)\cap\sigma(a')$. (i) If $\Lab(a,x)=\IN$ then $\Lab(a',x)=\IN$. (ii) If $\Lab(a',x)=\OUT$ then $\Lab(a,x)=\OUT$.
+\end{lemma}
+
+\begin{proof}
+By Definition~\ref{def:hereditary}, every defeat of $a'$ at $x$ is a defeat of $a$ at $x$ (the region is intersected with $\sigma(a)\ni x$, and $\Sub(a')\subseteq\Sub(a)$). (i) If $a$ is $\IN$, all its defeaters at $x$ are $\OUT$ by Theorem~\ref{thm:labels}(c); the defeaters of $a'$ are among them, so $a'$ is $\IN$. (ii) If $a'$ is $\OUT$, some $s\in\IN_x$ defeats $a'$, hence defeats $a$, so $a$ is $\OUT$.
+\end{proof}
+
+A conclusion is never better established than what it stands on, and it falls with what it stands on, at exactly the units they share.

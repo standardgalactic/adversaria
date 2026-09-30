@@ -1,0 +1,198 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,tabularx,array,longtable}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Om}{\Omega}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\nk}[1]{\overline{#1}}
+\newcommand{\Ob}{\mathrm{Ob}}
+\newcommand{\Zt}{\mathbb{Z}/2}
+\newcommand{\Sol}{\mathrm{Sol}}
+
+\title{A Categorical Reading of Scope and Warrant}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+\textbf{Extension note.} This note is an extension of the monograph \emph{Adversaria: A Specification for a Public Claim Graph}, not part of it. It gives a dictionary from notions of Chapters 4, 6, 8 and 10 to categorical ones. The region algebra is a poset and, with finite unions as covers, a site. For a fixed kernel, claims form a presheaf of sets whose restriction maps are the restrictions of Chapter 4; it is separated and not a sheaf. Truth in one model is a subobject of the terminal presheaf, and the additivity theorem of Chapter 4 of the monograph is exactly its sheaf condition. \textsc{Restrict}, \textsc{Pool} and \textsc{Lift} are read as structure maps. The signed gluing criterion is a vanishing condition in $H^1(G_x;\Zt)$ at each unit, and the obstruction region is the support of that class. One new result is stated and fully proved: the obstruction region commutes with restriction of a family of identifications to a region, so that obstruction-freeness can be checked on any finite cover of the units. The note claims no universality for any cohomological criterion and no predictive content beyond the dictionary.
+\end{abstract}
+
+\section{Status and scope}
+
+The monograph is the single source of definitions and proofs for the specification. This note adds vocabulary. Everything said here about the monograph is either cited by chapter and result, or is a definition made in this note, or is proved in this note. The single new result is Theorem~\ref{thm:local} in Section~\ref{sec:descent}. The only other statements with proofs given here are one-line verifications, marked as such.
+
+The vocabulary is offered for readers who think in terms of posets, presheaves and sheaves, and who may find the structure of scopes, restriction and pooling easier to hold in those terms. It is not offered because the specification needs it. Nothing in the protocol or in the labeling of the monograph depends on anything here. Where the dictionary does not fit, the text says so, because the places where it fails to fit are informative.
+
+\section{The scope site}\label{sec:site}
+
+Chapter 4 defines a unit space $\Om$ and the set $\B(\Om)$ of regions, the finite unions of boxes. It is a Boolean algebra under inclusion, with meet $\cap$, join $\cup$, top $\Om$, bottom $\varnothing$ and complement (Chapter 4, Proposition on regions forming a Boolean algebra). Regard $(\B(\Om),\subseteq)$ as a category: one object per region, one arrow $\tau\to\sigma$ when $\tau\subseteq\sigma$. It is thin, and meets are the pullbacks.
+
+A kernel $\kappa$ carries a grain $\Gamma(\kappa)$, and its \emph{admissible} scopes, the unions of blocks, form a Boolean subalgebra $\B_\kappa\subseteq\B(\Om)$. If $\Gamma(\kappa')$ refines $\Gamma(\kappa)$ then every union of blocks of $\Gamma(\kappa)$ is a union of blocks of $\Gamma(\kappa')$, so $\B_\kappa\subseteq\B_{\kappa'}$: a finer grain gives a larger site. There is one such category for each kernel, and no arrow from the category of one kernel to that of another. This is the categorical form of the fact that a claim entails nothing about any other kernel (Chapter 4, Theorem on completeness of the restriction order), and of the rule that passing from a coarse kernel to a finer one is a distinction and never a restriction.
+
+\begin{definition}[Finite-union covers]\label{def:cover}
+A \emph{cover} of $\sigma\in\B_\kappa$ is a finite family $\{\sigma_i\}_{i\in I}$ in $\B_\kappa$ with $\bigcup_i\sigma_i=\sigma$. The empty family covers $\varnothing$ and nothing else.
+\end{definition}
+
+\emph{Check that this is a Grothendieck topology on the poset} (a one-line verification each). The one-element family $\{\sigma\}$ covers $\sigma$. If $\{\sigma_i\}$ covers $\sigma$ and $\tau\subseteq\sigma$ then $\{\sigma_i\cap\tau\}$ covers $\tau$, and each $\sigma_i\cap\tau$ lies in $\B_\kappa$ and below $\sigma_i$. If $\{\sigma_i\}$ covers $\sigma$ and each $\sigma_i$ has a cover $\{\sigma_{ij}\}_j$, then $\{\sigma_{ij}\}_{i,j}$ is a finite family with union $\sigma$, and each $\sigma_{ij}\subseteq\sigma$. Hence covering sieves, the sieves that contain a cover, satisfy the three axioms. % TODO(literature): state in the standard vocabulary for coverages on a lattice with finite joins; confirm that no condition is missing.
+The choice of finite covers is forced by the algebra, which has only finite unions. Whether a larger site, with infinite covers, would be better is not considered.
+
+\section{Claims and truth}\label{sec:claims}
+
+\subsection{Claims as a presheaf, and why it is not a sheaf}
+
+Fix a kernel $\kappa$. Let $\Sigma$ be the set of triples $(m,\pi,\nu)$ of modality, provenance and version. For a nonempty $\sigma\in\B_\kappa$ let $F_\kappa(\sigma)$ be the set of claims $(\kappa,\sigma,m,\pi,\nu)$. For $\tau\subseteq\sigma$, both nonempty, restriction $c\mapsto c|_\tau$ of Chapter 4 is a map $F_\kappa(\sigma)\to F_\kappa(\tau)$. Since $c|_\sigma=c$ and $(c|_\tau)|_\rho=c|_\rho$ for $\rho\subseteq\tau\subseteq\sigma$ (verification: the definition changes the scope field only), $F_\kappa$ is a presheaf of sets on the nonempty scopes.
+
+Because restriction changes only the scope field, $F_\kappa(\sigma)\cong\Sigma$ for every $\sigma$, and all restriction maps are identities on $\Sigma$. So $F_\kappa$ is a constant presheaf. It is \emph{separated}: two claims with the same scope whose restrictions agree on every member of a cover are equal. It is \emph{not a sheaf}: take disjoint nonempty $\sigma_1,\sigma_2$ and claims over them with different provenance. There is no overlap to check, so the pair is a compatible family, and no claim over $\sigma_1\cup\sigma_2$ restricts to both. The ledger reflects this. In the ledger a restriction is a new claim version that cites its source, and pooling produces a new record with its own provenance (Chapter 6, the structural warrants), so amalgamation is never a canonical inverse of restriction on records.
+
+\subsection{Entailment}
+
+Chapter 4 proves that $c\models d$ holds exactly when the kernels agree and the scope of $d$ lies inside the scope of $c$. So on cores $(\kappa,\sigma)$ the entailment preorder is the disjoint union, over kernels, of the posets $(\B_\kappa^{+},\supseteq)$ of nonempty admissible scopes: entailment is the opposite of the inclusion order, one component per kernel.
+
+\subsection{Truth in one model is a sheaf}
+
+Let $M$ be a model. For a kernel $\kappa$ define a presheaf $T^\kappa_M$ on $\B_\kappa$, all admissible scopes including $\varnothing$, by letting $T^\kappa_M(\sigma)$ be a one-point set $\{\ast\}$ if $\sigma\subseteq[\kappa]_M$ and empty otherwise, with the evident restriction maps. Part (a) of the scope monotonicity theorem (Chapter 4, Theorem on scope monotonicity and additivity) says exactly that $T^\kappa_M$ is a presheaf: if $\sigma\in T^\kappa_M$ and $\tau\subseteq\sigma$ then $\tau\in T^\kappa_M$. So $T^\kappa_M$ is a subobject of the terminal presheaf, a sieve in the language of posets. For a subobject of the terminal presheaf, a compatible family over a cover $\{\sigma_i\}$ exists iff every $\sigma_i$ lies in $T^\kappa_M$, a gluing exists iff $\sigma$ does, and uniqueness is automatic. The sheaf condition therefore reads: if every $\sigma_i$ lies in $T^\kappa_M$ then so does $\sigma$. That is part (b) of the same theorem. For the empty cover it says $\varnothing\subseteq[\kappa]_M$, which holds. Chapter 4 calls this the sheaf-like condition on which distinction and gluing rest. In the present terms it is the literal sheaf condition for one subobject, for one model, for one kernel.
+
+\begin{remark}[Grain is what makes truth a presheaf]\label{rem:grain}
+Chapter 4 gives a counterexample showing that, without grain, an aggregate kernel read through weights is not downward monotone: with weights $9$ and $1$ on two units and effects $1$ and $-5$, the aggregate over both units is $9-5=4>0$ and over the second unit alone is $-5<0$. In the present terms the set of scopes on which the aggregate claim holds is not closed under passing to smaller scopes, so it is not even a presheaf. Giving the kernel the one-block grain leaves only $\varnothing$ and $\Om$ as admissible scopes, and the defect disappears because no smaller scope can be formed. The grain condition is what restores the presheaf property.
+\end{remark}
+
+\begin{remark}[Negation]
+In one model, $T^\kappa_M(\sigma)$ and $T^{\nk\kappa}_M(\sigma)$ are both nonempty only if $\sigma\subseteq[\kappa]_M\cap[\nk\kappa]_M=\varnothing$. Across models the statement is Chapter 4, Proposition on conflict localization: claims $(\kappa,\sigma)$ and $(\nk\kappa,\tau)$ are jointly satisfiable iff $\sigma\cap\tau=\varnothing$. Conflict is located at the meet of two scopes, which is a pullback in the category of Section~\ref{sec:site}.
+\end{remark}
+
+\section{Structure maps}\label{sec:maps}
+
+The three structural warrants of Chapters 6 and 8 have the following readings.
+
+\paragraph{\textsc{Restrict}.} The restriction map of $F_\kappa$ on the record side. Its validity in every model is the presheaf property of $T^\kappa_M$.
+
+\paragraph{\textsc{Pool}.} An amalgamation: fillers over $\sigma_1,\dots,\sigma_n$ yield a claim over the union. Its validity in every model is the sheaf condition of $T^\kappa_M$. On records it is a partial operation that introduces a new record, since $F_\kappa$ is not a sheaf.
+
+\paragraph{\textsc{Lift} and the pooling declaration.} A pooling declaration $\Delta=(\kappa^*;s;\kappa_1,\dots,\kappa_k)$ of Chapter 8 has slices $\Om_1,\dots,\Om_k$ of the sense dimension. They are pairwise disjoint and cover $\Om$, so they are a cover with no overlaps, and gluing along a cover without overlaps is a product. The decomposition theorem of Chapter 8 says that in models of $\Delta$ and for $\sigma$ admissible for $\kappa^*$, $M\models(\kappa^*,\sigma)$ iff $M\models(\kappa_i,\sigma\cap\Om_i)$ for every $i$ with $\sigma\cap\Om_i\neq\varnothing$. In the language of Section~\ref{sec:claims} this says that $T^{\kappa^*}_M(\sigma)$ is the product of the $T^{\kappa_i}_M(\sigma\cap\Om_i)$, where a term with $\sigma\cap\Om_i=\varnothing$ is the one-point set. \textsc{Lift} is the map from that product to the umbrella, and the theorem says it is an isomorphism of truth conditions on the models of $\Delta$. The theorem on no generalization across senses says the umbrella is not determined by any proper sub-family of the senses.
+
+\paragraph{Ordinary warrants.} Well-formedness (W1) of Chapter 6 requires the conclusion scope to lie inside $\sigma_w\cap\sigma(f_1)\cap\dots\cap\sigma(f_k)$, the meet of the warrant scope and the filler scopes. The tightness theorem of Chapter 6 says that, for a warrant whose kernels are pairwise distinct with the finest grain on the conclusion, no larger scope is licensed. The reading is that an ordinary warrant is defined on a meet and nowhere else, as a partial map is defined on its domain. The chaining theorem of Chapter 6 then says that composites are defined on intersections of domains, which is how composition of partial maps behaves, and the licensed-composition rule of Chapter 10 has the same pattern for \textsf{DEPENDS\_ON}$;$\textsf{DEPENDS\_ON}. Nothing more is claimed: no category of warrants is constructed, and the naturality of status under restriction is the content of the restriction-coherence rule of Chapter 8, a design rule and not a consequence of this structure.
+
+\paragraph{Scoped relations.} A scoped relation of Chapter 10 is a function $R:N\times N\to\B(\Om)$, that is, a matrix over the Boolean algebra $\B(\Om)$, with union and intersection as sum and product. Composition $(R;S)(a,c)=\bigcup_bR(a,b)\cap S(b,c)$ is matrix multiplication. Evaluation at a unit $x$, $\sigma\mapsto[x\in\sigma]$, preserves union and intersection, and this is the content of the slice compatibility theorem of Chapter 10. The same holds for relativization to a region $\tau$, $\sigma\mapsto\sigma\cap\tau$. \emph{Verification:} $(R;S)(a,c)\cap\tau=\bigcup_b\bigl(R(a,b)\cap\tau\bigr)\cap\bigl(S(b,c)\cap\tau\bigr)$, because intersection distributes over union and $\tau\cap\tau=\tau$. So restriction commutes with composition, union, intersection and converse.
+
+\section{Descent for one model}\label{sec:descent}
+
+There are two different covers in the monograph, and the dictionary separates them.
+
+\emph{Covers of a scope.} Here gluing is always effective. Truth in one model is a sheaf (Section~\ref{sec:claims}), and for a single kernel pairwise agreement on overlaps is all there is to global agreement (Chapter 8, Proposition on one kernel). Assignments of signed identifications are pointwise in the units: define, for a finite family $E$ of signed identifications on pages $1,\dots,n$ (Chapter 8) and a region $\sigma$,
+\[
+\Sol_E(\sigma)=\{v:\sigma\to\{\pm1\}^n\ :\ v(x)\text{ satisfies every edge of }G_x\text{ for each }x\in\sigma\}.
+\]
+Because the defining condition is pointwise, $\Sol_E$ is a sheaf on $\B(\Om)$ for finite covers: compatible local assignments agree pointwise and so are the restrictions of one function, which is solving at each unit of its domain. There is nothing to obstruct.
+
+\emph{Covers of the referent by pages.} The pages are vertices, and the identifications between them are the edges of $G_x$ at a unit $x$. This is where gluing can fail. Identify $\pm1$ with $\Zt$. The signs form a 1-cochain $\bar s_x$ on the graph $G_x$, a choice of assignment is a 0-cochain, and the edges are all satisfied iff $\bar s_x$ is the coboundary of the assignment. A graph has no 2-cells, so every 1-cochain is a cocycle, and the criterion of Chapter 8 (Theorem on the signed cycle criterion) reads: $G_x$ is balanced iff $[\bar s_x]=0$ in $H^1(G_x;\Zt)$ (Chapter 8, Proposition on the cohomological form). % TODO(literature): the standard reading of a signed graph as a graph with gains in Z/2, balance as triviality of the associated double cover, and the relation to Cech-type descent conditions; state only what is checked.
+This is a descent-style condition in a loose sense: local identifications on overlaps are given; compatibility on pairs is automatic; the obstruction to a global assignment is a class, and a global assignment exists iff the class vanishes. Across units the class varies, and its support is the obstruction region of Chapter 8, which Chapter 8 shows is a scope: the union over negative simple cycles of the intersections of edge regions.
+
+Two covers, two behaviours: over scopes the sheaf condition holds for truth and for assignments, and over pages it fails at a negative cycle. The triangle of Chapter 8 is an instance of the second. The following theorem ties them together by showing that the support of the class is compatible with restriction of scopes, so that the second kind of failure can be located by covers of the first kind.
+
+For a region $\tau$ and a family $E$ of signed identifications $e=(i,j,s,R)$, write $E|\tau$ for the family with each region $R$ replaced by $R\cap\tau$. This is a region by Chapter 4 (Proposition on regions forming a Boolean algebra). Let $\mathrm{Fam}(\tau)$ be the families on a fixed set of $n$ pages all of whose regions lie in $\tau$, and $\mathrm{Reg}(\tau)$ the regions contained in $\tau$; for $\tau'\subseteq\tau$ restriction is $E\mapsto E|\tau'$ and $\rho\mapsto\rho\cap\tau'$. Both are presheaves on $(\B(\Om),\subseteq)$.
+
+\begin{theorem}[Locality of the obstruction region]\label{thm:local}
+Let $E$ be a finite family of signed identifications, and $\tau\in\B(\Om)$.
+\begin{enumerate}[label=(\alph*)]
+\item $\Ob(E|\tau)=\Ob(E)\cap\tau$. Consequently $\Ob:\mathrm{Fam}\to\mathrm{Reg}$ is a natural transformation of presheaves.
+\item If $\tau=\tau_1\cup\dots\cup\tau_k$ with $k\ge1$ and each $\tau_i$ a region, then $\Ob(E|\tau)=\bigcup_{i=1}^k\Ob(E|\tau_i)$.
+\item $E|\tau$ is satisfiable iff $\tau\cap\Ob(E)=\varnothing$. In particular, for $\tau$ and $\tau_1,\dots,\tau_k$ as in (b), $E|\tau$ is satisfiable iff every $E|\tau_i$ is.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The multigraph of all edges of $E|\tau$ has the same vertices, the same pairs and the same signs as that of $E$. So it has the same simple cycles, and the same negative ones; call the set of negative simple cycles $\mathcal C$. By the characterization theorem of the obstruction region in Chapter 8 (part (a)), which holds for arbitrary regions including empty ones,
+\[
+\Ob(E)=\bigcup_{C\in\mathcal C}\bigcap_{e\in C}R_e,\qquad
+\Ob(E|\tau)=\bigcup_{C\in\mathcal C}\bigcap_{e\in C}(R_e\cap\tau).
+\]
+
+(a) Each cycle has at least two edges, so $\bigcap_{e\in C}(R_e\cap\tau)=\tau\cap\bigcap_{e\in C}R_e$. Intersection distributes over union, hence $\Ob(E|\tau)=\tau\cap\bigcup_{C}\bigcap_{e\in C}R_e=\Ob(E)\cap\tau$. For naturality, let $E\in\mathrm{Fam}(\tau)$ and $\tau'\subseteq\tau$; then $\Ob(E|\tau')=\Ob(E)\cap\tau'$ is the restriction of $\Ob(E)$ in $\mathrm{Reg}$. Also $\Ob(E)\subseteq\tau$ when the regions of $E$ lie in $\tau$, so $\Ob$ maps $\mathrm{Fam}(\tau)$ into $\mathrm{Reg}(\tau)$.
+
+(b) By (a), $\Ob(E|\tau)=\Ob(E)\cap\bigcup_i\tau_i=\bigcup_i\bigl(\Ob(E)\cap\tau_i\bigr)=\bigcup_i\Ob(E|\tau_i)$.
+
+(c) By the same theorem, part (b), a finite family is satisfiable iff its obstruction region is empty. So $E|\tau$ is satisfiable iff $\Ob(E|\tau)=\Ob(E)\cap\tau=\varnothing$. For the last clause, $\Ob(E|\tau)=\varnothing$ iff, by (b), each $\Ob(E|\tau_i)=\varnothing$, iff each $E|\tau_i$ is satisfiable.
+\end{proof}
+
+The content is modest. It says that the obstruction can be computed on any finite cover of the units and assembled by union, and that restricting attention to a region removes exactly the obstruction outside it. In the schematic case of Chapter 19 the cover by the four aspects $\{a_k\}\times S$ gives $\Ob(E|\{a_k\}\times S)$ empty for $a_1,a_2,a_4$ and equal to $\{a_3\}\times S$ for $a_3$, whose union is the obstruction region of that chapter. Nothing in the theorem is new as mathematics, since it follows from the formula of part (a) of that characterization. Its use is that it is stated for restriction and for covers, which is the form a presheaf reader expects.
+
+Monotonicity (Chapter 8, part (c) of the characterization, and the proposition on dissolving obstructions by distinction) reads in the same vocabulary: $\Ob$ is monotone from families, ordered region by region, to regions, and a distinction acts by moving a family along that order.
+
+\paragraph{Computational check.} The statements (a) to (c) were tested by brute force on 3{,}000 random small instances (unit spaces of up to seven units, up to five pages, up to seven edges with random regions and signs, random regions $\tau$ and random covers of $\tau$), with balance decided by two-colouring and satisfiability decided by exhaustive search over assignments. No discrepancy was found. The aspect-by-aspect computation for the case of Chapter 19 was also reproduced. This is a check of the statements, and the proof above is what establishes them.
+
+
+\section{The dictionary at a glance}\label{sec:dict}
+
+The last column says where the statement is established. ``Def.'' means a definition made in this note.
+
+{\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.27\textwidth}>{\raggedright\arraybackslash}p{0.43\textwidth}>{\raggedright\arraybackslash}p{0.24\textwidth}@{}}
+\toprule
+monograph notion & categorical reading & established in\\
+\midrule
+\endfirsthead
+\toprule
+monograph notion & categorical reading & established in\\
+\midrule
+\endhead
+regions $\B(\Om)$ & thin category of a Boolean algebra; meet is pullback & Chapter 4\\
+admissible scopes $\B_\kappa$, grain & full subposet, one per kernel; finer grain, larger poset & Chapter 4; one-line check\\
+cover of a scope & finite family with the scope as union & Def.; axioms checked in Section~\ref{sec:site}\\
+claim with kernel $\kappa$ and scope $\sigma$ & element of $F_\kappa(\sigma)$, a constant presheaf on $\Sigma$ & Def.; Section~\ref{sec:claims}\\
+restriction $c|_\tau$ & restriction map of $F_\kappa$ & Chapter 4; functoriality checked here\\
+entailment & opposite of inclusion, one component per kernel & Chapter 4, completeness of the restriction order\\
+truth in a model & subobject $T^\kappa_M$ of the terminal presheaf, a sheaf for finite covers & Chapter 4, additivity and monotonicity\\
+grain as a condition & what makes truth a presheaf & Chapter 4, counterexample on grain\\
+conflict of $(\kappa,\sigma)$ and $(\nk\kappa,\tau)$ & located at the meet $\sigma\cap\tau$ & Chapter 4, conflict localization\\
+\textsc{Restrict} & restriction map & Chapter 6\\
+\textsc{Pool} & amalgamation; valid by the sheaf condition; a new record, not an inverse & Chapter 6; Section~\ref{sec:maps}\\
+pooling declaration, \textsc{Lift} & disjoint cover by sense slices; product decomposition & Chapter 8, decomposition and no generalization\\
+scope discipline (W1) & conclusion defined on the meet of warrant and filler scopes & Chapter 6, tightness\\
+chains of warrants & composition of partial maps; domains intersect & Chapter 6, chaining\\
+scoped relation & matrix over $\B(\Om)$; slice is evaluation at a unit & Chapter 10, slice compatibility\\
+signed gluing criterion & $[\bar s_x]=0$ in $H^1(G_x;\Zt)$; exact for signed binary identifications only & Chapter 8, signed cycle criterion and cohomological form\\
+obstruction region & support of the class field; commutes with restriction & Chapter 8; Theorem~\ref{thm:local}\\
+distinction dissolves an obstruction & monotone move of the family along region-wise inclusion & Chapter 8, dissolution\\
+\bottomrule
+\end{longtable}
+}
+
+\section{What this note does not show}\label{sec:limits}
+
+\begin{itemize}[nosep]
+\item No universality of any cohomological criterion. The reading of balance as vanishing of a class in $H^1(G_x;\Zt)$ is exact for signed binary identifications and only for them, as Chapter 8 already says. For other constraints, local sections that are pairwise compatible can fail to glue with an obstruction in a different group or in none; no statement here extends the criterion.
+\item No predictive content beyond the dictionary. The dictionary renames structure the monograph already has. It does not derive a result of the monograph, and no result of the monograph follows from it that did not follow before. Theorem~\ref{thm:local} is a restatement of a consequence of that formula in the language of restriction and covers.
+\item No descent theorem. The word descent is used loosely, for a condition that local data on overlaps determine global data iff a class vanishes. No fibered category, stack or torsor is constructed, and no claim is made that the structure satisfies the axioms under which standard descent results are stated.
+\item No claim that the coverage of Section~\ref{sec:site} is the right one, or that the finite-cover site has the properties of any better studied one. Only the three axioms were checked, by hand.
+\item No treatment of the ledger, the labeling, policies or the status vector. They are outside Chapters 4, 6, 8 and 10 as used here, and several depend on design rules that have no categorical content in this note.
+\item No claim that the presheaf of claims is a sheaf. It is separated and not a sheaf, and Section~\ref{sec:claims} shows why the specification does not want it to be.
+\end{itemize}
+
+Related work is deliberately not surveyed in this draft.
+% TODO(literature): cover sheaves on posets and lattices with finite covers; the sheaf-theoretic account of contextuality already cited in Chapter 8 of the monograph, and whether the class there coincides with the one used here in the signed case; descent and cohomology of signed graphs; check that the terminology here agrees with the standard one.
+
+\section*{Notes}
+
+The monograph chapters used are Chapter 4 (unit space, regions, kernels with grain, claims, restriction, scope monotonicity and additivity, completeness of the restriction order, conflict localization), Chapter 6 (warrants, the structural warrants \textsc{Restrict} and \textsc{Pool}, scope discipline, tightness, chaining), Chapter 8 (pooling declarations, decomposition, no generalization across senses, the gluing problem for one kernel, the signed cycle criterion, the obstruction region and its characterization, the cohomological form and its limits, dissolution by distinction, the restriction-coherence rule) and Chapter 10 (scoped relations and slice compatibility, licensed compositions). Chapter 8 cites Abramsky and Brandenburger (2011) for the sheaf-theoretic structure of contextuality; this note does not engage with that work. Chapter 19 supplies the schematic case used in the check above.
+
+\end{document}

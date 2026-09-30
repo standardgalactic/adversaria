@@ -1,0 +1,124 @@
+\chapter{Constraint}\label{ch:constraint}
+
+Most scholarship neither proves a claim nor refutes it. It limits where, how, or under which measurement the claim can remain true. A relation for that case is the reason Adversaria has scoped claims at all. This chapter defines constraint precisely, proves that it behaves as a limit should (never enlarging a claim, independent of the order in which limits arrive, preserving what was already established), and identifies the part of a claim that survives challenge.
+
+\section{Constraint as region removal}
+
+Two notions must be kept apart. A \emph{constraint on a scope} is an operation of set algebra: remove a region. A \emph{constraint of one argument on a claim} is a fact about defeat: a challenger defeats every argument for the claim on some units. The first is exact and simple; the second is what the ledger supplies.
+
+\begin{definition}[Constrained claim]\label{def:constrained}
+For a claim $c=(\kap,\sigma,\dots)$ and a scope $\tau$ admissible for $\kap$ with $\sigma\setminus\tau\ne\varnothing$, the \emph{constrained claim} is $c\setminus\tau=c|_{\sigma\setminus\tau}$, the restriction of $c$ to $\sigma\setminus\tau$. It is a new claim version and $c$ itself is untouched (Definition~\ref{def:lineage}). If $\sigma\subseteq\tau$ nothing remains and the claim is \emph{wholly defeated}.
+\end{definition}
+
+\begin{definition}[Constrains]\label{def:constrains}
+Let $\mathcal A(c)$ be the active arguments concluding $c$; each has scope $\sigma(c)$, by definition of the scope of an argument. For an argument $b$ and policy $\policy$,
+\[
+\chi_\policy(b,c)=\{x\in\sigma(c):\ \mathcal A(c)\ne\varnothing\ \text{and}\ x\in D_\policy(b,a)\ \text{for every }a\in\mathcal A(c)\},
+\]
+the units where $b$ defeats every argument for $c$. The relation $\textsf{CONSTRAINS}(b,c)=\chi_\policy(b,c)$ is a scope, by Proposition~\ref{prop:boolean}. It holds \emph{effectively} on $\chi^{\IN}_\policy(b,c)=\{x\in\chi_\policy(b,c):\Lab(b,x)=\IN\}$.
+\end{definition}
+
+The region $\chi$ is what the challenger reaches. The effective region is what it \emph{achieves}, since an argument that is itself defeated or undecided at a unit does not constrain there. Section~\ref{sec:survivor} relates the two.
+
+\section{Constraint on scopes is a commutative monoid}
+
+\begin{theorem}[Constraint monotonicity and order independence]\label{thm:constraint}
+Let $\sigma$ be a scope admissible for $\kap$, and for a scope $\tau$ admissible for $\kap$ let $\rho_\tau(\sigma)=\sigma\setminus\tau$.
+\begin{enumerate}[label=(\alph*)]
+\item \emph{(Admissibility.)} $\rho_\tau(\sigma)$ is admissible for $\kap$.
+\item \emph{(Monotone.)} $\rho_\tau(\sigma)\subseteq\sigma$. For any sequence of constraints, $\sigma_{n+1}=\rho_{\tau_n}(\sigma_n)\subseteq\sigma_n$.
+\item \emph{(Commutative.)} $\rho_{\tau_1}\rho_{\tau_2}=\rho_{\tau_2}\rho_{\tau_1}=\rho_{\tau_1\cup\tau_2}$.
+\item \emph{(Idempotent, unital.)} $\rho_\tau\rho_\tau=\rho_\tau$ and $\rho_\varnothing=\mathrm{id}$.
+\item \emph{(Antitone in the constraint.)} $\tau\subseteq\tau'\Rightarrow\rho_{\tau'}(\sigma)\subseteq\rho_\tau(\sigma)$.
+\end{enumerate}
+Hence the scope left after applying any finite set of constraints $\tau_1,\dots,\tau_n$ in any order, grouped in any way, is $\sigma\setminus(\tau_1\cup\dots\cup\tau_n)$.
+\end{theorem}
+
+\begin{proof}
+(a) Admissible scopes for $\kap$ form a Boolean subalgebra (Definition of admissible scope), closed under difference. (b) $\sigma\setminus\tau\subseteq\sigma$. (c) $(\sigma\setminus\tau_2)\setminus\tau_1=\sigma\setminus(\tau_1\cup\tau_2)$ is symmetric in the two constraints. (d) $(\sigma\setminus\tau)\setminus\tau=\sigma\setminus\tau$ and $\sigma\setminus\varnothing=\sigma$. (e) If $\tau\subseteq\tau'$ then $\sigma\setminus\tau'\subseteq\sigma\setminus\tau$. The final sentence follows from (c) and induction.
+\end{proof}
+
+The constraints acting on a scope thus form a commutative idempotent monoid under union, and the surviving scope is a function of the \emph{set} of constraints, not of the order in which challengers arrived. This is the first of the guarantees that make CONSTRAINS more useful than CONTRADICTS: a contradiction between claims has no such structure, and two rebuttals cannot be composed at all.
+
+\section{Preservation}
+
+\begin{theorem}[Constraint preserves soundness, well-formedness and status]\label{thm:preserve}
+Let $c$ be a claim and $\tau$ a scope with $\sigma(c)\setminus\tau\neq\varnothing$ admissible.
+\begin{enumerate}[label=(\alph*)]
+\item \emph{(Soundness.)} For every model $M$, $M\models c$ implies $M\models c\setminus\tau$, and hence $M\models(c\setminus\tau_1)\setminus\tau_2$ for any further constraint.
+\item \emph{(Composition.)} $(c\setminus\tau_1)\setminus\tau_2$ and $c\setminus(\tau_1\cup\tau_2)$ have the same core, and are therefore equivalent under $\models$ in both directions.
+\item \emph{(Well-formedness.)} For every well-formed argument $a$ for $c$, $\textsc{Restrict}(a)$ is a well-formed argument for $c\setminus\tau$.
+\item \emph{(Status.)} Under restriction-coherent policies, for every $x\in\sigma(c)\setminus\tau$ and every $a\in\mathcal A(c)$, $\Lab(\textsc{Restrict}(a),x)=\Lab(a,x)$, and adding the restrictions changes no other label.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) Theorem~\ref{thm:monotone}(a), twice if needed. (b) Both cores are $(\kap,\sigma\setminus(\tau_1\cup\tau_2))$, by Theorem~\ref{thm:constraint}(c); equivalence is Theorem~\ref{thm:entail}. (c) (W1) for \textsc{Restrict} asks only that the new scope lie inside the scope of the filler, and (W2)--(W5) are inherited. (d) Theorem~\ref{thm:restrictstatus}.
+\end{proof}
+
+Part (b) is the sense in which constraints compose: two successive constraints and one combined constraint express the same proposition, though they are different records with different lineages. Part (d) says the constrained claim does not acquire standing from being restated, nor lose any it had.
+
+\begin{theorem}[Reversibility]\label{thm:reversible}
+Suppose no argument for $c$ has $b$ among its sub-arguments, and let $b$ be withdrawn. Then for every unit $x\in\sigma(b)$ the labels at $x$ of all arguments not standing on $b$ are those of the framework in which $b$ and everything standing on it at $x$ has been removed. In particular the standing of the arguments for $c$ on $\chi(b,c)$ is restored to what it would have been without $b$.
+\end{theorem}
+
+\begin{proof}
+Theorem~\ref{thm:withdraw}(c).
+\end{proof}
+
+Constraint is therefore non-destructive at every level. The claim is never edited; the constrained claim is a separate version; and the effect of the challenger is undone exactly by removing the challenger.
+
+\section{The surviving claim}\label{sec:survivor}
+
+A claim can be supported on some units, contested on others, and defeated on the rest. Since all arguments for $c$ have scope $\sigma(c)$, the status of $c$ at a unit is decided by the labels of one fixed set $\mathcal A(c)$.
+
+\begin{definition}[Claim regions]\label{def:claimregions}
+For $c$ with $\mathcal A(c)\ne\varnothing$ put
+\begin{align*}
+\In(c)&=\{x\in\sigma(c):\Lab(a,x)=\IN\text{ for some }a\in\mathcal A(c)\},\\
+\Out(c)&=\{x\in\sigma(c):\Lab(a,x)=\OUT\text{ for every }a\in\mathcal A(c)\},\\
+\Und(c)&=\sigma(c)\setminus(\In(c)\cup\Out(c)).
+\end{align*}
+If $\mathcal A(c)=\varnothing$ the claim is \emph{unsupported} on all of $\sigma(c)$. These are scopes by Theorem~\ref{thm:regions}.
+\end{definition}
+
+\begin{proposition}[Bounds on the surviving region]\label{prop:bounds}
+Let $\mathcal A(c)\ne\varnothing$.
+\begin{enumerate}[label=(\alph*)]
+\item $\sigma(c)\setminus\bigcup_{a\in\mathcal A(c),\,b}D_\policy(b,a)\ \subseteq\ \In(c)\ \subseteq\ \sigma(c)\setminus\Out(c)$.
+\item $\chi^{\IN}_\policy(b,c)\subseteq\Out(c)$ for every argument $b$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) If no argument defeats any argument for $c$ at $x$, all are unattacked there, hence $\IN$. The upper inclusion holds because $\In(c)\cap\Out(c)=\varnothing$. (b) At $x\in\chi^{\IN}(b,c)$ the argument $b$ is $\IN$ and defeats every argument for $c$, so all are $\OUT$.
+\end{proof}
+
+\begin{proposition}[The static case]\label{prop:static}
+Let $a$ be the only argument for $c$ and let $b_1,\dots,b_m$ be undermining or undercutting attackers of $a$ that have no defeaters at any unit where they defeat $a$. Then $\In(c)=\sigma(c)\setminus\bigcup_iD_\policy(b_i,a)$ and $\Out(c)=\bigcup_iD_\policy(b_i,a)$.
+\end{proposition}
+
+\begin{proof}
+Outside every $D_\policy(b_i,a)$ the argument $a$ has no defeater and is $\IN$. Inside $D_\policy(b_i,a)$ the attacker $b_i$ is unattacked, so $\IN$, and $a$ is $\OUT$.
+\end{proof}
+
+In this case the constraint of Definition~\ref{def:constrained} with $\tau=\bigcup_iD_\policy(b_i,a)$ is exactly what the labeling delivers. In general the labeling is the arbiter: attackers may themselves be attacked, rebuttals are mutual, and preferences intervene, and then the survivor is read off the labels rather than computed by subtraction.
+
+\begin{theorem}[Restriction compatibility and the survivor]\label{thm:survivor}
+Let policies be restriction-coherent, and let $c|_\rho$ be a restriction of $c$ to an admissible nonempty $\rho\subseteq\sigma(c)$, whose arguments are the restrictions $\textsc{Restrict}_\rho(a)$ of the arguments $a\in\mathcal A(c)$.
+\begin{enumerate}[label=(\alph*)]
+\item $\In(c|_\rho)=\In(c)\cap\rho$, $\Out(c|_\rho)=\Out(c)\cap\rho$, $\Und(c|_\rho)=\Und(c)\cap\rho$.
+\item $c|_\rho$ is $\IN$ at every unit of $\rho$ iff $\rho\subseteq\In(c)$.
+\item If $\In(c)\ne\varnothing$ is admissible for the kernel of $c$, then the \emph{survivor} $\mathrm{Surv}(c)=c|_{\In(c)}$ is the unique largest restriction of $c$ that is $\IN$ throughout, and $\mathrm{Surv}(\mathrm{Surv}(c))=\mathrm{Surv}(c)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) At $x\in\rho$ the restrictions of the arguments for $c$ are twins of the originals (Theorem~\ref{thm:restrictstatus}), with equal labels. Hence some argument for $c|_\rho$ is $\IN$ at $x$ iff some argument for $c$ is, and likewise for the other two regions. (b) By (a), $\In(c|_\rho)=\rho$ iff $\rho\subseteq\In(c)$. (c) By (b) a restriction to $\rho$ is $\IN$ throughout iff $\rho\subseteq\In(c)$, so $\In(c)$ is the largest such scope and $c|_{\In(c)}$ the largest such restriction. Applying (a) with $\rho=\In(c)$ gives $\In(\mathrm{Surv}(c))=\In(c)$, which is the whole scope of $\mathrm{Surv}(c)$, so restricting again changes nothing.
+\end{proof}
+
+The survivor is the answer to ``what remains of this claim after everyone has had their say under this policy?'': the largest part of the original that is undefeated throughout. It is computed, not edited. Its admissibility is not automatic, but it follows from Proposition~\ref{prop:grain} whenever the ledger respects the grain of the kernel; a record that would cut an indivisible cell is not admitted as it stands, and its author is directed to state a finer kernel first.
+
+\begin{example}
+In the worked example of Section~\ref{sec:worked7}, at stage 2 the pooled claim $c$ has $\In(c)=\{AD,AL\}$, $\Und(c)=\{KD\}$, and $\mathrm{Surv}(c)$ is the claim for adults in both contexts. The unit $KD$ is open, and is neither confirmed nor refuted. At stage 3 the reply restores $\In(c)=\sigma(c)$ and $\mathrm{Surv}(c)=c$. An author who accepts the survivor may inscribe it as a voluntary \textsf{QUALIFIES} revision; the system computes it regardless.
+\end{example}

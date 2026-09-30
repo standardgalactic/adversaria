@@ -1,0 +1,227 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Om}{\Omega}
+\newcommand{\Ob}{\mathrm{Ob}}
+\newcommand{\IN}{\textsf{IN}}
+\newcommand{\UND}{\textsf{UND}}
+\newcommand{\OUT}{\textsf{OUT}}
+\newcommand{\EQ}{\mathsf{EQ}}
+\newcommand{\IMP}{\mathsf{IMP}}
+\newcommand{\TR}{\mathsf{TR}}
+\newcommand{\nk}[1]{\neg#1}
+\newcommand{\ext}[2]{[#1]_{#2}}
+\newcommand{\abs}{\cdot}
+
+\title{Transport and Gluing}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+Two mechanisms of the claim graph specified in the monograph \emph{Adversaria: A Specification for a Public Claim Graph} both carry a statement across an overlap. Ontology transport carries a finding from one vocabulary to another through a mapping claim. Page gluing asks whether separately written local accounts, which agree wherever they overlap pairwise, can be assembled into one. This essay states plainly that, in general, the connection between them is an analogy: each has a region over which it applies, each composes by intersecting regions along a chain, and each fails where a route that should be independent of its path is not. It then proves one precise statement and no more. If the mapping claims are equivalences, and distinctness claims are the negations of equivalences, then a family of them is jointly satisfiable at a unit exactly when the signed graph of its standing edges at that unit is balanced, so the obstruction region of Chapter 8 is exactly the set of units at which some claim of the family must fail in every model. Transport along a positive route is then the transport of a truth value along the edges of that graph, and the failure of commutation is a negative cycle. Outside the equivalence-and-distinctness case, including mappings that are implications and pages with larger vocabularies, no precise statement is made.
+\end{abstract}
+
+\section{Two problems that look alike}\label{sec:intro}
+
+A reader holding a finding stated in one vocabulary wants to know what it says in another. A reader holding several local accounts wants to know whether they describe one world. In the claim graph of the monograph the first question is answered by transport (Chapter 15) and the second by gluing (Chapter 8). Both involve a statement that has to cross an overlap between two places where it was not originally made. In transport the overlap is the region over which a mapping between two vocabularies has been argued. In gluing it is the set of units and the shared vocabulary on which two pages speak.
+
+The resemblance invites a stronger claim: that the two are one problem. This essay does not make that claim in general. It states an analogy, says where it is informative and where it stops, and then proves the single exact statement that the monograph's definitions support, in the case where the overlap is an equivalence claim. The result is both: an analogy in general, and a theorem in one case.
+
+The essay uses only the definitions and results of the monograph, cited by chapter, and two short proofs of its own (Theorem~\ref{thm:main} and Proposition~\ref{prop:routes}). Related essays in this series of the author's are not summarised or characterised here.
+
+\section{The two mechanisms as the monograph states them}\label{sec:recall}
+
+\paragraph{Transport.} A kernel is an exact statement with operational meanings, an ontology version, a negation and a grain (Chapter 4). For kernels $\kappa,\kappa'$ over one unit space $\Om$, the derived kernels $\EQ(\kappa,\kappa')$ and $\IMP(\kappa,\kappa')$ have in a model $M$ the extensions
+\[
+\ext{\EQ(\kappa,\kappa')}{M}=\Om\setminus\bigl(\ext{\kappa}{M}\triangle\ext{\kappa'}{M}\bigr),\qquad
+\ext{\IMP(\kappa,\kappa')}{M}=\Om\setminus\bigl(\ext{\kappa}{M}\setminus\ext{\kappa'}{M}\bigr),
+\]
+and a mapping claim is a claim with such a kernel and a scope (Chapter 15). No record identifies two kernels except a mapping claim. The transport warrants $\TR_{\EQ}$ and $\TR_{\IMP}$ are ordinary warrants that take a finding about $\kappa$ and a mapping claim to a finding about $\kappa'$ over the intersection of the two scopes. Transport is sound; it is exactly as defeasible as the mapping claim; and a chain of mappings reaches only the intersection of the scopes argued separately (Chapter 15).
+
+\paragraph{Gluing.} A \emph{page} has a scope, a sub-vocabulary of binary kernels and, at each unit, a set of locally admissible assignments. A global solution at a unit is an assignment that every page covering the unit permits. Pages are compatible at a unit if their admissible sets agree on the shared vocabulary; a pairwise compatible family with no global solution at a unit is an obstruction there (Chapter 8, definition of pages and gluing). For claims about a single kernel, pairwise checking suffices (Chapter 8). For a \emph{signed identification}, which asserts on a region $R$ that $v_j=s\,v_i$ for binary variables at each unit, with sign $s=\pm1$, a global assignment exists at a unit exactly when the signed multigraph of the identifications active there has no negative cycle (Chapter 8, signed cycle criterion). The \emph{obstruction region} $\Ob(\mathcal E)$ is the set of units at which that graph is unbalanced. It equals the union, over negative simple cycles, of the intersections of the edge regions, and it is a scope (Chapter 8). Chapter 8 also warns that the cohomological reading of balance is exact for this binary signed case and only for it.
+
+\paragraph{What the labeling sees.} The grounded labeling of Chapter 7 resolves attack between arguments. A family of identification claims, each with an unattacked argument, can be unsatisfiable together without any argument attacking another, and then every such argument is $\IN$ (Chapter 8, counterexample of the triangle). The obstruction region is reported as a separate object, computed on the identification claims that are $\IN$ at each unit, and the repair offered is a declared distinction between senses (Chapter 8).
+
+\section{The analogy}\label{sec:analogy}
+
+Table~\ref{tab:analogy} sets the two mechanisms side by side. The rows are a reading of the definitions above and carry no claim beyond them.
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.17\textwidth}XX@{}}
+\toprule
+ & transport (Chapter 15) & gluing (Chapter 8)\\
+\midrule
+what crosses & a finding about a kernel, by an argument & a local account, compared with another on the overlap\\
+the overlap & the scope of a mapping claim & the intersection of page scopes, on shared vocabulary\\
+composition & along a chain, the intersection of scopes (chain corollary) & the obstruction region is a union, over negative cycles, of intersections of edge regions\\
+what fails & a link does not stand at a unit, or the scopes do not meet & a cyclic overlap whose local agreements do not assemble\\
+kind of failure & absence of a standing route to a conclusion & positive inconsistency among claims that each stand\\
+seen by the labeling & yes: a defeated link is an $\OUT$ argument & no: every argument can be unattacked and $\IN$\\
+repair & a further argument, an alternative mapping, a reply & a declared distinction confining identifications to senses, or a standing objection that removes an edge\\
+\bottomrule
+\end{tabularx}
+\caption{The two mechanisms compared. The rows on composition and on the kind of failure are where they differ most.}\label{tab:analogy}
+\end{table}
+
+The shared shape is this. In each case a statement made in one place is to be reused in another through overlap data, the reach of a chain is an intersection of the regions along it, and the characteristic failure is that two routes from one place to another, which ought to give the same answer, do not. Outside the signed case the word ``commute'' is used here loosely. For a general gluing problem (Chapter 8, definition of pages and gluing) there is no single operation that is carried along routes, and no general sense in which a failure to glue is a failure of routes to agree. Chapter 8 itself notes that pairwise compatible families with no global section arise routinely for general constraints, and that for constraints other than signed binary identifications the obstruction may live in a different group or in none.
+
+The differences in the table matter as much as the resemblance. The last rows say the two failures are not of one epistemic kind. A failure of transport leaves a conclusion without a route: the statement at the far end is not established by this path, and it may be true. A failure of gluing is a collection of claims, each of which stands, that cannot all be true together in any model. The first is silence and the second is a contradiction that no pair of claims exhibits. A system that treated them as one would either report silence as contradiction or contradiction as silence.
+
+\section{One exact statement}\label{sec:exact}
+
+The statement below holds because two objects that look different are in fact the same under the semantics of Chapter 4. A mapping claim $\EQ(\kappa,\kappa')$ over a region $R$ says that at every unit of $R$ the unit lies in $\ext{\kappa}{M}$ if and only if it lies in $\ext{\kappa'}{M}$. That is a signed identification of sign $+1$ between the two binary variables ``$\kappa$ holds at the unit'' and ``$\kappa'$ holds at the unit''. The negation of the derived kernel is also a kernel (Chapter 4, definition of a kernel), with the complementary extension, so a claim $\nk{\EQ(\kappa,\kappa')}$ over $R$ says that at every unit of $R$ exactly one of the two holds: a signed identification of sign $-1$.
+
+\paragraph{Conventions for this section.} These are assumptions of the essay, not statements of the monograph.
+\begin{enumerate}[label=(C\arabic*),nosep]
+\item All kernels $\kappa_1,\dots,\kappa_n$ are of the finest grain, so every region is admissible for them, and they are pairwise distinct with $\kappa_i\ne\nk{\kappa_j}$ for all $i,j$.
+\item For each unordered pair $\{i,j\}$ the derived kernel $E_{ij}=\EQ(\kappa_i,\kappa_j)$ is one kernel, written with the smaller index first, and it has the finest grain. (Chapter 15 does not say how the grain of a derived kernel is fixed.)
+\item $\mathcal M$ is the class of models in which every $E_{ij}$ is interpreted by the formula above, and every kernel $\kappa$ satisfies $\ext{\nk{\kappa}}{M}=\Om\setminus\ext{\kappa}{M}$ as in Chapter 4.
+\end{enumerate}
+A \emph{signed edge} is $e=(i,j,s,R)$ with $i<j$, $s\in\{+1,-1\}$ and $R$ a region, and its claim is $c_e=(K_e,R)$ with $K_e=E_{ij}$ if $s=+1$ and $K_e=\nk{E_{ij}}$ if $s=-1$. Families $\mathcal E$ of signed edges, the graphs $G_x$ and the obstruction region $\Ob(\mathcal E)$ are as in Chapter 8. For a model $M$ put
+\[
+v^M_i(x)=\begin{cases}+1&x\in\ext{\kappa_i}{M}\\-1&\text{otherwise,}\end{cases}
+\qquad
+F(M)=\bigcup_{e\in\mathcal E}\bigl(R_e\setminus\ext{K_e}{M}\bigr),
+\]
+so that $F(M)$ is the set of units at which $M$ falsifies some claim of the family. A claim $c_e$ is true in $M$ exactly when $R_e\subseteq\ext{K_e}{M}$, so the family is true in $M$ exactly when $F(M)=\varnothing$.
+
+\begin{lemma}[Dictionary]\label{lem:dict}
+For $M\in\mathcal M$, an edge $e=(i,j,s,R)$ and a unit $x$: $x\in\ext{K_e}{M}$ iff $v^M_j(x)=s\,v^M_i(x)$. Conversely, for every map $v:\Om\to\{\pm1\}^n$ there is $M\in\mathcal M$ with $v^M=v$.
+\end{lemma}
+
+\begin{proof}
+If $s=+1$: $x\in\ext{E_{ij}}{M}$ iff $x\notin\ext{\kappa_i}{M}\triangle\ext{\kappa_j}{M}$ iff $x$ lies in both or in neither, iff $v_i^M(x)=v_j^M(x)$. If $s=-1$, the extension of $\nk{E_{ij}}$ is the complement, so $x$ lies in exactly one, iff $v^M_j(x)=-v^M_i(x)$. For the converse set $\ext{\kappa_i}{M}=\{x:v_i(x)=+1\}$, which is admissible because the grain is finest, and let the negations and the derived kernels take the extensions the conditions force.
+\end{proof}
+
+\begin{theorem}[Mapping cycles and the obstruction region]\label{thm:main}
+Let $\mathcal E$ be a finite family of signed edges under (C1)--(C3).
+\begin{enumerate}[label=(\alph*)]
+\item Let $x\in\Om$. There is $M\in\mathcal M$ with $x\in\ext{K_e}{M}$ for every $e$ with $x\in R_e$ if and only if $x\notin\Ob(\mathcal E)$.
+\item $\Ob(\mathcal E)\subseteq F(M)$ for every $M\in\mathcal M$, and there is $M\in\mathcal M$ with $F(M)=\Ob(\mathcal E)$. So $\Ob(\mathcal E)$ is exactly the set of units at which every model falsifies some claim of the family, and some model falsifies claims only there.
+\item There is $M\in\mathcal M$ in which every claim $c_e$ is true if and only if $\Ob(\mathcal E)=\varnothing$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) By Lemma~\ref{lem:dict}, the condition says that $v^M(x)$ satisfies every edge of $G_x$ in the sense of Chapter 8. If such $M$ exists, $G_x$ has a satisfying assignment, hence is balanced by the signed cycle criterion, so $x\notin\Ob(\mathcal E)$. Conversely if $G_x$ is balanced the criterion gives a satisfying $w\in\{\pm1\}^n$; take any $v$ with $v(x)=w$ and the model of Lemma~\ref{lem:dict}.
+
+(b) If $x\in\Ob(\mathcal E)$ and $M\in\mathcal M$, part (a) says some edge $e$ with $x\in R_e$ has $x\notin\ext{K_e}{M}$, so $x\in F(M)$. For the second claim, choose for each $x\notin\Ob(\mathcal E)$ a satisfying assignment of $G_x$ and for each $x\in\Ob(\mathcal E)$ any assignment; units are independent, so this defines $v:\Om\to\{\pm1\}^n$. Let $M$ be the model with $v^M=v$ from Lemma~\ref{lem:dict}. At $x\notin\Ob(\mathcal E)$ every active edge is satisfied, so $x\notin F(M)$. Hence $F(M)\subseteq\Ob(\mathcal E)$, and with the first claim, $F(M)=\Ob(\mathcal E)$.
+
+(c) The family is true in $M$ iff $F(M)=\varnothing$. By (b), some $M$ has $F(M)=\Ob(\mathcal E)$, and every $M$ has $F(M)\supseteq\Ob(\mathcal E)$. So a model with $F(M)=\varnothing$ exists iff $\Ob(\mathcal E)=\varnothing$.
+\end{proof}
+
+Theorem~\ref{thm:main} is a dictionary together with the signed cycle criterion of Chapter 8. It adds no graph theory. What it supplies is the identification of the objects: the binary variables of a signed identification are the indicator functions of kernels, the positive edges are equivalence mapping claims, the negative edges are distinctness claims, and the obstruction region of Chapter 8 is, in this case, a statement about models of the claims themselves.
+
+\paragraph{Two readings of ``distinct'', and why only one arises.} A distinctness claim $\nk{\EQ(\kappa_i,\kappa_j)}$ over $R$ says that at each unit of $R$ exactly one of the two kernels holds. A weaker statement, that the two kernels are not equivalent somewhere in $R$, is existential, and by the universal reading of Chapter 4 it is not a claim. It enters the graph as evidence about the scope actually observed, not as a region-wide constraint. So within the monograph's semantics the negation of a mapping claim carries the strong, sign $-1$ meaning, and Theorem~\ref{thm:main} concerns that reading only.
+
+\paragraph{Transport along routes.} For a unit $x$, a \emph{route} from $i$ to $j$ at $x$ is a simple path in $G_x$, and its \emph{sign} is the product of the signs of its edges.
+
+\begin{proposition}[Routes]\label{prop:routes}
+Under (C1)--(C3) and for a unit $x$:
+\begin{enumerate}[label=(\alph*)]
+\item If $M\in\mathcal M$ makes every claim $c_e$ with $x\in R_e$ true, and $P$ is a route from $i$ to $j$ at $x$ with sign $s_P$, then $v^M_j(x)=s_P\,v^M_i(x)$. In particular along a positive route, $x\in\ext{\kappa_i}{M}$ iff $x\in\ext{\kappa_j}{M}$, and along a negative route, $x\in\ext{\kappa_i}{M}$ iff $x\notin\ext{\kappa_j}{M}$.
+\item $x\notin\Ob(\mathcal E)$ iff any two routes at $x$ between the same pair of vertices have the same sign.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) By Lemma~\ref{lem:dict} every edge of $P$ is satisfied by $v^M(x)$, and multiplying along the path gives the equation.
+
+(b) ($\Rightarrow$) If $x\notin\Ob(\mathcal E)$, Chapter 8 gives a satisfying assignment $w$ of $G_x$. For two routes $P,Q$ from $i$ to $j$ the equation of (a) gives $w_j=s_Pw_i=s_Qw_i$, and $w_i\ne0$, so $s_P=s_Q$. ($\Leftarrow$) Suppose $x\in\Ob(\mathcal E)$. Then $G_x$ has a negative simple cycle $C$. Take an edge $e$ of $C$ joining $i$ and $j$. The edge $e$ alone and the rest of $C$ are two routes from $i$ to $j$ at $x$, and the product of their signs is the sign of $C$, which is $-1$, so the signs differ. (If $C$ has two edges these are the two parallel edges.)
+\end{proof}
+
+This is the precise form of the statement ``transport is path independent exactly when there is no negative cycle.'' It connects to the transport theorems as follows. A positive route from $i$ to $j$ with every edge supported by an argument for its mapping claim is a chain of mappings. By the chain corollary of Chapter 15, an argument transporting a finding about $\kappa_i$ along it by $\TR_{\EQ}$ has scope inside the intersection of the source scope and the edge regions. That is the set of units at which the route is available, and Theorem~\ref{thm:main} together with the formula for $\Ob$ in Chapter 8 says that the units at which two available routes disagree in sign are exactly those in $\Ob(\mathcal E)$: the obstruction region is the union, over negative simple cycles, of the units at which the whole cycle is available. Transport by $\TR_{\EQ}$ as the monograph defines it carries only the positive statement ``$\kappa_i$ holds'' to ``$\kappa_j$ holds.'' Carrying ``$\kappa_i$ holds'' across a distinctness claim to ``$\kappa_j$ fails'' needs a different ordinary warrant; an example is given in Section~\ref{sec:example}.
+
+\section{A worked case}\label{sec:example}
+
+The case is schematic. Three invented vocabularies $A$, $B$, $C$ each have a term, giving kernels $\kappa_A,\kappa_B,\kappa_C$ of the finest grain (for instance ``the night interval is classed as settled''). The unit space has the four units $aw,ar,cw,cr$: population (adults or children) crossed with measurement regime (wrist device or reference recording). Three claims are made.
+\begin{itemize}[nosep]
+\item $m_{AB}$: $\EQ(\kappa_A,\kappa_B)$ over $R_{AB}=\{aw,ar,cw\}$.
+\item $m_{BC}$: $\EQ(\kappa_B,\kappa_C)$ over $R_{BC}=\{aw,cw,cr\}$.
+\item $m_{AC}$: $\nk{\EQ(\kappa_A,\kappa_C)}$ over $R_{AC}=\{aw,ar,cw,cr\}$, a claim that the terms of $A$ and $C$ disagree on every unit.
+\end{itemize}
+Each has one unattacked argument. The three kernels $E_{AB}$, $E_{BC}$, $\nk{E_{AC}}$ are pairwise distinct and none is the negation of another, so no argument attacks another.
+
+\paragraph{What the labeling shows.} The grounded labeling gives every argument the label $\IN$ on its whole scope. By the computation described in Section~\ref{sec:checks} this is indeed what a program implementing Chapter 7 returns.
+
+\paragraph{What the obstruction shows.} The only cycle is the triangle, with sign $(+1)(+1)(-1)=-1$, so
+\[
+\Ob=R_{AB}\cap R_{BC}\cap R_{AC}=\{aw,cw\}.
+\]
+Each pair of the three claims is jointly satisfiable in $\mathcal M$ (checked by enumeration over all $2^{12}$ models), and the three together are not. By Theorem~\ref{thm:main}(b), every model falsifies at least one of the claims at each of $aw$ and $cw$, and the enumeration confirms that the smallest set of units at which any model falsifies something is exactly $\{aw,cw\}$.
+
+\paragraph{The same fact as a dispute.} Suppose a finding $s$ for $\kappa_A$ over $\{aw,ar,cw\}$. Transport by $\TR_{\EQ}$ along $m_{AB}$ and $m_{BC}$ gives an argument $d$ for $\kappa_C$ over $\{aw,cw\}$, the intersection of $\{aw,ar,cw\}$, $R_{AB}$ and $R_{BC}$. Now let $W$ be the ordinary warrant $(\kappa_A,\ \nk{E_{AC}}\Rightarrow\nk{\kappa_C};\ \Om;\ \mathrm{none};\ \varnothing)$. It is valid in every model of $\mathcal M$: if $x$ lies in $\ext{\kappa_A}{M}$ and in $\ext{\kappa_A}{M}\triangle\ext{\kappa_C}{M}$, then $x\notin\ext{\kappa_C}{M}$. (This was also checked by enumeration.) An argument $\bar d$ built on $W$ with fillers $s$ and $m_{AC}$ concludes $\nk{\kappa_C}$ over $\{aw,ar,cw\}$. The conclusions of $d$ and $\bar d$ are a kernel and its negation, so the two arguments rebut each other on $\{aw,cw\}$, and under the default policy both are $\UND$ there. At $ar$, where $d$ is absent, $\bar d$ is $\IN$. So once someone inscribes both transports, the obstruction appears in the labeling as a pair of mutually rebutting arguments, on exactly the units of $\Ob$ that $s$ reaches. Nothing in the specification forces anyone to inscribe them, and without them the labeling does not see the obstruction. That is why Chapter 8 reports $\Ob$ as a separate object.
+
+\paragraph{Transport defeat changes the obstruction.} Chapter 8 computes $\Ob$ on the identification claims that are $\IN$ at each unit. Let an objection $u$, with scope $\{cw,cr\}$, undermine the evidence behind $m_{BC}$. By the defeasibility result of Chapter 15 and the rules of Chapter 7, $m_{BC}$ is $\OUT$ on $\{cw,cr\}$ (the labeling gives $\OUT$ at $cw$ and at $cr$, and $m_{BC}$ is still $\IN$ at $aw$). The standing graph at $cw$ then has two edges and no cycle, and the obstruction on standing claims is $\{aw\}$. Two things combine here: the defeat of a link, which is a labeling fact about transport, removes an edge at the units where it is $\OUT$, and the removal shrinks $\Ob$ there, by the monotonicity of Chapter 8. Nothing new is needed to connect the two mechanisms in this direction.
+
+\paragraph{Distinction as repair.} If the claim $m_{AC}$ is instead confined to $\{ar,cr\}$, because the terms of $A$ and $C$ were meant to disagree only on reference recordings, the three regions have empty intersection and $\Ob=\varnothing$ (Chapter 8, proposition on distinction). The transported argument $d$ is then unopposed on $\{aw,cw\}$. The repair is a new record that changes where a claim was meant, not an edit to any of the three.
+
+\section{Where the analogy stops}\label{sec:stops}
+
+\paragraph{Implications are not signed edges.} $\IMP(\kappa,\kappa')$ over $R$ says that at each unit of $R$, $\kappa$ implies $\kappa'$. That is an order constraint, not a parity constraint. A family of implication claims alone is always jointly satisfiable, since every kernel can be given the extension $\Om$. The statement of Theorem~\ref{thm:main} does not extend to implication mappings, and this essay makes no statement about families that mix implications with distinctness claims.
+
+\paragraph{Pages with larger vocabularies.} The gluing problem of Chapter 8 allows pages whose vocabularies have many kernels and whose admissible sets are arbitrary. Theorem~\ref{thm:main} covers the case in which each page is a single signed identification on a two-kernel vocabulary. For larger vocabularies Chapter 8 says only that the general phenomenon exists and that the signed case is the one treated completely, and no statement is made here.
+
+\paragraph{Cohomology.} Chapter 8 proves that, for this signed binary case, balance is the vanishing of a class in $H^1(G_x;\mathbb Z/2)$, and warns that this is an interpretation of that case only. The present essay adds nothing to that: Theorem~\ref{thm:main} is stated in terms of models and the signed cycle criterion, and does not assert that transport in general has a cohomological form.
+
+\paragraph{Argument against model.} Transport is an operation on arguments, with labels and defeat. The statement proved is about joint satisfiability of claims in models, which is what the obstruction region measures. A standing argument for a mapping claim is not a true mapping claim. Theorem~\ref{thm:main} says nothing about which of a cycle's claims is wrong. It says that not all can be true over the obstruction region, and the choice of which to revise is left to the record.
+
+\paragraph{Ordinary transport.} Most transport has no cycle. A single mapping carries a finding once, and the gluing statement for one kernel, where pairwise checking suffices (Chapter 8), is the nearest analogue. The cyclic case matters only when mappings among several vocabularies, or identifications among several pages, close up.
+
+\section{What was checked by computation}\label{sec:checks}
+
+The following were checked by programs in a scratch directory and not by hand.
+\begin{itemize}[nosep]
+\item Theorem~\ref{thm:main}(c) and the pointwise form (a) were checked on 600 random instances with three or four kernels, two or three units, and two to six random signed edges with random regions. For each instance the existence of a model was decided by brute-force enumeration of all assignments of extensions to the kernels and compared with the emptiness of $\Ob$ computed from the union-over-negative-cycles formula. The comparison held in all 600 instances, of which 284 had nonempty $\Ob$.
+\item Proposition~\ref{prop:routes}(b) was checked on the same instances: $x\in\Ob$ iff some pair of vertices is joined by two simple paths of opposite sign in $G_x$, and iff $G_x$ fails a two-colouring test.
+\item The worked case of Section~\ref{sec:example}: the labels, the pairwise satisfiability of each pair of claims, the minimal falsified set $\{aw,cw\}$ over all $2^{12}$ models, the validity of $W$, and the obstruction regions after the undermining objection and after the confinement.
+\end{itemize}
+These checks support the statements on small cases. The proofs are those given above and in Chapter 8.
+
+\section{What this essay does not show}\label{sec:notshown}
+
+\begin{itemize}
+\item That transport and gluing are formally identical. Outside the equivalence-and-distinctness case the connection is an analogy. Even inside it, transport is an operation on arguments and labels while the theorem concerns joint satisfiability of claims in models.
+\item That an obstruction is an error or that it must be repaired. The theorem says which units cannot satisfy all the claims. It does not say which claim to revise, and Chapter 8 prescribes reporting the obstruction and offering distinction as a repair, not choosing.
+\item Anything about implication mappings, pages with larger vocabularies, or constraint families that are not signed binary identifications.
+\item That the cohomological reading gives a general criterion for transport or for gluing.
+\item That any mapping between real vocabularies, or any real set of pages, contains a cycle. The vocabularies, units and claims are invented.
+\item That the conventions (C1)--(C3) are the monograph's. They are assumptions made here to state the theorem, and in particular the treatment of the grain and identity of derived kernels should be confirmed against Chapter 15.
+\item That a real dispute has been modelled. The transport arguments in the worked case are built for illustration.
+\end{itemize}
+
+\section*{Notes}
+
+Chapters of the monograph used: 4 (kernels, models, truth, negation, universal reading of claims); 6 (ordinary warrants, scope discipline); 7 (attack, defeat, grounded labeling, reinstatement); 8 (pages and gluing, single-kernel case, signed identifications, the signed cycle criterion, the obstruction region and its formula, monotonicity, distinction as repair, the limits of the cohomological reading); 15 (mapping claims, transport warrants, the soundness, defeasibility and chain results). Related work is deliberately not surveyed in this draft.
+
+% TODO(literature): cover work relating consistency of networks of mappings to signed graphs and to gluing of local data; do not characterize any of it from memory.
+% TODO(cross-reference): add pointers to the author's existing essays in this series on epistemic transport and on gluing, without restating their content here.
+% TODO(check): conventions (C1)-(C3): grain and identity of the derived kernel EQ(k_i,k_j), and whether EQ(k_i,k_j) and EQ(k_j,k_i) are one kernel.
+
+\end{document}

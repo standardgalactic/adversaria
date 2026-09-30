@@ -1,0 +1,85 @@
+\chapter{The Status Vector}\label{ch:status}
+
+A dossier must tell a reader how things stand with a claim, and there is a strong pull to answer with one number: a score, a grade, a probability of truth. The design refuses that answer, and this chapter says what replaces it and proves why the refusal is principled rather than squeamish. The status of a claim is a \emph{field} over its scope. At each unit it has several separate components, none derived from the others, and it comes with two distinct layers: an informational layer recording what has been argued, and a justificatory layer recording what survives.
+
+\section{Two layers: what is on the table, and what stands}
+
+Recall that the justificatory layer is the labeling of Chapter~\ref{ch:objection}: an argument is $\IN$, $\OUT$ or $\UND$ at a unit. It says nothing when no argument has been given. The informational layer says what has been offered, whatever its fate.
+
+\begin{definition}[Evidential state]\label{def:evstate}
+Let $c=(\kap,\sigma,\dots)$ be a claim and $x\in\sigma$. Say there is \emph{pro} at $x$ if some active argument for $c$ is present at $x$, and \emph{con} at $x$ if some active argument for a claim of kernel $\nk{\kap}$ is present at $x$. The \emph{evidential state} $B(c,x)$ is
+\[
+\mathsf T\ (\text{pro only}),\qquad\mathsf F\ (\text{con only}),\qquad\mathsf B\ (\text{both}),\qquad\mathsf N\ (\text{neither}).
+\]
+\end{definition}
+
+This is Belnap's four values, read as records of what has been told and not as truth values. They carry two orders, as in Belnap's bilattice. In the \emph{truth order}, $\mathsf F$ lies below $\mathsf N$ and $\mathsf B$, which are incomparable, and both lie below $\mathsf T$. In the \emph{information order}, $\mathsf N$ lies below $\mathsf T$ and $\mathsf F$, which lie below $\mathsf B$. A claim can gain support and opposition together as the evidence base grows, moving upward in the information order and sideways in the truth order; neither ``both'' nor ``neither'' is an error state. ``Both'' means the ledger contains argument on each side. It does not mean the store is corrupt, and it does not license any conclusion (Corollary~\ref{cor:explosion}).
+
+The evidential state depends only on which arguments are active, and the labels also depend on the policy. Their relation is governed by a guarantee that the informational layer may be inconsistent while the justificatory layer never is.
+
+\begin{proposition}[Consistency of what stands]\label{prop:noboth}
+At no unit are an argument for a claim of kernel $\kap$ and an argument for a claim of kernel $\nk{\kap}$ both $\IN$.
+\end{proposition}
+
+\begin{proof}
+Let $a$ and $b$ be such arguments, both present at $x$. Their conclusions have opposite kernels and $x$ lies in both scopes, so they rebut each other with an active region containing $x$. By Definition~\ref{def:policy} the sets $\langle b\prec a\rangle$ and $\langle a\prec b\rangle$ are disjoint, so $x$ lies in at most one of them, and at least one of the two rebuttals succeeds at $x$. Then one of $a,b$ defeats the other at $x$. But the set $\IN_x$ is conflict-free (Theorem~\ref{thm:labels}(b)); so they are not both $\IN$.
+\end{proof}
+
+Because the two layers are separate, situations that a single ``disputed'' flag would blur are told apart.
+
+\begin{proposition}[Four situations, four signatures]\label{prop:foursit}
+Each of the following occurs, and no two share the same pair (evidential state, labels of the arguments for the claim) at a unit.
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l l X@{}}
+\toprule
+situation & evidential state & labels\\
+\midrule
+lack of evidence & $\mathsf N$ & no argument present\\
+balanced conflict & $\mathsf B$ & pro and con arguments both $\UND$ (mutual rebuttal, no tie-breaker)\\
+unresolved methodological attack & $\mathsf T$ or $\mathsf F$ & the argument is $\UND$ because an undermining or undercutting attacker is $\UND$\\
+scope mismatch & $\mathsf T$ at some units, $\mathsf F$ at others, never $\mathsf B$ & pro and con arguments exist but their scopes are disjoint\\
+\bottomrule
+\end{tabularx}
+\end{center}
+\end{proposition}
+
+\begin{proof}
+Witnesses: for lack of evidence, a claim with no arguments; for balanced conflict, the two arguments of Proposition~\ref{prop:mutual}(a); for an unresolved methodological attack, an argument $a$ and an undercutter $u$ with a defeater $u'$ that $u$ in turn defeats, both $\UND$ (a symmetric pair of undercutters); for scope mismatch, Proposition~\ref{prop:scoped} with $\sigma\cap\tau=\varnothing$. The signatures are visibly distinct.
+\end{proof}
+
+\section{The vector}
+
+At a unit $x\in\sigma(c)$ with $\mathcal A(c)\ne\varnothing$, let $\mathcal I(c,x)=\{a\in\mathcal A(c):\Lab(a,x)=\IN\}$ be the arguments that stand there.
+
+\begin{definition}[Status vector]\label{def:status}
+The \emph{status of $c$ at $x$} is $S(c)(x)=(E,R,C,G,A,U)$ with the following components; the whole status is the field $x\mapsto S(c)(x)$.
+\begin{itemize}
+\item \emph{Evidence profile} $E(c)(x)$: the set of evidence kinds occurring among the leaves of arguments in $\mathcal I(c,x)$.
+\item \emph{Replication} $R(c)(x)=(r^+,r^-)$: let $L$ be the set of leaves $e$ of arguments in $\mathcal I(c,x)$ with $x\in\sigma_e$. Then $r^+$ is the number of independence families among $L$ together with all $e'$ such that $\textsf{REPLICATES}(e',e)$ holds at $x$ for some $e\in L$, and $r^-$ is the number of independence families among the $e'$ with $\textsf{FAILS\_TO\_REPLICATE}(e',e)$ at $x$ for some $e\in L$.
+\item \emph{Causal identification} $C(c)(x)$: the best, over arguments $a\in\mathcal I(c,x)$, of the weakest rung of any ordinary warrant in the tree of $a$; $\bot$ if $\mathcal I(c,x)=\varnothing$.
+\item \emph{Generalizability} $G(c)$: the tuple of projections $\pi_d(\In(c))\subseteq U_d$ for $d\in D$, the values of each dimension over which the claim currently stands.
+\item \emph{Agreement} $A(c)=(\mathrm{Acc},\mathrm{Rej})$: the sets of actors whose recorded stance on $c$ is acceptance or rejection.
+\item \emph{Unresolved defeaters} $U(c)(x)$: the set of arguments $b$ with $\Lab(b,x)=\UND$ that defeat some argument in $\mathcal A(c)$ at $x$.
+\end{itemize}
+\end{definition}
+
+Each component is a definition, and each embodies a choice the specification flags as such. Two choices deserve remark. In $C$, a chain is as strong as its weakest ordinary warrant, and alternatives are as strong as the best of them; this is the usual reading of causal inference chains and is a design decision, not a theorem. In $R$, independence is counted by families, never by records (Proposition~\ref{prop:indep}), so that one dataset analysed ten times contributes once. The count $r^-$ is a count of families of declared failed replication attempts; it is not a count of arguments against the claim, and it opposes nothing by itself.
+
+\begin{proposition}[Agreement has no defeat power]\label{prop:agreement}
+The component $A$ is displayed but is not an input to the labeling. Recording acceptances or rejections, in any number, changes no label.
+\end{proposition}
+
+\begin{proof}
+Stance records are not arguments and are not in the active argument set; the labeling is a function of that set and the policy (Proposition~\ref{prop:separation}).
+\end{proof}
+
+The consequence is that a vote cannot defeat an argument, and popularity cannot pass for support. Agreement is informative, since it tells a reader who has looked at the claim, but it is separated from evidence by construction.
+
+\begin{proposition}[Components are scopes and fields]\label{prop:fieldscopes}
+For each value $v$ of $E$, $C$ or $U$, and each $(r^+,r^-)$, the set of units at which the component takes that value is a scope. $G(c)$ is determined by $\In(c)$.
+\end{proposition}
+
+\begin{proof}
+Each component at $x$ depends on $x$ only through the labels of finitely many arguments at $x$ and the membership of $x$ in finitely many scopes, so it depends on the pattern of $x$, as in Theorem~\ref{thm:regions}. Each value class is a union of pattern classes, hence a scope.
+\end{proof}

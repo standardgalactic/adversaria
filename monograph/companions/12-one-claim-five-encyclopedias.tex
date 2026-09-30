@@ -1,0 +1,186 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\newcommand{\IN}{\textsf{IN}}
+\newcommand{\UND}{\textsf{UND}}
+\newcommand{\OUT}{\textsf{OUT}}
+\newenvironment{excerpt}[1]
+  {\par\smallskip\noindent\textbf{#1}\par\begin{quote}\small}
+  {\end{quote}}
+
+\title{One Claim, Five Encyclopedias}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+An article encyclopedia carries the scope of a statement in prose, carries its evidence in citations, and settles disagreement by editing or by hedged wording. This exhibit shows what that costs. One invented contested proposition, about hedge windbreaks and orchard frost, is written up as five invented article excerpts in five invented encyclopedias with different editorial habits. Each article hides a different part of the situation: the scope, the objections, the senses of a word, or the conflict with a sister page. The same content is then restated as scoped claims with objections and a status vector, and the differences become visible and computable. Every encyclopedia, study and number in the exhibit is invented. The exhibit does not claim that any real encyclopedia behaves like any of the invented ones. The formal background is in the monograph \emph{Adversaria: A Specification for a Public Claim Graph}.
+\end{abstract}
+
+\section{What the exhibit is}
+
+The exercise is simple to state. Take one proposition about which informed people disagree. Write it up five times, as five different reference works might, each following its own house habits. Then write the same underlying material as scoped claims, each with its objections, and compare what a reader can recover from each form.
+
+Everything here is invented: the proposition, the studies, the numbers, and the five encyclopedias. The five are described by editorial style only, and they are named with made-up titles so that they can be referred to. No real reference work is meant, and nothing in the exhibit is evidence about how any real one is written. The point of the exercise is the structure of the comparison, which is indifferent to whether the examples are real.
+
+\section{The proposition and the invented evidence}\label{sec:evidence}
+
+The proposition is that hedge windbreaks reduce frost loss in hillside orchards. The phrase ``frost loss'' is left as loosely as a general article would leave it. There are three kinds of site: low terraces (L), high terraces (H), and hollows (V), which are valley-floor frost pockets where cold air collects. Loss can be measured in two ways, as blossom drop in spring or as harvest loss in autumn. The four invented studies are these.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l l l X@{}}
+\toprule
+label & kind & site & invented finding\\
+\midrule
+Ferrow survey & observational survey & low terraces & hedged orchards lost, on average, 14 percent less blossom than unhedged ones; 40 orchards\\
+Dunmere trial & randomized paired rows, three springs & high terraces & reduction in blossom drop below 10 percent; the reported interval excludes 10 percent\\
+Astley survey & observational survey & high terraces & hedged orchards lost, on average, 12 percent less blossom; 25 orchards\\
+Quill records & grower logbooks & hollows & hedged blocks lost more blossom than unhedged blocks\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Two further items are objections. A reader objects to the Ferrow survey that hedged holdings were also better managed, so the survey's step from association to effect fails. The survey's authors reply that they adjusted for a management index, so the step holds. No study measured harvest loss on any site.
+
+\section{Five invented articles}\label{sec:articles}
+
+Each excerpt below is written in the house style of one invented encyclopedia. The descriptions in brackets are the editorial habit that the excerpt is meant to show.
+
+\begin{excerpt}{Halden Handbook (invented): a single authoritative voice, short entries}
+\textbf{Hedge windbreaks.} Hedge windbreaks protect orchards from frost. Planted along the edges of terraces, they reduce blossom loss and raise yields. See the Ferrow survey.
+\end{excerpt}
+
+\begin{excerpt}{Commonfold (invented): open collaborative editing, neutrality by balance}
+\textbf{Effectiveness.} Hedge windbreaks are widely said to reduce frost loss, although some studies found no benefit and others reported harm. The evidence is mixed and opinions differ among growers. [citation needed]
+\end{excerpt}
+
+\begin{excerpt}{Weir Compendium (invented): signed long-form articles by named experts}
+\textbf{Findings.} Hedge windbreaks reduce blossom drop on low terraces (Ferrow survey, 40 orchards), a result the present author regards as established. The Dunmere trial, on higher ground, is described under \emph{Methods}. \textbf{Disputes.} Some commentators allege confounding by management. Reports of harm in hollows rest on grower logbooks and are anecdotal.
+\end{excerpt}
+
+\begin{excerpt}{Loam and Leaf (invented): illustrated popular guide}
+\textbf{Hedges: a garden's best frost shield.} Plant a hedge and your blossoms and your harvest are safer. Growers swear by them, and the old orchardists of the valley would not be without one.
+\end{excerpt}
+
+\begin{excerpt}{Tern Regional Editions (invented): separately maintained editions, one per region}
+\emph{Upland edition.} Hedge windbreaks have no measurable effect on frost loss (Dunmere trial).
+\emph{Lowland edition.} Hedge windbreaks reduce frost loss (Ferrow survey).
+\emph{Hollows edition.} Hedge windbreaks increase frost loss (Quill records).
+\end{excerpt}
+
+Each article is unremarkable by its own standards. Each is short, cited to something, and readable. None contains a false sentence about what its sources found, as far as the invented record goes. What differs is what each leaves out.
+
+\section{What each article hides}\label{sec:hides}
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.17\textwidth} X X X@{}}
+\toprule
+article & scope & objections & what a reader cannot recover\\
+\midrule
+Halden Handbook & unscoped: reads as a universal statement about orchards & absent & that three of the four studies concern other sites, that two of those found no effect or harm, and that no study measured yield\\
+Commonfold & unscoped: a single verdict for all sites & summarized as ``opinions differ'' & which studies disagree, where, and whether they disagree about the same thing\\
+Weir Compendium & carried in the \emph{Methods} section and in the phrase ``on low terraces'' & segregated in a \emph{Disputes} section; confounding is called an allegation & that the challenge to the survey has a recorded reply and is unresolved; that ``anecdotal'' is an editorial ranking of evidence\\
+Loam and Leaf & none & none & that blossom and harvest are different outcomes; that no study measured harvest\\
+Tern Regional Editions & implicit in the choice of edition & absent & that the three editions are about one proposition and give three different answers\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+The five patterns differ in kind. The first hides scope by writing in the universal. The second hides it by averaging: a balanced-sounding sentence replaces the map of who found what where. The third states scope and mentions objection, but puts the objection in a section apart and turns an open question into a settled one by a confident word. The fourth runs two outcomes together under one loose verb. The fifth is the most honest page by page and the most misleading as a family, since each edition is locally faithful to its source and no edition says that the others exist.
+
+Reduced to statements about a kernel and a scope, the conflict between pages becomes checkable. Take ``reduces frost loss'' in the blossom sense as kernel $\kappa_b$. The Halden statement is $\kappa_b$ over all three sites. The Weir statement and the lowland edition are $\kappa_b$ over L. The upland edition is the opposite kernel over H, and the hollows edition is the opposite kernel over V. By the conflict-localization result of the monograph (Chapter 4), two claims with opposite kernels are jointly satisfiable exactly when their scopes are disjoint. A check over the five page-level statements finds exactly two conflicts: the Halden statement against the upland edition, on H, and against the hollows edition, on V. The other pairs are compatible because they are about different sites or the same kernel. The Commonfold text asserts nothing of a definite kernel and scope, so there is nothing to check. The Loam and Leaf text asserts a kernel about ``safer'' blossoms and harvests, which is not any one kernel until its senses are separated (Section~\ref{sec:commentary}).
+
+No editor of any of the five articles would see these two conflicts in the course of editing their own page, because each conflict runs between a statement in one encyclopedia and a statement in another, or between editions. This is the structural failure that the monograph names in its first chapter: the unit of maintenance is the page, and conflict lives between pages.
+
+\section{The same material as scoped claims}\label{sec:claims}
+
+Take the units to be the pairs (site, measure), so that, for example, L with blossom is one unit. Let $\kappa_b$ be the kernel ``hedge windbreaks reduce blossom frost loss by at least 10 percent,'' with its operational meaning fixed, and $\bar\kappa_b$ its negation, which covers no reduction of that size, including an increase. Let $\kappa_h$ be the same statement for harvest loss. The studies become arguments as follows (Chapters 4 to 7).
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l X l@{}}
+\toprule
+argument & conclusion and scope & basis\\
+\midrule
+$a_A$ & $\kappa_b$ over (L, blossom) & Ferrow survey; observational; warrant $w_A$ from association to effect\\
+$a_B$ & $\bar\kappa_b$ over (H, blossom) & Dunmere trial; interventional; bounded effect\\
+$a_D$ & $\kappa_b$ over (H, blossom) & Astley survey; observational\\
+$a_C$ & $\bar\kappa_b$ over (V, blossom) & Quill records; observational; opposite effect\\
+$u_A$ & warrant $w_A$ does not hold, over (L, blossom) & management confounding; undercuts $a_A$\\
+$v_A$ & warrant $w_A$ holds, over (L, blossom) & adjustment for a management index\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Three things follow from the definitions, before any computation. The undercutter $u_A$ and its reply $v_A$ conclude opposite things about the same warrant, so they rebut each other symmetrically; $u_A$ also attacks $a_A$ at its warrant (Chapter 7). The arguments $a_B$ and $a_D$ have opposite conclusion kernels and the same scope, so they rebut each other. The argument $a_C$ is unattacked. No argument anywhere concludes $\kappa_h$ or its negation.
+
+An argument cannot conclude a scope beyond the units its premises cover (Chapter 6). So the Halden statement, as a claim of $\kappa_b$ over all three sites, has no well-formed argument in this ledger. A pooling argument would need fillers for $\kappa_b$ covering the hollows, and the only argument on the hollows concludes the opposite.
+
+The labels at each unit were computed by the grounded rule of Chapter 7, and the components of the status vector were read from the status-vector definition of Chapter 12 and computed by a short program implementing the attack and labeling definitions. The results are below.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l l l l l X@{}}
+\toprule
+claim and unit & state & label of its argument & evidence of standing arguments & families $(r^+,r^-)$ & unresolved defeaters\\
+\midrule
+$\kappa_b$, (L, blossom) & $\mathsf T$ & $a_A$: \UND{} & none & $(0,0)$ & $u_A$\\
+$\kappa_b$, (H, blossom) & $\mathsf B$ & $a_D$: \UND{} & none & $(0,0)$ & $a_B$\\
+$\bar\kappa_b$, (H, blossom) & $\mathsf B$ & $a_B$: \UND{} & none & $(0,0)$ & $a_D$\\
+$\bar\kappa_b$, (V, blossom) & $\mathsf F$ & $a_C$: \IN{} & observational & $(1,0)$ & none\\
+$\kappa_h$, any site & $\mathsf N$ & no argument & none & not defined & none\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Here $\mathsf T$, $\mathsf F$, $\mathsf B$ and $\mathsf N$ are the evidential states of Chapter 12, which record which sides have argued at the unit and are not truth values. The claim $\bar\kappa_b$ over the hollows stands, with one independence family of observational evidence supporting it and none recorded against. The claims over the low and high terraces are open: each has an argument, and each argument is held up by an unresolved defeater. The harvest claim has no argument at all. The agreement component is empty, since no stances are recorded in this invented ledger. It would be displayed beside the rest and would change no label (Chapter 12). The identification and generalizability components are omitted for space. The generalizability component of the hollows claim is the pair of sets (site: hollows, measure: blossom), the values over which it currently stands.
+
+The four situations of Chapter 12 all occur in this one ledger. At (L, blossom) there is an unresolved methodological attack, with state $\mathsf T$. At (H, blossom) there is a balanced conflict. Between (L, blossom) and (V, blossom) an argument for $\kappa_b$ and an argument for $\bar\kappa_b$ have disjoint scopes, which is the scope-mismatch pattern: the state is $\mathsf T$ at one unit and $\mathsf F$ at the other. At the harvest units there is a lack of evidence. A companion guide in this series, \emph{Disagreement Has Four Causes}, gives a flowchart for telling these apart.
+
+\section{Commentary}\label{sec:commentary}
+
+Each article's habit has a counterpart in the claim form, and in each case the counterpart is more specific.
+
+\paragraph{The universal statement.} The Halden sentence is a claim with a very large scope and a single citation. In the claim form it is visible that no argument supports it beyond (L, blossom), and that it conflicts with two other claims on scopes it covers. A reader can see this without consulting the other encyclopedias, because the conflict is computed from kernels and scopes and not from editorial knowledge.
+
+\paragraph{The balanced verdict.} The Commonfold sentence says, in effect, that studies disagree. The claim form shows that they disagree at one unit and not elsewhere: at (H, blossom) two arguments are unresolved, at (V, blossom) one argument stands unopposed, and at (L, blossom) the dispute is over a method and not a result. The word ``mixed'' is true of one unit, (H, blossom), and is the wrong description of the others.
+
+\paragraph{The confident expert.} The Weir article states that the low-terrace result is established and calls the objection an allegation. In the claim form the objection is an undercutter with a reply, both unresolved, and the argument for $\kappa_b$ is \UND{}. The Weir author's confidence has a formal counterpart: a policy preference that ranks $u_A$ below $v_A$ on (L, blossom). Under that preference, which the program also tested, $v_A$ and $a_A$ are \IN{} and $u_A$ is \OUT{}. A preference is a ledger object, is regional, and is open to objection like any other record (Chapter 7). The confident judgment is thereby preserved as a named choice that another community can decline, and the claim form states which choice it is. The word ``anecdotal'' is treated differently. Calling the logbooks anecdotal is either an argument, an undermining objection to their accuracy that must be filed and can be answered, or it is nothing, and in the invented ledger the hollows argument stands unopposed.
+
+\paragraph{The loose verb.} ``Protect'' and ``safer'' in the Loam and Leaf text run blossom loss and harvest loss together. The monograph's remedy is a pooling declaration (Chapter 8): a record that names the overloaded term as an umbrella kernel and gives one kernel for each sense, here $\kappa_b$ and $\kappa_h$, with the umbrella claim over a scope equal to the conjunction of the sense claims, each over its slice of the measure dimension. The declaration changes no existing record and is open to objection. Two consequences follow. A finding about one sense does not support the umbrella claim over the slice belonging to the other (Chapter 8), so the blossom evidence supports nothing about harvest. And the evidential state of the harvest claims is $\mathsf N$, which is the honest statement of what the popular guide is silent about.
+
+\paragraph{The regional editions.} The three Tern editions are pairwise compatible. Each is a local section of what would be a global account, and the sections agree where they overlap, which here is nowhere. The claim form does what the editions cannot: it shows on one page the three regional claims with their scopes, and it shows that the family has a pattern in which the effect depends on the site. This is the gluing view of Chapter 8 in its simplest form, in which local accounts are compatible and the useful question is what they jointly say. Nothing in this example is an obstruction in the technical sense of that chapter, which concerns cycles of signed identifications, and the exhibit should not be read as exhibiting one.
+
+\paragraph{What the claim form costs.} It is longer than any of the five articles, and it demands that someone state the scope, the senses and the objections. The monograph's position is that articles are good for reading and claims are what the machinery of disagreement needs, and that the first can be produced from the second as a presentation (Chapter 1). A reader can be given a five-line article generated from the claim table, provided the article carries the scopes and marks the open questions.
+
+\section{What this exhibit does not show}\label{sec:limits}
+
+It does not show that any real encyclopedia behaves as any invented one does, and it names none. The five excerpts are caricatures built to display five editorial habits in a clear form, and an actual reference work may combine these habits, avoid them, or handle them better.
+
+It does not show that the claim form is better for every purpose. It is better for exposing scope, objection and standing, and it is worse for casual reading. It does not show that the scoped claims in Section~\ref{sec:claims} are the correct way to cut the invented evidence: the choice of kernels, scopes and senses is a modeling decision, and another contributor could cut it differently and say why.
+
+It does not show that any of the invented findings is true, since there are no studies behind them. It does not show that the labels are correct as a measure of how much anyone should believe the proposition. They record standing under a policy and a ledger, and with a different ledger or policy they would differ. The conflict check in Section~\ref{sec:hides} and the labels and status components in Section~\ref{sec:claims} were computed from the stated definitions by a short program, and the computation checks the examples against the definitions. It is not an empirical result.
+
+It does not address how the claims would be extracted from prose, who would do it, or how an editor would react to a claim table. Related work is deliberately not surveyed in this draft.
+
+% TODO(literature): cover comparisons of reference works and their handling of disputed or boundary-dependent claims, research on neutrality and false balance in collaborative editing, and work on regional or language editions and their divergence. If real encyclopedias are ever compared, each must be described from its own documentation and cited, and this invented exhibit should stay separate.
+
+\section*{Notes}
+
+The monograph is \emph{Adversaria: A Specification for a Public Claim Graph}. Chapters used: Chapter 1 (the page, the statement and the argued proposition as units; pages as local sections); Chapter 3 (departures from article encyclopedias, described there without a verdict on editorial aims); Chapter 4 (kernels, negation, scope, conflict localization); Chapter 6 (scope discipline of arguments); Chapter 7 (attacks, policies and preference, grounded labeling, symmetric defeat); Chapter 8 (pooling declaration, decomposition, no generalization across senses, pages as local sections); Chapter 12 (evidential state, the four situations, the status vector, agreement displayed but not evaluated). The companion essays in this series on the unit of knowledge, on standing without scores, and on disagreement cover the same material from other sides.
+
+\end{document}

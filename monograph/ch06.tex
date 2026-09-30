@@ -1,0 +1,91 @@
+\chapter{Warrants and Arguments}\label{ch:warrant}
+
+Evidence does not conclude anything by itself. A dataset shows what was found. What follows from it depends on a bridge: a reason why findings of that kind bear on a claim of that kind, over that range of units. In Toulmin's vocabulary the bridge is the warrant. Adversaria makes it an explicit, scoped object, because it is where most disagreement about evidence actually lives, and because a claim can inherit scope from evidence only through it.
+
+\section{Warrants}
+
+\begin{definition}[Warrant]\label{def:warrant}
+A \emph{warrant} is a tuple $w=(\kap_1,\dots,\kap_k\Rightarrow\kap_0;\ \sigma_w;\ r;\ B)$ with $k\ge1$ pairwise distinct \emph{premise kernels} $\kap_1,\dots,\kap_k$, a \emph{conclusion kernel} $\kap_0$, a scope $\sigma_w$, a \emph{rung} $r$ and a set $B$ of \emph{backing} (references to evidence items or claims that support the warrant itself, possibly empty). The rung is drawn from the ordered ladder
+\[
+\mathsf{none}<\mathsf{associational}<\mathsf{adjusted}<\mathsf{quasi\text{-}experimental}<\mathsf{randomized}<\mathsf{interventional},
+\]
+and records how strongly the bridge identifies a causal relation; for non-causal warrants it is $\mathsf{none}$. A model $M$ \emph{validates} $w$ if
+\[
+\forall x\in\sigma_w:\quad x\in[\kap_1]_M\cap\dots\cap[\kap_k]_M\ \Longrightarrow\ x\in[\kap_0]_M .
+\]
+\end{definition}
+
+A warrant is thus a pointwise rule, licensed only on $\sigma_w$. It says nothing outside that region. The ladder is a design choice; a community can adopt a different one. The rung is part of the warrant, so a dispute over whether a study really identifies a causal effect is a dispute over a warrant, and it is fought by undercutting that warrant (Chapter~\ref{ch:objection}).
+
+Two \emph{structural warrants} are built into the system and need no backing. \textsc{Restrict} takes one filler and yields the same kernel over a smaller scope. \textsc{Pool} takes fillers for one kernel $\kap$ over scopes $\sigma_1,\dots,\sigma_n$ and yields $\kap$ over their union. Both are valid in every model by Theorem~\ref{thm:monotone}, and both leave nothing to undercut: they can be attacked only through their fillers.
+
+\section{Arguments}
+
+\begin{definition}[Argument]\label{def:argument}
+An \emph{argument} $a$ is a finite tree given by a warrant $w=(\kap_1,\dots,\kap_k\Rightarrow\kap_0;\sigma_w;r;B)$, one \emph{filler} $f_i$ for each premise kernel, and a \emph{conclusion claim} $c=\concl(a)$ with kernel $\kap_0$, where each filler $f_i$ is either an evidence item $e$ with $\kap_e=\kap_i$ or an argument $a_i$ with $\kap(\concl(a_i))=\kap_i$. Write $\sigma(e)=\sigma_e$ for evidence and $\sigma(a)=\scope(\concl(a))$ for arguments. The \emph{sub-arguments} $\Sub(a)$ are $a$ together with the sub-arguments of its argument fillers. The \emph{leaves} of $a$ are the evidence items occurring as fillers anywhere in the tree.
+\end{definition}
+
+An argument is \emph{well-formed} when:
+\begin{enumerate}[label=(W\arabic*)]
+\item \emph{Scope discipline.} $\scope(c)\subseteq\sigma_w\cap\sigma(f_1)\cap\dots\cap\sigma(f_k)$. For \textsc{Restrict}, $\scope(c)\subseteq\sigma(f_1)$; for \textsc{Pool}, $\scope(c)\subseteq\sigma(f_1)\cup\dots\cup\sigma(f_n)$.
+\item \emph{Admissibility.} Each evidence filler of kind $\mathsf{kind}(e)$ satisfies $(\mathsf{kind}(e),m(c))\in\mathrm{Adm}_\policy$ (Design rule~\ref{rule:admissibility}). If $m(c)=\text{causal}$ the warrant's rung is not $\mathsf{none}$.
+\item \emph{Anchoring.} Every leaf is anchored.
+\item \emph{Recursion.} Every argument filler is well-formed.
+\item \emph{No self-undermining.} The kernel of $\concl(a)$ is not a denial kernel (Definition~\ref{def:targets}) of any target in any sub-argument of $a$. An argument whose own conclusion denies part of its own support is refused with that reason recorded.
+\end{enumerate}
+The tree is finite and each sub-argument must already exist when the argument is inscribed, so arguments are well-founded by construction (Chapter~\ref{ch:ledger}).
+
+\begin{remark}[Joint and alternative support]
+Premises of one warrant support the conclusion \emph{jointly}: a filler failing removes the argument. Two distinct arguments concluding the same claim support it \emph{alternatively}: either surviving suffices. An argument is the hyperedge $\{f_1,\dots,f_k,w\}\to c$. Flattening it to pairwise links would lose exactly the distinction between joint and alternative support.
+\end{remark}
+
+\section{What well-formedness guarantees}
+
+Say that a model \emph{validates} an argument $a$ if every leaf $e$ of $a$ is true in $M$ (that is, $\sigma_e\subseteq[\kap_e]_M$) and every ordinary warrant in $a$ is validated by $M$.
+
+\begin{theorem}[Soundness of well-formed arguments]\label{thm:sound}
+If $a$ is well-formed and $M$ validates $a$, then $M\models\concl(a)$.
+\end{theorem}
+
+\begin{proof}
+Induction on the height of the tree. Let $c=\concl(a)$ have kernel $\kap_0$. By the induction hypothesis every argument filler $a_i$ satisfies $M\models\concl(a_i)$, that is, $\sigma(a_i)\subseteq[\kap_i]_M$; every evidence filler satisfies $\sigma(e_i)\subseteq[\kap_i]_M$ by hypothesis. So $\sigma(f_i)\subseteq[\kap_i]_M$ for all $i$.
+
+If $w$ is ordinary, let $x\in\scope(c)$. By (W1), $x\in\sigma_w$ and $x\in\sigma(f_i)\subseteq[\kap_i]_M$ for each $i$. Since $M$ validates $w$, $x\in[\kap_0]_M$. Hence $\scope(c)\subseteq[\kap_0]_M$. If $w$ is \textsc{Restrict} or \textsc{Pool}, the conclusion follows from Theorem~\ref{thm:monotone} (a) or (b).
+\end{proof}
+
+The scope discipline in (W1) is not merely sufficient. For ordinary warrants it is the exact boundary of what the premises license.
+
+\begin{theorem}[Tightness of scope discipline]\label{thm:tight}
+Let $w=(\kap_1,\dots,\kap_k\Rightarrow\kap_0;\sigma_w;\dots)$ be an ordinary warrant whose kernels $\kap_0,\nk{\kap_0},\kap_1,\nk{\kap_1},\dots,\kap_k,\nk{\kap_k}$ are pairwise distinct, and suppose $\kap_0$ has the finest grain (each unit its own block). Let $e_1,\dots,e_k$ be evidence items with $\kap_{e_i}=\kap_i$, and let $\mu=\sigma_w\cap\sigma_{e_1}\cap\dots\cap\sigma_{e_k}$. If $S$ is a scope with $S\not\subseteq\mu$, there is a model in which all $e_i$ are true, $w$ is validated, and $(\kap_0,S)$ is false.
+\end{theorem}
+
+\begin{proof}
+Pick $x\in S\setminus\mu$. Set $[\kap_i]_M=\sigma_{e_i}$ and $[\kap_0]_M=\mu$, with negations complementary; distinct kernel pairs are independent, and $\sigma_{e_i}$ is admissible for $\kap_i$ while $\mu$ is a union of singleton blocks. Each $e_i$ is true. The set $\sigma_w\cap[\kap_1]_M\cap\dots\cap[\kap_k]_M$ equals $\mu\subseteq[\kap_0]_M$, so $M$ validates $w$. But $x\notin\mu=[\kap_0]_M$, so $(\kap_0,S)$ is false.
+\end{proof}
+
+For a conclusion kernel of coarser grain the rule is sound but not tight: a block meeting $\mu$ is entirely true, so $\scope(c)$ could safely extend to the grain closure of $\mu$. The specification keeps (W1) in its strict form. The conservative choice costs nothing a contributor cannot recover by stating a finer claim.
+
+\section{Chains need bridges}
+
+The most common informal inference form is the chain: $e$ supports $c_1$, and $c_1$ supports $c_2$, so $e$ supports $c_2$. The model refuses to treat this as automatic.
+
+\begin{theorem}[No implicit transitivity]\label{thm:nowarrant}
+Let $a_1$ be a well-formed argument with conclusion $c_1=(\kap_1,\rho_1,\dots)$.
+\begin{enumerate}[label=(\alph*)]
+\item \emph{(Chaining intersects scopes.)} For an ordinary warrant $w_2=(\kap_1\Rightarrow\kap_2;\sigma_2;\dots)$, the arguments with warrant $w_2$ and filler $a_1$ that conclude a claim $(\kap_2,\tau)$ are exactly those with $\tau\subseteq\rho_1\cap\sigma_2$. Inductively, along a chain from an evidence item $e$ through warrants $w_1,\dots,w_n$, every conclusion scope is contained in $\sigma_e\cap\sigma_{w_1}\cap\dots\cap\sigma_{w_n}$.
+\item \emph{(Claims alone license nothing.)} If $\kap_2\ne\kap_1$, then $(\kap_1,\rho_1)\not\models(\kap_2,\tau)$ for every $\tau$.
+\item \emph{(Disjoint scopes license nothing.)} If $\rho_1\cap\sigma_2=\varnothing$, no claim about $\kap_2$ is licensed by the chain, although each link may be individually well-formed.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) is (W1) applied at each step, with induction on the chain length. (b) is Theorem~\ref{thm:entail}. (c) By (W1) a conclusion scope $\tau$ must be nonempty and contained in $\rho_1\cap\sigma_2=\varnothing$, which is impossible.
+\end{proof}
+
+\begin{remark}[Derived support is a separate inscription]
+Suppose $b_2$ and $b_2'$ are two well-formed arguments concluding the same claim $c_2$, resting on different evidence, and $b_3$ is an argument for $c_3$ whose filler is $b_2'$. Then $c_2$ supports $c_3$ and $e$, a leaf of $b_2$, supports $c_2$; but $e$ is not a leaf of $b_3$, and nothing about $b_3$ depends on $e$. To have $e$ support $c_3$ someone must inscribe a further argument $b_3[b_2]$, choosing $b_2$ as the filler and citing the bridging warrant explicitly. This matters for defeat: attacks propagate through sub-arguments (Chapter~\ref{ch:objection}), so which argument fills a slot decides what can defeat the result. A graph that closed support under transitivity automatically would let an objection to $e$ silently damage arguments that never used it, and let $e$ lend credit to conclusions its scope never reached.
+\end{remark}
+
+\section{What objections will target}
+
+Every element of an argument is a place where it can fail, and a different failure needs a different repair. The next chapter treats them formally. In summary, an objection may attack an evidence filler (the item is not anchored, is retracted, or fails to replicate), the warrant (the bridge does not hold in some region, or the claimed rung is too high), the conclusion (an incompatible claim has its own argument), or the scope (the conclusion is asserted beyond the region the premises reach). Keeping these apart in storage is what lets the system say not merely that an argument is contested but where.

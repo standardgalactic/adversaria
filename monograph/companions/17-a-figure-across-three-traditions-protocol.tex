@@ -1,0 +1,179 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.4em}
+\setlength{\parindent}{0pt}
+\newcommand{\IN}{\textsf{IN}}
+\newcommand{\OUT}{\textsf{OUT}}
+\newcommand{\UND}{\textsf{UND}}
+\newcommand{\Ob}{\mathrm{Ob}}
+
+\title{A Figure Across Three Traditions}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+This document is a research protocol and an instantiation gate, not a case study. The schematic case of the monograph \emph{Adversaria: A Specification for a Public Claim Graph} uses placeholder pages. Whether a real family of pages about one figure in three traditions resists assembly depends on what the actual pages say, which only primary sources and their translations can settle. The document states what must be established before any graph is built: how figure and pages are chosen, how statements, translations and transcriptions are recorded as evidence and as possible undercutters, what is fixed in advance, when the work stops, what the report will and will not say, and what is unknown. It names and instantiates no figure, text, translation or page. No obstruction, or a dissolving distinction, is a valid outcome; no theological or historical verdict is an outcome of any kind.
+\end{abstract}
+
+\section{Status of this document}
+
+Nothing here is data. No real figure, scripture, tradition, edition, translation or page is named, sampled or assumed. Instantiation is blocked until the gates of Section~\ref{sec:gates} are met; none is met now.
+
+Formal material is cited from the monograph by chapter: evidence (5), signed identifications, obstruction region and distinction (8), the ledger (9), ontologies and mappings (15), the schematic case (19). The procedure is a design choice, not a theorem.
+
+\section{What must be established first}\label{sec:gate0}
+
+Before any graph is built, the following are settled from primary sources, in writing, in the ledger.
+
+\begin{enumerate}[label=(\arabic*),nosep]
+\item \emph{The primary texts.} For each of the three traditions, the text or texts on which the relevant page's statements rest, in the original language, in a named edition, with the passages that concern the figure located.
+\item \emph{Competence.} Who reads each text, and in what language. A reader of the original, or a vetted edition with a named editor and apparatus, is required for each tradition; without one the protocol does not proceed for it. Readers are recorded by role and stated qualification.
+\item \emph{The pages.} Which pages, editions and revisions, captured on which date as immutable snapshots with content hashes.
+\item \emph{The names.} How the figure is named in each text and page, in the original script, with transliteration recorded separately as evidence. That the names refer to one figure is not a premise. It is an identification claim of the kind under study.
+\item \emph{The aspects.} Which separable parts of an account the pages treat, defined as in Section~\ref{sec:ontology}.
+\item \emph{The review.} Who reviews the codings from within each tradition, apart from the coder, and on what terms.
+\end{enumerate}
+
+Until then no claim about the figure is inscribed.
+
+\section{Choosing the figure and the pages}\label{sec:choose}
+
+The choice of figure is where a result can be decided in advance unnoticed: a figure chosen because it is expected to produce an obstruction makes one uninformative.
+
+\begin{enumerate}[label=(S\arabic*),nosep]
+\item \emph{Selection rule first.} The rule is written and inscribed before any candidate is examined for what its pages say. It states the number of traditions and editions, the minimum content of each page (for instance a dedicated page with a stated minimum of sourced statements about the figure), and the language competence available.
+\item \emph{Candidates are listed} with the reason each was kept or dropped. A reason of the form ``its pages agree'' or ``its pages disagree'' is barred, since it reads the result into the selection.
+\item \emph{Every relevant page.} The page set is all pages meeting the rule in the selected traditions and editions, not only those containing an identification or distinction, since dropping the others would shrink the graph toward the pattern sought.
+\item \emph{Sensitivity of the figure.} The rule records whether any tradition holds outside comparison of the figure improper. If so, review from within each tradition is mandatory before anything is published, and Section~\ref{sec:report} governs the wording.
+\end{enumerate}
+
+A second figure is a new instance with its own pre-registration, and results are never pooled across figures to look for a pattern. Any obstruction found is conditional on the selection rule, and the report says so.
+
+\section{Recording each page's statement as evidence}\label{sec:evidence}
+
+Each statement on a page that bears on identification is recorded as an evidence item of Chapter 5: the source is the content hash of an immutable snapshot of the page at a stated revision; the locator is precise to the sentence or clause; the extract is the exact text in the page's language; the kind is quotation, so the kernel reads ``the page, at that revision, states $P$'' and not $P$; the scope is the aspects and language edition covered; and the independence family is declared (Section~\ref{sec:prereg}).
+
+By Chapter 5 the item reports what the page says, and the step to the content of the statement needs a warrant that can be undercut without disputing that the page says it. A later revision is new evidence, never an edit of the old item (the ledger is append-only, Chapter 9). An item whose locator does not resolve, or whose extract differs from what is found there, is malformed and not counted.
+
+The warrant from quotation to identification claim is that of Chapter 19: a page's explicit identification of its figure with another is to be read as a claim of sameness or distinction over the aspects it treats. For a real page it is not always available, since a vague, hedged or conditional statement may assert no sameness or distinction of a specified property. Each statement is therefore coded as an identification edge, coded as not an identification (with the reason), or not codable under the pre-registered rule, and all three are counted in the report.
+
+\section{Translation and transcription as evidence}\label{sec:translation}
+
+Every rendering between languages, and every transliteration, is an interpretive act and is recorded as one.
+
+\begin{enumerate}[label=(T\arabic*),nosep]
+\item \emph{Each rendering is an evidence item:} a quotation whose source is the edition (with its own hash and locator) and whose kernel reads ``edition $E$ renders passage $p$ as $q$''. The original passage is a second item.
+\item \emph{The step from rendering to original has a warrant:} that the rendering is faithful for the term in question, over a stated scope, backed by the edition's apparatus. It can be undercut where the term is used, and the undercutter is recorded as an objection with its own argument, never as a silent correction.
+\item \emph{Alternatives are kept.} Each rendering is its own item, none is privileged, and the rendering a coded edge relies on is recorded on it.
+\item \emph{Variants and transliteration.} Each manuscript or edition reading is its own item, unresolved by the protocol (Section~\ref{sec:unknown}). A transliteration scheme is recorded by name, and two schemes do not make two names.
+\item \emph{Who renders.} Each rendering carries its maker and date. A rendering by the coder is one independence family with the coder's other work unless a contestable declaration says otherwise.
+\end{enumerate}
+
+Each coded edge records whether it depends on a contested rendering or transcription (see Section~\ref{sec:prereg}).
+
+\section{Ontology versions and operational meanings}\label{sec:ontology}
+
+A kernel carries an ontology version and an operational meaning for each term that needs one (Chapters 4 and 15). For each term the ontology object states a procedure that a second reader can apply to a statement on a page to decide whether the term applies. The categories needing one are these, given as categories and not as content.
+
+\begin{itemize}[nosep]
+\item The \emph{property} $v$ whose value is compared between pages at a unit. The signed model of Chapter 8 concerns a binary property: a negative edge asserts that the property takes opposite values, not merely that two accounts are not identical. A statement of non-identity that is not about a specified binary property is outside the model and is reported as not coded.
+\item The \emph{aspects}, each defined so that a reader can decide whether a page treats it.
+\item \emph{Sameness} and \emph{distinction}, as they will be read.
+\item The \emph{name} terms, as strings in their scripts, without a premise of identity.
+\end{itemize}
+
+Each tradition's vocabulary may be its own ontology version. Correspondences are mapping claims (Chapter 15) with scopes and arguments, and no two terms are treated as equivalent because they look alike or are conventionally paired. Which mapping claims are inscribed, and by whom, is decided before the graph is built.
+
+At coding time no distinction between senses of the name is declared, so the sense dimension has one value. Candidate distinctions are written out beforehand with operational meanings. One proposed after an obstruction is seen is marked post hoc and reported as a proposal open to objection. Chapter 8 shows that a distinction can dissolve an obstruction and never create one; it does not show that a proposed distinction is correct.
+
+\section{Pre-registration}\label{sec:prereg}
+
+These are inscribed as ledger records before the graph is built. Later records reference them, so their precedence is structural (Chapter 9), and they are not edited. Changes are dated amendments that reference the original and state a reason, and the report lists all of them.
+
+\begin{enumerate}[label=(P\arabic*),nosep]
+\item The selection rule, candidate list and chosen figure (Section~\ref{sec:choose}); the page set, revisions, capture date and snapshot hashes.
+\item The aspects with operational meanings, and the unit space of aspects and the single sense value.
+\item The property $v$ and the coding rule by which a recorded statement becomes an edge $(\{i,j\},s,R)$: which pages, which sign, and which region of aspects. The rule is stated in terms of the text of the statement and the ontology, and not in terms of the desired outcome.
+\item The warrants for each class of statement with their scopes; the candidate distinctions; the independence families (coders, readers, renderers, shared tools).
+\item The analysis: compute the obstruction region as the union, over negative simple cycles of the graph of all coded edges, of the intersection of the edge regions (Chapter 8). Compute it over all coded edges and over the edges that stand; an obstruction resting on an edge that is $\UND$ at a unit is reported as potential.
+\item The sensitivity analysis: compute the obstruction region over the subfamily of edges that do not depend on any contested rendering or transcription. Since deleting edges never enlarges the obstruction region (Chapter 8, monotonicity), the subfamily's region lies inside that of the full family. The report states both and the edges that account for the difference.
+\end{enumerate}
+
+\section{Stopping rules and valid outcomes}\label{sec:stop}
+
+These outcomes are fixed in advance, and each is valid.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l X@{}}
+\toprule
+outcome & what is reported\\
+\midrule
+No obstruction & the obstruction region is empty over the pre-registered coding, with the graph and its cycles, if any, all positive\\
+Obstruction & the region, the negative cycles that produce it, the edges and their evidence, with nothing chosen among them\\
+Potential obstruction & the region depends on edges that are $\UND$ or rest on contested renderings\\
+Dissolved by a distinction & the obstruction disappears once a pre-registered distinction is granted, reported with that distinction's status as a claim\\
+Model does not fit & too few statements are codable as signed identifications for the analysis to say anything; counts reported\\
+Not instantiated & a gate of Section~\ref{sec:gates} could not be met; reported as a finding about sources and resources, without a graph\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+The analysis is run once on the pre-registered coding. Adding pages, editions or aspects after the result is seen is a new pre-registered extension, and both results are reported. Work on a tradition stops if its reader becomes unavailable, and the report says what was completed. No obstruction is reported as prominently as an obstruction.
+
+\section{What the report will and will not say}\label{sec:report}
+
+The report will contain the selection rule and candidates, the snapshots and evidence items, the translation items with their warrants, the ontology versions, the coding of every recorded statement including those not coded, the graph, the obstruction region and sensitivity analysis, any distinction with its status as a claim, all amendments, and what remained unknown.
+
+The report will not contain a theological or historical verdict. It will not say that any tradition, text, page or translation is mistaken, that any identification or distinction is correct, or that an obstruction shows a page to be wrong: each page may be locally coherent while the collection has a property that none of its members has (Chapter 19). It will not go beyond the recorded evidence and pre-registered coding, or generalize to other figures. Where a tradition holds outside comparison improper, the report says it compares page statements under a stated coding, not the traditions.
+
+\section{Acceptance gates}\label{sec:gates}
+
+All gates must be met, with evidence in the ledger, before instantiation. Each is currently open.
+
+\begin{description}[nosep,leftmargin=2.6em,labelwidth=2.2em,labelsep=0.4em]
+\item[G1] selection rule inscribed before any candidate is read; referenced by all later records
+\item[G2] candidate list with reasons, none of the barred form
+\item[G3] primary texts located in named editions, per tradition (locators, edition records)
+\item[G4] a competent reader per tradition, recorded by role
+\item[G5] pages captured as snapshots at stated revisions (hashes, capture date)
+\item[G6] every quotation anchored; translation items with warrants, alternatives and variants kept
+\item[G7] ontology objects for every term; a second reader's trial application agrees
+\item[G8] coding rule, aspects, distinctions, families and analysis pre-registered before the graph
+\item[G9] review from within each tradition arranged, with terms
+\item[G10] stopping rules and outcome list accepted (this document or a recorded amendment)
+\end{description}
+
+\section{What is currently unknown}\label{sec:unknown}
+
+\begin{itemize}[nosep]
+\item Which figure, traditions and languages, and whether suitable pages exist in each.
+\item Who the readers and reviewers will be, and which editions, and whether the passages have significant textual variants (the analysis may then run once per reading).
+\item Whether any page contains an identification or distinction codable as a signed identification of a specified binary property, and whether that model (the only one Chapter 8 proves) fits real pages.
+\item Whether the name is used for one figure, related figures, or figures the traditions treat as unrelated.
+\item What the operational meanings are and whether two readers agree in applying them; whether an obstruction exists, and whether it would survive objections to the warrants and the sensitivity analysis. Nothing is expected either way.
+\end{itemize}
+
+\section{What this document does not show}\label{sec:limits}
+
+It does not show that any real family of pages has an obstruction, or that it has none, and it describes no actual page, text, tradition, edition or translation. It does not show that the procedure removes selection effects, interpretive bias or coding error; it lowers them, and departures from pre-registration stay possible but visible. It does not show that the signed binary model fits real pages, or that coding a statement as an edge is anything but an interpretation open to challenge. It gives no standing to any reading of any tradition.
+
+Related work is deliberately not surveyed in this draft.
+% TODO(literature): cover pre-registration practice in comparative and historical humanities and digital humanities; text-critical and translation-studies practice on recording variants and translators' choices; practice of multilingual reference works on cross-edition statements about one subject; ethics of comparative study of living traditions and review by insiders; any documented case of the kind studied here. Nothing in this draft relies on it.
+
+\section*{Notes}
+
+Chapters used: 19, 8, 5, 15 and 9 (ledger, content hashes, precedence).
+
+\end{document}

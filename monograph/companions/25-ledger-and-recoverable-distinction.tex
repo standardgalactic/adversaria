@@ -1,0 +1,204 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[proposition]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[proposition]{Remark}
+
+\newcommand{\Om}{\Omega}
+\newcommand{\IN}{\textsf{IN}}
+\newcommand{\UND}{\textsf{UND}}
+\newcommand{\OUT}{\textsf{OUT}}
+\newcommand{\Lab}{\mathrm{Lab}}
+\newcommand{\Proj}{\mathrm{Proj}}
+\newcommand{\ledger}{\mathcal{L}}
+\newcommand{\policy}{\pi}
+\newcommand{\abs}{\cdot}
+
+\title{Ledger and Recoverable Distinction}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+A record of a dispute can keep two kinds of thing: the state it has reached, and the history by which it got there. The claim graph specified in the monograph \emph{Adversaria: A Specification for a Public Claim Graph} keeps both, by making the ledger append-only and deriving everything displayed from it. This essay argues that the point of keeping the history is that later repair and dispute depend on distinctions that the current state forgets. It states what the monograph proves about the ledger (validity is preserved by appending and merging, lineage is acyclic and nothing is overwritten, withdrawal is deletion up to labeling, and a projection depends only on the set of records and the policy) and adds three small propositions of its own: every prefix of a ledger is a ledger whose projection can be replayed; the label of an argument cannot distinguish an argument that was withdrawn from one that was defeated; and a withdrawn argument stays out in every extension, while a defeated one can be reinstated. A computed case of nine records shows the label of a claim leaving and returning while the ledger keeps every step. The essay then says plainly what preservation does not give. A preserved record can be false, an $\IN$ label is not truth, and a distinction nobody inscribed is not recoverable.
+\end{abstract}
+
+\section{State and history}\label{sec:intro}
+
+A shared record can be read as a state, the set of things currently held to stand, or as a history, the sequence of acts that produced it. A system in which an edit overwrites a sentence keeps the second only as far as its authors thought to: the earlier sentence survives only if someone copied it, and what it said, who replaced it and why are lost or recoverable only by effort.
+
+The specification of the monograph makes a different choice. The ledger is append-only, and the argument graph and the displayed dossier are derived from it in turn (Chapter 9):
+\[
+\text{ledger}\ \longrightarrow\ \text{argument graph}\ \longrightarrow\ \text{epistemic presentation}.
+\]
+This essay asks what that choice buys, and answers: it keeps distinctions that later work depends on. Two arguments that are now equally out of play may be so for different reasons, and the reasons call for different repairs. A claim that was narrowed has an earlier version that an objection was written against. Two communities whose dossiers now differ may share every record and differ only in a policy. The state alone cannot tell these apart, and the history can.
+
+The essay also says what this does not buy. Preserving a distinction is not establishing that either side of it is right. The sections below keep that separation: what the monograph proves about the ledger, what follows for recoverable distinction, a computed case, and then the limits.
+
+In this essay ``recoverable distinction'' has a narrow, operational sense fixed by Definition~\ref{def:recov} below. It is not a summary of any other work, and the author's existing work on the subject is not summarised or characterised here.
+
+\section{What the ledger guarantees}\label{sec:ledger}
+
+All statements in this section are results or definitions of Chapters 9 and 17, restated without their proofs.
+
+\paragraph{Records and validity.} A record has a type, a payload, references to earlier records, an author, an origin and a trace. A ledger is \emph{valid} if it is closed under references, identifiers agree with contents, and some linear order puts every record after everything it references. Appending a record whose references are present, and merging two valid ledgers with consistent identifiers, both give valid ledgers, and if a valid ledger is contained in another, every record of the smaller has the same content, references and ancestors in the larger (Chapter 9, validity theorem). Content hash, record identifier and family identifier answer different questions; under the standing idealization that the hash is injective, identical content has one content hash and a change of content changes it (Chapter 9, identity proposition; the idealization is a modelling assumption and is not proved).
+
+\paragraph{Dispositions and the active set.} Every record receives a disposition, for instance admitted, duplicate, malformed, unscoped or quarantined, by an induction along the reference order. The \emph{active set} consists of the admitted records, and the labeling is computed on the active arguments and on the policy alone. Adding inert records (quarantined, gated, duplicate, malformed or unscoped) changes no label (Chapter 9, inert-records proposition). Storing is not admitting, and admitting is not endorsing.
+
+\paragraph{Lineage.} A revision is a record that introduces a new claim version and names the versions it supersedes. In a valid ledger the lineage graph is acyclic, every version has a root ancestor, every ancestor of a version is present and unchanged in every valid extension, and a revision does not alter the earlier version, so that every record referring to it still refers to the same content (Chapter 9, lineage theorem). Restriction, distinction and constraint produce their results as revisions. A superseded version stays addressable, citable and open to objection, and ``superseded'' is a fact about lineage, not a label.
+
+\paragraph{Withdrawal.} A withdrawal of an argument $a$ is a record, admitted only if authorized (by default only the author of $a$ may withdraw). In the argument graph it contributes a node $w_a$ with $\sigma(w_a)=\sigma(a)$ that attacks $a$ on all of $\sigma(a)$, succeeds under every policy, and has no targets, so that no objection can be filed against a withdrawal (Chapter 9, definition). Let $Z_x$ be $a$ together with every argument standing on $a$ at $x$. Then all members of $Z_x$ are $\OUT$ at each $x\in\sigma(a)$, every other argument has at $x$ the label it has in the framework with $Z_x$ and all defeats involving its members deleted, and no label changes outside $\sigma(a)$ (Chapter 9, withdrawal theorem: withdrawal is deletion up to labeling). The same holds for a finite set of withdrawals, taking the union of the sets $Z_x$ (Chapter 17, batch withdrawal corollary), so that a defective import can be withdrawn as a unit.
+
+\paragraph{Replay.} The projection, consisting of the active set, the labeling and the regions computed from them, depends only on the \emph{set} of records and on the policy, not on the order or multiplicity of arrival. Merging is union, so two replicas holding the same records and the same policy hold the same projection (Chapter 9, replay theorem). The convergence is of state and not of belief: labels are not monotone in the ledger, and two replicas agree because they end with the same records, not because statuses only move one way. When two members' projections differ at an argument and they share a policy, the difference is attributable to records in the backward closure of that argument; when policies differ, to the policies (Chapter 9, traceability theorem).
+
+\section{Distinctions the ledger keeps and the label forgets}\label{sec:recov}
+
+\begin{definition}[Recoverable distinction]\label{def:recov}
+Two states of affairs are \emph{distinguished by} a body of information if the information determines which of them obtains. A distinction is \emph{recoverable from} a record if the record distinguishes the two states.
+\end{definition}
+
+The definition is deliberately thin. It says nothing about whether the distinction matters or whether either state is correct. Its use is to compare two things a system might keep: the projection, meaning the labels and regions at a given moment, and the ledger itself. Three facts follow from the monograph's definitions. They are small, and they are the ones later sections rely on.
+
+\begin{proposition}[Earlier states can be replayed]\label{prop:prefix}
+Let $\ledger$ be a valid ledger with a valid linear order, and let $\ledger_k$ consist of the first $k$ records of that order. Then $\ledger_k$ is a valid ledger, every record of $\ledger_k$ has the same content and references in $\ledger$, and the projection of $\ledger$ as it stood after $k$ records is $\Proj(\ledger_k,\policy)$, a function of the set $\ledger_k$ and the policy alone.
+\end{proposition}
+
+\begin{proof}
+In a valid order every record follows all records it references, so the references of a record among the first $k$ lie among the first $k$: the set $\ledger_k$ is closed, identifiers agree with contents because they do in $\ledger$, and the restriction of the order is a valid order. The second statement is prefix stability (Chapter 9, validity theorem). The third is the replay theorem applied to $\ledger_k$.
+\end{proof}
+
+The proposition says that a dispute about what a dossier showed at an earlier point can be settled by recomputing, given the policy in force. It is a direct consequence of the monograph's results and adds no rule.
+
+\begin{proposition}[The label forgets the cause of being out]\label{prop:forget}
+There are valid ledgers $\ledger_1\ne\ledger_2$ and an argument $a$ such that $\Lab(a,x)=\OUT$ for every $x\in\sigma(a)$ in both, although in $\ledger_1$ the cause is a withdrawal of $a$ and in $\ledger_2$ it is a standing objection to the evidence behind $a$. More generally, $\ledger$ and $\ledger\cup\{r\}$ for any inert record $r$ have the same projection.
+\end{proposition}
+
+\begin{proof}
+Let $a$ be an argument over a scope $\sigma$ with one evidence item of scope $\sigma$. Let $\ledger_1$ be $\{a,w_a\}$ with the withdrawal by the author of $a$, and let $\ledger_2=\{a,u\}$ where $u$ is an unattacked argument of scope containing $\sigma$ whose conclusion denies the accuracy of the evidence of $a$. In $\ledger_1$, $w_a$ has no defeaters, hence is $\IN$, and it defeats $a$ on $\sigma$, so $a$ is $\OUT$ there. In $\ledger_2$ the undermining attack of $u$ has active region $\sigma$, succeeds wherever it applies, and $u$ is unattacked and $\IN$, so $a$ is $\OUT$ on $\sigma$. The two ledgers differ as sets. The last statement is the inert-records proposition.
+\end{proof}
+
+\begin{proposition}[Withdrawn stays out; defeated can return]\label{prop:stay}
+Let $\ledger$ contain an admitted withdrawal $w_a$ of $a$, and let $\ledger'\supseteq\ledger$ be any valid extension in which $w_a$ remains admitted, with the same policy. Then for every $x\in\sigma(a)$, $\Lab'(a,x)=\OUT$ and $\Lab'(d,x)=\OUT$ for every argument $d$ present at $x$ with $a\in\mathrm{Sub}(d)$. In contrast, if $a$ is $\OUT$ at $x$ because of an objection $b$ that is not a withdrawal, then a later argument that defeats $b$ at $x$ and is itself unattacked makes $a$ lose that cause, and $a$ is $\IN$ at $x$ if it has no other defeater there.
+\end{proposition}
+
+\begin{proof}
+No objection can be filed against a withdrawal, so in any extension $w_a$ has no defeater, hence $w_a\in\IN_x$ by the characterization of the grounded labeling (Chapter 7, label-consistency theorem, part (c)). It defeats $a$ at every $x\in\sigma(a)$ under every policy, so $a$ is $\OUT$ there. The statement about arguments standing on $a$ is the hereditary lemma (Chapter 7): a sub-argument that is $\OUT$ at a unit makes every argument standing on it $\OUT$ there. For the second statement, if every defeater of $a$ at $x$ is $\OUT$ then $a$ is $\IN$ (Chapter 7, label-consistency theorem, part (c); this is the reinstatement case of the proposition on mutual defeat), and the new argument puts $b$ in $\OUT$.
+\end{proof}
+
+The consequence is an asymmetry in what repair is available, and the ledger is what keeps it visible. If the label $\OUT$ is displayed, the question ``can this come back?'' has two different answers depending on a fact the label does not contain. For an objection that was defeated, the repair is a reply, and the reply is an ordinary argument. For a withdrawal, no reply can exist; the only route back for the content is a new record, such as a fresh argument with its own evidence, which starts as a new argument and does not revive the old one. The record of the withdrawal, and everything anyone did in the interim, stays in the ledger.
+
+\section{A computed case}\label{sec:case}
+
+The case is schematic. The records, units and evidence are invented, and no finding is reported. There are three units $u_1,u_2,u_3$ and a kernel $\kappa$. Ten records arrive in this order.
+\begin{enumerate}[nosep,label=$r_{\arabic*}$.]
+\item Argument $p_1$ for $\kappa$ over $\{u_1\}$, from one evidence item.
+\item Argument $p_2$ over $\{u_2\}$, from another.
+\item Argument $p_3$ over $\{u_3\}$, from a third.
+\item Pooling argument $a$ concluding $\kappa$ over $\{u_1,u_2,u_3\}$ with $p_1,p_2,p_3$ as sub-arguments.
+\item Objection $q$ over $\{u_3\}$ undermining the evidence behind $p_3$.
+\item The author's withdrawal of $p_2$.
+\item A record whose trace is unresolved (trace-null), which is quarantined.
+\item Reply $r$ over $\{u_3\}$ undermining the evidence behind $q$.
+\item A second submission of the same content as $r$ by another author, which is a duplicate.
+\item Restriction $a'$ of $a$ to $\{u_1,u_3\}$, a revision that supersedes nothing and cites $a$ as its filler.
+\end{enumerate}
+Table~\ref{tab:asof} gives the projection after each record that changes anything, computed by replaying each prefix (Proposition~\ref{prop:prefix}).
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{@{}llccc@{}}
+\toprule
+after & argument & $u_1$ & $u_2$ & $u_3$\\
+\midrule
+$r_4$ pool & $a$ & \IN & \IN & \IN\\
+\addlinespace
+$r_5$ objection $q$ & $p_3$ & $\abs$ & $\abs$ & \OUT\\
+ & $a$ & \IN & \IN & \OUT\\
+\addlinespace
+$r_6$ withdraw $p_2$ & $p_2$ & $\abs$ & \OUT & $\abs$\\
+ & $a$ & \IN & \OUT & \OUT\\
+\addlinespace
+$r_7$ trace-null record & \multicolumn{4}{l}{no label changes (inert)}\\
+\addlinespace
+$r_8$ reply $r$ & $q$ & $\abs$ & $\abs$ & \OUT\\
+ & $p_3$ & $\abs$ & $\abs$ & \IN\\
+ & $a$ & \IN & \OUT & \IN\\
+\addlinespace
+$r_9$ duplicate & \multicolumn{4}{l}{no label changes (inert)}\\
+\addlinespace
+$r_{10}$ restriction & $a'$ & \IN & $\abs$ & \IN\\
+ & $a$ & \IN & \OUT & \IN\\
+\bottomrule
+\end{tabular}
+\caption{The projection after each record, for the invented ten-record history. A dot means the argument is not present at the unit. Computed by a program implementing the structural attack, hereditary attack and grounded labeling of Chapter 7, with dispositions decided from the set of records.}\label{tab:asof}
+\end{table}
+
+\paragraph{What the table shows.} The label of the pooled argument $a$ at $u_3$ goes from $\IN$ to $\OUT$ and back to $\IN$. At $u_2$ it goes to $\OUT$ and stays there. Labels are not monotone in the ledger, and the ledger keeps every step, so a reader who sees $\IN$ at $u_3$ in the final state can recover that an objection once stood there and was answered. The restriction $a'$ has at $u_1$ and $u_3$ the labels of $a$ (the monograph proves this for restrictions under a restriction-coherent policy, Chapter 8), and it leaves out $u_2$, the unit where the original fell. The original $a$ is still there with its labels. The narrowed claim and the claim it was narrowed from are both recoverable.
+
+\paragraph{Withdrawn versus defeated.} Replace $r_6$ by an objection $v$ over $\{u_2\}$ undermining the evidence behind $p_2$. Then $p_2$ is $\OUT$ at $u_2$, exactly as in the table, and the label cannot tell the two histories apart (Proposition~\ref{prop:forget}). A reply undermining the evidence behind $v$ then brings $p_2$ back to $\IN$ at $u_2$, and $a$ to $\IN$ at every unit. In the withdrawal history, by contrast, a search over two hundred random extensions, each adding up to four arguments that attack existing arguments on random scopes, left $p_2$ and $a$ $\OUT$ at $u_2$ in every one (Proposition~\ref{prop:stay}). A fresh argument $p_2'$ for $\kappa$ over $\{u_2\}$ with new evidence is $\IN$ at $u_2$, as a new record.
+
+\paragraph{Order and duplication.} Replaying the ten records in three hundred random orders, each with three extra duplicate deliveries, gave the same projection every time, as did a hundred merges of two replicas whose record sets overlapped. A record that arrives before something it references waits for it. This is the content of the replay theorem on a small case.
+
+\section{Why it matters for repair and dispute}\label{sec:repair}
+
+Each repair the monograph provides rests on something the ledger keeps.
+\begin{itemize}
+\item \emph{Restriction and distinction as revisions.} The surviving remainder of a challenged claim is stated as a restriction, and a pooling declaration gives an overloaded term separate senses without rewriting any page (Chapter 8). Both are new records that cite earlier ones. They are repairs only because the earlier versions remain, with their regions and labels, for the new record to cite, and because an objection targets the version it was written against and never an unversioned sentence (Chapter 4).
+\item \emph{Reinstatement.} A reply restores an argument by defeating its defeater (Chapter 7). This needs the objection and the reply to have been kept, and needs the ledger to distinguish an objection from a withdrawal, since only the first can be answered (Proposition~\ref{prop:stay}).
+\item \emph{Withdrawing an import.} A defective batch is withdrawn as a unit, and the graph afterwards is what it would have been had the import never entered, at the level of labels (Chapter 17). The import and its withdrawal stay in the ledger. That is what allows a later reader to ask what conclusions the import once supported and where, which a deletion would not answer.
+\item \emph{Federated disagreement.} Two members whose dossiers differ can find out why, because every difference is attributable to records in a neighbourhood of the disputed argument or to a policy (Chapter 9). This needs both ledgers, and the policy objects, to have been preserved.
+\item \emph{Disputes about the past.} A claim that the record said something at an earlier time is checked by replaying a prefix (Proposition~\ref{prop:prefix}).
+\end{itemize}
+In each case the repair is an act on top of a preserved distinction. Preservation is not the repair; it is the condition under which a repair can be made without erasing what it repairs.
+
+\section{What preservation does not give}\label{sec:limits}
+
+\paragraph{Truth.} A label records standing under a ledger and a policy. An argument that is $\IN$ at a unit is one whose every defeater has itself been defeated, and nothing in the semantics makes that a guarantee that the conclusion holds (Chapter 7). A ledger preserves a false argument as faithfully as a true one, and the false argument may be $\IN$. Nothing in the lineage theorem, the replay theorem or the withdrawal theorem is a statement about the world.
+
+\paragraph{Integrity beyond the idealization.} The identity results assume that the hash is injective on canonical encodings, which the monograph states is a modelling assumption and not proved (Chapter 9). A deployment that relies on preservation relies on that assumption being adequate.
+
+\paragraph{Only what was inscribed.} A distinction no one recorded is not recoverable. A term used in two senses is an overloaded term in the record only after a pooling declaration is inscribed (Chapter 8); before that, the two senses are in no record, and replaying the ledger will not produce them. The same holds for a scope that was never stated (an unscoped submission is stored and not admitted, Chapter 4) and for a trace component that was never resolved (Chapter 9). The ledger keeps what was put in.
+
+\paragraph{Labels only.} Withdrawal is deletion up to labeling (Chapter 9), and the batch corollary likewise concerns labels of arguments (Chapter 17). The monograph's statements do not say that every derived display is unchanged by a withdrawal, and this essay makes no claim about any display beyond labels.
+
+\paragraph{State, not belief.} Replicas converge on the same projection when they hold the same records, not because they hold the same beliefs, and a reader can still disagree with a projection that every replica shares (Chapter 9). A preserved distinction does not compel any community to draw it, or to regard it as important.
+
+\section{What this essay does not show}\label{sec:notshown}
+
+\begin{itemize}
+\item That preservation guarantees truth, or that an $\IN$ argument has a true conclusion. The ledger keeps what was asserted and argued, and the labels record standing.
+\item That an append-only ledger is the only way, or the best way, to keep these distinctions. The essay states what this design keeps and what it does not.
+\item That the three propositions of Section~\ref{sec:recov} go beyond the monograph's results. They are direct consequences of its definitions and are stated to make the point about recoverable distinction.
+\item That the operational definition of a recoverable distinction matches any other use of the phrase.
+\item Anything about derived displays other than labels, about governance of who may withdraw, or about what should happen to a withdrawn record in a legal or privacy setting. The monograph's withdrawal keeps the record, and whether that is acceptable for a given kind of content is outside this essay.
+\item That the computed case is a real dispute. The records, units and evidence are invented, and the tables show the behaviour of the definitions.
+\end{itemize}
+
+\section*{Notes}
+
+Chapters of the monograph used: 4 (claims, versions, objections targeting versions, unscoped submissions); 7 (attack, hereditary attack, grounded labeling, label-consistency, reinstatement); 8 (pooling declarations, restriction preserves status); 9 (records, identifiers, validity, dispositions, lineage, withdrawal, replay, traceability); 17 (batch withdrawal). Related work is deliberately not surveyed in this draft.
+
+Computation: the labels of Table~\ref{tab:asof}; the replay check over three hundred random orders with duplicate deliveries and a hundred merges; the search over two hundred random extensions of the withdrawal history; and, separately, twelve and a half thousand unit-level checks of the withdrawal and batch-withdrawal theorems on random frameworks (every member of $Z_x$ $\OUT$, every other label equal to that of the framework with $Z_x$ deleted) were run by programs. These support the statements on small cases and are not proofs.
+
+% TODO(literature): cover append-only logs, event sourcing, versioned and content-addressed stores, and work on retraction and belief revision; do not characterize any of it from memory.
+% TODO(cross-reference): link to the author's existing work on recoverable distinction in the corpus, without restating it here.
+% TODO(check): in the computed case the duplicate rule keeps the record with the smaller identifier; confirm against Chapter 9 that an argument whose filler is the losing duplicate is treated as intended (as written, it is malformed unless its fillers are admitted).
+
+\end{document}

@@ -1,0 +1,86 @@
+\chapter{A Contested Effect}\label{ch:effect}
+
+The second case follows one claim through the machinery of Parts~III and~IV: pooling, an import, an objection, a reply, two policies, an equivalence result, and a withdrawal. It is schematic. The names are placeholders and the numbers exercise the definitions; no finding is reported. Labels were computed by the grounded labeling and cross-checked by an independent implementation on the frameworks shown.
+
+\section{Setup}\label{sec:case2setup}
+
+Let $\Om=\{CS,CC,AS,AC\}$: child or adult participants, in school or clinic settings. Let $\kap$ be the kernel ``the training raises mean reading scores by at least the declared bound $\delta$'', with a fixed operational meaning, and write $c=(\kap,\{CS,CC,AC\})$ for the claim of interest.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l l l l X@{}}
+\toprule
+item & kind & scope & family & remark\\
+\midrule
+$e_{\mathrm{rct}}$ & randomized trial & $\{CS,CC\}$ & $F_1$ & kernel $\kap$\\
+$e_1,\dots,e_{50}$ & registry export & $\{CS\}$ & $F_2$ & kernel $\kap$; one batch, common origin\\
+$e_{\mathrm{coh}}$ & cohort study & $\{AC\}$ & $F_3$ & kernel $\kap$\\
+$e_{\mathrm{eq}}$ & equivalence trial, margin $\delta$, powered & $\{AS\}$ & $F_4$ & kernel $\nk\kap$ (effect below $\delta$)\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+There are three arguments for $\kap$ and one against. The argument $a_1$ concludes $\kap$ over $\{CS,CC\}$ from $e_{\mathrm{rct}}$ under an ordinary warrant $w_{\mathrm{rct}}$ of rung \textsf{interventional}. The argument $a_3$ concludes $\kap$ over $\{AC\}$ from $e_{\mathrm{coh}}$ under an ordinary warrant $w_{\mathrm{coh}}$ of rung \textsf{observational}. The argument $p$ applies \textsc{Pool} to $a_1$ and $a_3$ and concludes $c$ over $\{CS,CC,AC\}$. The argument $n$ concludes $d=(\nk\kap,\{AS\})$ from $e_{\mathrm{eq}}$ under an equivalence-design warrant, of rung \textsf{interventional}, whose backing states the power at the margin $\delta$. The registry items are the leaves of no argument for $c$. They enter its status only through the relation of replication.
+
+\section{Status before any objection}\label{sec:case2before}
+
+At every unit of $\sigma(c)$ the argument $p$ is $\IN$, and $\In(c)=\sigma(c)$. The status vector (Definition~\ref{def:status}) is as follows, at the three units.
+\begin{center}
+\small
+\begin{tabular}{@{}l l l l l@{}}
+\toprule
+unit & $E$ & $R=(r^+,r^-)$ & $C$ & $U$\\
+\midrule
+$CS$ & \{randomized trial\} & $(2,0)$ & interventional & $\varnothing$\\
+$CC$ & \{randomized trial\} & $(1,0)$ & interventional & $\varnothing$\\
+$AC$ & \{cohort study\} & $(1,0)$ & observational & $\varnothing$\\
+\bottomrule
+\end{tabular}
+\end{center}
+At $CS$ the leaf $e_{\mathrm{rct}}$ lies in $F_1$, and the fifty registry items, each of kernel $\kap$ with a scope overlapping $\{CS\}$, replicate it. They lie in one family $F_2$, since the batch's common-origin claim stands, so $r^+=2$ and not $51$ (Proposition~\ref{prop:importfamily}). The registry is displayed as information, and is worth one family.
+
+\section{An objection}\label{sec:case2objection}
+
+A contributor files an undercutter $u$ against $w_{\mathrm{coh}}$, from a sensitivity analysis showing that unmeasured confounding of the size plausible in the cohort could account for the estimate; $u$ has region $\{AC\}$, the scope where $w_{\mathrm{coh}}$ is used. The undercut attacks $a_3$ at $AC$ and, by hereditary attack, attacks $p$ there. Nothing attacks $u$, so it is $\IN$.
+
+At $AC$: $u$ is $\IN$, $a_3$ is $\OUT$, and $p$ is $\OUT$. At $CS$ and $CC$ nothing changes. Hence
+\[
+\In(c)=\{CS,CC\},\qquad\Out(c)=\{AC\},\qquad\Und(c)=\varnothing,
+\]
+and the strongest surviving version of $c$ is the restriction $\mathrm{Surv}(c)=c|_{\{CS,CC\}}$ (Theorem~\ref{thm:survivor}). The broad claim did not disappear. What remains is its restriction to the units where it still stands, and the record shows what removed the rest. The status vector at $AC$ now has $E=\varnothing$, $R=(0,0)$ and $C=\bot$.
+
+\section{A reply, and two policies}\label{sec:case2reply}
+
+A second contributor files $r$, an argument from a preregistered sensitivity analysis concluding that $w_{\mathrm{coh}}$ is valid at $AC$. Its conclusion is the opposite kernel to that of $u$, both have scope $\{AC\}$, and they rebut each other.
+
+\begin{center}
+\small
+\begin{tabular}{@{}l l l l l@{}}
+\toprule
+policy & $u$ & $r$ & $a_3$, $p$ at $AC$ & $\In(c)$\\
+\midrule
+$\policy$: no preferences & $\UND$ & $\UND$ & $\UND$ & $\{CS,CC\}$\\
+$\policy'$: $\langle u\prec r\rangle=\{AC\}$ & $\OUT$ & $\IN$ & $\IN$ & $\sigma(c)$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Under $\policy$ the mutual rebuttal is symmetric and no argument is preferred, so $u$ and $r$ stay $\UND$ and, since $u$ defeats $a_3$ and $p$ while itself unresolved, so do $a_3$ and $p$ at $AC$. Then $\Und(c)=\{AC\}$ and $U(c)(AC)=\{u\}$. Under $\policy'$, which prefers the preregistered analysis at $AC$, the rebuttal of $r$ by $u$ fails and that of $u$ by $r$ succeeds; $r$ is unattacked and $\IN$, $u$ is $\OUT$, and $a_3$ and $p$ are $\IN$.
+
+Two members holding the same ledger and adopting $\policy$ and $\policy'$ respectively compute different dossiers. The indexed status $S_{\{\policy,\policy'\}}(c)(AC)$ has two elements: under $\policy$ it is $(\varnothing,(0,0),\bot,\{u\})$, under $\policy'$ it is $(\{\text{cohort study}\},(1,0),\text{observational},\varnothing)$, and at $CS$ and $CC$ the two agree. The divergence report (Definition~\ref{def:divreport}) has an empty symmetric difference of active sets, equal admissibility, and one pair on which the preferences differ, $(u,r)$. That pair, at that unit, is the whole explanation (Proposition~\ref{prop:divexplain}). The disagreement is not about the evidence, and no further evidence in the ledger would resolve it; it is about whether preregistration is to be preferred to an unregistered sensitivity argument, which is a question a policy answers.
+
+\section{An equivalence result}\label{sec:case2null}
+
+The argument $n$ concludes $d=(\nk\kap,\{AS\})$. Its scope is disjoint from $\sigma(c)$, so the two claims, of opposite kernels, are jointly satisfiable, by a model with $[\kap]=\{CS,CC,AC\}$ (Proposition~\ref{prop:conflict}). No rebuttal arises. In the dossier for $\kap$ over $\Om$ the four units show four situations: standing support at $CS$ and $CC$, contested support at $AC$ (under $\policy$), and standing opposition at $AS$, with none of them a contradiction. The equivalence finding is as strong in the semantics as a positive one of the same kind, scope and independence (Proposition~\ref{prop:nopositivity}); its effect is confined to the units it covers. Had the trial only failed to detect an effect, its kernel would state that a test under its design did not detect $\kap$. That kernel is neither $\kap$ nor $\nk\kap$, opposes no argument, and leaves $AS$ with no standing on either side; it would appear in the dossier as evidence, and only a warrant of adequate power, open to undercutting, could turn it into an argument for $\nk\kap$ (Proposition~\ref{prop:negsupport}).
+
+\section{A withdrawal}\label{sec:case2withdraw}
+
+Suppose, under $\policy'$, the authors of the trial withdraw $a_1$. By Theorem~\ref{thm:withdraw} the argument $a_1$ is $\OUT$ on $\{CS,CC\}$ and so is every argument having $a_1$ as a sub-argument at those units, namely $p$. At $AC$ nothing changes: $p$ stands there through $a_3$ alone. So
+\[
+\In(c)=\{AC\},\qquad\Out(c)=\{CS,CC\},
+\]
+and $\mathrm{Surv}(c)=c|_{\{AC\}}$. The claim has narrowed to the region where its only remaining support lives, and the region that had the strongest evidence has none, because the withdrawn argument was the only thing standing there. The trial's record, the fifty registry items and the withdrawal remain in the ledger, and the withdrawn argument can still be cited and objected to.
+
+\section{What the case shows}\label{sec:case2lessons}
+
+The case exercises the pieces in the order a reader meets them: scoped evidence and the status vector as a field; an import counted as one family; a hereditary attack through a pooled argument, confined to the unit where the weak component was used; the survivor of a partially defeated claim; symmetric defeat left unresolved; a policy difference located by the divergence report; an equivalence result whose conflict with a broader claim is localized to the empty intersection; and a withdrawal that is deletion up to labeling. No step used a scalar. At the end, a reader who asks how well supported the training claim is receives a field over four units and a list of records, and is offered, if wanted, a named view (Design rule~\ref{rule:views}) that ranks it against other claims, with the frontier beside the order.

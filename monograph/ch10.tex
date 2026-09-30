@@ -1,0 +1,107 @@
+\chapter{The Relation Algebra}\label{ch:relations}
+
+The earlier chapters defined objects and a labeling. This chapter fixes the vocabulary of relations in which a dossier is written, gives it an algebra, and says which compositions are licensed and which are not. Two design decisions govern it. Every relation is \emph{scoped}: it holds over a region, not simply or not at all. And composition is \emph{deliberately incomplete}: chaining two relations yields a third only where the model can say why.
+
+\section{Ten relation types}\label{sec:tenrel}
+
+Nodes are records of five sorts: evidence items ($\mathsf{Ev}$), warrants ($\mathsf{War}$), arguments ($\mathsf{Arg}$), claims ($\mathsf{Cl}$) and kernels ($\mathsf{Ker}$). Most relations are \emph{derived}: they are read off records already defined and cannot be inscribed independently of the structure that justifies them. A few are \emph{inscribed} as acts.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l l X l@{}}
+\toprule
+relation & relates & region over which it holds & origin\\
+\midrule
+\textsf{SUPPORTS} & $\mathsf{Ev}\cup\mathsf{Cl}\to\mathsf{Cl}$ & union of $\sigma(a)$ over active arguments $a$ concluding the target with the source as a direct filler & derived\\
+\textsf{CONTRADICTS} & $\mathsf{Cl}\leftrightarrow\mathsf{Cl}$ & $\sigma(c)\cap\sigma(d)$ when the kernels are opposite & derived\\
+\textsf{UNDERCUTS\_WARRANT} & $\mathsf{Arg}\to\mathsf{War}$ & $\sigma(b)\cap\sigma_w$ when $\kap(\concl(b))=\nk{\mathrm{valid}(w)}$ & derived\\
+\textsf{CONSTRAINS} & $\mathsf{Arg}\to\mathsf{Cl}$ & units where every argument for the target is defeated by the source (Chapter~\ref{ch:constraint}) & derived\\
+\textsf{QUALIFIES} & $\mathsf{Cl}\to\mathsf{Cl}$ & $\sigma(c')$, where $c'$ has the kernel of $c$ and $\sigma(c')\subsetneq\sigma(c)$ & inscribed\\
+\textsf{DEPENDS\_ON} & $\mathsf{Cl}\to\mathsf{Cl}$ & intersection of scopes along a sub-argument (Chapter~\ref{ch:distinction}) & derived\\
+\textsf{DISTINGUISHES} & $\mathsf{Ker}\to\mathsf{Ker}$ & the slice $\Om_i$ for each sense $i$ (Definition~\ref{def:pooling}) & inscribed\\
+\textsf{REPLICATES} & $\mathsf{Ev}\to\mathsf{Ev}$ & $\sigma_e\cap\sigma_{e'}$, same kernel, different independence family & derived\\
+\textsf{FAILS\_TO\_REPLICATE} & $\mathsf{Ev}\to\mathsf{Ev}$ & $\sigma_e\cap\sigma_{e'}$, where $e'$ declares an attempt to follow the protocol of $e$, its reported outcome kernel is not that of $e$, and the families differ & derived from the declaration\\
+\textsf{SUPERSEDES} & $\mathsf{Cl}\to\mathsf{Cl}$ & $\sigma(c)$ of the superseded version (Definition~\ref{def:lineage}) & inscribed\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Three remarks on the table. First, \textsf{FAILS\_TO\_REPLICATE} relates evidence to evidence and is not an objection. It records that a declared attempt (an optional reference in the evidence payload to the item whose protocol it follows) did not reproduce the specified result; it is not evidence for the opposite kernel, which needs its own item and warrant (Chapter~\ref{ch:imports}). A failed replication defeats an argument only through an argument that says so: an argument concluding $\nk{\mathrm{acc}(e)}$ with $e'$ among its leaves, which then undermines in the sense of Chapter~\ref{ch:objection}. Second, \textsf{QUALIFIES} states a voluntary narrowing of a claim, and by Theorem~\ref{thm:entail} $c\models c'$ whenever $c'$ qualifies $c$. It is distinct from \textsf{CONSTRAINS}, in which a narrowing is forced by a challenger. Third, every entry is region-valued, and the region is what makes the relation checkable: a relation whose region is empty does not hold.
+
+\section{Scoped relations form an algebra}
+
+Let $N$ be a finite set of nodes.
+
+\begin{definition}[Scoped relation]\label{def:scopedrel}
+A \emph{scoped relation} on $N$ is a function $R:N\times N\to\B(\Om)$. Say $a$ is $R$-related to $b$ at $x$ if $x\in R(a,b)$. For each unit $x$ the \emph{slice} is the ordinary relation $R_x=\{(a,b):x\in R(a,b)\}$. Define
+\begin{align*}
+(R\cup S)(a,b)&=R(a,b)\cup S(a,b), & (R\cap S)(a,b)&=R(a,b)\cap S(a,b),\\
+R^{\circ}(a,b)&=R(b,a), & I(a,b)&=\begin{cases}\Om&a=b\\\varnothing&a\ne b,\end{cases}\\
+(R;S)(a,c)&=\bigcup_{b\in N}R(a,b)\cap S(b,c).
+\end{align*}
+\end{definition}
+
+All values are regions, by Proposition~\ref{prop:boolean}, so the operations stay inside the algebra.
+
+\begin{theorem}[Slice compatibility]\label{thm:slice}
+For every unit $x$: $(R\cup S)_x=R_x\cup S_x$, $(R\cap S)_x=R_x\cap S_x$, $(R^\circ)_x=(R_x)^\circ$, $I_x=\mathrm{id}_N$, and $(R;S)_x=R_x;S_x$, the ordinary relational composite. Two scoped relations are equal iff all their slices are equal. Consequently:
+\begin{enumerate}[label=(\alph*)]
+\item composition is associative, $(R;S);T=R;(S;T)$, and $I$ is a two-sided identity;
+\item composition distributes over union on both sides: $R;(S\cup T)=R;S\cup R;T$ and $(R\cup S);T=R;T\cup S;T$;
+\item composition is monotone in each argument, and converse reverses it: $(R;S)^\circ=S^\circ;R^\circ$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+For composition: $x\in(R;S)(a,c)$ iff there is $b$ with $x\in R(a,b)$ and $x\in S(b,c)$, iff $(a,c)\in R_x;S_x$. The other identities are immediate. Two scoped relations agree at $(a,b)$ iff the regions agree, iff they contain the same units, iff $(a,b)$ lies in one slice exactly when it lies in the other, at every $x$. Parts (a)--(c) hold for ordinary finite relations, hence slice by slice, hence for scoped relations.
+\end{proof}
+
+The theorem says a scoped relation algebra is nothing more than a family of ordinary relation algebras, one per unit, held together by regions. Every identity of the ordinary algebra therefore transfers, and no separate proof is needed for each new relation type.
+
+\begin{corollary}[Closure and acyclicity]\label{cor:closure}
+Put $R^{+}=\bigcup_{n\ge1}R^{n}$ where $R^{n}=R;\dots;R$. Since $N$ is finite, $R^+=\bigcup_{n=1}^{|N|}R^n$, and $(R^+)_x$ is the transitive closure of $R_x$ at each unit. The relation is \emph{acyclic} if $R^+(a,a)=\varnothing$ for every $a$, that is, if no node is $R$-related to itself through any chain at any unit.
+\end{corollary}
+
+\begin{proof}
+A chain of length $>|N|$ at a unit repeats a node and can be shortened. The rest is Theorem~\ref{thm:slice}.
+\end{proof}
+
+At the level of arguments, the sub-argument relation is acyclic by construction (Theorem~\ref{thm:valid}). At the level of claims, \textsf{DEPENDS\_ON} need not be, as Proposition~\ref{prop:nocircle} showed, and the closure gives the exact region where a claim-level cycle occurs, namely the scope
+\[\bigcup_c\textsf{DEPENDS\_ON}^+(c,c).
+\]
+
+\section{Composition is licensed, not assumed}
+
+The algebra of Theorem~\ref{thm:slice} composes any two relations on the same node set. That is a fact about the mathematics and not a licence to draw conclusions. Which composites carry meaning is decided by type. Here $\textsf{USES\_WARRANT}:\mathsf{Arg}\to\mathsf{War}$ is the structural relation from an argument to its warrant, holding over the argument's scope.
+
+\begin{designrule}[Licensed compositions]\label{rule:licensed}
+Composition is defined only between relations whose sorts match, and only the following composites are given a meaning; every other composite is left undefined and produces no relation in the dossier.
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l X@{}}
+\toprule
+composite & meaning\\
+\midrule
+\textsf{DEPENDS\_ON}$;$\textsf{DEPENDS\_ON} & \textsf{DEPENDS\_ON}, over the intersection of regions\\
+\textsf{QUALIFIES}$;$\textsf{QUALIFIES} & \textsf{QUALIFIES} (repeated narrowing is a narrowing)\\
+\textsf{SUPERSEDES}$;$\textsf{SUPERSEDES} & \textsf{SUPERSEDES} (lineage is transitive)\\
+\textsf{UNDERCUTS\_WARRANT}$;$\textsf{USES\_WARRANT} & an attack on every argument that uses the warrant (Definition~\ref{def:attack})\\
+\textsf{REPLICATES}$;$\textsf{SUPPORTS} & contributes to the replication coordinate $R$ of the target (Chapter~\ref{ch:status}); it does \emph{not} yield \textsf{SUPPORTS}\\
+attack$;$attack & a candidate reinstatement; realized only by labels, and never as a support relation\\
+\textsf{SUPPORTS}$;$\textsf{SUPPORTS} & undefined\\
+\bottomrule
+\end{tabularx}
+\end{center}
+\end{designrule}
+
+The table is a design decision, and no theorem claims it is the only sensible one. What the mathematics does supply is the reason the last line is undefined.
+
+\begin{proposition}[Support is not transitive]\label{prop:suppnotrans}
+The relation \textsf{SUPPORTS} of Section~\ref{sec:tenrel} satisfies neither $\textsf{SUPPORTS};\textsf{SUPPORTS}\subseteq\textsf{SUPPORTS}$ nor its converse. Where a composite is nonempty, it marks the \emph{potential} for a composite argument; it does not assert one, and the composite argument's conclusion can only be a claim over the region of the composite.
+\end{proposition}
+
+\begin{proof}
+For the first non-inclusion, let $a_1$ conclude $c_1$ from evidence $e$, and let $a_2$ conclude $c_2$ from a filler $a_1'\ne a_1$ for $c_1$. Then $(e,c_1),(c_1,c_2)\in\textsf{SUPPORTS}$ over their regions, but no argument for $c_2$ has $e$ as a direct filler, so $(e,c_2)\notin\textsf{SUPPORTS}$. The composite is nonempty wherever both links apply. A composite argument $a_2[a_1]$, with $a_1$ placed in the slot, is well-formed only for conclusions of scope contained in $\sigma(a_1)\cap\sigma(a_2)$ by (W1), as in Theorem~\ref{thm:nowarrant}(a); outside that region no composite argument exists, and where the regions are disjoint the composite of relations is empty. For the converse non-inclusion, a claim supported by a single one-step argument from evidence has a \textsf{SUPPORTS} edge and no chain through an intermediate claim.
+\end{proof}
+
+The role of \textsf{REPLICATES} is the reason the table differs for it. That $e'$ replicates $e$ and that $e$ supports $c$ does not put $e'$ in any argument for $c$, and substituting $e'$ for $e$ silently would create an argument no one inscribed with no warrant checked for $e'$'s scope. What it does establish is that the finding used in that argument has an independent duplicate, and that is information about the claim's standing, recorded in its status vector, not in a support edge.

@@ -1,0 +1,1237 @@
+A few mathematical structures could give the whole monograph a firmer spine without turning it into an indiscriminate collection of formalisms.
+
+Claims as scoped predicates, not strings
+
+Represent a claim as a typed intensional object
+
+\[
+c=(\varphi,\sigma,\mu,\pi,\nu),
+\]
+
+where:
+
+\(\varphi\) is the proposition;
+
+\(\sigma\) is its scope;
+
+\(\mu\) gives operational meanings for its terms;
+
+\(\pi\) records provenance;
+
+\(\nu\) identifies the version.
+
+The scope could itself be a product:
+
+\[
+\sigma=D\times P\times T\times X\times M,
+\]
+
+for domain, population, time, context, and measurement regime. This makes two verbally identical propositions different claims when their populations or operationalizations differ.
+
+An asserted relation should therefore target a claim version, not an unversioned sentence.
+
+A lattice of scopes
+
+Let scopes be ordered by inclusion:
+
+\[
+\sigma_1\preceq \sigma_2
+\quad\Longleftrightarrow\quad
+\sigma_1\subseteq\sigma_2.
+\]
+
+A narrower claim lies below a broader claim. Meet and join then have natural interpretations:
+
+\[
+\sigma_1\wedge\sigma_2=\sigma_1\cap\sigma_2,
+\qquad
+\sigma_1\vee\sigma_2=\operatorname{hull}(\sigma_1\cup\sigma_2).
+\]
+
+The join may need to be a representable hull rather than literal union if the schema only permits certain scope descriptions.
+
+This supplies the basis for CONSTRAINS. An accepted constraint should produce
+
+\[
+c'=\operatorname{restrict}(c,\sigma')
+\qquad\text{with}\qquad
+\sigma'\prec\sigma.
+\]
+
+The content does not simply lose a debate; it survives over a smaller admissible region.
+
+A basic invariant should be:
+
+\[
+\operatorname{scope}(\operatorname{constrain}(c,d))
+\preceq
+\operatorname{scope}(c).
+\]
+
+Repeated constraints must be monotone:
+
+\[
+\sigma_{n+1}\preceq\sigma_n.
+\]
+
+That gives CONSTRAINS a precise behavior which CONTRADICTS lacks.
+
+Claim families and parameterized propositions
+
+Many disputes arise because one sentence informally stands for a family:
+
+\[
+c(\theta):\quad \varphi(x;\theta),
+\]
+
+where \(\theta\) might specify population, exposure, threshold, outcome, or causal estimand.
+
+Evidence may support only a subset of the parameter space:
+
+\[
+\Theta_E=\{\theta:E\text{ supports }c(\theta)\}.
+\]
+
+Contrary evidence need not negate the entire family. It can remove a region:
+
+\[
+\Theta_{c}'=\Theta_c\setminus\Theta_D.
+\]
+
+This is a particularly clean account of boundary conditions. The suicide study, for example, might remove support for a strong clinical-protection claim in an acutely high-risk population without bearing decisively on other populations or on weaker claims about affective dynamics.
+
+A typed directed hypergraph
+
+Ordinary graphs are insufficient because warrants often connect several premises jointly to a conclusion. Use a directed hypergraph:
+
+\[
+G=(V,H,\tau),
+\]
+
+with typed vertices such as claims, evidence objects, warrants, methods, datasets, objections, and agents.
+
+A support inference is a hyperedge
+
+\[
+h:\{e_1,\ldots,e_n,w,c_1,\ldots,c_m\}\longrightarrow c.
+\]
+
+This preserves the difference between:
+
+\(e\) supports \(c\);
+
+\(e\), together with warrant \(w\), supports \(c\);
+
+\(e_1\) and \(e_2\) jointly support \(c\);
+
+either \(e_1\) or \(e_2\) independently supports \(c\).
+
+Without hyperedges, these structures tend to be flattened into misleading collections of pairwise links.
+
+Arguments as derivations
+
+Define an argument as a finite derivation tree
+
+\[
+A=(P,R,c),
+\]
+
+where \(P\) contains premises and evidence, \(R\) contains warrants or inference rules, and \(c\) is the conclusion.
+
+An objection can then target different coordinates:
+
+\[
+o\triangleright P,\qquad
+o\triangleright R,\qquad
+o\triangleright c,\qquad
+o\triangleright \sigma(c).
+\]
+
+This formally separates:
+
+rebuttal: supports an incompatible conclusion;
+
+undercutter: attacks the inference or warrant;
+
+premise attack: disputes evidence or an auxiliary claim;
+
+scope defeater: denies generalization outside a region;
+
+relevance attack: denies that the evidence bears on the stated estimand.
+
+That distinction should be preserved in both storage and evaluation.
+
+Scoped incompatibility rather than global negation
+
+Two claims may conflict only over their overlapping scopes. Define:
+
+\[
+c_1\perp_{\sigma}c_2
+\]
+
+when their propositions are incompatible on
+
+\[
+\sigma=\sigma(c_1)\cap\sigma(c_2).
+\]
+
+If the intersection is empty, there is no operational contradiction even if the sentences appear opposed. If it is nonempty, the conflict should attach only to that intersection.
+
+This prevents the system from treating:
+
+The intervention helps adults under condition \(X\)
+
+and
+
+The intervention does not help children under condition \(Y\)
+
+as globally contradictory.
+
+Dung-style defeat, but over arguments rather than claims
+
+Let
+
+\[
+AF=(\mathcal A,\rhd)
+\]
+
+be an argumentation framework in which nodes are complete arguments and \(A\rhd B\) means that \(A\) defeats \(B\).
+
+Dung’s familiar labels—IN, OUT, and UNDECIDED—can be retained, but made relative to:
+
+a claim version;
+
+a scope;
+
+an evaluation policy;
+
+a snapshot of the ledger.
+
+Thus the actual label is closer to
+
+\[
+L(A,\sigma,p,t)\in
+\{\mathrm{IN},\mathrm{OUT},\mathrm{UNDECIDED}\}.
+\]
+
+This matters because an objection may defeat an argument under strict causal standards while leaving it admissible as descriptive evidence.
+
+“Unresolved defeater” can then be defined precisely: it is an admissible attacking argument that is not itself defeated under the chosen semantics and whose attack overlaps the evaluated scope.
+
+Separate attack from defeat
+
+An attack is structural; defeat is policy-dependent.
+
+\[
+A\leadsto B
+\]
+
+means \(A\) attacks \(B\). It becomes a defeat only if the comparison rule accepts it:
+
+\[
+A\rhd_p B
+\quad\Longleftrightarrow\quad
+A\leadsto B\ \land\ A\succeq_p B.
+\]
+
+The preference relation \(\succeq_p\) might consider methodological relevance, provenance, directness, temporal priority, preregistration, or replication. Those priorities should be explicit and versioned rather than silently embedded in software.
+
+This distinction also lets federated communities share the same argument graph while applying different evaluation policies.
+
+The status vector as a partially ordered object
+
+For
+
+\[
+S(c)=(E,R,C,G,A,U),
+\]
+
+define a partial order rather than a scalar score. If lower \(U\) is better, then:
+
+\[
+S(c_1)\succeq S(c_2)
+\]
+
+only when \(c_1\) is at least as strong on every coordinate and strictly stronger on at least one.
+
+Most pairs will be incomparable. A highly replicated correlational claim need not outrank a less replicated but causally identified claim.
+
+The resulting Pareto frontier is informative:
+
+\[
+\mathcal P=\{c:\nexists d\text{ such that }S(d)\succ S(c)\}.
+\]
+
+This gives users comparative structure without manufacturing a total ranking.
+
+The monograph should prove that no scalar preserving all reasonable stakeholder orderings is generally available unless substantive trade-offs among the coordinates are imposed.
+
+Use intervals or evidence sets inside vector coordinates
+
+A coordinate such as evidential strength should not falsely imply precise measurement. It might be represented as:
+
+\[
+E(c)=[E^{-}(c),E^{+}(c)]
+\]
+
+or as a set of admissible evaluations:
+
+\[
+E(c)\subseteq\mathcal E.
+\]
+
+This distinguishes uncertainty about a claim from disagreement about how to evaluate it. The latter cannot be repaired merely by collecting more observations.
+
+A bilattice may be useful here: one ordering for degree of support and another for amount of information. A claim can simultaneously acquire stronger support and stronger opposition as the evidence base grows.
+
+Four-valued states for inconsistent evidence
+
+Classical true/false values are poorly suited to a federated claim graph. A four-valued logic can distinguish:
+
+\[
+\{\text{supported only},\ 
+\text{opposed only},\ 
+\text{both},\ 
+\text{neither}\}.
+\]
+
+“Both” is not a database corruption. It means the system contains admissible support and admissible opposition. “Neither” means insufficient admissible argument.
+
+This is better than forcing conflict into UNDECIDED, because:
+
+lack of evidence;
+
+balanced conflict;
+
+unresolved methodological attack;
+
+and scope mismatch
+
+are epistemically different states.
+
+Relation algebra should be typed and deliberately incomplete
+
+Rather than allowing every relation to compose with every other relation, define partial composition:
+
+\[
+\circ:
+R_{XY}\times R_{YZ}
+\rightharpoonup R_{XZ}.
+\]
+
+For example:
+
+\[
+\mathrm{REPLICATES}\circ\mathrm{SUPPORTS}
+\]
+
+may strengthen a replication coordinate, but
+
+\[
+\mathrm{SUPPORTS}\circ\mathrm{SUPPORTS}
+\]
+
+does not automatically yield SUPPORTS. Support is not generally transitive.
+
+Likewise:
+
+\[
+e\ \mathrm{SUPPORTS}\ c_1,
+\qquad
+c_1\ \mathrm{SUPPORTS}\ c_2
+\]
+
+does not imply that \(e\) directly supports \(c_2\). At most it generates a derived argument with an additional warrant and weaker provenance distance.
+
+A useful theorem would characterize which relation chains are valid only after supplying an explicit bridging warrant.
+
+Provenance as a first-class dependency graph
+
+Each derived state should be reproducible from an append-only event set:
+
+\[
+\mathcal L_t=(r_1,\ldots,r_t).
+\]
+
+The displayed graph is a projection:
+
+\[
+G_t=\Pi(\mathcal L_t,p),
+\]
+
+where \(p\) is the evaluation policy.
+
+This separates immutable history from revisable interpretation. Withdrawal adds a record; it does not delete the original contribution:
+
+\[
+\mathcal L_{t+1}
+=
+\mathcal L_t\mathbin{\|}\operatorname{Withdraw}(r_i).
+\]
+
+Useful invariants include:
+
+no visible assertion lacks a provenance path;
+
+no revision destroys its ancestry;
+
+identical content has stable identity under canonicalization;
+
+replay under the same policy yields the same graph;
+
+withdrawal changes admissibility without rewriting history.
+
+Content identity must not equal claim identity
+
+Two claims may contain identical text while differing in scope, operationalization, or provenance. Conversely, two differently worded statements may express an equivalent proposition.
+
+It helps to distinguish:
+
+\[
+\operatorname{recordID}
+\neq
+\operatorname{contentHash}
+\neq
+\operatorname{claimFamilyID}.
+\]
+
+The content hash supports integrity. The record ID identifies an assertion event. The family ID collects proposed semantic equivalences, which remain contestable claims rather than automatic deduplications.
+
+Reputation as vector-valued credit
+
+Avoid a single reputation score for the same reason you avoid a truth score. Let an argumentative act receive credit along dimensions such as:
+
+\[
+\rho(a)=
+(q,\delta,r,v,s),
+\]
+
+representing evidential quality, decisiveness, repair value, verification, and scope precision.
+
+Credit should attach after downstream survival or confirmation, not merely upon contribution. A proposed objection might initially earn submission credit and later acquire verification credit if it survives challenge.
+
+You can model gaming resistance by requiring that no agent can unilaterally create both the act and the validating event that gives it its principal credit.
+
+Governance as a mechanism-design problem
+
+The relevant objective is not maximum participation but increased production of costly epistemic acts:
+
+precise objections;
+
+replications;
+
+operational clarifications;
+
+scope corrections;
+
+provenance repairs;
+
+voluntary withdrawals.
+
+The protocol should make low-cost duplication and defeater spam cheap to identify but expensive to profit from. One possible principle is diminishing marginal credit for structurally redundant acts:
+
+\[
+\operatorname{credit}(a)
+\propto
+\Delta I(a),
+\]
+
+where \(\Delta I(a)\) is the informational change the act creates in the accepted graph, not its textual length or number of edges.
+
+This should remain a governance heuristic unless the monograph defines an information measure robustly enough to support a theorem.
+
+Federation as shared events plus divergent projections
+
+Different communities need not agree on one canonical graph. Let each federation member \(i\) maintain:
+
+\[
+G_i=\Pi(\mathcal L_i,p_i).
+\]
+
+They may share records while differing in admissibility and defeat policy. Convergence should be claimed only at the event layer:
+
+\[
+\mathcal L_i=\mathcal L_j
+\quad\not\Rightarrow\quad
+G_i=G_j
+\]
+
+when \(p_i\neq p_j\).
+
+That is a feature. It allows disagreement to become inspectable: users can ask which policy difference caused two dossiers to diverge.
+
+Queries should operate over arguments and scopes
+
+The query language should support questions that article search and ordinary graph query languages handle poorly:
+
+SHOW claims SUPPORTED_BY peer_reviewed evidence WITHIN population = "adults" EXCLUDING arguments defeated by retraction INCLUDING unresolved scope objections 
+
+More formally, a query result should depend on:
+
+\[
+Q(G_t,\sigma,p,\lambda),
+\]
+
+where \(\lambda\) specifies the chosen argumentation labeling.
+
+Important built-in queries include:
+
+strongest surviving version of a claim;
+
+smallest unresolved defeater;
+
+unsupported scope extension;
+
+claims dependent on a withdrawn dataset;
+
+conclusions that change under another evaluation policy;
+
+disputes caused only by operational non-equivalence.
+
+Keep three layers mathematically separate
+
+The monograph will be much clearer if it never collapses:
+
+\[
+\text{ledger}
+\longrightarrow
+\text{argument graph}
+\longrightarrow
+\text{epistemic presentation}.
+\]
+
+The ledger records what happened.
+The argument graph represents inferential relations.
+The dossier presents a policy-relative interpretation.
+
+Many existing systems become confused because an interface label such as “accepted” is treated simultaneously as historical fact, logical consequence, and community consensus.
+
+Candidate theorem inventory
+
+The formal chapters could aim for a modest, defensible theorem set:
+
+Constraint monotonicity: valid constraint application never enlarges scope.
+
+Constraint-order independence: compatible scope constraints commute.
+
+Conflict localization: incompatible claims conflict only on overlapping scope.
+
+Replay determinism: identical ledgers and policies generate identical projections.
+
+Lineage preservation: revision and withdrawal preserve ancestry.
+
+No implicit support transitivity: a support chain requires an explicit compositional warrant.
+
+Policy-relative defeat: identical attack graphs may yield different justified sets under different preference policies.
+
+Scalar inadequacy: no policy-neutral scalar represents all admissible status-vector orderings.
+
+Non-explosion: contradictory admissible claims do not entail unrelated claims.
+
+Federated divergence traceability: every difference between projections can be attributed to event-set or policy differences.
+
+That would be enough mathematics to make Adversaria a real specification rather than an argument-mapping manifesto, while leaving the empirical and normative judgments visibly open to revision.
+
+Worked for 17s
+
+The way past Cyc and Wikidata is not to build a better universal knowledge base. It is to reject several assumptions shared by both:
+
+that knowledge must first be normalized into one canonical ontology;
+
+that the database should expose one current answer;
+
+that disagreement is primarily an editing problem;
+
+that admission, publication, endorsement, and computational activation are the same operation;
+
+and that abuse must be controlled by limiting how much ordinary users may contribute.
+
+
+Adversaria can permit effectively unlimited contribution because uploading an assertion does not make it canonical, visible, trusted, or computationally active.
+
+1. Separate inscription from admission
+
+The foundational pipeline should be:
+
+\[
+\text{INSCRIBE}
+\rightarrow
+\text{VALIDATE}
+\rightarrow
+\text{ADMIT}
+\rightarrow
+\text{PROJECT}
+\rightarrow
+\text{ACTIVATE}.
+\]
+
+These are distinct state transitions.
+
+Inscribe: Store the submitted material in the append-only ledger.
+
+Validate: Check schema, integrity, provenance references, and executable payload safety.
+
+Admit: Determine whether it constitutes a recognizable argumentative act.
+
+Project: Decide whether it appears in a particular public dossier.
+
+Activate: Permit it to affect inference, search ranking, status vectors, or reputation.
+
+
+This yields an important invariant:
+
+\[
+\operatorname{stored}(x)
+\not\Rightarrow
+\operatorname{admitted}(x)
+\not\Rightarrow
+\operatorname{endorsed}(x).
+\]
+
+A user can submit ten million claims without thereby forcing the public graph to reason over, rank, or prominently display ten million claims.
+
+That is how “no upload limits” becomes viable: there need not be a fixed intellectual quota, but there must still be bounded use of shared computation, attention, indexing, and review.
+
+2. Do not build one canonical ontology
+
+Cyc’s failure mode
+
+Cyc attempted to encode ordinary knowledge in an enormous logical ontology. Its difficulty was not merely insufficient scale. The design required concepts to acquire relatively stable meanings within a centrally engineered formal system. But ordinary concepts are:
+
+context-sensitive;
+
+purpose-relative;
+
+operationalized differently across fields;
+
+historically unstable;
+
+and frequently contested at their boundaries.
+
+
+Cyc introduced microtheories to localize context, but this largely moved the problem: the system now also had to determine which microtheory governed an assertion and how conclusions could cross between them.
+
+Adversaria’s decision
+
+Treat ontologies as versioned, contestable objects inside the graph.
+
+A claim is interpreted relative to a vocabulary:
+
+\[
+c=(\varphi,\sigma,\mu,\mathcal O,\nu),
+\]
+
+where \(\mathcal O\) identifies an ontology version and \(\mu\) records the operational meanings actually used.
+
+Mappings between ontologies are themselves argued claims:
+
+\[
+m:\mathcal O_i.a \rightsquigarrow \mathcal O_j.b.
+\]
+
+The mapping may be:
+
+equivalent;
+
+narrower;
+
+broader;
+
+overlapping;
+
+operationally substitutable;
+
+historically related;
+
+or disputed.
+
+
+Never silently merge two concepts because a bot or editor judges them synonymous. Semantic reconciliation should be represented as an explicit, defeasible act.
+
+The system therefore supports plural ontologies without treating all vocabularies as interchangeable.
+
+3. Do not make the triple the epistemic unit
+
+Wikidata’s failure mode
+
+The Wikidata statement model improves on bare RDF triples by adding qualifiers, references, and ranks. But its center remains approximately:
+
+\[
+(\text{subject},\text{property},\text{value}).
+\]
+
+Qualifiers can describe a statement, but they do not naturally encode:
+
+why cited evidence supports it;
+
+which inferential warrant connects them;
+
+what the strongest undercutter is;
+
+whether a source merely reports the claim;
+
+which operationalization was used;
+
+whether contradictory findings concern the same estimand;
+
+or what narrower claim survives a failed generalization.
+
+
+References consequently risk becoming decorative authority markers.
+
+Adversaria’s decision
+
+The primary unit is an argument hyperedge, not a triple:
+
+\[
+\{e_1,e_2,c_1,w\}\longrightarrow c_2.
+\]
+
+The system must distinguish:
+
+a source containing a sentence;
+
+a source reporting that someone believes it;
+
+a study supplying evidence;
+
+an inference from that evidence;
+
+and the conclusion attributed to the study.
+
+
+“No source” and “bad inference from a valid source” then become different failure modes.
+
+4. Store assertions, not database truth
+
+Neither TRUE nor Wikidata’s “preferred rank” should be the basic status of a disputed claim.
+
+Adversaria stores:
+
+\[
+\operatorname{AssertedBy}(a,c,t)
+\]
+
+and derives policy-relative evaluations:
+
+\[
+L(c,\sigma,p,t).
+\]
+
+The ledger can indisputably record that an agent asserted something. Whether the proposition is supported remains a projection over evidence, objections, evaluation policy, and time.
+
+This prevents one group from needing to delete another group’s claim merely to avoid endorsing it.
+
+A rejected claim remains addressable, citable, rebuttable, and historically recoverable. Its presence in the ledger is not its acceptance into the active knowledge projection.
+
+5. Preserve contradictions without permitting explosion
+
+Cyc-style logical inference becomes dangerous when inconsistent premises enter a sufficiently expressive theory. Wikidata usually avoids logical explosion by performing comparatively little general inference, but then cannot represent the structure of disagreement very deeply.
+
+Adversaria should use a paraconsistent base:
+
+\[
+c,\neg c\nvdash d.
+\]
+
+The presence of arguments for both \(c\) and \(\neg c\) produces a contested state, not arbitrary conclusions.
+
+A four-valued status is useful:
+
+\[
+\{\text{support only},\text{opposition only},\text{both},\text{neither}\}.
+\]
+
+Contradiction becomes information that the dossier must expose. It is not something administrators must immediately eliminate to restore database consistency.
+
+6. Keep inference local and demand explicit bridges
+
+Cyc’s promise of general inference encounters combinatorial growth, contextual leakage, and long chains whose conclusions become difficult to audit.
+
+Adversaria should reject unrestricted global closure. Inference occurs inside a declared argument context:
+
+\[
+I(G,\sigma,p,B),
+\]
+
+where \(B\) is a computational and derivational budget.
+
+Support is not automatically transitive:
+
+\[
+a\ \mathrm{SUPPORTS}\ b
+\quad\land\quad
+b\ \mathrm{SUPPORTS}\ c
+\quad\nRightarrow\quad
+a\ \mathrm{SUPPORTS}\ c.
+\]
+
+The bridge requires an explicit warrant. Every displayed conclusion should have a bounded proof object showing exactly which claims, evidence objects, mappings, policies, and ontology versions produced it.
+
+The system should prefer:
+
+shallow inspectable derivations;
+
+cached local projections;
+
+user-requested expansion;
+
+and explicit uncertainty
+
+
+over an invisible attempt to derive everything the database entails.
+
+7. Make scope mandatory
+
+A major Wikidata problem is that qualifiers are available but often optional. A broad-looking statement may conceal that it holds only for one place, time, definition, or measurement regime.
+
+In Adversaria, a claim without a declared scope is not a fully admitted empirical claim. It may be stored, but its active status is incomplete:
+
+\[
+\operatorname{Empirical}(c)
+\land
+\operatorname{scope}(c)=\varnothing
+\Rightarrow
+\operatorname{Incomplete}(c).
+\]
+
+The same applies to operational definitions and causal modality. The system should force contributors to distinguish:
+
+“is associated with”;
+
+“predicts”;
+
+“causes”;
+
+“implements”;
+
+“is consistent with”;
+
+and “is interpreted as.”
+
+
+This is schema-level protection against exaggeration, not a style recommendation.
+
+8. Replace deletion wars with claim branching
+
+Wikimedia systems often force contributors to compete over one article, one item, one description, or one preferred value. Adversaria should allow a disputed claim to branch:
+
+\[
+c_0
+\longrightarrow
+\begin{cases}
+c_1 & \text{broader formulation},\\
+c_2 & \text{restricted population},\\
+c_3 & \text{different operationalization},\\
+c_4 & \text{opposing formulation}.
+\end{cases}
+\]
+
+No branch automatically overwrites another. A dossier can identify which versions currently survive which objections.
+
+This makes conceptual repair cumulative. A defeated universal claim can leave behind a viable restricted claim rather than disappearing or remaining misleadingly unchanged.
+
+9. Capability-gate argumentative acts, not viewpoints
+
+Your controversial-claim gate can be powerful, but only if it tests the capability required to perform the act rather than ideological agreement.
+
+The gate should never ask:
+
+> Do you accept the community’s conclusion?
+
+
+
+It should ask whether the contributor can:
+
+state the exact claim being challenged;
+
+distinguish evidence from warrant;
+
+identify the relevant population and scope;
+
+cite the strongest existing support;
+
+describe the strongest current objection;
+
+classify their proposed act;
+
+state what evidence could count against their position;
+
+and avoid duplicating an already answered objection.
+
+
+Passing establishes:
+
+\[
+\operatorname{CanPerform}(u,a,\sigma),
+\]
+
+not:
+
+\[
+\operatorname{IsTrustedPerson}(u).
+\]
+
+The capability should be specific to an act family. Someone qualified to add archival evidence is not automatically qualified to change a causal meta-analysis or edit a formal proof.
+
+10. Lock the projection, not the underlying subject
+
+When a topic becomes controversial, the system should not prohibit claims about it. It should protect shared high-impact surfaces.
+
+An ungated user may still:
+
+inscribe a claim;
+
+maintain a personal or group projection;
+
+cite evidence;
+
+prepare an objection;
+
+fork the dossier;
+
+and request review.
+
+
+The capability gate controls whether the contribution may:
+
+modify the principal public dossier;
+
+affect default status calculations;
+
+appear in high-ranking search results;
+
+trigger notifications;
+
+or modify an established semantic mapping.
+
+
+Thus:
+
+\[
+\text{freedom to inscribe}
+\neq
+\text{authority to modify shared projection}.
+\]
+
+This is much less censorial than locking the topic itself and much safer than allowing every stored assertion to affect the canonical interface.
+
+11. Make controversiality rule-based and appealable
+
+“Controversial” cannot simply mean “moderators dislike it.” The flag should follow observable conditions, such as:
+
+unusually high attack density;
+
+repeated reversion or supersession attempts;
+
+rapid influx of new accounts;
+
+credible risk of personal harm;
+
+legal or medical actionability;
+
+conflict among qualified projections;
+
+or evidence of coordinated manipulation.
+
+
+The triggering record must identify:
+
+\[
+(\text{rule},\text{evidence},\text{scope},\text{duration},\text{review date}).
+\]
+
+A gate should expire unless renewed. It should be contestable through the same claim-and-objection machinery as everything else. Emergency restriction may be immediate, but continuing restriction requires an argued justification.
+
+12. Use capability proofs instead of permanent classes
+
+A permanent “expert” class recreates Cyc’s centralization and Wikipedia’s entrenched editor hierarchy.
+
+Capabilities should be:
+
+narrowly scoped;
+
+earned through inspectable performance;
+
+renewable;
+
+revocable for specified conduct;
+
+portable where competencies genuinely transfer;
+
+and obtainable through multiple routes.
+
+
+Possible proofs include:
+
+passing a generated comprehension test;
+
+accurately steelmanning opposed arguments;
+
+completing several reviewed contributions;
+
+reproducing a result;
+
+demonstrating familiarity with a relevant corpus;
+
+or possessing externally verifiable expertise.
+
+
+The test bank should be derived from the current dossier, not secretly encode an administrator’s preferred conclusion. Answers and grading rules should eventually become auditable, while question selection remains unpredictable enough to resist rote gaming.
+
+13. Test adversarial comprehension
+
+For controversial subjects, a particularly good gate is symmetric steelmanning.
+
+To modify the default projection, a contributor must demonstrate the ability to reconstruct:
+
+1. the strongest argument supporting the claim;
+
+
+2. the strongest argument opposing it;
+
+
+3. the central empirical uncertainty;
+
+
+4. the principal scope distinction;
+
+
+5. and an observation that would update each side.
+
+
+
+This tests whether the person understands the disagreement’s topology.
+
+A user may pass while taking either position. Someone may also fail while agreeing with the moderators. That symmetry is essential to the gate’s legitimacy.
+
+14. Do not confuse unlimited uploads with unlimited resource consumption
+
+Literal unlimited storage and processing are impossible. The defensible promise is:
+
+> No fixed quota on legitimate intellectual contribution; scarce shared resources are allocated separately and transparently.
+
+
+
+Use content addressing and deduplication:
+
+\[
+\operatorname{cost}_{storage}(n\text{ duplicate uploads})
+\approx
+\operatorname{cost}_{storage}(1)+O(n\text{ references}).
+\]
+
+Large submissions can enter cold storage before indexing. Users can supply storage or computation. Bulk imports can be progressively activated. The system can apply backpressure according to objective resource conditions without establishing a maximum number of claims per person.
+
+The submission contract might guarantee:
+
+receipt of a content hash;
+
+retention of the record or a declared storage term;
+
+exportability;
+
+and an explicit disposition.
+
+
+It need not guarantee immediate indexing, review, inference, or prominent publication.
+
+15. Charge for attention, not speech
+
+Spam becomes damaging when it consumes other people’s attention. Therefore the scarce resource should be promotion into shared attention surfaces.
+
+Potential controls include:
+
+review bonds returned after a contribution survives screening;
+
+sponsorship by a capable reviewer;
+
+progressively earned indexing bandwidth;
+
+duplicate detection;
+
+bundling repetitive submissions;
+
+random audits;
+
+and reputation reductions for systematically wasting review effort.
+
+
+A user can continue depositing material without the public community being forced to inspect it immediately.
+
+This is the crucial move:
+
+\[
+\text{unbounded inscription}
++
+\text{bounded attention}
+\]
+
+rather than
+
+\[
+\text{bounded inscription}
++
+\text{unaccountable moderator discretion}.
+\]
+
+16. Make refusal an explicit disposition
+
+Cyc tends toward failure to integrate; Wikidata tends toward deletion or rejection. Adversaria should issue a machine-readable disposition:
+
+\[
+D(x)\in
+\{
+\mathrm{ADMITTED},
+\mathrm{DUPLICATE},
+\mathrm{MALFORMED},
+\mathrm{UNSCOPED},
+\mathrm{QUARANTINED},
+\mathrm{GATED},
+\mathrm{REFUSED}
+\}.
+\]
+
+Every non-admission must identify:
+
+the governing rule;
+
+the failing field or argumentative requirement;
+
+the evidence for that determination;
+
+the responsible decision mechanism;
+
+and the available repair or appeal path.
+
+
+A gated contribution is not silently discarded. It has a stable identity and can later become admissible without resubmission.
+
+17. Prevent gate capture
+
+The capability system itself will become the most valuable attack surface. Its invariants should include:
+
+1. No person may author, grade, and finally approve the same test.
+
+
+2. No viewpoint may be required unless the capability is explicitly about representing that viewpoint.
+
+
+3. Every failure must map to a declared competency.
+
+
+4. Equivalent competencies must have alternative demonstrations.
+
+
+5. Gate creation and renewal require public reasons.
+
+
+6. Gate statistics must be auditable for disparate exclusion.
+
+
+7. A successful appeal must repair precedent, not merely admit one person.
+
+
+8. Administrators remain subject to the gate when performing gated argumentative acts.
+
+
+9. Capability cannot substitute for evidence: qualified contributors can still be wrong.
+
+
+10. Capability cannot become hereditary through social endorsement alone.
+
+
+
+You might also require blind grading for high-conflict topics and periodically seed the tests with ideologically reversed but structurally equivalent questions.
+
+18. Avoid Wikidata’s bot asymmetry
+
+Wikidata’s scale depends heavily on bots, but automated imports can create enormous apparent consensus and ontology inertia before humans inspect the data.
+
+Adversaria should identify the production mode of every act:
+
+\[
+\operatorname{origin}(a)
+\in
+\{\text{human},\text{automated},\text{assisted},\text{imported}\}.
+\]
+
+Automated contributions should be batch-addressable and reversibly activated. One import should not masquerade as a million independent confirmations.
+
+Define an import family \(F\), so that shared methodological dependence remains visible:
+
+\[
+a_1,\ldots,a_n\in F
+\quad\Rightarrow\quad
+\text{not }n\text{ independent evidential sources}.
+\]
+
+Independence, replication, and contributor count must never be inferred from record count.
+
+19. Preserve negative and failed work
+
+Knowledge bases systematically favor positive assertions. Adversaria should make the following first-class:
+
+failed replications;
+
+null findings;
+
+withdrawn arguments;
+
+abandoned operationalizations;
+
+defeated warrants;
+
+unsuccessful searches;
+
+and claims for which expected evidence was not found.
+
+
+Otherwise the graph will acquire the same publication and survivorship biases as its sources.
+
+A failed attempt should not necessarily lower a contributor’s reputation. A well-executed failure may be one of the most valuable argumentative acts in the system.
+
+20. The foundational constitution
+
+The design can be summarized in ten constitutional decisions:
+
+1. The ledger records acts, not truth.
+
+
+2. Claims are scoped, typed, and versioned.
+
+
+3. Arguments—not triples—carry epistemic force.
+
+
+4. Ontologies are plural and their mappings are contestable.
+
+
+5. Contradictions are preserved without logical explosion.
+
+
+6. Inference is local, budgeted, and accompanied by proof objects.
+
+
+7. Inscription is open; shared projection is governed.
+
+
+8. Capabilities authorize acts, never opinions.
+
+
+9. Restrictions are explicit, temporary, appealable dispositions.
+
+
+10. No stored claim acquires authority merely through volume, repetition, automation, or contributor status.
+
+
+
+The central departure from both Cyc and Wikidata is therefore:
+
+\[
+\boxed{
+\text{Do not construct one knowledge representation that everyone must inhabit.}
+}
+\]
+
+Construct a common, immutable substrate on which multiple inspectable argument projections can be built. People should be able to contribute without permission, but no person—including an administrator, expert, prolific uploader, or bot—should be able to convert contribution volume directly into epistemic authority.

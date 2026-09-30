@@ -1,0 +1,326 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{counterexample}[theorem]{Counterexample}
+\newtheorem{designrule}[theorem]{Design rule}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\IN}{\textsf{IN}}
+\newcommand{\OUT}{\textsf{OUT}}
+\newcommand{\UND}{\textsf{UND}}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Fr}{\mathrm{Fr}}
+
+\title{No Scalar, No Problem}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+A record of argued claims can attach to each claim a vector of separate status components, such as the kinds of evidence, the number of independent replication families, the strength of causal identification, coverage and the number of unresolved defeaters. Coordinatewise dominance is then a preorder on statuses, and it is not total. We state the elementary order theory that follows and draw the consequences for scalar summaries. A monotone scalar always exists; for every incomparable pair there are monotone scalars that order it in each direction; and a scalar represents dominance exactly when dominance is total. A weighted sum settles an incomparable pair in a way that depends on the weights, and can fail to select a claim that nothing dominates. The set of undominated claims (the frontier) is nonempty and covers every claim, and it is exactly the set of claims that some monotone scalar ranks first, a statement we prove as a small extension of the source. Finally, statuses depend on the evaluation policy, so the status of a claim is indexed by policies, and robust dominance across a family of policies is again a preorder with no more comparabilities than any single policy. All results are finite and elementary. The results on the preorder, the scalar theorem, weights, the frontier and indexed status are those of Chapter 12 of the monograph \emph{Adversaria: A Specification for a Public Claim Graph}, restated with proofs; the maximizer theorem and two sharpenings are marked as extensions.
+\end{abstract}
+
+\section{Scope of the note}\label{sec:intro}
+
+The specification of a public claim graph refuses to define a score of standing for a claim. The prose case for that refusal is made elsewhere. This note is the theorem-forward companion: it states the definitions, proves each result in full, marks what is classical and what is specific to the status vector, and says what is not shown. Nothing here depends on the argumentation semantics beyond the fact that a status is computed from labels under a policy; Section~\ref{sec:setting} isolates exactly what is used.
+
+The results, in the order they are proved:
+\begin{enumerate}[label=(R\arabic*),nosep]
+\item Dominance on status vectors is a preorder, and it has incomparable pairs (Section~\ref{sec:setting}).
+\item Scalar inadequacy: monotone scalars exist, every incomparable pair can be ordered either way by a monotone scalar, and a scalar represents dominance if and only if dominance is total (Section~\ref{sec:scalar}).
+\item Weighted sums: the verdict on an incomparable pair flips with the weights, and a frontier point may be selected by no positive weighting (Section~\ref{sec:weights}).
+\item The frontier is nonempty and covers; it equals the set of possible winners of monotone scalars (Section~\ref{sec:frontier}).
+\item Policy-indexed status, robust dominance, and their properties (Section~\ref{sec:policy}).
+\item Named views as the place where an exchange rate lives (Section~\ref{sec:views}).
+\end{enumerate}
+The order-theoretic core is classical in spirit: it is the familiar gap between the existence of order-preserving maps into the reals and the representation of a preorder by one.
+% TODO(literature): state precisely which parts are standard in the theory of order embeddings and utility representation, and which are specific to this setting.
+
+
+\section{The setting: status vectors and dominance}\label{sec:setting}
+
+Fix a ledger, a policy and a unit $x$. The status of a claim $c$ at $x$ is a tuple $S(c)(x)=(E,R,C,G,A,U)$ (Chapter 12 of the monograph):
+\begin{itemize}[nosep]
+\item $E$, a finite set of evidence kinds among the leaves of the arguments that stand at $x$;
+\item $R=(r^+,r^-)$, nonnegative integers counting independence families of supporting and of failed-replication evidence;
+\item $C$, the causal-identification strength, an element of a finite ladder of rungs with a bottom element $\bot$ below all rungs (the monograph's ladder runs from \textsf{none} through \textsf{associational}, \textsf{adjusted}, \textsf{quasi-experimental} and \textsf{randomized} to \textsf{interventional});
+\item $G$, a tuple of subsets, one per dimension of the space of units, recording the values over which the claim currently stands;
+\item $A$, the actors who accepted or rejected the claim;
+\item $U$, the finite set of unresolved defeaters.
+\end{itemize}
+All that matters below is the following definition and the fact that each component is computed from labels.
+
+\begin{definition}[Dominance]\label{def:dominance}
+For statuses $s=(E,r^+,r^-,C,G,A,U)$ and $s'=(E',r'^+,r'^-,C',G',A',U')$ write $s\preceq s'$ if
+\begin{enumerate}[label=(\roman*),nosep]
+\item $E\subseteq E'$;
+\item $r^+\le r'^+$ and $r^-\ge r'^-$;
+\item $C\le C'$ in the ladder;
+\item $G_d\subseteq G'_d$ for every dimension $d$;
+\item $|U|\ge|U'|$.
+\end{enumerate}
+The component $A$ is excluded. Write $s\prec s'$ if $s\preceq s'$ and $s'\not\preceq s$, write $s\sim s'$ if $s\preceq s'\preceq s$, and call $s,s'$ \emph{incomparable} if neither $s\preceq s'$ nor $s'\preceq s$. For claims $c,c'$ defined at $x$, put $c\preceq_x c'$ if $S(c)(x)\preceq S(c')(x)$.
+\end{definition}
+
+\begin{designrule}[Agreement is not a coordinate]\label{rule:noagree}
+Stance records have no defeat power (Chapter 12), so $A$ is displayed beside any comparison and never inside it. This is a design rule and not a theorem: nothing in the order theory below depends on it, and adding $A$ as a coordinate would leave every statement true for the enlarged order.
+\end{designrule}
+
+\begin{proposition}[Dominance is a preorder]\label{prop:preorder}
+$\preceq$ is reflexive and transitive, $\prec$ is irreflexive and transitive, and $\sim$ is an equivalence relation. Two statuses are equivalent if and only if they agree in $E$, $r^+$, $r^-$, $C$ and $G$ and their sets $U$ have the same size.
+\end{proposition}
+
+\begin{proof}
+Each of (i)--(v) is inclusion, $\le$ or $\ge$ on a coordinate, hence reflexive and transitive, and a conjunction of reflexive and transitive conditions is reflexive and transitive. For $\prec$: irreflexivity is immediate, and if $s\prec s'\prec s''$ then $s\preceq s''$; if also $s''\preceq s$ then $s'\preceq s''\preceq s$, contradicting $s\prec s'$. The relation $\sim$ is the symmetric part of a preorder. The last statement is read off the conditions: $s\preceq s'\preceq s$ forces equality in each of the five conditions, and equality of $|U|$ does not force equality of $U$.
+\end{proof}
+
+\begin{example}[An incomparable pair; invented numbers]\label{ex:incomparable}
+Let $c_1$ and $c_2$ be defined at $x$ with no unresolved defeaters at $x$. The claim $c_1$ rests on a single interventional trial: $E=\{\textsf{trial}\}$, $R=(1,0)$, $C=\textsf{interventional}$. The claim $c_2$ rests on three observational studies from three independence families: $E=\{\textsf{observational}\}$, $R=(3,0)$, $C=\textsf{associational}$. Then $C(c_2)<C(c_1)$ and $r^+(c_1)<r^+(c_2)$, and $E(c_1)$, $E(c_2)$ are incomparable under inclusion. So $c_1$ and $c_2$ are incomparable at $x$. The monograph states that such a pair is realized by a valid ledger; nothing below depends on the particular numbers, only on replication and identification being separate coordinates with neither derived from the other.
+\end{example}
+
+\section{Scalar inadequacy}\label{sec:scalar}
+
+Fix a finite set $V$ of status values with the preorder $\preceq$ of Definition~\ref{def:dominance} (for a fixed ledger and unit, the values realized by finitely many claims form such a set). A scalar is a function $s:V\to\R$.
+
+\begin{definition}[Monotone scalar; representation]\label{def:monotone}
+A scalar $s$ is \emph{monotone} if $u\prec v$ implies $s(u)<s(v)$. It \emph{represents} $\preceq$ if $u\preceq v\Leftrightarrow s(u)\le s(v)$ for all $u,v\in V$.
+\end{definition}
+
+For a strict partial order $\lhd$ on a finite set define the \emph{height} $h_\lhd(v)$ as the largest $n$ for which there is a chain $v_0\lhd v_1\lhd\dots\lhd v_n=v$. It is well defined because the set is finite and $\lhd$ is irreflexive and transitive, so a chain never repeats an element.
+
+\begin{lemma}[Height is strictly monotone]\label{lem:height}
+If $u\lhd v$ then $h_\lhd(v)\ge h_\lhd(u)+1$.
+\end{lemma}
+
+\begin{proof}
+Every chain ending at $u$ extends by $v$ to a chain ending at $v$, by transitivity of $\lhd$.
+\end{proof}
+
+\begin{theorem}[Scalar inadequacy]\label{thm:noscalar}
+Let $(V,\preceq)$ be a finite preorder.
+\begin{enumerate}[label=(\alph*)]
+\item A monotone scalar exists.
+\item If $u,v\in V$ are incomparable, there are monotone scalars $s_1,s_2$ with $s_1(u)<s_1(v)$ and $s_2(v)<s_2(u)$.
+\item Some scalar represents $\preceq$ if and only if $\preceq$ is total, that is, if and only if $V$ has no incomparable pair.
+\end{enumerate}
+Consequently, if $V$ has an incomparable pair, no scalar represents dominance, every monotone scalar assigns that pair a numerical comparison (a strict one or a tie) that dominance does not determine, and strict orientations in both directions occur among monotone scalars.
+\end{theorem}
+
+\begin{proof}
+(a) By Proposition~\ref{prop:preorder} $\prec$ is a strict partial order, and $h_\prec$ is monotone by Lemma~\ref{lem:height}.
+
+(b) Let $u,v$ be incomparable. Put $J=\{(a,b)\in V^2:\ a\preceq u\text{ and }v\preceq b\}$ and $T={\prec}\cup J$. We show that $T$ is a strict partial order.
+
+\emph{Irreflexive.} $\prec$ is irreflexive. If $(a,a)\in J$ then $v\preceq a\preceq u$, so $v\preceq u$, contradicting incomparability.
+
+\emph{Transitive.} Suppose $aTb$ and $bTc$. If both steps are in $\prec$, then $a\prec c$. If $a\prec b$ and $(b,c)\in J$, then $a\preceq b\preceq u$ and $v\preceq c$, so $(a,c)\in J$. If $(a,b)\in J$ and $b\prec c$, then $a\preceq u$ and $v\preceq b\preceq c$, so $(a,c)\in J$. Both steps in $J$ is impossible, since it gives $v\preceq b\preceq u$, contradicting incomparability.
+
+Thus $T$ is a strict partial order containing $\prec$, and $(u,v)\in J$ (take $a=u$, $b=v$). By Lemma~\ref{lem:height}, $s_1=h_T$ is monotone for $\prec$ and $s_1(u)<s_1(v)$. Exchanging the roles of $u$ and $v$ gives $s_2$.
+
+(c) Suppose $s$ represents $\preceq$. For any $u,v$, either $s(u)\le s(v)$ or $s(v)\le s(u)$, so $u\preceq v$ or $v\preceq u$: the preorder is total. Conversely let $\preceq$ be total and $s=h_\prec$. If $u\sim v$ then $h_\prec(u)=h_\prec(v)$: a chain $v_0\prec\dots\prec v_{n-1}\prec u$ gives $v_{n-1}\preceq v$, and $v\preceq v_{n-1}$ would give $u\preceq v\preceq v_{n-1}$, contradicting $v_{n-1}\prec u$; so $v_{n-1}\prec v$ and the chain transfers to $v$, and symmetrically. If $u\prec v$ then $s(u)<s(v)$ by Lemma~\ref{lem:height}. Hence $u\preceq v$ implies $s(u)\le s(v)$. If $u\not\preceq v$, totality gives $v\prec u$, so $s(v)<s(u)$ and $s(u)\not\le s(v)$.
+\end{proof}
+
+The construction in (b) is the standard way to extend a partial order by one extra relation, and the proof of transitivity is short because two steps of the second kind cannot be chained (the monograph proves irreflexivity of the transitive closure of the same relation by a longer cycle argument; the direct check above shows that the closure adds nothing).
+% TODO(literature): the existence of linear extensions and the representation of a finite total preorder by a real function are standard; confirm the classical names and attach them here.
+
+
+Part (b) is the substantive statement. A scalar that is faithful to every relation the dossier does establish, namely strict dominance, must still settle each incomparable pair, and the dossier contains nothing that says how. The choice belongs to whoever publishes the scalar.
+
+\begin{corollary}[No scalar without an outside choice]\label{cor:norank}
+Any function of status used as the order of standing is either not monotone or settles incomparable pairs by information that is not in the status. A specification whose store contains only statuses therefore contains no such function.
+\end{corollary}
+
+This corollary is a consequence of Theorem~\ref{thm:noscalar}(b) read as a statement about what the store contains, and is not itself a mathematical claim about every possible use of numbers (Section~\ref{sec:claims}).
+
+\section{Weighted sums}\label{sec:weights}
+
+The most common scalar is a weighted sum of numerical codings of the coordinates. Let $\varphi:V\to\R^k$ be a coding and $w\in(0,\infty)^k$ a weight vector, and put $s_w(v)=w\cdot\varphi(v)$.
+
+\begin{proposition}[Weight dependence]\label{prop:weights}
+Let $u,v\in V$ be such that $d=\varphi(u)-\varphi(v)$ has a strictly positive entry and a strictly negative entry. Then there are weights $w,w'$ with $s_w(u)>s_w(v)$ and $s_{w'}(u)<s_{w'}(v)$.
+\end{proposition}
+
+\begin{proof}
+Let $P=\{i:d_i>0\}$ and $N=\{i:d_i<0\}$, both nonempty. Put $\delta=\min_{i\in P}d_i>0$ and $\beta=\sum_{i\in N}|d_i|$, and let $w_i=M$ for $i\in P$ and $w_i=1$ otherwise. Then $w\cdot d\ge M\delta-\beta>0$ once $M>\beta/\delta$. For $w'$ apply the same construction to $-d$, exchanging the roles of $P$ and $N$, to obtain $w'\cdot d<0$.
+\end{proof}
+
+\begin{example}[Threshold for Example~\ref{ex:incomparable}]\label{ex:threshold}
+Use the coding
+\[\varphi=(|E|,\ r^+,\ -r^-,\ \mathrm{rung}(C),\ -|U|),\]
+with rungs coded by their position in the ladder, and let $k\ge1$ be the rung gap between \textsf{interventional} and \textsf{associational} (three, with the ladder above). Then $\varphi(c_1)-\varphi(c_2)=(0,-2,0,k,0)$, and with weight $w_r$ on replication and $w_C$ on identification the sum ranks $c_1$ above $c_2$ if and only if $k\,w_C>2\,w_r$, that is, if and only if $w_C>(2/k)\,w_r$. Both orderings are realized by positive weights, and the status contains neither.
+\end{example}
+
+A second failure is geometric. It concerns not pairs but which claims can ever be selected.
+
+\begin{counterexample}[A frontier point no positive weighting selects]\label{cex:nonconvex}
+Code two coordinates as reals and let three claims have codings $u_1=(1,0)$, $u_2=(0,1)$, $u_3=(0.4,0.4)$. None dominates another. For every $w=(w_1,w_2)$ with $w_1,w_2>0$,
+\[
+w\cdot u_3=0.4(w_1+w_2)\le 0.8\max(w_1,w_2)<\max(w_1,w_2)=\max(w\cdot u_1,\ w\cdot u_2),
+\]
+so $u_3$ is never a maximizer of a positive weighted sum. Ranking by any such sum discards a claim that is undominated.
+\end{counterexample}
+
+The discarded claim may be exactly the balanced one, moderately replicated, moderately identified and moderately broad. The next section shows that this is a defect of linear scalarization and not of scalarization in general, which is why the frontier, and not any one scalar, is the object to keep.
+
+\section{The frontier}\label{sec:frontier}
+
+\begin{definition}[Frontier]\label{def:frontier}
+For a finite set $X$ of claims defined at $x$, the \emph{frontier} is $\Fr_x(X)=\{c\in X:\ \text{there is no }c'\in X\text{ with }c\prec_x c'\}$.
+\end{definition}
+
+\begin{proposition}[Nonempty and covering]\label{prop:pareto}
+If $X$ is finite and nonempty then $\Fr_x(X)\ne\varnothing$, and for every $c\in X$ there is $c'\in\Fr_x(X)$ with $c\preceq_x c'$.
+\end{proposition}
+
+\begin{proof}
+If $c\notin\Fr_x(X)$ there is $c_1$ with $c\prec_x c_1$; repeat from $c_1$. Since $\prec_x$ is irreflexive and transitive (Proposition~\ref{prop:preorder}), the chain never revisits an element, and $X$ is finite, so it stops at some $c'\in\Fr_x(X)$. Transitivity gives $c\preceq_x c'$.
+\end{proof}
+
+The frontier answers ``which of these has nothing strictly better'' and does not answer ``which is best''. The two objects of the last two sections meet in the following statement, which is not in the source chapter and is offered as an extension with a full proof.
+
+\begin{theorem}[The frontier is the set of possible winners]\label{thm:winners}
+Let $(V,\preceq)$ be a finite preorder and $m\in V$. The following are equivalent.
+\begin{enumerate}[label=(\roman*)]
+\item There is no $c\in V$ with $m\prec c$ ($m$ is on the frontier of $V$).
+\item There is a monotone scalar $s$ with $s(m)\ge s(c)$ for all $c\in V$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(ii)$\Rightarrow$(i): if $m\prec c$ then $s(m)<s(c)$ for every monotone $s$.
+
+(i)$\Rightarrow$(ii): Let $J=\{(a,b):\ b\sim m\text{ and }a\not\sim m\}$ and $T={\prec}\cup J$. We show $T$ is a strict partial order. Irreflexivity: $(a,a)\in J$ would need $a\sim m$ and $a\not\sim m$. Transitivity: two $J$-steps cannot chain, since the middle element would satisfy both $b\sim m$ and $b\not\sim m$. For a $\prec$-step followed by a $J$-step, say $a\prec a'$ and $(a',b)\in J$: if $a\sim m$ then $m\preceq a\preceq a'$, and $a'\preceq m$ would give $a'\preceq m\preceq a$, contradicting $a\prec a'$, so $m\prec a'$, contradicting (i); hence $a\not\sim m$ and $(a,b)\in J$. A $J$-step followed by a $\prec$-step, $(a,b)\in J$ and $b\prec c$, cannot occur: $b\sim m$ and $b\prec c$ give $m\prec c$, contradicting (i). Two $\prec$-steps compose in $\prec$.
+
+Let $s=h_T$. It is monotone for $\prec$ by Lemma~\ref{lem:height}. For $a\not\sim m$ we have $(a,m)\in J$, so $s(a)<s(m)$. For $a\sim m$ the elements $a$ and $m$ have the same $T$-predecessors (equivalent elements have the same strict $\preceq$-predecessors, and the $J$-predecessors of each are the elements not equivalent to $m$), so $s(a)=s(m)$. Hence $s(m)\ge s(c)$ for all $c$.
+\end{proof}
+
+\begin{remark}
+In Counterexample~\ref{cex:nonconvex} no positive weighted sum selects $u_3$, yet $u_3$ is on the frontier and Theorem~\ref{thm:winners} produces a monotone scalar that ranks it first. The obstruction there is to linear scalarization. Theorem~\ref{thm:winners} also shows that the frontier is not an arbitrary summary: it is the exact set of claims that some publisher, with some monotone exchange rate, could legitimately place first.
+\end{remark}
+
+\begin{corollary}[A frontier of size greater than one is a finding]\label{cor:finding}
+If $\Fr_x(X)$ contains two claims that are not equivalent, then some monotone scalar ranks the first strictly above the second and another ranks the second strictly above the first.
+\end{corollary}
+
+\begin{proof}
+Let $m,m'$ be inequivalent frontier elements. They are incomparable, since $m\prec m'$ would contradict $m$ being on the frontier, and symmetrically. Apply Theorem~\ref{thm:noscalar}(b).
+\end{proof}
+
+\section{Policy-indexed status}\label{sec:policy}
+
+Labels depend on the policy (Chapter 7, Theorem on policy-relative defeat), and therefore so does every component except $A$. For a finite family $\mathcal P$ of policies over one ledger write $S_p(c)(x)$ for the status under $p\in\mathcal P$.
+
+\begin{definition}[Indexed status; robustness]\label{def:indexed}
+The \emph{indexed status} of $c$ at $x$ is the set $S_{\mathcal P}(c)(x)=\{S_p(c)(x):p\in\mathcal P\}$. The claim is \emph{policy-robust} at $x$ if this set is a singleton. \emph{Robust dominance} is $c\preceq^{\mathcal P}_x c'$ if $c\preceq^p_x c'$ for every $p\in\mathcal P$.
+\end{definition}
+
+Uncertainty about a claim is what one status vector records (no evidence, both sides argued, unresolved defeaters, thin replication), and it is reduced by adding arguments to the ledger. Disagreement about evaluation is the size of $S_{\mathcal P}(c)(x)$, and no addition to the ledger reduces it, because the ledger is shared by all members of $\mathcal P$. To state when a status is policy-robust exactly, one fact about the source is needed.
+
+\begin{lemma}[Labels on a defeater-closed set]\label{lem:closed}
+Fix a policy and a unit $y$, and let $W$ be a set of active arguments closed under taking defeaters at $y$. Then the grounded labels at $y$ of the members of $W$ equal the grounded labels computed in the framework restricted to $W$.
+\end{lemma}
+
+\begin{proof}
+This is the proof of the directionality theorem of Chapter 7, which uses only that the set is closed under defeaters. Let $\Phi$ and $\Phi_W$ be the grounded operators of the full and restricted frameworks. By induction, $\Phi^n(\varnothing)\cap W=\Phi_W^n(\varnothing)$: if it holds for $n$, then for $c\in W$, $c\in\Phi^{n+1}(\varnothing)$ iff each defeater $b$ of $c$ is defeated by some $s\in\Phi^n(\varnothing)$; such $b$ lie in $W$, and so does $s$, which defeats $b$, so $s\in\Phi^n(\varnothing)\cap W$. The least fixed points therefore agree on $W$, and so do the $\OUT$ sets.
+\end{proof}
+
+\begin{proposition}[Indexed status]\label{prop:indexed}
+Let $\mathcal P'\subseteq\mathcal P$.
+\begin{enumerate}[label=(\alph*)]
+\item If $c$ is policy-robust over $\mathcal P$ then it is robust over $\mathcal P'$, and $|S_{\mathcal P'}(c)(x)|\le|S_{\mathcal P}(c)(x)|$.
+\item Suppose that for two policies $p,q$ and every unit $y$ of the scope of $c$ there is a set $W_y$ of arguments, closed under defeaters in both frameworks, containing every argument whose label enters the computation of the components of $S(c)$, such that $p$ and $q$ induce the same defeat relation on $W_y$. Then $S_p(c)(x)=S_q(c)(x)$.
+\item Robust dominance is a preorder, contained in each $\preceq^p_x$; any pair incomparable under some $\preceq^p_x$ is incomparable under $\preceq^{\mathcal P}_x$.
+\item There are a ledger and two policies with $|S_{\{p,q\}}(c)(x)|=2$.
+\item The component $A$ is the same under every policy.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) The image of a subset is a subset. (b) By Lemma~\ref{lem:closed}, the labels at $y$ of the members of $W_y$ agree under $p$ and $q$, since the restricted frameworks are identical. The components $E,R,C,U$ at $x$ and $G$ (which reads every unit) are functions of these labels and of data not depending on the policy, so they agree. (c) An intersection of preorders is a preorder and is contained in each factor; hence a pair related under the intersection is related under each factor, and so a pair unrelated in both directions under some factor is unrelated in both directions under the intersection. (d) See Example~\ref{ex:split}. (e) Stance records are not evaluated.
+\end{proof}
+
+\begin{remark}[A correction to the statement of the source]
+The source states (b) under the hypothesis that the arguments for $c$ have the same labels and the same mutual defeats under every policy. That hypothesis omits two inputs: the component $U$ reads the labels of defeaters that may lie outside the set of arguments for $c$, and $G$ reads all units. The hypothesis above supplies both, and is the form used here. The monograph statement should be amended accordingly.
+\end{remark}
+
+\begin{example}[Two policies, two statuses, and incomparability under robustness]\label{ex:split}
+Let $\Omega=\{x\}$. Let $a$ be an argument for a claim $c$ with one leaf of kind \textsf{trial}, and $b$ an argument for the claim $\bar c$ of opposite kernel and the same scope with one leaf of kind \textsf{observational}; each rebuts the other. Let $p$ be the default policy, and let $q$ prefer $a$ to $b$ on all of $\Omega$ and $q'$ prefer $b$ to $a$ there.
+
+Under $p$ both arguments are $\UND$ (Chapter 7, mutual rebuttal). Then $S_p(c)(x)$ has $E=\varnothing$, $R=(0,0)$, $C=\bot$, empty $G$ and $U=\{b\}$, and symmetrically for $\bar c$. Under $q$, $a$ is $\IN$ and $b$ is $\OUT$, so $S_q(c)(x)$ has $E=\{\textsf{trial}\}$, $R=(1,0)$, $C$ the rung of the warrant of $a$, nonempty $G$ and $U=\varnothing$, while $S_q(\bar c)(x)$ has $E=\varnothing$, $R=(0,0)$, $C=\bot$, empty $G$ and $U=\varnothing$. Thus $|S_{\{p,q\}}(c)(x)|=2$, which is (d), and $S_p(c)(x)\prec S_q(c)(x)$.
+
+Under $q'$ the roles are exchanged, so $\bar c\prec^{q}c$ and $c\prec^{q'}\bar c$. For the family $\{q,q'\}$, neither $c\preceq^{\mathcal P}\bar c$ nor $\bar c\preceq^{\mathcal P}c$: the claims are comparable, strictly, under each policy, and incomparable under robust dominance. This is the cost recorded in Proposition~\ref{prop:indexed}(c): asking for agreement across evaluation rules removes comparabilities.
+\end{example}
+
+\section{Views}\label{sec:views}
+
+The results above locate the place where an exchange rate must enter a ranked display, and the last design decision is what to do with it.
+
+\begin{definition}[View]\label{def:view}
+A \emph{view} is a named, versioned and public monotone scalar $v:V\to\R$ that is constant on equivalence classes, or more generally a preorder on $V$ whose strict part contains $\prec$ and that does not separate equivalent statuses.
+\end{definition}
+
+\begin{proposition}[Views agree where dominance speaks]\label{prop:views}
+Two views $v,v'$ give the same strict orientation to every pair $u\prec w$, and can differ in orientation only on pairs that are incomparable. They do not differ on equivalent statuses.
+\end{proposition}
+
+\begin{proof}
+If $u\prec w$ then $v(u)<v(w)$ and $v'(u)<v'(w)$ by monotonicity. If $u\sim w$ both values are equal by the constancy requirement. Every remaining pair is incomparable.
+\end{proof}
+
+\begin{remark}[A sharpening of the source]
+The source says that monotone views disagree only on incomparable pairs. Without the constancy requirement two monotone scalars can also split a pair of equivalent statuses, since the definition of monotone constrains strict dominance only; by Proposition~\ref{prop:preorder} equivalent statuses can differ in the identity of their unresolved defeaters. The requirement in Definition~\ref{def:view} removes this, and is natural, because a view that ranked two statuses differently when dominance records no difference would be using information that dominance deliberately ignores.
+\end{remark}
+
+\begin{designrule}[Views are declared, versioned and separate from status]\label{rule:views}
+A ranking shown to a reader is shown as the output of a named view with its version and declared parameters, together with the frontier it orders within. A view is never stored as part of a status and never enters admission or labeling. When no view is acceptable to the person asking, returning the frontier and no order is a legitimate answer.
+\end{designrule}
+
+The design argument for the rule is an incentive argument and is not a theorem: a published figure becomes a target for those evaluated by it, and a declared rate can be contested and replaced, whereas a hidden one cannot. Theorem~\ref{thm:noscalar}(b) and Proposition~\ref{prop:views} establish only where disagreement between views can lie.
+
+\section{Computational check}\label{sec:check}
+
+The constructions were checked by program on random finite sets of status values of the form of Definition~\ref{def:dominance} (sixty sets of up to fourteen statuses, with three evidence kinds, two dimensions of coverage, four rungs and bounded counts), and on a totally ordered control. For every set the program verified that dominance is a preorder, that the height function is monotone, that it represents dominance exactly when dominance is total, that the relation $T={\prec}\cup J$ of Theorem~\ref{thm:noscalar}(b) is a strict partial order orienting each tested incomparable pair as required, and, for every frontier element, that the relation of Theorem~\ref{thm:winners} is a strict partial order whose height is monotone and maximal at that element. The weight threshold of Example~\ref{ex:threshold} was confirmed at the boundary $w_C=2w_r/3$ for $k=3$, and Counterexample~\ref{cex:nonconvex} was confirmed on one hundred thousand random positive weight vectors. This is a sanity check on the statements and is not part of any proof. Example~\ref{ex:split} was not computed; it is a direct application of the labeling of two mutually rebutting arguments under two preference settings.
+
+\section{What this note does not show}\label{sec:claims}
+
+\begin{itemize}[nosep]
+\item That scalar summaries are useless for every purpose. A scalar may be a perfectly good summary for a declared purpose; the results say that a scalar cannot be derived from the status alone, and that it carries an exchange rate that is external to it.
+\item That a frontier is a ranking. It is the set of claims that nothing strictly beats, and it is silent about order within itself.
+\item That any of the components of status, the rung ladder, the choice of which coordinates enter dominance, or the exclusion of agreement is correct. Those are design choices of the specification. The order theory holds for any finite family of coordinates with a coordinatewise order.
+\item That the definition of status is exhaustive, or that the coding $\varphi$ of Example~\ref{ex:threshold} is the natural one. It is an illustration of how a weighted sum behaves.
+\item Anything about infinite sets of statuses. The proofs use finiteness (for heights), and continuous or infinite analogues of Theorems~\ref{thm:noscalar} and~\ref{thm:winners} may behave differently.
+% TODO(literature): compare with the classical representation theorems for preorders on infinite sets.
+\item That the source's status definition is sound at its boundary: for example the ladder used in the monograph's own worked example of incomparability speaks of an \textsf{observational} rung, which the monograph's ladder does not list (the nearest rungs are \textsf{associational} and \textsf{adjusted}). Example~\ref{ex:incomparable} uses \textsf{associational}; the monograph should be made consistent.
+\item Epistemic quality. No result here says that a frontier claim is well supported, or that a dominated claim is false.
+\end{itemize}
+
+\paragraph{Literature.} Related work is deliberately not surveyed in this draft.
+% TODO(literature): order embeddings and utility representation for preorders; Pareto optimality and its relation to weighted-sum scalarization (supported and unsupported efficient points, nonconvex frontiers); social-choice treatments of incomplete comparisons; multi-criteria decision analysis.
+
+
+\section*{Notes}
+
+Sources in the monograph: Chapter 12 (the status vector, Definitions of dominance, of the monotone scalar, of the frontier and of policy-indexed status; the preorder, scalar inadequacy, weight dependence, the nonconvex counterexample, frontier and indexed-status propositions); Chapter 7 (policies, grounded labeling, directionality, policy-relative defeat, used in Lemma~\ref{lem:closed} and Example~\ref{ex:split}); Chapter 6 (the ladder of rungs). Extensions beyond the monograph, proved here: Theorem~\ref{thm:winners}, Corollary~\ref{cor:finding}, Lemma~\ref{lem:closed} as a stated lemma, the corrected hypothesis of Proposition~\ref{prop:indexed}(b), Example~\ref{ex:split}, and the constancy requirement of Definition~\ref{def:view}. The prose case for refusing a scalar is in the companion essay \emph{Standing Without Scores}, which this note does not repeat.
+
+\end{document}

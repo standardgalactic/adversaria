@@ -1,0 +1,240 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1.15in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage{parskip}
+\setlength{\parskip}{0.7em}
+\renewcommand{\arraystretch}{1.15}
+
+\title{Spelled by Ear\\[0.4em]\large A Coined Name, Its Pronunciation, and Round-Trip Transcription}
+\author{Flyxion\\Independent Researcher}
+\date{September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A coined name, formed by changing one letter of an existing word, was read aloud by generated voices in audio overviews and then transcribed by a speech recognizer. A correction script written to restore the name accumulated roughly two hundred variant spellings. This essay treats that script's log as data. Across 72 unique transcripts the variants are dominated by a single form, \texttt{Fliction}, at 64 percent of occurrences, with a long tail whose members depend strongly on the individual transcript. English spelling-to-sound regularities account for the dominant form: the name's spelling predicts the reading FLICK-shun, and the great majority of variants encode that sound. One episode shows variants arriving in bursts rather than independently. Hand labels on the ordinary words \emph{affliction} and \emph{infliction} show that they are almost always the name, so the dominant family is larger than list-based counts suggest, and a residual tail of new forms keeps appearing after every correction. The evidence does not support an earlier hypothesis that the recognizer repels the name. It supports a plainer account in which a many-to-one map from sound to spelling meets a name whose spelling underdetermines its pronunciation. The errors are joint products of the generator and the recognizer, and the archive cannot apportion them, so the essay describes the pipeline's behavior and does not assign blame to either stage.
+\end{abstract}
+
+\section{A name that needed correcting}
+
+The name Flyxion was coined by replacing the \emph{u} in \emph{fluxion}, Newton's term for a rate of change, with a \emph{y}. It appears across a large body of essays. Many of those essays have been turned into audio overviews, in which two synthetic voices discuss a text, and the resulting audio has been transcribed with Whisper. The transcripts are then full of the name in the wrong spelling.
+
+Correcting them required a normalization script. The script began as a handful of substitutions and grew, one noticed error at a time, into a pattern of roughly two hundred variants, along with a detector that proposes new candidates and an interactive stage for words that are legitimate English in some contexts. Each run also writes a log of the lines it changed, as they stood before the change.
+
+That log is an accident of maintenance, but it is also a record of repeated encounters between one unusual token and a pipeline of learned systems. This essay reads it as a record, with attention to what it can and cannot establish. An earlier version of the analysis proposed that the name occupies a region that the recognizer systematically repels. Section~\ref{sec:repulsion} explains why that proposal is set aside.
+
+\section{What the log contains}
+
+Each transcript is stored in five formats, and the script logs the changed lines from every one of them. Counting all of them multiplies every occurrence several times over, so the analysis below keeps one copy of each transcript, preferring the plain-text version. The candidate counts printed by the script are inflated in the same way, roughly sixfold, because the JSON format contributes twice.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lr}
+\toprule
+Quantity & Value \\
+\midrule
+Unique transcripts with logged variants & 72 \\
+Variant occurrences & 1,250 \\
+Distinct variant forms & 62 \\
+Occurrences that are \texttt{Fliction} & 805 (64\%) \\
+Distinct forms per transcript (median, maximum) & 4, 13 \\
+Share of the top variant within a transcript (median) & 0.67 \\
+\bottomrule
+\end{tabular}
+\caption{Variants found in the correction log, one copy per transcript.}
+\end{table}
+
+Two entropy figures separate what is dispersion across the corpus from what is dispersion within a single transcript. Restricting to the 50 transcripts with at least eight occurrences (1,182 occurrences in all), the pooled entropy of the variant distribution is 2.24 bits over 58 distinct forms, while the average entropy within a transcript is 1.40 bits. The difference, 0.84 bits, is the information the identity of the transcript carries about which variant appears. A transcript tends to settle into its own mixture.
+
+The log has real limits. It records only lines that were changed, so occurrences of the name that were transcribed correctly never appear, and the retention rate, the fraction of occurrences that survive unchanged, cannot be computed from it. It counts only variants that were already on the list, or were added afterwards, and that list was assembled from errors someone noticed. It does not count \texttt{fiction}, \texttt{affliction}, or \texttt{infliction}, which are handled interactively because they are ordinary words. Section~\ref{sec:labels} reports how those decisions came out. Nearly all of the audio is generated speech. The findings below are therefore about this pipeline, and they describe a discovery corpus and not a controlled measurement.
+
+\section{Spelling and sound}
+
+Two regularities of English orthography bear directly on the name.
+
+First, the letter \emph{y} between consonants in a non-final syllable is normally the short vowel of \emph{lynx}, \emph{gym}, \emph{myth}, and \emph{crystal}. Read by that rule, \emph{Flyxion} begins with the vowel of \emph{flick}.
+
+Second, the ending \emph{-xion} is almost uniformly read \emph{-kshun} in existing words: \emph{flexion}, \emph{fluxion}, \emph{complexion}, \emph{crucifixion}. The name was coined from \emph{fluxion}, so a reader who generalizes from its parent word reads the ending the same way.
+
+Together the two rules predict the reading FLICK-shun, which shares its ending with \emph{fiction} and \emph{friction}. The coiner's intended reading is different: FLICK-see-on, with the vowel of \emph{flick} and a separate final syllable. So the spelling supports two readings, and the conventional one is not the intended one.
+
+The log matches the conventional reading closely. Classifying the variants by the vowel that follows the initial \emph{fl}, 94 percent of occurrences use \emph{i}, as in \texttt{Fliction} and \texttt{Flixion}. Only 3.4 percent use \emph{e}, 1 percent use \emph{a}, 0.7 percent use \emph{y}, and 0.3 percent use \emph{u}, the vowel of the parent word.
+
+Classifying by how the ending is spelled gives a second view.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lrr}
+\toprule
+Ending family & Occurrences & Share \\
+\midrule
+FLICK-shun, spelled \emph{-ction} (\texttt{Fliction}) & 805 & 64\% \\
+FLICK-shun, spelled out (\texttt{Flickshen}, \texttt{Flicksheen}) & 60 & 5\% \\
+Spelled with \emph{x} (\texttt{Flixion}, \texttt{Flixian}) & 300 & 24\% \\
+Other & 85 & 7\% \\
+\bottomrule
+\end{tabular}
+\caption{Variants grouped by the spelling of the ending, a proxy for how it was heard.}
+\end{table}
+
+The grouping is only a proxy, since an \emph{x} spelling can be read either way, but it shows that about two thirds of occurrences write down the sound the spelling predicts. Variants such as \texttt{Flickshen} spell the consonant cluster the way a listener would spell a sound they had heard and not a word they had read.
+
+\section{Two stages, one error}
+
+The name passes through two systems before it reaches a transcript. A generator turns text into speech, and a recognizer turns speech back into text. Errors introduced by the first are indistinguishable, in the transcript, from errors introduced by the second.
+
+In most episodes the generated voices read the name FLICK-shun, and the name's author has confirmed by ear that this is how the hosts say it. If so, the recognizer is largely transcribing faithfully. It hears a sound that has many possible spellings and picks one of them. The map from sound to spelling is one-to-many: a single sound can be written \texttt{Fliction}, \texttt{Flixion}, \texttt{Flickshen}, and many other ways, and nothing in the audio says which the author intended. The correction script functions as a pronunciation-to-orthography lexicon for a single name.
+
+The generators are also inconsistent. In some episodes the voices produce readings that are further from any of the above, and the variants change accordingly. One episode discussed below contains no \texttt{Fliction} at all and instead yields forms such as \texttt{Flyluzen}, \texttt{Fligerson}, and \texttt{Flaxodin}, which look like transcriptions of a poorly pronounced name. In that episode the diversity is a property of the audio.
+
+\section{Bursts within a single episode}
+
+One episode was corrected in two passes, and the timestamped lines from both passes allow the variants to be placed in order. The episode contains 23 occurrences of the name in 13 distinct forms, arranged in time as follows.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{llr}
+\toprule
+Time span & Variant & Occurrences \\
+\midrule
+2:10--2:32 & \texttt{Flyzon} & 2 \\
+6:05 & \texttt{Flaixson} & 1 \\
+8:03 & \texttt{Flykon} & 1 \\
+15:11--18:12 & \texttt{Flaxon} & 2 \\
+19:29--21:28 & \texttt{Flyluzen} & 5 \\
+22:41 & \texttt{Fletcher} & 1 \\
+23:09--23:34 & \texttt{Fligerson} & 2 \\
+25:13--26:48 & \texttt{Flaxion} & 3 \\
+31:33 & \texttt{Phlyoxion} & 1 \\
+34:45 & \texttt{Fluxion} & 1 \\
+37:01 & \texttt{Flaxodin} & 1 \\
+44:33 & \texttt{Flaxion} & 1 \\
+50:30 & \texttt{Flexion} & 1 \\
+56:53 & \texttt{Flyxene} & 1 \\
+\bottomrule
+\end{tabular}
+\caption{One episode, ordered by time. Consecutive runs of the same variant are grouped.}
+\end{table}
+
+Of the 22 adjacent pairs of occurrences, 9 repeat the same variant. If the same 23 occurrences were shuffled, about 8 percent of adjacent pairs would repeat, and none of 200,000 random shuffles produced as many repeats as the observed order. The variants arrive in bursts of one to two minutes and then change.
+
+Two mechanisms could produce this. On the audio side, a synthetic voice might settle on one rendering of the name for a stretch of speech. On the recognizer side, long-form decoding conditions each window on the text already produced, so an early spelling can carry forward. The log cannot separate them. Section~\ref{sec:tests} describes the manipulations that can.
+
+The same episode shows why enumerating variants does not converge. In the first pass, 15 occurrences fell into 7 forms already on the list. The second pass, after six candidates flagged by the first pass were added, corrected 8 more occurrences in 6 previously unseen forms. Thirty-five percent of the occurrences in this one episode used forms that the list did not yet contain.
+
+
+\section{Words that are also words}
+\label{sec:labels}
+
+Three of the recognizer's outputs are ordinary English words: \emph{affliction}, \emph{infliction}, and \emph{fiction}. String similarity cannot tell whether a given occurrence is the name or the word, so the script asks. Across a run over 829 transcripts, 389 occurrences of these words were labeled by hand. The labels are one person's judgments, made with the surrounding text in view, and they are the closest thing the archive has to ground truth.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lrrrr}
+\toprule
+Word & Name & Word sense & Skipped & Name share \\
+\midrule
+\emph{affliction} & 75 & 0 & 0 & 100\% \\
+\emph{infliction} & 44 & 1 & 0 & 98\% \\
+\emph{fiction} & 16 & 252 & 1 & 6\% \\
+\bottomrule
+\end{tabular}
+\caption{Hand labels for the three ambiguous words in one run.}
+\end{table}
+
+The result is lopsided. \emph{Affliction} and \emph{infliction} were the name in 119 of 120 decisions. \emph{Fiction}, a common word in the corpus, was the name in 6 percent of decisions.
+
+The lopsidedness has a plain reading. The name typically appears as the subject of an attribution verb and with no article: ``affliction warns us'', ``exactly infliction ports this claim'', ``affliction makes a critical maneuver''. A sentence with an article or a preposition before the word (``the affliction of'') is the ordinary word. The two leading syllables of \emph{affliction} and \emph{infliction} match a function word fused onto the FLICK-shun sound, which is the same mechanism the script's own rule for forms like \texttt{inflyxion} handles. These outputs therefore belong to the dominant family and are not independent errors.
+
+Two consequences follow. First, the variant counts in Table~1 leave these words out, so they understate the size of the FLICK-shun family. Second, the recognizer's own syntax carries the decision. The name's grammatical role separates it from the word, and no lexical rule is needed to make the call.
+
+\section{A tail that keeps growing}
+
+The same run also reports the candidates that remained after correction: tokens that resemble the name and are not yet on the list. There were 121 distinct forms with 357 occurrences. About half of the occurrences (174) are ordinary words that the detector flags, most of them \emph{flying}. The other 183 occurrences are name-like, and they fall in 98 distinct forms.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lrr}
+\toprule
+Family among the name-like residue & Occurrences & Share \\
+\midrule
+Consonant cluster spelled out (\texttt{flickshun}, \texttt{flikshin}) & 70 & 38\% \\
+Spelled with \emph{x} (\texttt{flixikin}, \texttt{flixene}) & 44 & 24\% \\
+Ending in \emph{-ction}, \emph{-ion}, or \emph{-tion} (\texttt{flaction}, \texttt{flicion}) & 20 & 11\% \\
+Other & 49 & 27\% \\
+\bottomrule
+\end{tabular}
+\caption{Residual name-like forms after correction, by family.}
+\end{table}
+
+The largest group writes out the ``sh'' of the ending, which is what a listener would do for a sound heard and not a word read. Of the 183 name-like occurrences, 64 are forms seen exactly once, 35 percent of the occurrences and 65 percent of the forms. A standard estimate of the probability that the next observation is a form never seen before is the fraction of observations that are singletons, and it lands at about the same 35 percent that the single episode showed. The list cannot converge by accumulation. Each round of additions is followed by a round of new forms.
+
+Two responses follow. Forms that occur at least twice recur, and adding them pays off. Singletons rarely recur, so adding them costs list length and carries the risk of catching a real word. The tail is better handled by a rule tied to the frame in which the name appears than by the list.
+
+\section{A loop}
+
+A coined name has no history of pronunciation, so the first strong reader tends to fix one. Here the spelling suggested a reading to the generators, the generators vocalized it, and the vocalization then became the pronunciation that listeners heard. The coiner's intended reading, FLICK-see-on, has been displaced in at least one case by the generators' reading. Later audio and transcripts reinforce it.
+
+This is a loop between author, generator, and listener, and it means a transcript is best read as a record of the machine's reading of the name and not a record of the author's. Its errors are informative, but about the pipeline and not only the recognizer.
+
+\section{The repulsion hypothesis, set aside}
+\label{sec:repulsion}
+
+An earlier framing proposed that the name occupies a region of representational space that the recognizer repels. It rested on two observations: retention of the intended form seemed to be near zero, and the number of alternative spellings was large. The proposal defined retention as $R(x)=P(\hat{x}=x)$ and the entropy of the reconstruction distribution as
+\[
+H(x)=-\sum_{y}P(\hat{x}=y\mid x)\log P(\hat{x}=y\mid x),
+\]
+and it read low $R$ together with high $H$ as evidence of repulsion.
+
+The log does not support this reading. The variants are not diffuse: one form carries 64 percent of occurrences. The diversity that remains is strongly tied to the individual transcript, and the dominant form and the vowel and ending families are explained by how the spelling is read aloud. What the evidence supports is a dominant attractor, a spelling-to-sound ambiguity that makes it one, and a long tail that depends on the audio.
+
+Three refinements to the measures follow. First, the error distribution should be measured separately from retention, using $H_{\mathrm{err}}(x)=H(\hat{X}\mid\hat{X}\neq x)$, so that the two are not coupled. Second, entropy should be conditioned on the clip. A context that always yields the same error looks like dispersion when pooled across contexts. Third, the unit of analysis is the clip or transcript and not the occurrence, because occurrences within a transcript are not independent. With a long tail of forms seen once, plain entropy estimates are also biased by sample size, so a bias-corrected estimator should be used and any comparison between words should be made at equal sample size.
+
+``Repulsion'' can survive only as a hypothesis that matched controls must support. A useful control is another coined word, formed by changing one letter of a real word, whose spelling admits an equally ambiguous reading. If such words are retained at similar rates and produce similar tails, the name has revealed nothing beyond ordinary sparse lexical support.
+
+\section{Measurements that would separate the explanations}
+\label{sec:tests}
+
+The archive holds only finished transcripts. Each one is the output of a generator and a recognizer in series, and every error in it comes from both stages jointly, so no analysis of the logs alone can say how much belongs to each. The observations above are claims about the pipeline as a whole. Table~\ref{tab:tests} lists manipulations that would begin to pull the stages apart, with the outcomes that would point to the recognizer or to the audio.
+
+\begin{table}[!htbp]
+\centering
+\small
+\begin{tabular}{p{0.28\textwidth}p{0.30\textwidth}p{0.30\textwidth}}
+\toprule
+Manipulation & Outcome pointing to the recognizer & Outcome pointing to the audio \\
+\midrule
+Transcribe the same audio with conditioning on previous text turned off & Bursts weaken or vanish & Bursts persist in the same places \\
+Supply the correct spelling as an initial prompt or hotword & Retention rises sharply, since the sound was compatible with the name all along & Little change, since the sound does not match the name \\
+Transcribe the same audio with a second, unrelated recognizer & Different spellings appear & The same spellings appear \\
+Compare a generated voice with a human speaker using the intended reading & Similar error profiles & Different error profiles, tracking the pronunciation \\
+Force-decode each candidate spelling against the same audio and compare likelihoods & The intended spelling scores well below sound-equivalent spellings, so the recognizer's prior is the obstacle & All candidates score poorly, so the audio does not match the name \\
+Repeat with matched one-letter mutants of real words & Similar retention and tails, so nothing is specific to the name & Name-specific differences remain \\
+\bottomrule
+\end{tabular}
+\caption{Manipulations and the outcomes that would separate recognizer-side from audio-side explanations.}
+\label{tab:tests}
+\end{table}
+
+Even these manipulations separate the stages only partly. The generator's voices vary from episode to episode and cannot be replayed on demand, so the archived clips are the only audio available for most tests, and the recognizer's behavior on them is entangled with whatever the voices did. Each manipulation is inexpensive relative to the archive that motivated it, and several can be run on the same clips. The forced-decoding comparison is the most direct, because it measures how much probability the recognizer assigns to the intended spelling given the audio, and not only which spelling wins.
+
+\section{Practical consequences}
+
+Four consequences follow for anyone who introduces a coined name into a speech pipeline.
+
+A spelling does not fix a pronunciation, and the generator will choose one. If a particular reading is intended, the source text should say so, for example with a respelling in parentheses at first use. If the conventional reading is acceptable, it is worth adopting it deliberately.
+
+A recognizer needs the spelling in advance. Whatever facility exists for supplying vocabulary, whether a prompt or a hotword list, is a better first line of defense than a post-hoc substitution list, because a substitution list must anticipate every misspelling and, as the episode above shows, does not converge.
+
+Where the labels are one-sided, the decision can be automated. If a word was the name in 119 of 120 hand decisions, asking about every occurrence adds effort without adding information. A prompt is worth keeping only for a word like \emph{fiction}, and even there a frame rule based on the sentence subject would remove most of the work. A stoplist of ordinary words that the detector keeps flagging would also cut the candidate list roughly in half.
+
+A correction log is a measuring instrument if it is kept as one. Recording the unchanged lines as well as the changed ones, keeping the audio and the raw transcript together, and recording the recognizer's settings would turn the same maintenance effort into a controlled record.
+
+\section{Conclusion}
+
+The name Flyxion was corrected hundreds of times, and its correction log is more informative than the corrections. The dominant error is the sound the spelling predicts, spelled the most common way. Hand labels show that the ordinary words \emph{affliction} and \emph{infliction} belong to that family, and a residual tail of new forms, a third of it never seen before, keeps appearing after each correction. The tail comes from both the audio and the recognizer, and the transcripts alone cannot say in what proportion. The strong claim that the recognizer repels the name is not supported. What survives is a smaller and more useful observation: a name coined by changing one letter inherits the pronunciation rules of the word it came from, and a pipeline that turns text into sound and sound back into text will reveal, at every stage, which of those rules it applies.
+
+\end{document}

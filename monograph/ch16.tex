@@ -1,0 +1,264 @@
+\chapter{Gates, Restrictions and Dispositions}\label{ch:gates}
+
+Open inscription and governed projection are compatible. Any valid record can be inscribed. What a surface allows a record to do, whether to enter its default dossier, to alter its status displays, to trigger notifications, or to change an established mapping, is decided by its policy, and the policy may gate acts. This chapter specifies gates so that they test what an act requires and never what the actor believes, so that time cannot be chosen by the contributor whose act it governs, so that every restriction is finite and explained, and so that the gate mechanism cannot be used to protect a conclusion from objection.
+
+\section{Ledger time}\label{sec:ledgertime}
+
+One timestamp cannot carry every temporal meaning, and a contributor-controlled one must never decide admission. The specification separates four notions.
+\begin{itemize}
+\item \emph{Ledger time}: the position of a record in the accepted order of a surface. It is derived, not declared (below), and is the only time that admission consults.
+\item \emph{Effective interval}: a half-open interval of ledger time, $[e_0,e_1)$, carried by governance records (capabilities, restrictions) and fixed by the admitted record that carries it.
+\item \emph{Claimed time}: external time asserted by a contributor or source about when something happened. It is provenance, is evidence like any other, and is never consulted by admission.
+\item \emph{Unit-space time}: the time dimension of $\Om$, which states what a claim is about (Chapter~\ref{ch:claim}). It is a matter of scope and has nothing to do with the order of records.
+\end{itemize}
+
+\begin{definition}[Anchors and ledger time]\label{def:anchor}
+A surface $s$ names an anchoring authority in its policy. An \emph{anchor record} of $s$ references its predecessor anchor (the first anchor has none) and a set of records, and carries a commitment to the active set of the prefix it closes (Definition~\ref{def:closurecert}). Anchors of $s$ form a chain $\mathsf{anchor}_1,\mathsf{anchor}_2,\dots$. The \emph{prefix} $\ledger_{\le n}$ is the set of records in the reference closure of $\mathsf{anchor}_n$, and the \emph{ledger time} of a record is
+\[
+t_s(r)=\min\{n:\ r\in\ledger_{\le n}\},\qquad t_s(r)=\infty\text{ if there is no such }n.
+\]
+If two distinct anchors claim the same index, the surface is \emph{forked} beyond that index; acts whose first anchoring is ambiguous have disposition $\mathrm{GATED}$ with the mechanism \textsf{equivocation}, and the fork is itself reported in the divergence report of Chapter~\ref{ch:federation}.
+\end{definition}
+
+\begin{proposition}[Properties of ledger time]\label{prop:ledgertime}
+On a surface whose anchors form a chain:
+\begin{enumerate}[label=(\alph*)]
+\item $t_s$ is a function of the set of records and of $s$.
+\item If $r$ references $q$ then $t_s(q)\le t_s(r)$.
+\item The prefix $\ledger_{\le n}$ is a fixed set, and $\ledger_{\le n}\subseteq\ledger_{\le m}$ for $n\le m$. A record with $t_s(r)>n$ does not belong to $\ledger_{\le n}$.
+\item The contributor of a record cannot change $t_s$ of it by any field of the record, including its claimed time.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) The chain and the closures are functions of the set. (b) The closure of an anchor is closed under references, so a record in it brings its references with it. (c) The closure of $\mathsf{anchor}_n$ is contained in that of $\mathsf{anchor}_{n+1}$ because the latter references the former. (d) Ledger time depends only on which anchor's closure first contains the record, and claimed time is not an input to any closure.
+\end{proof}
+
+The reference invariant of (b) is weak in one respect: a record and what it references may share an anchor, and the effective intervals of governance records may overlap. A projection is indexed by the prefix, and the prefix fixes the evaluation time:
+\[
+G_n=\Proj(\ledger_{\le n},\policy).
+\]
+
+\begin{proposition}[Historical projections are immutable]\label{prop:prefix}
+The projection $G_n$ is a function of the fixed set $\ledger_{\le n}$ and of $\policy$, so its answer to ``what stood at prefix $n$'' never changes. A later projection $G_m$, $m>n$, is a different object and differs from $G_n$ only through records of ledger time greater than $n$.
+\end{proposition}
+
+\begin{proof}
+By Proposition~\ref{prop:ledgertime}(c) and Theorem~\ref{thm:replay}. Records of $\ledger_{\le m}\setminus\ledger_{\le n}$ have ledger time in $(n,m]$.
+\end{proof}
+
+A later reconstruction may therefore include information that was not available at $n$, and it says so by carrying its own index. It cannot rewrite the earlier answer. Expiration needs no scheduler: an effective interval is half-open, and a record with ledger time outside it is simply outside the authority. Early termination is an explicit record.
+
+\begin{designrule}[Ledger time is derived]\label{rule:time}
+No field supplied by a contributor determines the ledger time of a record. Admission, capability validity, revocation and restriction applicability are evaluated at ledger time and never at claimed time. Duplicate detection on an anchored surface breaks ties by the pair (ledger time, record identifier), so that an earlier record is never demoted by a later one with a smaller identifier.
+\end{designrule}
+
+\section{Two planes}\label{sec:planes}
+
+Governance records and argumentative records are kept in separate planes so that authorization can never become standing.
+
+\begin{definition}[Authorization and argument planes]\label{def:planes}
+The \emph{authorization plane} consists of the anchor, capability, revocation, invalidation, restriction and clearance records. Its \emph{projection} $C(\ledger,\policy)$ is the set of these records with disposition $\mathrm{ADMITTED}$, where the disposition of an authorization record depends only on its own fields, on authorization records that it references, on the root authorities the policy names, and on ledger time. The \emph{argument plane} consists of all other records. Its admitted members form the active set $\Act(\ledger,\policy)$ of Chapter~\ref{ch:ledger}. The disposition of an argument-plane record reads $C$ for its gate outcome and reads the dispositions of the argument-plane records it references, and reads nothing else.
+\end{definition}
+
+The layering is
+\[
+\text{ledger}\ \longrightarrow\ \begin{cases}C&\text{authorization projection}\\ \Act&\text{argument projection (reads }C\text{)}\end{cases}\ \longrightarrow\ \text{defeat labeling of }\Act.
+\]
+
+\begin{proposition}[Planes]\label{prop:planes}
+\begin{enumerate}[label=(\alph*)]
+\item $C(\ledger,\policy)$ is a function of the authorization records of $\ledger$ and of $\policy$; it does not depend on any argument-plane record or on any label.
+\item $\Act(\ledger,\policy)$ is a function of $\ledger$ and $\policy$ and is the single set of arguments that the defeat semantics evaluates.
+\item No authorization record is a node of the defeat graph.
+\end{enumerate}
+Consequently Proposition~\ref{prop:inert}, Theorem~\ref{thm:replay} and Proposition~\ref{prop:oneway} hold as stated.
+\end{proposition}
+
+\begin{proof}
+(a) By Definition~\ref{def:planes} an authorization record's disposition reads only authorization records, roots and ledger time, and the recursion is on the reference order among them. (b) Argument-plane dispositions are computed by recursion along the reference order, reading $C$, which is fixed by (a). (c) The defeat graph is defined on $\Act$, which contains argument-plane records only.
+\end{proof}
+
+Credit and reputation stay outside both planes, and enter the ledger only when someone inscribes a capability record on their basis. That is what closes what would otherwise be a cycle: capability is derived, in practice, from what has survived, that is from labels; labels are computed from $\Act$; $\Act$ reads $C$. Labels influence which capability records are inscribed, but a capability record, once inscribed, is data, and the disposition of an authorization record does not read the argument plane.
+
+\begin{proposition}[Admission does not read labels]\label{prop:noreadlabels}
+The disposition $D_\policy(r,\ledger)$ of any record is a function of its fields, of $C(\ledger,\policy)$, of the dispositions of the argument-plane records it references, and of $\policy$. It is not a function of any label.
+\end{proposition}
+
+\begin{proof}
+Immediate from Definition~\ref{def:planes} and Proposition~\ref{prop:planes}(a).
+\end{proof}
+
+\section{Capabilities}\label{sec:acts}
+
+An \emph{act family} is a class of records that call for a common competence: adding archival evidence, supplying a warrant for a causal inference, raising an objection, proposing a mapping claim, restricting a claim, withdrawing an argument. A competence for one family does not transfer to another.
+
+\begin{definition}[Capability, revocation, invalidation]\label{def:capability}
+A \emph{capability record} is $\kappa=(u,\alpha,\tau,[e_0,e_1),g)$: an actor $u$ is authorized to perform acts of family $\alpha$ over scope $\tau$ during the effective interval $[e_0,e_1)$ of ledger time, on grounds $g$. A \emph{revocation record} references a capability record. An \emph{invalidation record} references a capability record and is admitted only if its author holds a capability of the audit family, and cites the finding on which it rests. An act record $r$ of family $\alpha$ and act scope $\tau_r$, by author $u$, \emph{holds} $\kappa$ if $r$ references $\kappa$, $\kappa\in C$, $\mathrm{author}(r)=u$, $\tau_r\subseteq\tau$, $e_0\le t_s(r)<e_1$, no admitted revocation $\rho$ of $\kappa$ has $t_s(\rho)\le t_s(r)$, and no admitted invalidation of $\kappa$ exists.
+\end{definition}
+
+The definition reads only records and ledger time. In particular a capability is not a computed reputation. A community may decide by any rule, including one based on the survival of earlier contributions, whether to issue a capability, but the issuing is an act, recorded with grounds. The grounds are checked structurally, as references to the grantee's own acts or to a verification record, and their labels are not read.
+
+\begin{proposition}[Revocation is prospective]\label{prop:revoke}
+If a revocation $\rho$ of $\kappa$ is admitted, every act $r$ that holds $\kappa$ with $t_s(r)<t_s(\rho)$ keeps its disposition. Acts with $t_s(r)\ge t_s(\rho)$ do not hold $\kappa$. Only an invalidation record changes the disposition of acts made earlier, and it does so explicitly, by making them $\mathrm{REFUSED}$ with the mechanism \textsf{invalidated capability}.
+\end{proposition}
+
+\begin{proof}
+Both statements are read off Definition~\ref{def:capability}: revocation enters the test of holding only through the inequality $t_s(\rho)\le t_s(r)$, and invalidation enters through its existence.
+\end{proof}
+
+Backdating an act into an expired interval, or postdating it past a restriction's end, is not available to a contributor, since the ledger time of an act is not a field of it (Proposition~\ref{prop:ledgertime}(d)). What a contributor can do is delay or hasten submission, and the anchoring authority decides when records are anchored; a surface that distrusts its authority audits the anchors (Section~\ref{sec:proofobjects}).
+
+\section{Gates authorize acts, not conclusions}\label{sec:gatesauth}
+
+\begin{definition}[Gate]\label{def:gate}
+A \emph{gate} of a policy $\policy$ for a surface $s$ is a predicate $G_s(r)$ on act records that is true if $r$ holds a capability of the required family and scope, or satisfies an alternative demonstration named by the gate, or is the object of a valid clearance record. A record $r$ that passes its base checks, falls under the gate and fails it has disposition $\mathrm{GATED}$ on $s$.
+\end{definition}
+
+Dispositions are relative to a surface. A record that is $\mathrm{GATED}$ on the principal dossier may be $\mathrm{ADMITTED}$ in a personal or group projection whose policy has no such gate. It is stored in either case and has one identifier.
+
+\begin{proposition}[Capability confers no standing]\label{prop:capnostanding}
+Passing a gate makes a record eligible for admission. It does not change the label of any argument, does not change any argument's defeat relations to others, and does not defeat anything. A capable actor's argument is $\IN$, $\OUT$ or $\UND$ by the same rules as any other.
+\end{proposition}
+
+\begin{proof}
+This is Proposition~\ref{prop:separation}(c) together with Proposition~\ref{prop:planes}(c): authorization records are outside the defeat graph, and an argument's admission affects the labeling only through its membership in $\Act$.
+\end{proof}
+
+\begin{proposition}[Inscription is never blocked by a gate]\label{prop:openinscription}
+For every finite set of records that is closed, has consistent identifiers and an acyclic reference order, the set is a valid ledger under every policy, whatever gates the policy contains.
+\end{proposition}
+
+\begin{proof}
+Validity (Definition~\ref{def:valid}) is a condition on the set alone and mentions no policy. Gates enter only in $D_\policy$.
+\end{proof}
+
+The specification states the consequence as a distinction:
+\[
+\text{freedom to inscribe}\ \ne\ \text{authority to modify a shared projection}.
+\]
+An ungated actor can still inscribe a claim, cite evidence, prepare an objection, keep a personal or group projection, fork a dossier, and request review. What is gated is the contribution to a shared surface: the principal dossier, default status displays, high-ranking search results, notifications, and established mappings.
+
+\paragraph{Clearance.} A gated record is not discarded. It keeps its identifier and can become admissible without resubmission. A \emph{clearance record} references a gated record $r$ and belongs to the authorization plane. It is admitted if its author holds a capability for the family of clearing acts at $t_s(\text{clearance})$. When an admitted clearance references $r$, the gate outcome of $r$ is treated as passed, and $r$, if its other checks pass, is $\mathrm{ADMITTED}$ and belongs to $\Act$ like any other argument. The clearance itself is not an argument and enters no defeat graph.
+
+\begin{proposition}[Clearance keeps one active set]\label{prop:clearance}
+With clearance, $\Act(\ledger,\policy)$ remains a function of $\ledger$ and $\policy$, and remains the only set evaluated by the labeling. A cleared argument has, at each unit, the label it would have had if it had passed the gate. Revoking the clearing capability later does not change the disposition of records already cleared; an invalidation of that capability does.
+\end{proposition}
+
+\begin{proof}
+The gate outcome of an argument-plane record reads $C$, and the admitted clearances are members of $C$ by Definition~\ref{def:planes}; the recursion of Proposition~\ref{prop:planes} is unchanged. The label of an admitted argument is a function of $\Act$ and $\policy$, whether it entered directly or by clearance. The last statement is Proposition~\ref{prop:revoke} applied to the clearing capability.
+\end{proof}
+
+\section{Testing capability without testing belief}\label{sec:symmetric}
+
+A gate is legitimate only if what it tests is a competence that the act requires. A gate that asks whether the actor accepts the community's conclusion tests belief and is excluded by the following requirement.
+
+\begin{definition}[Position-neutral gate]\label{def:posneutral}
+For a claim $c=(\kap,\dots)$ let $\bar c$ denote the claim with kernel $\nk{\kap}$ and the same scope. A gate is \emph{position-neutral} if for every actor $u$, act family $\alpha$ and scope $\tau$, the gate is passed by an act of family $\alpha$ on $c$ over $\tau$ if and only if it is passed by the corresponding act on $\bar c$ over $\tau$, the acts differing only in the exchange of $c$ and $\bar c$.
+\end{definition}
+
+The gate the specification recommends for contested subjects is a reconstruction gate. It uses no notion of a strongest argument, since the model defines no scalar strength (Theorem~\ref{thm:noscalar}); it uses the frontier of the status preorder. For a kernel $\kap$ and a unit $x$, let $X_\kap(x)$ be the set of claims of kernel $\kap$ defined at $x$, and $\mathrm{Fr}_x(X_\kap(x))$ its frontier (Definition~\ref{def:frontier}). To modify the default projection of a claim $c$ over $\tau$, an actor must inscribe a \emph{reconstruction record} that references
+\begin{enumerate}
+\item for each unit $x\in\tau$ at which claims of kernel $\kap$ exist, an admitted argument for some claim on $\mathrm{Fr}_x(X_\kap(x))$, or for a claim named by the surface's dossier policy in its place;
+\item the same for the kernel $\nk{\kap}$;
+\item a claim stating the principal empirical uncertainty,
+\item a distinction or scope claim stating the principal scope distinction, and
+\item for each of the two positions, an observation that would count against it.
+\end{enumerate}
+Items (1) and (2) are checked by computation and not by judgment. Items (3) to (5) are graded by graders who are not the author, on whether they name the actual open uncertainty, distinction and observations in the dossier.
+
+\begin{proposition}[Reconstruction gates are position-neutral]\label{prop:reconneutral}
+The reconstruction gate is position-neutral. An actor who passes it may act on $c$ and on $\bar c$ at $\tau$, and one who fails may act on neither.
+\end{proposition}
+
+\begin{proof}
+The conditions (1)--(5) depend on the pair $\{\kap,\nk{\kap}\}$ and are unchanged when $\kap$ and $\nk{\kap}$ are exchanged; the frontier computation is the same construction applied to each kernel. The grading is by the same criteria on both sides. Hence the predicate takes the same value on $c$ and $\bar c$.
+\end{proof}
+
+The proposition guarantees a structural property of the gate, and no more. It does not guarantee that graders are unbiased, and it does not guarantee that the tests are well chosen; those are matters of the invariants of Section~\ref{sec:capture}. What it excludes is a gate whose conditions depend on which side of the dispute the actor takes. An actor may pass the gate while opposing the prevailing view, and may fail it while agreeing with it.
+
+\begin{designrule}[Tests are derived from the dossier]\label{rule:testbank}
+The comprehension tests and reconstruction tasks are generated from the current dossier and not from a fixed list held by administrators. Grading rules and answers become auditable after the fact, while the selection of items remains unpredictable enough to resist rote preparation. Equivalent competencies have alternative demonstrations, such as a reviewed record of contributions, reproduction of a result, or externally verifiable expertise recorded as a verification record.
+\end{designrule}
+
+\section{Restrictions and controversiality}\label{sec:restrictions}
+
+A topic is not locked. What a restriction can lock is a surface.
+
+\begin{definition}[Restriction]\label{def:restriction}
+A \emph{restriction record} is a tuple
+\[
+\varrho=(\mathsf{rule},\ \mathsf{ev},\ s,\ \tau,\ \mathcal F,\ e_0,\ e_r,\ e_1,\ j)
+\]
+consisting of a named rule from the policy, references $\mathsf{ev}$ to records showing that the rule's observable trigger holds, a surface $s$, a scope $\tau$, a set $\mathcal F$ of act families that are gated, an effective interval $[e_0,e_1)$ of ledger time with a review point $e_r$, where $e_0<e_r\le e_1<\infty$, and a reference $j$ to a \emph{justification argument} concluding that the restriction is warranted. Acts of a family in $\mathcal F$ on surface $s$ over a scope within $\tau$ with ledger time in $[e_0,e_1)$ fall under the gate, and no others do.
+\end{definition}
+
+Observable triggers that a policy may name include unusually high attack density, repeated reversion or supersession, a rapid influx of new actors, credible risk of personal harm, legal or medical actionability, conflict among qualified projections, and evidence of coordinated manipulation. The policy names the rules. The restriction record must cite records that show the trigger. A restriction that a moderator dislikes a topic is not of this form.
+
+\begin{proposition}[Restrictions are finite and expire]\label{prop:expire}
+Every restriction has finite duration. A restriction has no effect on any act with ledger time outside $[e_0,e_1)$, and needs no record to end it, unless a renewal record, itself a restriction record with its own justification, covers the act.
+\end{proposition}
+
+\begin{proof}
+By Definition~\ref{def:restriction}, $e_1<\infty$ and acts outside $[e_0,e_1)$ do not fall under the gate; the interval is a property of the record and needs no further event. A renewal is a new restriction record.
+\end{proof}
+
+\begin{designrule}[Justifications are contestable and stratified]\label{rule:stratified}
+The justification argument $j$ of a restriction is an ordinary argument and can be objected to by ordinary objections. A restriction is evaluated on a \emph{meta surface} whose policy contains no restrictions; the label of $j$ and of the objections to it are computed there. Consequently no restriction can gate an objection to its own justification, and no act of withdrawal, appeal or request for review is ever gated by the restriction it concerns. Emergency restrictions may take effect immediately with a short interval; a renewal requires that the justification argument not be $\OUT$ on the meta surface at the renewal's own ledger time, computed on the prefix that precedes it.
+\end{designrule}
+
+The stratification is what prevents circularity. Were the label of the justification computed on the restricted surface, a restriction could gate the objections that would defeat it, so that the restriction's own standing depended on its own effect. On the meta surface that dependence is absent, and Proposition~\ref{prop:noreadlabels} keeps admission on the restricted surface independent of labels; the renewal consults the meta-surface label only as an input to an authorized act, which is inscribed as a record.
+
+\section{Dispositions with reasons}\label{sec:dispreasons}
+
+Every non-admission is explained. The explanation is computed, so that two replicas agree on it.
+
+\begin{definition}[Reason]\label{def:reason}
+For a record $r$ with $D_\policy(r,\ledger)\ne\mathrm{ADMITTED}$, the \emph{reason} $\varrho_\policy(r,\ledger)$ is the tuple (governing rule, failing field or requirement, references to the records evidencing the failure, deciding mechanism, repair and appeal path), where the mechanism is one of: schema check, disposition rule, gate, restriction, clearance, equivocation, invalidated capability, or an explicit decision record.
+\end{definition}
+
+\begin{proposition}[Reasons are determined]\label{prop:reasondet}
+$\varrho_\policy(r,\ledger)$ is a function of the set $\ledger$ and of $\policy$. Two replicas holding the same records and the same policy compute the same reason for every record.
+\end{proposition}
+
+\begin{proof}
+The disposition is a function of the set and the policy (Theorem~\ref{thm:replay}(a)); the reason records which clause of the definition of $D_\policy$ produced the value, with the references that clause used, and is therefore a function of the same inputs.
+\end{proof}
+
+A consequence is that gate statistics, meaning who is refused under which rule and how often, are computed from the ledger by replay, so that audits for disparate exclusion require no privileged data.
+
+\paragraph{Appeal.} An appeal is an argument, filed on the meta surface, that a stated rule was misapplied or is itself unwarranted. It uses the ordinary machinery of Chapter~\ref{ch:objection}.
+
+\begin{designrule}[A successful appeal repairs the rule]\label{rule:appeal}
+An appeal whose argument stands on the meta surface yields a revision of the gate or rule concerned, a new version with a supersession reference (Definition~\ref{def:lineage}), and the clearance of similarly situated records follows from the revised rule and not from a one-off exception. The earlier version stays in the lineage (Theorem~\ref{thm:lineage}).
+\end{designrule}
+
+\section{Gate capture}\label{sec:capture}
+
+The capability system is the most valuable point of attack in the design, and its invariants are listed here with the way each is enforced.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}c X X@{}}
+\toprule
+& invariant & enforced by\\
+\midrule
+1 & No actor authors, grades and finally approves the same test. & validation: the three role fields of a grant record are distinct actors\\
+2 & No viewpoint is required unless the capability is about representing that viewpoint. & Proposition~\ref{prop:reconneutral} for reconstruction gates; design elsewhere\\
+3 & Every failure maps to a declared competency. & validation: a $\mathrm{GATED}$ reason names a declared competency identifier\\
+4 & Equivalent competencies have alternative demonstrations. & design: a gate specification lists at least two routes\\
+5 & Gate creation and renewal require public reasons. & validation: a restriction record without a justification reference is malformed\\
+6 & Gate statistics are auditable for disparate exclusion. & Proposition~\ref{prop:reasondet}\\
+7 & A successful appeal repairs precedent. & Design rule~\ref{rule:appeal}\\
+8 & Administrators are subject to the gate when performing gated acts. & construction: gate predicates refer to actors only through capability records\\
+9 & Capability cannot substitute for evidence. & Proposition~\ref{prop:capnostanding}\\
+10 & Capability cannot become hereditary through endorsement alone. & validation: the grounds of a grant must reference the grantee's own acts or a verification record, and never stances of others\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Three of the ten hold as propositions of the model, four are enforced by validation, and three depend on how a community specifies its gates and are design requirements. The table says which is which, so that no design requirement is read as a guarantee.
+
+\begin{designrule}[Blind grading and reversed items]\label{rule:blind}
+For high-conflict topics grading is blind to the actor's identity and stated position, and tests are periodically seeded with structurally equivalent items whose polarity is reversed, so that a bias in either direction becomes visible in the audit of Proposition~\ref{prop:reasondet}.
+\end{designrule}

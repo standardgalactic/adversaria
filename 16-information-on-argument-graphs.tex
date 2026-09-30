@@ -1,0 +1,233 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.2in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\IN}{\textsf{IN}}
+\newcommand{\OUT}{\textsf{OUT}}
+\newcommand{\UND}{\textsf{UND}}
+\newcommand{\Lab}{\mathsf{L}}
+\newcommand{\Bc}{\mathrm{B}}
+\newcommand{\Sub}{\operatorname{Sub}}
+\newcommand{\dfeat}{\rhd}
+\newcommand{\Reach}{\mathrm{Reach}}
+\newcommand{\Zs}{\mathrm{Z}}
+
+\title{Information on Argument Graphs}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+It is natural to say that an act in a shared record of arguments is worth what it changes, and that a redundant act changes little. The monograph \emph{Adversaria: A Specification for a Public Claim Graph} adopts this only as a governance heuristic and defines no measure, because any such measure threatens to become the scalar score that the rest of the design excludes. This exploratory paper asks what can be defined and proved without a scalar. We fix an intervention (an added objection, reply or evidence item, or a withdrawal), define the change in a claim's status vector per unit under it, and define sensitivity relative to a class of interventions as a set-valued or vector-valued object that is undefined without an intervention. We prove a small number of results: changes are local and bounded by the backward closure; change regions restrict like scopes and are additive over interventions with disjoint support; the evidential layer is monotone under added records while the justificatory layer is not; the change made by an act depends on the records already present and on the rest of its class, so redundancy is not a property of an act; and sensitivity is determined neither by the status vector nor by dominance, so that the induced robustness order is a partial order with incomparable pairs, which by the scalar-inadequacy theorem of the monograph cannot be made a single rank without a declared view. The paper does not define a total amount of information in a graph, and it does not rank claims or contributors.
+\end{abstract}
+
+\section{Motivation and limits}\label{sec:motivation}
+
+A record of arguments changes as people add to it. An objection may narrow what a claim can be said to stand on, a reply may restore it, a further source may add nothing that was not already there. There is a pull to summarize this by a number: the information an act adds, large for a decisive objection, small for a duplicate. The monograph records the pull and declines it. Its Remark on redundant acts (Chapter 17) says that credit proportional to informational change, diminishing for structurally redundant acts, is adopted as a governance heuristic, that the specification does not define the measure, and that no theorem depends on it \emph{until an information measure on argument graphs is defined that supports one}. Chapter 18 lists the absence of an information measure among the limits of the specification.
+
+This paper is an exploration of what such a measure could be if it were required to respect the design's refusal of scalar standing (Chapter 12). The constraint is strong. A measure of ``how much a graph would change'' has to say change \emph{under what}, and change \emph{in what}. The first answer is an intervention: a stated record added to the ledger. The second is the status of a claim at a unit, which in the monograph is a vector. So the object defined here takes an intervention as an argument, returns a comparison of vectors, and comes with a partial order, never a rank. We do not define an amount of information contained in a graph, and we state results only where they can be proved or checked.
+
+The paper declares its limits in advance. It does not define a total information content of a graph or of a claim. It does not rank claims, arguments or contributors. It does not define the decisiveness component of the credit vector of Chapter 17. It surveys no literature on sensitivity and influence in argumentation or on information measures, and its classes of intervention are a small menu, not a theory. \emph{Related work is deliberately not surveyed in this draft.}
+
+% TODO(literature): cover influence, sensitivity and robustness notions for argumentation frameworks and structured argumentation; information-theoretic measures on graphs and on evidence; belief-revision and dynamics of argumentation frameworks (enforcement, addition of arguments); measures of epistemic change. Decide whether any of these already defines a per-intervention change profile of the kind used here.
+
+\section{Setting}\label{sec:setting}
+
+We use the regional framework of Chapter 7 with the default policy, so that every attack is a defeat. There is a finite set $\mathcal A$ of active arguments, each $a$ with a scope $\sigma(a)$ in a space $\Omega$ of units, a set $\Sub(a)$ of sub-arguments, leaves (evidence items, each with a kind and an independence family), a rung (the weakest rung of an ordinary warrant in its tree), and a claim it argues for. There is a finite set of structural attacks $(b,t,R)$: $b$ attacks the argument $t$ over the region $R\subseteq\sigma(b)\cap\sigma(t)$, and, by hereditary attack, attacks every argument built on $t$ over $R\cap\sigma$ of it. At a unit $x$ the defeat graph is $F_x=(\mathcal A_x,\dfeat^x)$ and $\Lab(a,x)\in\{\IN,\OUT,\UND\}$ is the grounded label (Chapter 7).
+
+The status vector of Chapter 12 has six components. We use a reduced vector. For a claim $c$ with argument set $\mathcal A(c)$ and a unit $x$, let $\mathcal I(c,x)$ be the set of arguments in $\mathcal A(c)$ that are $\IN$ at $x$, and $\mathcal U(c,x)$ the set of $\UND$ arguments at $x$ that defeat some argument in $\mathcal A(c)$.
+\[
+S(c)(x)=(E,\ r,\ C,\ \mathcal U),
+\]
+where $E$ is the set of evidence kinds among leaves of arguments in $\mathcal I(c,x)$, $r$ is the number of independence families among those leaves (the positive replication count; we omit replication relations and the count $r^-$), $C$ is the greatest rung among arguments in $\mathcal I(c,x)$ ($0$ if none), and $\mathcal U=\mathcal U(c,x)$. We omit generalizability, which is a field over units rather than a value at one, and agreement, which is excluded from comparison by Chapter 12. Dominance $S\preceq S'$ is the coordinatewise comparison of Chapter 12: $E\subseteq E'$, $r\le r'$, $C\le C'$, $|\mathcal U|\ge|\mathcal U'|$. It is a preorder, and $S\prec S'$ when also not $S'\preceq S$. The Belnap evidential state $B(c,x)\in\{\mathsf N,\mathsf T,\mathsf F,\mathsf B\}$ records whether some active argument for $c$ (pro) or for its negation (con) is present at $x$, with the information order in which $\mathsf N$ lies below $\mathsf T$ and $\mathsf F$, which lie below $\mathsf B$.
+
+Two facts about $S$ are used. (F1) $S(c)(x)$ is a function of the labels and defeat relation at $x$ among the arguments in $\mathcal A_x$ and of per-argument data (leaves, rung, claim), so it depends on $x$ only through its membership pattern (the proof of the Proposition on components as scopes, Chapter 12). (F2) $S(c)(x)$ is a function of the subgraph of $F_x$ on $\bigcup_{a\in\mathcal A_x(c)}\Bc_x(a)$ together with the per-argument data, because it reads the labels of the members of $\mathcal A_x(c)$ and of their defeaters, and grounded labels are determined by the backward closure (Chapter 7, Theorem on directionality).
+
+\section{Interventions}\label{sec:interventions}
+
+\begin{definition}[Intervention]\label{def:interv}
+Fix a ledger and the framework it yields. An \emph{intervention} $\iota=(N,E,W)$ consists of a finite set $N$ of new arguments (each with scope, leaves, rung, claim, and sub-arguments among $N$), a finite set $E$ of new structural attacks $(b,t,R)$ with $b\in N$ or $t\in N$ and $R\subseteq\sigma(b)\cap\sigma(t)$, and a set $W\subseteq\mathcal A$ of existing arguments to be withdrawn. Applying $\iota$ adds $N$ and $E$ and, for each $a\in W$, a withdrawal node $w_a$ with $\sigma(w_a)=\sigma(a)$ that attacks $a$ over $\sigma(a)$ (Chapter 9). Existing arguments are not altered, and new arguments are not sub-arguments of existing ones. The framework after $\iota$ is written $F^\iota$, the status $S_\iota(c)(x)$, and the \emph{support} of $\iota$ is
+\[
+\Sigma(\iota)=\bigcup_{n\in N}\sigma(n)\ \cup\ \bigcup_{(b,t,R)\in E}R\ \cup\ \bigcup_{a\in W}\sigma(a).
+\]
+\end{definition}
+
+We work with the pair $(N,E)$ directly. In the monograph the records of $\iota$ determine it through the definitions of structural attack and defeat; not every pair $(N,E)$ arises from a valid ledger. The positive results below hold for every $\iota$, and the counterexamples use only shapes that the monograph's own examples realize (an objection that attacks one way by undermining, a reply that undermines the objection's evidence, a withdrawal).
+
+\begin{definition}[Classes of intervention]\label{def:classes}
+Four named classes are used. An \emph{objection} has $N=\{b\}$, $W=\varnothing$ and attacks from $b$ on existing arguments (with the return attack if the objection rebuts). A \emph{reply} is an objection whose targets are arguments that themselves defeat some argument over the attacked region. An \emph{evidence item} has $N=\{n\}$ with $n$ an argument for an existing claim or its negation, $E=\varnothing$, $W=\varnothing$. A \emph{withdrawal} has $N=E=\varnothing$ and $W=\{a\}$. A \emph{class} $\mathcal C$ is any set of interventions; results below are always relative to a stated class.
+\end{definition}
+
+For a scope $S'$ and an intervention with $W=\varnothing$, the \emph{restriction} $\iota|_{S'}$ replaces every scope and region by its intersection with $S'$ and drops new arguments and attacks whose scope or region becomes empty. (A restricted withdrawal is not an object of the monograph and is not defined.)
+
+\section{Change and sensitivity}\label{sec:change}
+
+\begin{definition}[Change profile]\label{def:change}
+For an intervention $\iota$, a claim $c$ and a unit $x$, the \emph{change profile} is the pair $\Delta_\iota(c,x)=\bigl(S(c)(x),\,S_\iota(c)(x)\bigr)$. Its \emph{kind} is one of: $0$ if the two statuses are equal; $+$ if $S(c)(x)\prec S_\iota(c)(x)$; $-$ if $S_\iota(c)(x)\prec S(c)(x)$; $\approx$ if they differ and are equivalent under dominance (possible only through the set $\mathcal U$); $\parallel$ if they are incomparable.
+\end{definition}
+
+The kind uses the monograph's own preorder. A change in which replication rises and identification strength falls is of kind $\parallel$: the profile records a trade and does not call it a gain or a loss.
+
+\begin{definition}[Change region, zero set, sensitivity profile]\label{def:sens}
+Let $\mathcal C$ be a class of interventions.
+\begin{enumerate}[label=(\alph*)]
+\item The \emph{change region} of $\iota$ for $c$ is $\rho_\iota(c)=\{x:S_\iota(c)(x)\ne S(c)(x)\}$.
+\item The \emph{zero set} of $c$ at $x$ is $\Zs_{\mathcal C}(c,x)=\{\iota\in\mathcal C:\ S_\iota(c)(x)=S(c)(x)\}$, the interventions of the class that leave $c$ unchanged at $x$.
+\item The \emph{sensitivity profile} is the map $\pi_{\mathcal C}(c,x):\mathcal C\to\{0,+,-,\approx,\parallel\}$ sending $\iota$ to the kind of $\Delta_\iota(c,x)$.
+\item The \emph{robustness preorder} at $x$: $c\sqsubseteq_{\mathcal C,x}c'$ iff $\Zs_{\mathcal C}(c,x)\subseteq\Zs_{\mathcal C}(c',x)$ ($c'$ is left unchanged by every intervention of the class that leaves $c$ unchanged).
+\end{enumerate}
+\end{definition}
+
+All four are functions of a stated class, and (b) to (d) are vector-valued or set-valued: a profile indexed by the interventions of $\mathcal C$, a subset of $\mathcal C$, a partial order on claims. No number is defined. The same holds for any coarsening of the status vector; Section~\ref{sec:results} shows that the choice of coarsening is itself part of what sensitivity is relative to.
+
+\begin{proposition}[Robustness is a preorder; classes nest]\label{prop:preorder}
+(a) $\sqsubseteq_{\mathcal C,x}$ is reflexive and transitive. (b) If $\mathcal C\subseteq\mathcal C'$ then $\Zs_{\mathcal C'}(c,x)\cap\mathcal C=\Zs_{\mathcal C}(c,x)$, and $c\sqsubseteq_{\mathcal C',x}c'$ implies $c\sqsubseteq_{\mathcal C,x}c'$.
+\end{proposition}
+
+\begin{proof}
+(a) Inclusion of sets. (b) The first equality is the definition; if $\Zs_{\mathcal C'}(c,x)\subseteq\Zs_{\mathcal C'}(c',x)$ then intersecting both with $\mathcal C$ gives the inclusion for $\mathcal C$. \qedhere
+\end{proof}
+
+\section{Results}\label{sec:results}
+
+\subsection{Locality, reach and additivity}
+
+\begin{proposition}[Changes are local]\label{prop:local}
+For every intervention $\iota$ and claim $c$: $\rho_\iota(c)\subseteq\Sigma(\iota)$, and $\rho_\iota(c)$ is a scope. If $\iota$ and $\iota'$ are interventions with $W=W'=\varnothing$ and $\iota'=\iota|_{S'}$, then $\Delta_{\iota'}(c,x)=\Delta_\iota(c,x)$ for $x\in S'$ and $\Delta_{\iota'}(c,x)$ is of kind $0$ for $x\notin S'$; hence $\rho_{\iota|_{S'}}(c)=\rho_\iota(c)\cap S'$, and the change region is monotone in the scope of the restriction.
+\end{proposition}
+
+\begin{proof}
+Let $x\notin\Sigma(\iota)$. No new argument, attack or withdrawal node is present at $x$ (their scopes and regions lie in $\Sigma(\iota)$), so $F^\iota_x=F_x$ by the argument of the Theorem on locality (Chapter 7); by (F1) $S_\iota(c)(x)=S(c)(x)$. Thus $\rho_\iota(c)\subseteq\Sigma(\iota)$. The status at $x$ depends on $x$ only through its pattern (F1), and the patterns of the scopes of the new records are among the finitely many scopes in play, so $\rho_\iota(c)$ is a union of pattern classes, a scope by the Proposition on Boolean combinations of scopes. For the restriction: at $x\in S'$ a new argument or attack is present in $\iota|_{S'}$ iff it is present in $\iota$, because $x\in\sigma\cap S'$ iff $x\in\sigma$; so the graphs at $x$ agree. At $x\notin S'$ nothing new is present, which is the first part with $S'$ as support. \qedhere
+\end{proof}
+
+The bound by the support is coarse. A sharper one uses the graph. Say a defeat pair $(u,v)$ is \emph{new at $x$} if it lies in $F^\iota_x$ but not in $F_x$, with $v\in\mathcal A_x$ an old argument (this includes pairs created by hereditary attack).
+
+\begin{proposition}[Reach bound]\label{prop:reach}
+For $c$ and $x$ define $\Reach_\iota(c,x)$ to hold iff (i) some new argument for $c$ is present at $x$, or (ii) some pair new at $x$ has its target in $\bigcup_{a\in\mathcal A_x(c)}\Bc_x(a)$, the backward closures taken in $F_x$. If $\Reach_\iota(c,x)$ fails then $S_\iota(c)(x)=S(c)(x)$.
+\end{proposition}
+
+\begin{proof}
+Failure of (i) leaves $\mathcal A_x(c)$ unchanged. Let $B=\bigcup_a\Bc_x(a)$. Failure of (ii) says that no new defeat pair targets a member of $B$, so by the graph lemma (the defeaters of members of $B$ in $F^\iota_x$ are those in $F_x$) $B$ is closed under defeaters in $F^\iota_x$ and the subgraph on it is unchanged. Grounded labels of members of $B$ are determined by that subgraph (Chapter 7, Theorem on directionality), so $\mathcal I(c,x)$ and $\mathcal U(c,x)$ are unchanged, and with them $S(c)(x)$ by (F2). \qedhere
+\end{proof}
+
+The bound is an upper bound on change and is not claimed to be tight. In the computations below it was reached without a change in about one case in ten, for example when a new attack lands on an argument that stays $\OUT$.
+
+\begin{proposition}[Additivity over disjoint support]\label{prop:add}
+Let $\iota_1,\iota_2$ be interventions with disjoint new names and $\Sigma(\iota_1)\cap\Sigma(\iota_2)=\varnothing$, and $\iota_1\cup\iota_2$ their componentwise union. For every $c$: $S_{\iota_1\cup\iota_2}(c)(x)$ equals $S_{\iota_1}(c)(x)$ for $x\in\Sigma(\iota_1)$, equals $S_{\iota_2}(c)(x)$ for $x\in\Sigma(\iota_2)$, and equals $S(c)(x)$ elsewhere. So $\rho_{\iota_1\cup\iota_2}(c)=\rho_{\iota_1}(c)\sqcup\rho_{\iota_2}(c)$.
+\end{proposition}
+
+\begin{proof}
+At $x\in\Sigma(\iota_1)$ no record of $\iota_2$ is present, and the region of any attack between a new argument of $\iota_1$ and one of $\iota_2$ lies in $\Sigma(\iota_1)\cap\Sigma(\iota_2)=\varnothing$, so $F^{\iota_1\cup\iota_2}_x=F^{\iota_1}_x$. Similarly for $\Sigma(\iota_2)$; at other units both are absent. \qedhere
+\end{proof}
+
+Proposition~\ref{prop:add} is the only additivity available. For interventions whose supports overlap, the change is not determined by the changes of the parts (Proposition~\ref{prop:order}).
+
+\subsection{Two layers behave differently}
+
+\begin{proposition}[The evidential layer is monotone; the justificatory layer is not]\label{prop:layers}
+(a) For every intervention $\iota$ and claim $c$ with negation $\bar c$, and every $x$: $B(c,x)\le B_\iota(c,x)$ in the information order. (b) There are a ledger and interventions $\iota_1,\iota_2$ with $\mathcal I(c,x)$ equal to $\{p\}$, then $\varnothing$ after $\iota_1$, then $\{p\}$ again after $\iota_2$, and $S(c)(x)$ correspondingly falling and rising in dominance.
+\end{proposition}
+
+\begin{proof}
+(a) $B(c,x)$ depends only on which arguments are active and present at $x$. An intervention adds arguments and never removes any: a withdrawn argument remains admitted and active and is labelled $\OUT$ (Chapter 9), and a withdrawal node argues for no claim. So the pro and con indicators can only switch on. (b) Take one unit, an unattacked argument $p$ for $c$ with a trial leaf, an argument $q$ for $\bar c$ that rebuts it (mutual defeat), and $r$ whose conclusion undermines the evidence of $q$. Let $\iota_1$ add $q$ with its attacks and $\iota_2$ add $r$ with the attack on $q$. By the Proposition on symmetric defeat (Chapter 7), after $\iota_1$ both $p$ and $q$ are $\UND$; after $\iota_2$, $r$ is $\IN$, $q$ is $\OUT$ and $p$ is $\IN$. The computed statuses are $(\{\text{trial}\},1,3,\varnothing)$, then $(\varnothing,0,0,\{q\})$, then $(\{\text{trial}\},1,3,\varnothing)$ (rung $3$ for the trial), and the evidential state goes $\mathsf T,\mathsf B,\mathsf B$. \qedhere
+\end{proof}
+
+The first part is the one monotonicity we can claim, and it is the statement that the monograph makes in Chapter 12: the evidential state moves up the information order as a record grows. The second part is that nothing of the kind holds for what stands. A measure that is monotone in the amount of argument present is available for the evidential layer; it says nothing about which side is ahead.
+
+\subsection{Redundancy is relative}
+
+\begin{proposition}[The change of an act depends on what is already there]\label{prop:order}
+(a) There are a ledger and interventions $\iota_1,\iota_2$, each leaving $S(c)(x)$ unchanged, with $\iota_1\cup\iota_2$ changing it. (b) There are a ledger and interventions $\iota_1,\iota_2$ with $S_{\iota_1}=S_{\iota_2}=S_{\iota_1\cup\iota_2}\ne S$ for the claim: each is decisive alone, and each is redundant after the other.
+\end{proposition}
+
+\begin{proof}
+Schematic examples, one unit, computed.
+(a) An argument $p$ for $c$ is attacked one way by two unattacked arguments $q_1,q_2$ (so $p$ is $\OUT$). Let $\iota_1$ add $r_1$ attacking $q_1$ and $\iota_2$ add $r_2$ attacking $q_2$. After $\iota_1$ alone, $q_1$ is $\OUT$ but $q_2$ is still $\IN$, so $p$ is still $\OUT$; likewise for $\iota_2$. The status of $c$ is $(\varnothing,0,0,\varnothing)$ in all three cases. After both, $q_1,q_2$ are $\OUT$ and $p$ is $\IN$, and the status is $(\{\text{trial}\},1,3,\varnothing)$.
+(b) Take $p,q$ mutually defeating and $\iota_1$ adding $r_1$ and $\iota_2$ adding $r_2$, each attacking $q$. Either alone makes $q$ $\OUT$ and $p$ $\IN$, changing $(\varnothing,0,0,\{q\})$ to $(\{\text{trial}\},1,3,\varnothing)$. After both, the same. The second arrival changes nothing. \qedhere
+\end{proof}
+
+The consequence for the heuristic of the Remark on redundant acts is direct. Part (b) shows that ``structurally redundant'' is a relation between an act and a prior state, not a property of the act: $r_2$ is redundant after $r_1$, and $r_1$ after $r_2$, and each is decisive on the empty background. Any rule that gives diminishing credit to the second must take the ledger order as given, and ledger time is a derived quantity (Chapter 16). Part (a) shows that acts that are individually without effect can jointly have it, so a rule that sums per-act changes misses the joint one. Neither point says such a rule is unwise. They say it needs an order on acts and a convention for joint effects, which are declared choices.
+
+\subsection{Not determined by the status vector or by dominance}
+
+Let $\mathcal O_x$ be the class of \emph{point objections} at a unit $x$: for each argument $a$ present at $x$, the intervention $\iota_a$ that adds a fresh unattacked argument $b_a$ with scope $\{x\}$ and one attack $(b_a,a,\{x\})$, an undermining or undercutting objection that does not attack back.
+
+\begin{proposition}[Sensitivity is not a function of status or of dominance]\label{prop:notdom}
+(a) There are claims $c_1,c_2$ and a unit $x$ with $S(c_1)(x)=S(c_2)(x)$ and a withdrawal $\iota$ such that $\Delta_\iota(c_1,x)$ is of kind $0$ and $\Delta_\iota(c_2,x)$ is of kind $-$.
+(b) There are claims $c\prec c'$ at $x$ (strict dominance) whose robustness relative to $\mathcal O_x$ is incomparable: neither $\Zs(c,x)\subseteq\Zs(c',x)$ nor the converse. Moreover, one point objection reverses the dominance: afterwards $S_\iota(c')\prec S(c)$.
+\end{proposition}
+
+\begin{proof}
+(a) One unit. The claim $c_1$ has an unattacked $\IN$ argument $p_1$; the claim $c_2$ has an argument $p_2$ attacked by $q$, which is attacked by $r$ (all one way). Then $r$ is $\IN$, $q$ is $\OUT$, $p_2$ is $\IN$, and, taking the two arguments to have a trial leaf each from different families with the same rung, $S(c_1)=S(c_2)=(\{\text{trial}\},1,3,\varnothing)$. Withdraw $r$. The node $w_r$ is unattacked and defeats $r$, so $r$ is $\OUT$, $q$ is unattacked and $\IN$, and $p_2$ is $\OUT$: $S_\iota(c_2)=(\varnothing,0,0,\varnothing)$, while $c_1$ is untouched.
+(b) One unit. The claim $c$ has one unattacked argument $p_1$ with an observational leaf from one family. The claim $c'$ has two arguments $p_a,p_b$ with observational leaves from two other families and the same rung, each attacked one way by $q_a,q_b$, both of which are attacked by one argument $r$. Then $q_a,q_b$ are $\OUT$, $r,p_a,p_b$ are $\IN$, the statuses are $(\{\text{obs}\},1,1,\varnothing)$ for $c$ and $(\{\text{obs}\},2,1,\varnothing)$ for $c'$, so $c\prec c'$. Computing all six point objections (targets $p_1,p_a,p_b,q_a,q_b,r$): the status of $c$ changes only for the target $p_1$, and that of $c'$ changes for $p_a$, $p_b$ and $r$. So $\Zs(c)=\{p_a,p_b,q_a,q_b,r\}$ and $\Zs(c')=\{p_1,q_a,q_b\}$, incomparable. Under the objection to $r$, $q_a,q_b$ become $\IN$, $p_a,p_b$ become $\OUT$ and $S_\iota(c')=(\varnothing,0,0,\varnothing)\prec S(c)$. \qedhere
+\end{proof}
+
+Part (a) says that two claims a reader cannot tell apart by status can differ in how they would respond to the same act: the vector records where a claim stands and not what it stands on. Part (b) says that dominance does not track fragility in either direction: the claim that dominates is, in this example, the one whose standing rests on a single reply. Neither shows that sensitivity is unimportant. They show that it is an additional object, which cannot be read off the one already stored.
+
+\begin{proposition}[The level of description matters]\label{prop:coarse}
+There are an intervention $\iota$ and claim $c$ with $\mathcal I_\iota(c,x)\ne\mathcal I(c,x)$ while $S_\iota(c)(x)=S(c)(x)$.
+\end{proposition}
+
+\begin{proof}
+Let $c$ have two unattacked arguments $p_a,p_b$ whose leaves have the same kind and family and whose rungs are equal, so $S(c)=(\{\text{obs}\},1,1,\varnothing)$ and $\mathcal I=\{p_a,p_b\}$. Let $\iota$ add an unattacked attack on $p_b$. Then $p_b$ is $\OUT$, $\mathcal I_\iota=\{p_a\}$ and the status is unchanged. \qedhere
+\end{proof}
+
+A change that is zero in the reduced vector may be nonzero in $\mathcal I$, and a change invisible in $\mathcal I$ may be visible in the labels of the arguments that are not for $c$. The zero set of Definition~\ref{def:sens} is therefore relative to a chosen description of status, in addition to a class of interventions. Both are declared with the result.
+
+\subsection{No single rank without a declared view}
+
+\begin{theorem}[No scalar represents robustness]\label{thm:noscalar}
+Let $V$ be any finite set of claims at a unit $x$ and $\mathcal C$ a finite class of interventions. The preorder $\sqsubseteq_{\mathcal C,x}$ on $V$ has the following properties, by the Theorem on scalar inadequacy (Chapter 12), which is stated for any finite preorder. A monotone scalar exists. If $c,c'$ are incomparable there are monotone scalars ordering them either way. A scalar represents $\sqsubseteq_{\mathcal C,x}$ iff it is total. And incomparable pairs occur: in Proposition~\ref{prop:notdom}(b) with $\mathcal C=\mathcal O_x$ the claims $c,c'$ are incomparable.
+\end{theorem}
+
+\begin{proof}
+Proposition~\ref{prop:preorder}(a) makes $\sqsubseteq$ a preorder, and the cited theorem is about arbitrary finite preorders (its proof uses only reflexivity, transitivity and finiteness). Incomparability is the computed example. \qedhere
+\end{proof}
+
+Any single figure for ``how fragile'' a claim is must therefore order some pair of claims that the stated class does not order, and either orientation is available. Such a figure is possible only as a named, declared view in the sense of Chapter 12, with its exchange rate between interventions stated. The same holds for aggregating the change region, for example by its size, which would need a measure on $\Omega$, and for combining classes (objections, replies, evidence, withdrawals), which would need weights between them. We define none of these.
+
+\section{Computation}\label{sec:comp}
+
+The examples of Propositions~\ref{prop:layers}, \ref{prop:order}, \ref{prop:notdom} and~\ref{prop:coarse} were run in a short program that implements Definitions of hereditary attack, defeat and grounded labeling, the reduced status and the application of an intervention. The statuses quoted are its output, and the zero sets of Proposition~\ref{prop:notdom}(b) were obtained by applying each of the six point objections.
+
+The general statements were tested by random generation, as a safeguard and not as a proof. On frameworks with six units, up to six arguments with sub-arguments, random leaves, rungs, claims and attacks (some mutual), 3000 random interventions with up to two new arguments, up to three new attacks and sometimes a withdrawal were applied. Proposition~\ref{prop:local} (no change outside the support, 8561 unit checks), the restriction statement (13374 checks), Proposition~\ref{prop:reach} at the level of argument labels (42426 checks) and at the level of claims (72000 checks over 4000 interventions), Proposition~\ref{prop:add} (18000 checks) and Proposition~\ref{prop:layers}(a) (18000 checks) produced no violation. In the claim-level test, the reach condition held and the status changed in 12664 cases and held without a change in 1334.
+
+\section{What this paper does not claim}\label{sec:claims}
+
+It does not define a total amount of information in a graph or in a claim, and it does not show that one can be defined consistently with the monograph. The objects defined are relative to a class of interventions and a description of status, are vector-valued, set-valued or partial orders, and cannot be aggregated without a declared view.
+
+It does not rank claims, arguments or contributors. The robustness preorder compares claims only within one class at one unit, and Theorem~\ref{thm:noscalar} shows it has incomparable pairs. Nothing here defines credit; in particular, the decisiveness component of the credit vector of Chapter 17 is not defined, and the change profile is offered only as an input that a definition could use under a declared view.
+
+It does not show that the classes of intervention are the right ones, that the reduced status vector is adequate, or that the examples, which are schematic and use invented arguments, are realizable by valid ledgers beyond the shapes the monograph itself uses. The positive results hold for all intervention pairs $(N,E,W)$, which is a larger family than the ledgers produce.
+
+It does not treat changes of policy, which are also ledger objects and change labels with no change in records of arguments (Chapter 7); they form a further intervention class that we leave aside. It does not treat interventions that add replication or equivalence relations (and so change independence families), or other semantics than the grounded labeling; Proposition~\ref{prop:reach} in particular uses directionality of the grounded labeling and does not transfer to a semantics that lacks it (see the companion report on labeling semantics).
+
+It does not survey related work or claim novelty for any of the definitions; several of the notions (robustness to added arguments, sensitivity of acceptance) may already exist in the literature on dynamics of argumentation frameworks.
+
+\section*{Notes}
+
+Monograph chapters used. Chapter 7: the regional framework, hereditary attack, defeat, the grounded labeling, the Theorems on locality and directionality, symmetric defeat. Chapter 9: withdrawal, which leaves the withdrawn argument active and labelled $\OUT$. Chapter 12: the status vector, the evidential state and its information order, dominance, the Theorem on scalar inadequacy, views. Chapter 16: ledger time. Chapter 17: the Remark on redundant acts and the credit vector. Chapter 18: the list of limits. The companion report on labeling semantics is cited only for the observation in the last section.
+
+\end{document}

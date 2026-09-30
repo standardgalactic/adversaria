@@ -1,0 +1,162 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+\newcommand{\IN}{\textsf{IN}}
+\newcommand{\OUT}{\textsf{OUT}}
+\newcommand{\UND}{\textsf{UND}}
+\newcommand{\Ob}{\mathrm{Ob}}
+
+\title{Three Pages and One Name}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+Three separately maintained pages each discuss a figure known by one name. Each page is internally coherent, every pair of pages is compatible, and the three cannot all be right. No page is at fault and no editor of any page can see the problem. This case study builds that situation from placeholder parts, shows exactly what page-by-page checking reports (nothing), and shows what a record of scoped identification claims reports instead: the region of the account where the three cannot be jointly satisfied, the cycle that produces it, and three ordinary acts that change it. The case is schematic. The pages, the aspects of the account and the senses of the name are all placeholders, and nothing here describes any actual page, tradition, text or translation. Whether a real family of pages exhibits such an obstruction is a separate question, requiring research into primary sources, and is not addressed. The formal statements used are proved in the monograph \emph{Adversaria: A Specification for a Public Claim Graph}, Chapter 8, and the original case is its Chapter 19.
+\end{abstract}
+
+\section{A failure that has no owner}
+
+Reference works are written in modules. A page treats one topic, one tradition or one language edition, and its authors check it against the sources they know. The checking is careful, and it is local. Nobody is assigned to check the collection.
+
+Suppose three such pages each discuss a figure under a common name, and each says something about how its figure relates to the figure on another page. The first says its figure is the same as the second's. The second says its figure is the same as the third's. The third says its figure is not the same as the first's. Each statement may be well sourced on its own page. Read any two pages together and they fit. Read all three and they cannot be right at once: if the first is the second and the second is the third, then the first is the third, and the third's denial fails.
+
+This has a peculiar structure. No page contradicts another. No reviewer comparing two pages finds an inconsistency. No edit to a single page would repair it without overriding what that page's authors sourced. The problem is a property of the collection, and the editorial process has no object for the collection to be a property of.
+
+This essay works through the situation in full, using placeholders throughout. The purpose is to see what a record of scoped, argued identification claims does with it, step by step, and which acts change the result. It is not to say anything about a real case, which would need its own research.
+
+\section{Setup}\label{sec:setup}
+
+Let the pages be $P_1$, $P_2$ and $P_3$. The name they share is $N$. The pages discuss several aspects of an account of the figure, and we take four, $a_1$ through $a_4$, left unnamed on purpose. They could be any four separable parts of an account. The name $N$ may be used in more than one sense, and we take two, $s_1$ and $s_2$. At the start no record distinguishes them, so every claim below is asserted over both senses.
+
+A unit is a pair of an aspect and a sense. The space of units is the set of eight such pairs.
+
+Each page makes one identification claim, in the following form. It asserts that over a stated set of aspects, the figure of one page is the same as, or distinct from, the figure of another. Let $v_k$ record whether the figure of $P_k$ has some specified property at a unit. A claim of sameness says $v$ agrees between the two pages on the units it covers, and a claim of distinctness says it disagrees.
+
+\begin{itemize}[nosep]
+\item $e_{12}$ is a claim of sameness between $P_1$ and $P_2$ over the aspects $a_1,a_2,a_3$.
+\item $e_{23}$ is a claim of sameness between $P_2$ and $P_3$ over the aspects $a_2,a_3,a_4$.
+\item $e_{31}$ is a claim of distinctness between $P_3$ and $P_1$ over the aspects $a_3,a_4$.
+\end{itemize}
+
+Each identification is the conclusion of an argument. The leaf is an item of evidence quoting the page's statement, with the extent of the quotation recorded and its kind marked as textual testimony. The warrant is that a page's explicit identification of its figure with another is to be read as a claim of sameness or distinction over the aspects the page treats. The evidence is anchored, the arguments are well formed, and no argument attacks another. At every unit of its region each argument stands.
+
+\section{What page-by-page checking sees}\label{sec:pages}
+
+For each aspect, collect the identifications active there. The table lists them with a verdict on whether they can be satisfied together. The verdict uses the signed-cycle criterion: a family of identifications over a set of pages can be satisfied together exactly when every cycle of identifications has an even number of distinctness claims.
+
+\begin{center}
+\small
+\begin{tabular}{@{}l l l@{}}
+\toprule
+aspect & active identifications & jointly satisfiable?\\
+\midrule
+$a_1$ & $e_{12}$ & yes (a single edge)\\
+$a_2$ & $e_{12},e_{23}$ & yes (a path)\\
+$a_3$ & $e_{12},e_{23},e_{31}$ & \textbf{no}: signs $(+)(+)(-)$ multiply to $-$\\
+$a_4$ & $e_{23},e_{31}$ & yes (a path)\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The only aspect where all three identifications apply is $a_3$, and it is the only place where they fail. At every other aspect at most two are active, two identifications over three pages form a path, and a path can always be satisfied. The obstruction needs a cycle, and a cycle needs all three.
+
+Now consider what the usual checks report. A check that examines claims two at a time, at any aspect, finds no conflict. A labeling that resolves defeat between arguments finds no defeat, since no argument attacks another. A reviewer who reads two pages sees nothing. The situation is invisible to every tool that works locally, and this is not a flaw in any of them. It follows from what the tools examine.
+
+The monograph states this as a counterexample: a family of identifications that is locally fine and globally impossible. The general pattern is known. Pairwise consistency of local tables implies global consistency exactly when the hypergraph of their vocabularies has no cycle, a classical result in database theory, and in general systems of local sections, families that are pairwise compatible but cannot be assembled arise routinely, which is the phenomenon studied as contextuality. The cycle of overlap is where obstructions live. The triangle of three pages is the smallest example.
+
+\section{What the record reports}\label{sec:report}
+
+The obstruction region is the set of units where the active identifications cannot be satisfied together. It is computed from the cycles of the graph of all identifications. There is exactly one simple cycle here, the triangle, and it is negative. The region where the triangle is active is the intersection of the three regions,
+\[
+\Ob = R_{12}\cap R_{23}\cap R_{31} = \{a_3\}\times\{s_1,s_2\},
+\]
+the aspect $a_3$ in both senses. It agrees with the table. Two things about it matter. It is a scope, like any other region of the space of units, so it can be displayed, queried, argued about and used as the region of a further claim. And it is computed exactly: it is the set of units where the criterion fails and nowhere else, so the report states a region and not a suspicion.
+
+The dossier for the family shows this region, the cycle that produces it, the three identification claims with their status at each unit of the region, and the evidence behind each. The system does not choose which identification to give up, and does not remove any. The three pages are unedited. The collection has a property that none of its members has, and the record states it.
+
+Three design commitments are at work here. The record reports and does not choose, because choosing which identification to drop would be adjudicating among pages whose authors each had reasons. It counts only identifications that currently stand, so an objection that defeats one removes an edge at the units it defeats. And it offers distinction as the honest repair when the shared name is overloaded. The next section shows each of these acts.
+
+\section{Three ways the obstruction can change}\label{sec:repairs}
+
+Each of the following is an ordinary act in the ledger. None edits a page.
+
+\subsection{An objection stands}
+
+A contributor files an undercutter against the warrant used for $e_{31}$: the passage on $P_3$ is a translation choice, and it does not assert distinction. The undercutter has the region where that warrant is used, which is $\{a_3,a_4\}\times\{s_1,s_2\}$, and an undercut of a warrant always succeeds if it stands itself.
+
+Suppose nothing attacks the undercutter, so it stands. The argument for $e_{31}$ is then defeated at the units of its region. At $a_3$ the graph of identifications that still stand has two edges, $e_{12}$ and $e_{23}$, which form a path and can be satisfied. The obstruction region is empty. At $a_4$ the identification $e_{31}$ has also been defeated, and $e_{23}$ alone remains. The triangle has lost an edge everywhere, and the obstruction has gone.
+
+Suppose instead that the undercutter is itself contested, so that its status is unresolved. Then $e_{31}$ is unresolved at $a_3$ and does not count. The record reports the obstruction at $a_3$ as \emph{potential}: it would exist if the third identification stood, and that depends on a question still open. A reader sees that the collection is not known to be inconsistent and is not known to be consistent, and sees which argument the answer depends on.
+
+\subsection{A distinction is made}
+
+A contributor files a pooling declaration stating that the name has two senses, with the operational meaning of each, and confines the identifications to the slices where they were meant. The first two concern the first sense and the third concerns the second. The regions become:
+\begin{center}
+\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+identification & region after distinction\\
+\midrule
+$e_{12}$ & $\{a_1,a_2,a_3\}\times\{s_1\}$\\
+$e_{23}$ & $\{a_2,a_3,a_4\}\times\{s_1\}$\\
+$e_{31}$ & $\{a_3,a_4\}\times\{s_2\}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+No unit lies in all three regions. The first two live on the first sense and the third on the second, so the triangle is never active and contributes nothing. The obstruction region is empty.
+
+No identification was deleted, and no page was edited. The distinction is a claim with its own arguments and is open to objection, and the dossier shows whether it stands. Where it does not stand, the obstruction returns at the units where it fails. The general fact is that confining identifications to subregions can dissolve an obstruction and can never create one, since the obstruction region is a union of intersections of regions, and shrinking a region shrinks the intersection.
+
+\subsection{Nothing is done}
+
+The obstruction stays visible, with its region. Readers see that the three pages cannot be jointly satisfied at $a_3$, and the pages themselves say nothing about it. This is a legitimate state. A record is not required to resolve every inconsistency it finds, and a stated unresolved inconsistency is more useful than an unstated one.
+
+\section{All states at a glance}\label{sec:glance}
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}X l X@{}}
+\toprule
+state of the record & obstruction region & what a reader is told\\
+\midrule
+as set up & $\{a_3\}\times\{s_1,s_2\}$ & the three identifications cannot all hold at $a_3$; the triangle is the cause\\
+undercutter stands & empty & the third identification no longer stands; the remaining two are consistent\\
+undercutter unresolved & empty, with a potential obstruction at $a_3$ & consistent if the third does not stand; the third depends on an open question\\
+distinction filed and standing & empty & the name has two senses and the identifications concern different ones\\
+distinction filed and defeated & as set up & the proposed separation of senses does not hold\\
+nothing done & $\{a_3\}\times\{s_1,s_2\}$ & unchanged\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{What the case shows}\label{sec:shows}
+
+The case exercises four things. The first is the exactness of the criterion. Because the obstruction is computed as a region from cycles, the report can say where the problem is and which identifications produce it. The second is the separation of attack from identification: nothing in the graph defeats anything, so no labeling would have found the problem. The third is that repair works through records. An objection changes which identifications stand, a distinction changes what they mean and where, and both act on the graph and leave the pages as they were. The fourth is that the built-in query for disputes caused only by operational non-equivalence returns this family, because a confinement to sense slices exists that removes the obstruction.
+
+What the case does not show is which repair is correct. That is decided in the dossier, by the arguments for and against the undercutter and the distinction and by the policy under which they are evaluated. The record exhibits the structure and does not vote.
+
+\section{What this essay does not claim}\label{sec:limits}
+
+The case uses placeholder pages, aspects and senses and describes nothing real. It makes no claim that any actual family of pages has this structure, that any actual page makes or fails to make such an identification, or that any translation choice has the effect the undercutter describes. Whether a real family exhibits an obstruction depends on what its pages assert, which can only be established from the pages and their sources. That work is research, and it has to be done before any graph is built for a real case. A careless instantiation would put claims in the record that nobody has checked.
+
+The criterion is exact only for the model used here, binary identifications with signs. The language of cohomology can describe it, since a balanced graph corresponds to a vanishing class in a group with two-element coefficients, but that description applies to this model and is not offered as a general test. For other kinds of constraint, local agreement can fail to assemble in ways that a signed cycle does not capture, and the obstruction may live in a different structure or in none that is easily named. Extending the analysis to those cases is open work.
+
+Finally, the case assumes that identifications can be stated as sameness or distinctness of a specified property over stated aspects. Real pages are rarely that tidy. A claim of identification in real prose may be vague, partial, hedged or dependent on translation, and turning it into a signed edge with a region is itself an act of interpretation, open to challenge in the record like any other.
+
+\section*{Notes}
+
+The formal results are in \emph{Adversaria: A Specification for a Public Claim Graph}. The gluing problem, the signed-cycle criterion, the obstruction region and its characterization, the cohomological reading and its limits, and the effect of distinction are in Chapter 8. The original case is Chapter 19. The treatment of objection and undercutting is in Chapter 7, and the built-in query for operational non-equivalence is in Chapter 18. The classical results mentioned are cited there: Beeri, Fagin, Maier and Yannakakis (1983) on acyclic database schemes, and Abramsky and Brandenburger (2011) on the sheaf-theoretic structure of contextuality.
+
+\end{document}

@@ -1,0 +1,59 @@
+\chapter{Three Pages and One Name}\label{ch:adam}
+
+The first case is the one that motivated the gluing analysis of Chapter~\ref{ch:distinction}: separate pages, in separate traditions or language editions, each about a figure known by one name, each locally coherent, with identification claims that cannot all hold. The case is schematic. It fixes a unit space, three pages and three identification claims, and does not assert anything about what any actual page says. Its purpose is to show, step by step, what the specification computes, what it reports, and which acts repair the situation.
+
+\section{Setup}\label{sec:case1setup}
+
+Let the unit space be $\Om=A\times S$ with $A=\{a_1,a_2,a_3,a_4\}$ the aspects of the figure's account that pages discuss, and $S=\{s_1,s_2\}$ the senses in which the name may be used. No record yet distinguishes senses, so every claim below is asserted over all of $S$. Three pages $P_1,P_2,P_3$ each make an identification claim about the figure they discuss, using the signed model of Definition~\ref{def:gluing}. Let $v_k$ record whether the property in question holds of the figure of page $P_k$.
+\begin{itemize}
+\item $e_{12}=(\{1,2\},+,R_{12})$ with $R_{12}=\{a_1,a_2,a_3\}\times S$: over these aspects the figure of $P_1$ is that of $P_2$.
+\item $e_{23}=(\{2,3\},+,R_{23})$ with $R_{23}=\{a_2,a_3,a_4\}\times S$: over these aspects the figure of $P_2$ is that of $P_3$.
+\item $e_{31}=(\{3,1\},-,R_{31})$ with $R_{31}=\{a_3,a_4\}\times S$: over these aspects the figure of $P_3$ is distinct from that of $P_1$.
+\end{itemize}
+Each identification is the conclusion of an argument. The leaf is an evidence item quoting the page's statement, with the extent of the quotation recorded and the kind \textsf{textual testimony}; the warrant is an ordinary warrant that a page's explicit identification of its figure with another is to be read as a claim of sameness or difference over the aspects it treats. The evidence is anchored, the arguments are well-formed, and no argument attacks another. At every unit of its region each is $\IN$ by Theorem~\ref{thm:labels}(c).
+
+\section{What page-by-page checking sees}\label{sec:case1pages}
+
+The active edges at an aspect are those whose region contains it. Their sign product decides balance (Theorem~\ref{thm:signed}).
+
+\begin{center}
+\small
+\begin{tabular}{@{}l l l@{}}
+\toprule
+aspect & active identifications & $G_x$\\
+\midrule
+$a_1$ & $e_{12}$ & balanced (one edge)\\
+$a_2$ & $e_{12},e_{23}$ & balanced (a path)\\
+$a_3$ & $e_{12},e_{23},e_{31}$ & \textbf{unbalanced}: sign product $(+)(+)(-)=-$\\
+$a_4$ & $e_{23},e_{31}$ & balanced (a path)\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Every pair of the three identifications is satisfiable on its own, at every aspect. No claim rebuts another, since the kernels are not opposite; no argument is attacked; every argument stands. A store that examines claims two at a time, and a labeling that resolves pairwise defeat, both report nothing. This is Counterexample~\ref{cex:triangle} with regions.
+
+\section{What the specification reports}\label{sec:case1report}
+
+By Theorem~\ref{thm:obs}(a), the obstruction region is the union over negative simple cycles of the intersection of their regions. The graph of all three edges has a single simple cycle, the triangle, and it is negative. Hence
+\[
+\mathrm{Ob}(\mathcal E)=R_{12}\cap R_{23}\cap R_{31}=\{a_3\}\times S,
+\]
+a scope, in agreement with the table. The dossier for the family shows this region, the cycle that witnesses it, the three identification claims with their status at each unit of the region, and the evidence behind each. The system does not choose which identification to give up and does not remove any. The three pages are unedited; the collection has a property that none of them has.
+
+\section{Ways the obstruction can change}\label{sec:case1repairs}
+
+Each of the following is an ordinary act in the ledger.
+
+\paragraph{An objection stands.} A contributor files an undercutter against the warrant used for $e_{31}$: the passage in $P_3$ is a translation choice and does not assert distinction. The undercutter $u$ has active region $\{a_3\}\times S$ where the warrant is used and the argument is present, and by the rules of Chapter~\ref{ch:objection} an undercut always succeeds. If $u$ has no defeater it is $\IN$, so the argument for $e_{31}$ is $\OUT$ at $a_3$; at $a_3$ the graph $G_{a_3}$ over identifications that stand has the two edges $e_{12},e_{23}$, which is balanced, and $\mathrm{Ob}=\varnothing$. At $a_4$ the edge $e_{31}$ still stands and $G_{a_4}$ is still a path. If instead $u$ is itself contested and $\UND$, the identification $e_{31}$ is $\UND$ at $a_3$; it is not counted, and the dossier reports the obstruction at $a_3$ as \emph{potential}, resting on a claim whose standing is unresolved.
+
+\paragraph{A distinction is made.} A contributor files a pooling declaration $\Delta$ (Definition~\ref{def:pooling}) stating that the name has two senses, with the operational meaning of each, and confines the identifications: $e_{12}$ and $e_{23}$ to the slice of sense $s_1$, and $e_{31}$ to the slice of sense $s_2$. The regions become
+\[
+R'_{12}=\{a_1,a_2,a_3\}\times\{s_1\},\quad R'_{23}=\{a_2,a_3,a_4\}\times\{s_1\},\quad R'_{31}=\{a_3,a_4\}\times\{s_2\}.
+\]
+No unit lies in all three, so the triangle contributes nothing, and $\mathrm{Ob}(\mathcal E')=\varnothing$ by Proposition~\ref{prop:dissolve}. No identification was deleted and no page was edited. The distinction is itself a claim with arguments, open to objection; the dossier shows whether it stands, and, where it does not, the obstruction returns at the units where it does not.
+
+\paragraph{Nothing is done.} The obstruction stays visible, with its region. Readers see that the three pages cannot be jointly satisfied at $a_3$, and the pages themselves say nothing about it.
+
+\section{What the case shows}\label{sec:case1lessons}
+
+The case exercises four results. The first is the exactness of the signed criterion, which is the only reason the report can state the obstruction as a region and not as a suspicion (Theorem~\ref{thm:obs}). The second is the separation of attack from identification: nothing in the graph defeats anything, so no labeling would have found the problem. The third is that repair is by records: an objection changes which edges stand, a distinction changes what the edges mean where, and both act on the graph and leave the pages as they were. The fourth is that the built-in query of Chapter~\ref{ch:federation} for disputes caused only by operational non-equivalence returns this family, since a confinement to sense slices exists that removes the obstruction. What the case does not show is which repair is correct. That is decided, in the dossier, by the arguments for and against the undercutter and the distinction, and by the policy under which they are evaluated.

@@ -1,0 +1,241 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\emergencystretch=3em
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+\newcommand{\IN}{\textsf{IN}}
+\newcommand{\OUT}{\textsf{OUT}}
+\newcommand{\UND}{\textsf{UND}}
+\newcommand{\nk}[1]{\neg #1}
+
+\newcounter{fr}
+\newcounter{ex}
+% A teaching frame: statement, question, then the answer under a rule.
+\newcommand{\Frame}[3]{\par\vspace{3pt}\noindent\begin{minipage}{\textwidth}\refstepcounter{fr}\noindent\textbf{Frame \thefr.}\enspace #1\par\vspace{-0.2em}\noindent\textbf{Question.}\enspace #2\par\vspace{-0.3em}\noindent\rule{0.4\textwidth}{0.4pt}\par\vspace{-0.6em}\noindent\textbf{ANSWER.}\enspace #3\par\end{minipage}\par}
+\newcommand{\Ex}[1]{\par\vspace{1pt}\refstepcounter{ex}\noindent\textbf{Exercise \theex.}\enspace #1\par}
+\newcommand{\Key}[2]{\par\noindent\textbf{#1.}\enspace #2\par}
+
+\title{A Programmed Text on Argued Claims}
+\author{Flyxion\\\small Independent Researcher}
+\date{30 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+This is a short programmed text: numbered frames that each teach one small step, ask a question, and then give the answer under a rule. It teaches five ideas from the monograph \emph{Adversaria: A Specification for a Public Claim Graph}: the claim, its scope, the argument, the attack, and the label (stands, defeated or unresolved) computed one unit at a time. A set of exercises follows, and it ends with the labels of the graph in the essay \emph{A Contested Effect} under that essay's two policies. The answer key is at the end, and every answer to every exercise was checked by running a small per-unit grounded-labeling script, as the section on checking explains. The booklet covers a small part of the model and does not stand in for the monograph. It has not been tested with students.
+\end{abstract}
+
+\section{How to use this booklet}
+
+Read a frame, then cover everything below the short rule and answer the question before reading on. Answers are printed under the word ANSWER in capitals. The frames build on each other, so work through them in order. The exercises come next. Their answers are not printed beside them and are collected in the answer key at the end.
+
+The booklet uses three labels for an argument at a unit: \IN\ (it stands), \OUT\ (it is defeated) and \UND\ (unresolved). Units are the small cases a claim is asserted over, such as a kind of patient in a kind of setting. Examples here are invented and report nothing about the world.
+
+\section{Claims and scope}
+
+\Frame{A claim says two things. One is what is asserted, with its key words pinned down. The other is where it is asserted: the places, people, periods or conditions it covers. The second is called the \emph{scope}.}{A contributor writes ``shell mulch keeps slugs off seedlings.'' What two things must be added before others can dispute it usefully?}{The exact meaning of the key words, such as what ``keeps off'' means, and the scope, meaning where the claim is asserted. \emph{By definition (Chapter 4).}}
+
+\Frame{Describe cases by coordinates. Take two: population, with values adult ($a$) and child ($c$), and setting, with values laboratory ($l$) and field ($f$). A \emph{unit} is one combination of values, such as $(a,l)$.}{How many units are there?}{Four: $(a,l)$, $(a,f)$, $(c,l)$, $(c,f)$. \emph{Checked by enumeration.}}
+
+\Frame{A scope is a set of units, called a \emph{region}. Regions are built from \emph{boxes}, sets of the form ``some populations times some settings,'' by union, intersection and complement. Write $AL$ for $(a,l)$, and so on. Take the scope $\{AL,AF,CF\}$.}{Is it a single box? If not, write it as a union of two boxes.}{No. A box containing $AL$ and $CF$ would have to contain $CL$ as well. As a union of two boxes: $\{a\}\times\{l,f\}\ \cup\ \{a,c\}\times\{f\}$. \emph{Checked by enumerating every box of the four-unit space.}}
+
+\Frame{Objections remove regions, and the scope left over is usually not a box. This is why scopes are regions and not boxes.}{A claim is asserted over all four units. An objection removes $CL$. What scope remains?}{$\{AL,AF,CF\}$, the region of the previous frame. \emph{Checked.}}
+
+\Frame{Two claims have opposite kernels when one asserts the statement and the other asserts its denial. They can both hold only where their scopes do not meet.}{A claim $\kappa$ is asserted over $\{AL,AF\}$, and its denial over $\{AF,CF\}$. Where do they conflict?}{Only at $AF$, the overlap. Outside it they do not conflict. (Chapter 4, conflict localization.) \emph{Checked by set intersection.}}
+
+\Frame{If a claim holds over a region, it holds over any smaller region inside it. This holds for kernels that can be asked of each unit separately, as all the kernels in this booklet can.}{A claim holds over all four units. Does it hold over $\{AF\}$? Does holding over $\{AF\}$ imply holding over all four?}{Yes to the first. No to the second. Narrowing never breaks a valid claim, and widening can. (Chapter 4, scope monotonicity.) \emph{Checked over every model on the four-unit space.}}
+
+\section{Arguments and attacks}
+
+\Frame{An \emph{argument} concludes a claim from evidence (its grounds) by a rule called a warrant. An \emph{objection} is itself an argument. It aims at one of three targets: the conclusion, a piece of evidence, or the warrant.}{Name the three targets and the name of an attack on each.}{The conclusion (a \emph{rebuttal}), a piece of evidence (an \emph{undermining}), the warrant (an \emph{undercut}). \emph{By definition (Chapter 7).}}
+
+\Frame{Match the objection to the target.}{(a) ``The instrument in the study was miscalibrated.'' (b) ``Evidence of this kind cannot support a claim of this kind here.'' (c) ``The opposite holds in this region.''}{(a) Undermining, aimed at the evidence. (b) Undercut, aimed at the warrant. (c) Rebuttal, aimed at the conclusion. \emph{By definition.}}
+
+\Frame{An attack bites only where three scopes meet: the scope of the attacker, the scope of the thing aimed at, and the scope of the argument attacked. This intersection is the attack's \emph{region}.}{An argument has scope $\{1,2,3,4,5\}$ and its evidence has scope $\{2,3,4\}$. An attacker of that evidence has scope $\{4,5,6\}$. What is the region of the attack?}{$\{4\}$. \emph{Checked by set intersection.}}
+
+\Frame{If the region is empty, there is no attack.}{An attacker has scope $\{6\}$ and the argument it is aimed at has scope $\{1,2\}$. Is there an attack?}{No. The regions do not meet. An objection has to say where it applies. \emph{Checked.}}
+
+\Frame{Rebuttal is symmetric. If $b$ rebuts $a$, then the conclusion of $a$ is the denial of the conclusion of $b$, so $a$ rebuts $b$ over the same region.}{$b$ rebuts $a$ at unit $x$. Does $a$ rebut $b$ at $x$?}{Yes, with the same region. \emph{By definition (Chapter 7).}}
+
+\Frame{Attacks are inherited. If an argument is built on a sub-argument, anything that attacks the sub-argument attacks the larger argument on the units they share.}{Argument $p$ is built from $a_1$ and $a_3$. An attacker $u$ attacks $a_3$ at a unit where $p$ is present. Does $u$ attack $p$ there?}{Yes, by hereditary attack. \emph{By definition (Chapter 7); checked on an example in Exercise 8.}}
+
+\Frame{A \emph{policy} may say that one argument is preferred to another on certain units. Preferences can stop only rebuttals. An undermining or an undercut always succeeds where it applies.}{Under the default policy, which attacks succeed? Which attack types can a preference ever stop?}{Under the default policy, every attack succeeds. A preference can stop only rebuttals. \emph{By definition (Chapter 7).}}
+
+\section{Labels}
+
+\Frame{Label the arguments at one unit. An argument is \IN\ if every argument attacking it is \OUT. It is \OUT\ if some argument attacking it is \IN. Otherwise it is \UND. Start from arguments nothing attacks: they are \IN. The labels come out of this rule unique, the ``grounded'' labeling.}{$b$ attacks $a$, and nothing attacks $b$. Label both.}{$b$ is \IN, because nothing attacks it. $a$ is \OUT, because $b$ attacks it and $b$ is \IN. \emph{Checked.}}
+
+\Frame{Answering an attacker restores what it attacked.}{$c$ attacks $b$, and $b$ attacks $a$. Nothing attacks $c$. Label all three.}{$c$ is \IN, $b$ is \OUT, $a$ is \IN. The attack on $a$ has itself been answered. \emph{Checked.}}
+
+\Frame{Two arguments can attack each other with nothing to break the tie.}{$a$ and $b$ attack each other and nothing else attacks either. Label both.}{Both are \UND. No argument is unattacked, so nothing starts the process, and the grounded labeling does not pick a winner. \emph{Checked.}}
+
+\Frame{Add a third argument $s$ that attacks $b$ and is unattacked.}{Label $a$, $b$ and $s$.}{$s$ is \IN, $b$ is \OUT, $a$ is \IN. A tie is broken by bringing in an answer. \emph{Checked.}}
+
+\Frame{Longer circles behave the same way when nothing outside the circle attacks a member.}{$a$ attacks $b$, $b$ attacks $c$, and $c$ attacks $a$. Nothing else. Label all three.}{All three are \UND. \emph{Checked.}}
+
+\Frame{Try a graph with no circle.}{The attacks are $d\to c$, $c\to b$, $b\to a$ and $d\to b$. Label all four.}{$d$ is \IN. $c$ is \OUT, because $d$ is \IN. $b$ is \OUT, because $d$ is \IN. $a$ is \IN, because its only attacker $b$ is \OUT. \emph{Checked.} In general a graph with no circle never has an unresolved argument (Chapter 7); this was also checked on 2,000 random graphs of this kind.}
+
+\Frame{If every attacker of an argument is \OUT, the argument is \IN. If one attacker is \IN, it is \OUT. So the middle label is narrow.}{Can an argument be \UND if all its attackers are \OUT?}{No. By the rule it would be \IN. An unresolved argument has no \IN attacker and at least one unresolved attacker. \emph{Checked on 2,000 random graphs.}}
+
+\Frame{A label describes standing, not truth. An argument that is \IN has had every challenge answered, so far, in the records under the policy. Nothing in the rule says the conclusion is correct.}{If an argument is \IN, is its conclusion true?}{Not necessarily. \IN\ means unanswered challenges are absent. \emph{By definition (Chapter 7).}}
+
+\section{Units, locality, preference and withdrawal}
+
+\Frame{Labels are computed one unit at a time, so one argument can have different labels at different units. Let $a$ hold over $\{x,y\}$ and let $b$ attack $a$ on $\{y\}$ only.}{Label $a$ and $b$ at $x$ and at $y$.}{At $x$, $a$ is \IN\ and $b$ is absent. At $y$, $b$ is \IN\ and $a$ is \OUT. \emph{Checked.}}
+
+\Frame{An objection cannot reach beyond the region it declares (Chapter 7, locality).}{A second objection with scope $\{y\}$ is added to the previous frame. Do any labels at $x$ change?}{No. \emph{Checked.}}
+
+\Frame{A preference is also regional. Let $u$ and $r$ attack each other at $x$ and at $y$, and let the policy prefer $r$ to $u$ at $y$ only.}{Label both at $x$ and at $y$.}{At $x$ both are \UND. At $y$, $r$ is \IN\ and $u$ is \OUT. \emph{Checked.}}
+
+\Frame{Two readers hold the same records but adopt different policies: the default and the one above.}{At which units do their labels differ?}{Only at $y$, where the preference applies. Same records, different policy, and the difference traces to the preferences that differ. \emph{Checked.}}
+
+\Frame{A contributor may withdraw an argument. The ledger keeps the withdrawal as a further record, and the labels then come out as if the argument and everything built on it had been deleted.}{Argument $d$ is built on $a$. Both have scope $\{x\}$, and $a$ is withdrawn. Label $a$ and $d$ at $x$.}{Both are \OUT. \emph{Checked (Chapter 9).}}
+
+\Frame{Status is more than a label. It has several separate parts. One is replication, written $(r^+,r^-)$: the number of independent families of evidence that found the result, and the number that tried to repeat it and failed.}{A claim has $(r^+,r^-)=(2,0)$ at a unit. An independent group declares a protocol and fails to reproduce it. What is the new pair? Does any label change?}{$(2,1)$. No label changes, because a failed replication is not an argument and attacks nothing; it adds to $r^-$ and to nothing else. \emph{Pair checked; the second part is by definition (Chapter 17).}}
+
+\Frame{Status can be compared: one status \emph{dominates} another when it is at least as good on every component. Take two claims. $c_1$ rests on one controlled trial: $r^+=1$ and method strength $2$ (interventional). $c_2$ rests on three independent observational studies: $r^+=3$ and method strength $1$.}{Does either dominate the other?}{No. They are incomparable: $c_1$ is better on method strength and $c_2$ on independent families. \emph{Checked.}}
+
+\Frame{A single score must still rank an incomparable pair, and the record says nothing about how. Weights decide. Score $=w_r\,r^++w_m\,(\text{method strength})$ for the pair above.}{With weights $(w_r,w_m)=(1,1)$ which claim scores higher? With $(1,3)$? For which weights does $c_1$ score higher?}{With $(1,1)$, $c_2$ scores $4$ and $c_1$ scores $3$. With $(1,3)$, $c_1$ scores $7$ and $c_2$ scores $6$. $c_1$ scores higher exactly when $w_m>2w_r$. \emph{Checked over a grid of weights.} The monograph proves that no scalar represents dominance once an incomparable pair exists (Chapter 12).}
+
+\section{Exercises}
+
+Answers are in the key at the end, after the section on how they were checked.
+
+\Ex{Take population $\{$adult, teen, child$\}$ and setting $\{$lab, field$\}$. (a) How many units are there? (b) A claim is asserted everywhere except for teens and children in the lab. How many units are in its scope? (c) Is that scope a single box? (d) If not, write it as a union of two boxes.}
+
+\Ex{A kernel $\kappa$ is asserted over $\{$adult-lab, adult-field, teen-field$\}$, and its denial over $\{$teen-field, child-field, teen-lab$\}$. (a) Where do the claims conflict? (b) Is there any model in which both hold?}
+
+\Ex{An argument has scope $\{1,2,3,4\}$. The warrant it uses is valid on $\{1,2,3\}$. An objection with scope $\{2,3,4,5\}$ concludes that the warrant is not valid. What is the region of the attack?}
+
+\Ex{The attacks are $B\to A$, $C\to B$ and $D\to C$. Label $A$, $B$, $C$ and $D$.}
+
+\Ex{The attacks are $a\to b$, $b\to a$, $c\to a$, $e\to c$ and $b\to d$. Label all five.}
+
+\Ex{Units are $x$, $y$, $z$. Argument $a$ holds at all three. Argument $b$ holds at $y$ and $z$ and attacks $a$ on $\{y,z\}$. Argument $c$ holds at $z$ only and attacks $b$ on $\{z\}$. Nothing else attacks anything. Label every argument present at each unit.}
+
+\Ex{Arguments $u$ and $r$ hold at units $x$ and $y$ and rebut each other at both. The policy says $u$ is less preferred than $r$ at $x$ only. Label both at $x$ and at $y$.}
+
+\Ex{Units are $x_1$ and $x_2$. Argument $a$ holds at both and rests on one piece of evidence. Argument $b$ holds at $x_2$ only. Argument $p$ is built from $a$ and $b$ and holds at both units. An objection $c$ holds at $x_1$ only and undermines the evidence of $a$. Label every argument present at each unit.}
+
+\Ex{Units are $x$ and $y$. Argument $a$ holds at both. Argument $d$ is built on $a$ and holds at $x$ only. Argument $z$ is unrelated and holds at both. The author withdraws $a$. Label $a$, $d$ and $z$ at each unit where they are present.}
+
+\Ex{A claim has $(r^+,r^-)=(2,0)$ at a unit. A failed replication is recorded. (a) What is the new pair? (b) Comparing $(r^+,r^-)$ only, does the old status dominate the new, does the new dominate the old, or are they incomparable?}
+
+\Ex{Claim $c_1$ has $r^+=1$ and method strength $2$. Claim $c_2$ has $r^+=3$ and method strength $1$. (a) Are they comparable? (b) With weights $(w_r,w_m)=(1,1)$ which scores higher? (c) With weights $(1,3)$? (d) State the condition on the weights for $c_1$ to score higher.}
+
+\medskip
+The last four exercises use the graph of the essay \emph{A Contested Effect}. The units are children in school ($CS$), children in a clinic ($CC$), adults in a clinic ($AC$) and adults in school ($AS$). The arguments are as follows.
+\begin{itemize}[nosep]
+\item $a_1$ concludes $\kappa$ over $\{CS,CC\}$ from a randomized trial.
+\item $a_3$ concludes $\kappa$ over $\{AC\}$ from a cohort study, under a warrant $w$.
+\item $p$ pools $a_1$ and $a_3$ and concludes $\kappa$ over $\{CS,CC,AC\}$.
+\item $n$ concludes $\nk\kappa$ over $\{AS\}$ from an equivalence trial.
+\item $u$ undercuts the warrant $w$, over $\{AC\}$.
+\item $r$ concludes that $w$ is valid, over $\{AC\}$. The arguments $u$ and $r$ rebut each other.
+\end{itemize}
+Policy $\mathcal P$ has no preferences. Policy $\mathcal P'$ prefers $r$ to $u$ at $AC$, that is, $u$ is less preferred than $r$ at $AC$.
+
+\Ex{Only $a_1$, $a_3$, $p$ and $n$ are on record. Label every argument present at each unit.}
+
+\Ex{The argument $u$ is added. Label every argument present at each unit.}
+
+\Ex{The argument $r$ is added too. Under policy $\mathcal P$, label every argument present at each unit.}
+
+\Ex{The same records, under policy $\mathcal P'$. Label every argument present at each unit. Then say at which units the labels under $\mathcal P$ and $\mathcal P'$ differ.}
+
+\section{How the answers were checked}\label{sec:checked}
+
+Every answer to every exercise in this booklet was checked by running a small per-unit grounded-labeling script. The script follows Chapter 7 of the monograph. It takes arguments with their conclusions, scopes, warrants and evidence, derives the attacks from the rules for rebutting, undermining and undercutting, passes the attacks up to the arguments built on them, applies the preferences of a policy to rebuttals, and then computes the grounded labeling at each unit. A second and independent implementation of the labeling, which applies the rules repeatedly until nothing changes, was run on every graph in the booklet and always agreed with the first. The script also checks the set answers (units, regions, overlaps), the counts and the comparisons on the coded status values, and it tests several rules on random graphs: that a graph without a circle has no unresolved argument, that an unresolved argument has an unresolved attacker, and that an objection changes no label outside its region.
+
+The answers in the key and in the frames were compared with the script's output, and every assertion passed. Frames that restate a definition are marked \emph{by definition}; they are not computed. The script is not reproduced in full, and its labeling core is printed in the appendix so that a reader can rerun any small case.
+
+\section{Answer key}\label{sec:key}
+
+Each answer below was checked by the script. The last four are tables of labels at each unit; a dash means the argument is not present at that unit.
+
+\Key{Exercise 1}{(a) 6. (b) 4. (c) No. (d) $\{\text{adult}\}\times\{\text{lab},\text{field}\}\ \cup\ \{\text{adult},\text{teen},\text{child}\}\times\{\text{field}\}$.}
+\Key{Exercise 2}{(a) Only at teen-field. (b) No. A model would have to make $\kappa$ true and false at teen-field.}
+\Key{Exercise 3}{$\{2,3\}$, the intersection of the three scopes $\{2,3,4,5\}$, $\{1,2,3\}$ and $\{1,2,3,4\}$.}
+\Key{Exercise 4}{$A$ is \OUT, $B$ is \IN, $C$ is \OUT, $D$ is \IN.}
+\Key{Exercise 5}{$a$ is \UND, $b$ is \UND, $c$ is \OUT, $d$ is \UND, $e$ is \IN. Answering $c$ does not help $a$, because $b$ and $a$ still attack each other, and $d$ is attacked by the unresolved $b$.}
+\Key{Exercise 6}{At $x$: $a$ is \IN. At $y$: $a$ is \OUT, $b$ is \IN. At $z$: $c$ is \IN, $b$ is \OUT, $a$ is \IN.}
+\Key{Exercise 7}{At $x$: $r$ is \IN and $u$ is \OUT. At $y$: both are \UND.}
+\Key{Exercise 8}{At $x_1$: $c$ is \IN, $a$ is \OUT, $p$ is \OUT. At $x_2$: $a$, $b$ and $p$ are \IN.}
+\Key{Exercise 9}{At $x$: $a$ is \OUT, $d$ is \OUT, $z$ is \IN. At $y$: $a$ is \OUT, $z$ is \IN.}
+\Key{Exercise 10}{(a) $(2,1)$. (b) The old status dominates the new: it is at least as good on both coordinates and better on $r^-$.}
+\Key{Exercise 11}{(a) No, they are incomparable. (b) $c_2$ scores $4$ against $3$. (c) $c_1$ scores $7$ against $6$. (d) $w_m>2w_r$.}
+\Key{Exercise 12}{\par\smallskip\noindent \begin{tabular}{@{}lcccc@{}}\toprule
+unit & $a_1$ & $a_3$ & $p$ & $n$ \\\midrule
+CS & \textsf{IN} & -- & \textsf{IN} & -- \\
+CC & \textsf{IN} & -- & \textsf{IN} & -- \\
+AC & -- & \textsf{IN} & \textsf{IN} & -- \\
+AS & -- & -- & -- & \textsf{IN} \\
+\bottomrule\end{tabular}}
+\Key{Exercise 13}{\par\smallskip\noindent \begin{tabular}{@{}lccccc@{}}\toprule
+unit & $a_1$ & $a_3$ & $p$ & $n$ & $u$ \\\midrule
+CS & \textsf{IN} & -- & \textsf{IN} & -- & -- \\
+CC & \textsf{IN} & -- & \textsf{IN} & -- & -- \\
+AC & -- & \textsf{OUT} & \textsf{OUT} & -- & \textsf{IN} \\
+AS & -- & -- & -- & \textsf{IN} & -- \\
+\bottomrule\end{tabular}}
+\Key{Exercise 14 (policy $\mathcal P$)}{\par\smallskip\noindent \begin{tabular}{@{}lcccccc@{}}\toprule
+unit & $a_1$ & $a_3$ & $p$ & $n$ & $u$ & $r$ \\\midrule
+CS & \textsf{IN} & -- & \textsf{IN} & -- & -- & -- \\
+CC & \textsf{IN} & -- & \textsf{IN} & -- & -- & -- \\
+AC & -- & \textsf{UND} & \textsf{UND} & -- & \textsf{UND} & \textsf{UND} \\
+AS & -- & -- & -- & \textsf{IN} & -- & -- \\
+\bottomrule\end{tabular}}
+\Key{Exercise 15 (policy $\mathcal P'$)}{\par\smallskip\noindent \begin{tabular}{@{}lcccccc@{}}\toprule
+unit & $a_1$ & $a_3$ & $p$ & $n$ & $u$ & $r$ \\\midrule
+CS & \textsf{IN} & -- & \textsf{IN} & -- & -- & -- \\
+CC & \textsf{IN} & -- & \textsf{IN} & -- & -- & -- \\
+AC & -- & \textsf{IN} & \textsf{IN} & -- & \textsf{OUT} & \textsf{IN} \\
+AS & -- & -- & -- & \textsf{IN} & -- & -- \\
+\bottomrule\end{tabular}\par\smallskip The labels under $\mathcal P$ and $\mathcal P'$ differ only at $AC$, where $a_3$, $p$, $u$ and $r$ are \UND\ under $\mathcal P$, while under $\mathcal P'$ $a_3$, $p$ and $r$ are \IN\ and $u$ is \OUT. At $CS$, $CC$ and $AS$ nothing changes, and the claim $\kappa$ stands at $CS$, $CC$ and, under $\mathcal P'$, at $AC$. These are the labels of the essay \emph{A Contested Effect}.}
+
+\section{What this booklet does not show}\label{sec:limits}
+
+The booklet covers a small part of the model. It does not teach warrants and their backings, the structural rules, independence families, the full status vector, ontologies, routing, gates or federation, and it gives no proofs. It teaches one labeling, the grounded one, and does not compare it with others. The checking shows that the booklet's answers agree with a careful implementation of the definitions in the monograph, including a second implementation of the labeling. It does not test the monograph's proofs, and it does not show that the implementation and the monograph agree on cases that the booklet does not cover. The booklet has not been tried with students, and it does not show that frame by frame practice teaches the rules better than another method. The examples are invented and report nothing about any real study, program or dispute.
+
+\section*{Notes}
+
+% TODO(literature): where a related-work discussion would go, cover the literature on programmed instruction and worked-example teaching, and on teaching argumentation frameworks to beginners.
+
+Related work is deliberately not surveyed in this draft.
+
+The booklet draws on the monograph \emph{Adversaria: A Specification for a Public Claim Graph}: units, regions and the scope algebra, claims and kernels, scope monotonicity and conflict localization (Chapter 4); warrants and the structural warrants that pool and restrict (Chapter 6); objections, targets, attacks, hereditary attack, policies, defeat, grounded labeling, locality and the shapes of disagreement (Chapter 7); withdrawal (Chapter 9); the status vector, replication counts, dominance and scalar inadequacy (Chapter 12); failed replications (Chapter 17); and the original case (Chapter 20) with its treatment in the essay \emph{A Contested Effect}.
+
+\appendix
+\section{The labeling core}
+
+The function below computes the grounded labeling at one unit. The input is the set of arguments present at the unit and the set of pairs $(b,a)$ meaning that $b$ defeats $a$ there. It returns \texttt{IN}, \texttt{OUT} or \texttt{UND} for each argument, following the definition in Chapter 7.
+
+\begin{small}
+\begin{verbatim}
+def grounded(nodes, defeats):
+    att = {a: {b for (b, x) in defeats if x == a} for a in nodes}
+    S = set()
+    while True:
+        # a is acceptable if every attacker is itself attacked by S
+        T = {a for a in nodes
+             if all(any((s, b) in defeats for s in S) for b in att[a])}
+        if T == S:
+            break
+        S = T
+    OUT = {a for a in nodes if any((s, a) in defeats for s in S)}
+    return {a: 'IN' if a in S else ('OUT' if a in OUT else 'UND')
+            for a in nodes}
+\end{verbatim}
+\end{small}
+
+For example, \texttt{grounded(\{'a','b'\}, \{('a','b'),('b','a')\})} returns \texttt{UND} for both, as in the frame on mutual attack.
+
+\end{document}

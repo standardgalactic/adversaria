@@ -1,0 +1,38 @@
+\chapter{Inventory of Results}\label{app:inventory}
+
+The table lists the principal formally stated results of Part III (theorems, with the propositions and corollaries that carry a structural guarantee), with their labels and the properties they guarantee. Definitions, design rules, counterexamples and design arguments are not listed: they record choices, not guarantees.
+
+{\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.26\textwidth} >{\raggedright\arraybackslash}p{0.27\textwidth} >{\raggedright\arraybackslash}p{0.41\textwidth}@{}}
+\toprule
+guarantee & result & content\\
+\midrule
+\endhead
+scope monotonicity & Thm.~\ref{thm:monotone} & narrowing a scope preserves satisfaction; additivity over disjoint scopes\\
+conflict localization & Prop.~\ref{prop:conflict}, \ref{prop:localize} & opposite-kernel claims conflict exactly on the intersection of their scopes\\
+no implicit support transitivity & Thm.~\ref{thm:nowarrant}, Prop.~\ref{prop:suppnotrans} & claims alone entail nothing; chaining intersects scopes\\
+soundness and tightness of arguments & Thm.~\ref{thm:sound}, \ref{thm:tight} & conclusion scope is exactly what the grounds license\\
+defeat-label consistency & Thm.~\ref{thm:labels} & grounded labels are conflict-free, minimal and unique\\
+non-explosion & Cor.~\ref{cor:explosion} & inconsistent argument does not license arbitrary conclusions\\
+policy-relative defeat & Thm.~\ref{thm:policy} & defeat is a function of policy; labels can differ across policies\\
+sense decomposition & Thm.~\ref{thm:decomp}, \ref{thm:nosense} & pooled claims decompose by sense; no generalization across senses\\
+gluing obstruction (signed case) & Thm.~\ref{thm:signed}, \ref{thm:obs} & a page family is satisfiable iff no negative cycle; obstruction region is a scope\\
+ledger validity and stability & Thm.~\ref{thm:valid} & valid ledgers are closed and prefix-stable\\
+lineage preservation & Thm.~\ref{thm:lineage}, \ref{thm:withdraw} & revision history is acyclic and immutable; withdrawal is deletion up to labeling\\
+replay determinism & Thm.~\ref{thm:replay} & projection depends on the record set and policy only\\
+federated divergence traceability & Thm.~\ref{thm:trace} & every difference is attributed to records or to policy\\
+evaluation separation & Prop.~\ref{prop:separation} & labeling ignores non-argumentative metadata\\
+slice compatibility & Thm.~\ref{thm:slice} & the relation algebra is a family of ordinary algebras\\
+constraint monotonicity, order independence & Thm.~\ref{thm:constraint} & constraints compose monotonically and commutatively\\
+preservation under constraint composition & Thm.~\ref{thm:preserve}, \ref{thm:reversible}, \ref{thm:survivor} & soundness and status survive composition; reversible; unique survivor\\
+scalar inadequacy & Thm.~\ref{thm:noscalar}, Cor.~\ref{cor:norank} & no scalar represents a nontotal dominance preorder; monotone scalars can disagree on every incomparable pair\\
+transport of arguments along mappings & Thm.~\ref{thm:transport}, \ref{thm:transportdefeat} & transport warrants are sound; transport is exactly as defeasible as the mapping\\
+routing and evaluation & Prop.~\ref{prop:localview}, \ref{prop:oneway} & a routed view can manufacture apparent standing; evaluation does not depend on routing\\
+ledger time and authorization & Prop.~\ref{prop:ledgertime}, \ref{prop:prefix}, \ref{prop:planes}, \ref{prop:revoke} & ledger time is not contributor-controlled; prefix projections are immutable; authorization is outside the defeat graph; revocation is prospective\\
+gates and restrictions & Prop.~\ref{prop:capnostanding}, \ref{prop:reconneutral}, \ref{prop:expire} & capability confers no standing; reconstruction gate is position-neutral; restrictions expire\\
+proof objects & Prop.~\ref{prop:proofcheck}, \ref{prop:certified} & complete objects are locally checkable; certified against a commitment\\
+negative outcomes & Prop.~\ref{prop:negsupport}, \ref{prop:nopositivity} & null detection opposes nothing by itself; evaluation has no positivity bias\\
+batches and imports & Prop.~\ref{prop:importfamily}, Cor.~\ref{cor:batchwithdraw} & an import is one family; batch withdrawal is deletion up to labeling\\
+federation & Prop.~\ref{prop:eventlayer}, \ref{prop:divexplain} & convergence of records only; divergence is explained by a report\\
+\bottomrule
+\end{longtable}}

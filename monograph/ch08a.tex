@@ -1,0 +1,98 @@
+\chapter{Distinction, Dependency and Gluing}\label{ch:distinction}
+
+Most long disputes are not disputes about a fact. They are disputes about which of several things a sentence means, about how much of the truth of one claim rests on another, or about pages that were written separately and never checked against one another. This chapter gives each a precise form. Distinction splits an overloaded term into its senses without rewriting anyone's words. Dependency records that one conclusion stands on another and makes the dependence enforceable. Gluing asks when separately written local accounts can be assembled into one, and names the obstruction when they cannot.
+
+\section{Overloaded terms and senses}
+
+A phrase such as ``emotional differentiation'' can stand for several constructs with different operational meanings. Claims made about the phrase then look like one dispute and are really several. Adversaria does not resolve this by choosing a meaning. It records the overload and lets each sense carry its own dossier.
+
+Let $s\in D$ be a dimension of \emph{sense} with $U_s=\{s_1,\dots,s_k\}$, $k\ge2$, and write $\Om_i=\{x\in\Om: x_s=s_i\}$ for the slice of units at sense $s_i$.
+
+\begin{definition}[Pooling declaration]\label{def:pooling}
+A \emph{pooling declaration} is a tuple $\Delta=(\kap^*;\,s;\,\kap_1,\dots,\kap_k)$ of kernels sharing a grain that refines the partition $\{\Om_1,\dots,\Om_k\}$. Here $\kap_i$ is the kernel with the operational meaning $\mu_i$ of sense $s_i$, and $\kap^*$ is the \emph{umbrella} kernel, whose statement is the overloaded phrase. A model $M$ \emph{satisfies} $\Delta$ if
+\[
+[\kap^*]_M=\bigcup_{i=1}^k\bigl([\kap_i]_M\cap\Om_i\bigr).
+\]
+\end{definition}
+
+The umbrella kernel holds at a unit exactly when the kernel of that unit's sense does. A declaration is a ledger record: an argument that the term is overloaded, contestable like any other claim, and it changes no existing record.
+
+\begin{theorem}[Decomposition]\label{thm:decomp}
+Let $M$ satisfy $\Delta$ and let $\sigma$ be a scope admissible for $\kap^*$. Then $M\models(\kap^*,\sigma)$ iff $M\models(\kap_i,\sigma\cap\Om_i)$ for every $i$ with $\sigma\cap\Om_i\ne\varnothing$.
+\end{theorem}
+
+\begin{proof}
+$\sigma\subseteq[\kap^*]_M$ iff for each $i$, $\sigma\cap\Om_i\subseteq[\kap^*]_M\cap\Om_i=[\kap_i]_M\cap\Om_i$, iff $\sigma\cap\Om_i\subseteq[\kap_i]_M$. The scope $\sigma\cap\Om_i$ is admissible for $\kap_i$ because the common grain refines the slices.
+\end{proof}
+
+A claim about the umbrella term is therefore exactly the conjunction of its claims about the senses, each over its own slice. No content is created or destroyed by a distinction.
+
+\begin{theorem}[No generalization across senses]\label{thm:nosense}
+Let $I\subsetneq\{1,\dots,k\}$ and let $\sigma$ be an admissible scope meeting $\Om_j$ for some $j\notin I$. No set of claims about kernels $\kap_i$ with $i\in I$ entails $(\kap^*,\sigma)$ in the models of $\Delta$.
+\end{theorem}
+
+\begin{proof}
+Set $[\kap_i]_M=\Om$ for $i\in I$, $[\kap_j]_M=\varnothing$ for $j\notin I$, and define $[\kap^*]_M$ by $\Delta$, other kernels arbitrary. Every claim about a $\kap_i$ with $i\in I$ is true in $M$. A unit of $\sigma\cap\Om_j$ lies outside $[\kap^*]_M$, so $(\kap^*,\sigma)$ is false in $M$.
+\end{proof}
+
+This is the formal reason a finding about one construct cannot silently stand in for another under a shared name. Evidence for one sense supports the umbrella claim only on that sense's slice, through an explicit \textsc{Lift} step that takes fillers for $\kap_1,\dots,\kap_k$ over slices to $\kap^*$ over their union. \textsc{Lift} is a structural warrant like \textsc{Pool}: valid in all models of $\Delta$ by Theorem~\ref{thm:decomp}, with $\scope(c)$ contained in the union of the filler scopes and no filler required for a slice the conclusion does not reach.
+
+\section{Restriction and pooling preserve status}
+
+A distinction, a constraint or a pooling step makes new claims out of old ones. It matters whether the new claims inherit the standing of the old ones or acquire standing they have not earned. The first requirement is a condition on policies.
+
+\begin{designrule}[Restriction-coherent preference]\label{rule:coherent}
+If $a'$ is a restriction of $a$ (the argument \textsc{Restrict}$(a)$ with $\sigma(a')\subseteq\sigma(a)$), a policy must treat $a'$ as it treats $a$ on the units $a'$ covers: $\langle a'\prec b\rangle\cap\sigma(a')=\langle a\prec b\rangle\cap\sigma(a')$ and $\langle b\prec a'\rangle\cap\sigma(a')=\langle b\prec a\rangle\cap\sigma(a')$ for every $b$.
+\end{designrule}
+
+Without the rule, a policy could rank an argument and its own restriction differently and thereby manufacture a preference out of a notational change.
+
+\begin{lemma}[Twins]\label{lem:twins}
+Fix $x$ and suppose $a,a'\in\mathcal A_x$ neither defeat each other, have the same defeaters at $x$, and defeat the same arguments at $x$. Then $\Lab(a,x)=\Lab(a',x)$, and deleting $a'$ leaves the labels of all other arguments at $x$ unchanged.
+\end{lemma}
+
+\begin{proof}
+Let $\Phi,\Phi_0$ be the operators of the framework with and without $a'$, and put $S_n=\Phi^n(\varnothing)$, $S_n^0=\Phi_0^n(\varnothing)$. We show by induction that $S_n\setminus\{a'\}=S^0_n$ and that $a'\in S_n$ iff $a\in S^0_n$. The case $n=0$ is trivial. Assume it for $n$.
+
+Let $c\ne a'$. The defeaters of $c$ in the larger framework are those in the smaller one, together with $a'$ if $a'$ defeats $c$; and then $a$ defeats $c$ too. For a defeater $d\ne a'$, ``some member of $S_n$ defeats $d$'' holds iff some member of $S_n^0$ does: a witness $a'$ can be replaced by $a$ (twins defeat the same arguments) and $a'\in S_n$ iff $a\in S^0_n$. For the defeater $d=a'$, ``some member of $S_n$ defeats $a'$'' holds iff some member of $S^0_n$ defeats $a$ (same defeaters, and $a'$ itself is not one of them). Hence $c\in\Phi(S_n)$ iff $c\in\Phi_0(S^0_n)$. The same reasoning applied to $a'$ in place of $c$ gives $a'\in\Phi(S_n)$ iff $a\in\Phi_0(S_n^0)$.
+
+Thus the least fixed points correspond in the same way. An argument is $\OUT$ iff a member of $\IN$ defeats it, and $a'$ contributes nothing new as a defeater since $a$ does the same, so the $\OUT$ sets correspond too.
+\end{proof}
+
+\begin{theorem}[Restriction preserves status]\label{thm:restrictstatus}
+Let policies be restriction-coherent. Let $a$ be a well-formed argument, $\tau\subseteq\sigma(a)$ an admissible nonempty scope and $a'=\textsc{Restrict}(a)$ the argument concluding $\concl(a)|_\tau$. Then for every $x\in\tau$, $\Lab(a',x)=\Lab(a,x)$, and adding $a'$ to the ledger changes no label of any argument already present.
+\end{theorem}
+
+\begin{proof}
+Fix $x\in\tau$. We check the twin hypotheses of Lemma~\ref{lem:twins}. Defeaters of $a'$ at $x$: any attack on $a'$ is on its conclusion, its filler $a$, or a sub-argument of $a$; the first is a rebuttal of the same kernel as $\concl(a)$ with a region that at $x$ coincides with that of the corresponding rebuttal of $a$; the others are hereditary attacks that are also hereditary attacks on $a$. \textsc{Restrict} has no warrant or evidence of its own to target. Success under the policy agrees by Design rule~\ref{rule:coherent}. Conversely every defeater of $a$ at $x$ is a defeater of $a'$ at $x$ because $x\in\tau=\sigma(a')$. The same reasoning applies to what $a$ and $a'$ defeat. Neither defeats the other: they have the same conclusion kernel, not opposite ones, and by (W5) that kernel denies no component of the tree they share, since $a'$ has $a$ as its filler. Lemma~\ref{lem:twins} gives both assertions at $x\in\tau$. For $x\notin\tau$, $a'$ is absent, so nothing changes.
+\end{proof}
+
+The theorem is the foundation for constraint (Chapter~\ref{ch:constraint}): the surviving remainder of a challenged claim, stated as a restriction, is $\IN$ exactly where the original was, and no standing appears from the act of restating.
+
+\section{Dependency}
+
+Every argument depends on the sub-arguments that fill its slots, and a claim depends on the claims those sub-arguments conclude.
+
+\begin{definition}[Dependence between claims]
+Claim $c$ \emph{depends on} claim $d$ over $\tau$ when some well-formed argument for $c$ has a sub-argument concluding $d$, $\tau$ being the intersection of the two scopes.
+\end{definition}
+
+Lemma~\ref{lem:hereditary} is the dependency guarantee: an argument is $\IN$ at a unit only if every sub-argument present there is $\IN$, and it is $\OUT$ whenever one is. Two further facts follow from the definitions and are worth stating, because both concern circularity.
+
+\begin{proposition}[Every argument grounds out in evidence]\label{prop:grounds}
+Every well-formed argument has at least one leaf, and all its leaves are anchored evidence items.
+\end{proposition}
+
+\begin{proof}
+Induction on height. An ordinary warrant has $k\ge1$ premises, and each filler is an evidence item, which is a leaf, or a smaller argument, which has a leaf by hypothesis. \textsc{Restrict}, \textsc{Pool} and \textsc{Lift} have at least one filler. Anchoring is (W3).
+\end{proof}
+
+\begin{proposition}[Cycles among claims do not bootstrap support]\label{prop:nocircle}
+The dependence relation between claims may contain cycles, while every argument is a finite well-founded tree.
+\end{proposition}
+
+\begin{proof}
+Let $c_1$ have an argument whose sub-argument concludes $c_2$, and let $c_2$ have a different argument whose sub-argument concludes $c_1$. Both are finite trees, and each must be inscribed after its sub-arguments; the two arguments have different roots and share no path. Every tree has anchored leaves by Proposition~\ref{prop:grounds}, so neither claim is supported by the other's support alone.
+\end{proof}
+
+Mutual dependence between claims is a legitimate feature of coherent bodies of knowledge, which is why it is permitted. What is never permitted is a proof that supports itself: an argument cannot have itself among its sub-arguments. Claim-level cycles are flagged in the dossier as a fact about its structure, and the labeling of Chapter~\ref{ch:objection} is unaffected by them.

@@ -1,0 +1,171 @@
+\section{Dominance}\label{sec:dominance}
+
+Two claims can be compared at a unit where both are defined. The comparison the model supports is the coordinatewise one: a status is at least as good as another when it is at least as good on every component that bears on standing.
+
+\begin{definition}[Dominance]\label{def:dominance}
+Let $c,c'$ be claims and $x\in\sigma(c)\cap\sigma(c')$. Write $c\preceq_x c'$, read ``$c'$ dominates or equals $c$ at $x$'', when all of the following hold, for $S(c)(x)=(E,R,C,G,A,U)$ and $S(c')(x)=(E',R',C',G',A',U')$:
+\begin{enumerate}[label=(\roman*)]
+\item $E\subseteq E'$;
+\item $r^+\le r'^+$ and $r^-\ge r'^-$;
+\item $C\le C'$ in the rung ladder, with $\bot$ lowest;
+\item $G(c)_d\subseteq G(c')_d$ for every dimension $d\in D$;
+\item $|U|\ge|U'|$.
+\end{enumerate}
+The coordinate $A$ is excluded. Write $c\prec_x c'$ when $c\preceq_x c'$ and not $c'\preceq_x c$, and say $c,c'$ are \emph{incomparable at $x$} when neither $c\preceq_x c'$ nor $c'\preceq_x c$.
+\end{definition}
+
+The exclusion of $A$ is the content of Proposition~\ref{prop:agreement} carried into comparison. Agreement has no defeat power, so it must not have promotion power either, or a count of acceptances would move a claim upward in an order that is meant to reflect what stands.
+
+\begin{designrule}[Agreement is not a coordinate of dominance]\label{rule:noagree}
+No comparison of statuses that the system computes or displays as a ranking uses $A$. Views that show $A$ show it beside the comparison and not inside it.
+\end{designrule}
+
+\begin{proposition}[Dominance is a preorder]\label{prop:preorder}
+For each unit $x$, $\preceq_x$ is reflexive and transitive on the claims defined at $x$, and $\prec_x$ is irreflexive and transitive.
+\end{proposition}
+
+\begin{proof}
+Each of (i)--(v) is a reflexive and transitive condition, being inclusion, $\le$ or $\ge$ on a coordinate, and a conjunction of such conditions is again reflexive and transitive. For $\prec_x$: irreflexivity is immediate. If $c\prec_x c'\prec_x c''$ then $c\preceq_x c''$ by transitivity; if also $c''\preceq_x c$ then $c'\preceq_x c''\preceq_x c$, contradicting $c\prec_x c'$.
+\end{proof}
+
+The preorder is not total, and this is where the specification departs from every scalar reputation scheme. The point is stated for a schematic pair, with the realizability stated explicitly.
+
+\begin{example}[An incomparable pair]\label{ex:incomparable}
+Let $c_1$ and $c_2$ share a unit $x$ and be supported at $x$ as follows, with no unresolved defeaters at $x$ in either case. The claim $c_1$ has one interventional trial as its only leaf, so $E=\{\textsf{trial}\}$, $r^+=1$, $r^-=0$ and $C=\textsf{interventional}$. The claim $c_2$ has three observational studies from three independence families as leaves, so $E=\{\textsf{observational}\}$, $r^+=3$, $r^-=0$ and $C=\textsf{observational}$. Then $C(c_2)<C(c_1)$ while $r^+(c_1)<r^+(c_2)$, and the two evidence profiles are incomparable under inclusion. Hence $c_1$ and $c_2$ are incomparable at $x$.
+\end{example}
+
+The example is realizable by a valid ledger: each claim is the conclusion of an argument built from one warrant and the stated leaves, with the leaves anchored to sources of the stated kinds. Nothing in it depends on the particular numbers, only on the two facts that replication and identification strength are separate coordinates and that neither is derived from the other.
+
+\section{Scalar summaries are not determined by the data}\label{sec:scalar}
+
+A scalar summary is a function $s$ from statuses to the real numbers. Two properties are asked of it in practice: it should respect dominance, and it should order all claims. The next theorem says that the first is easy, that the second is available only by making a choice that the dossier does not contain, and that the choice can go either way.
+
+Fix a finite set $V$ of status values with the preorder $\preceq$ and its strict part $\prec$; for a fixed ledger, and a fixed unit, the values realized by the finitely many claims form such a set.
+
+\begin{definition}[Monotone scalar; representation]\label{def:monotone}
+A function $s:V\to\mathbb R$ is \emph{monotone} if $u\prec v$ implies $s(u)<s(v)$. It \emph{represents} the preorder if $u\preceq v\Leftrightarrow s(u)\le s(v)$ for all $u,v\in V$.
+\end{definition}
+
+\begin{theorem}[Scalar inadequacy]\label{thm:noscalar}
+Let $(V,\preceq)$ be a finite preorder.
+\begin{enumerate}[label=(\alph*)]
+\item A monotone scalar exists.
+\item If $u,v\in V$ are incomparable, there exist monotone scalars $s_1,s_2$ with $s_1(u)<s_1(v)$ and $s_2(v)<s_2(u)$.
+\item Some scalar represents $\preceq$ if and only if $\preceq$ is total, that is, if and only if there is no incomparable pair.
+\end{enumerate}
+Consequently, when $V$ contains an incomparable pair (as it does for the statuses of Example~\ref{ex:incomparable}), no scalar represents dominance. A monotone scalar must nevertheless assign every incomparable pair a numerical comparison, possibly a tie, that dominance does not determine; moreover, for every such pair, monotone scalars exist giving either strict orientation.
+\end{theorem}
+
+\begin{proof}
+For a strict partial order $\lhd$ on a finite set define the height $h_\lhd(v)$ as the greatest $n$ for which there is a chain $v_0\lhd v_1\lhd\dots\lhd v_n=v$. This is well defined because the set is finite and $\lhd$ is irreflexive and transitive. If $u\lhd v$ then every chain ending at $u$ extends to a chain ending at $v$, so $h_\lhd(v)\ge h_\lhd(u)+1$: the height is strictly monotone for $\lhd$.
+
+(a) Take $\lhd$ to be $\prec$, a strict partial order by Proposition~\ref{prop:preorder}, and $s=h_\prec$.
+
+(b) Define $\lhd_1$ on $V$ by $a\lhd_1 b$ if $a\prec b$, or if $a\preceq u$ and $v\preceq b$. Let $T$ be its transitive closure. It is enough to show that $T$ is irreflexive, for then $T$ is a strict partial order containing $\prec$, and $s_1=h_T$ is monotone for $\prec$ and satisfies $s_1(u)<s_1(v)$, since $u\lhd_1 v$ (take $a=u$, $b=v$).
+
+Suppose $T$ had a cycle, and take a cycle $a_0\lhd_1 a_1\lhd_1\dots\lhd_1 a_m=a_0$ of $\lhd_1$ steps. If no step uses the second clause, the cycle lies in $\prec$, which is irreflexive and transitive, a contradiction. If a step $a_i\lhd_1a_{i+1}$ uses the second clause, then $a_i\preceq u$ and $v\preceq a_{i+1}$. Every other step in the cycle either is a $\prec$ step, which preserves $\succeq v$ when following $a_{i+1}$ (since $v\preceq a\prec a'$ gives $v\preceq a'$), or uses the second clause, which would require the current element to satisfy $\preceq u$. Follow the cycle from $a_{i+1}$ around to $a_i$. If all steps in between are $\prec$ steps, then $v\preceq a_{i+1}\preceq a_i\preceq u$, so $v\preceq u$, contradicting incomparability. If some step in between uses the second clause, take the first such step after $a_{i+1}$; up to that step every step is a $\prec$ step, so its source $a_j$ satisfies $v\preceq a_j$ and, by the second clause, $a_j\preceq u$, hence $v\preceq u$ again, a contradiction. Thus $T$ is irreflexive. The scalar $s_2$ is obtained by exchanging the roles of $u$ and $v$.
+
+(c) Suppose $s$ represents $\preceq$. For any $u,v$ either $s(u)\le s(v)$ or $s(v)\le s(u)$, so $u\preceq v$ or $v\preceq u$; hence $\preceq$ is total. Conversely, if $\preceq$ is total, take $s=h_\prec$. If $u\preceq v$ and $v\preceq u$, any chain ending at one can have its last element replaced by the other, so $h_\prec(u)=h_\prec(v)$; if $u\prec v$ then $h_\prec(u)<h_\prec(v)$; so $u\preceq v$ implies $s(u)\le s(v)$. If $u\not\preceq v$, totality gives $v\prec u$ and $s(v)<s(u)$, so $s(u)\not\le s(v)$.
+\end{proof}
+
+Part (b) is the substantive statement. A scalar that is faithful to every relation the dossier does establish, namely strict dominance, still has to order every incomparable pair, and the dossier contains nothing that says how. A published scalar therefore carries information that is not in the status: a decision about the exchange rate between replication, identification strength, coverage and the rest. The design refuses to store that decision as if it were a property of the claim.
+
+\begin{corollary}[Deliberate absence of a global rank]\label{cor:norank}
+No function of the status vector that is used as the standing of a claim, in the sense that its order is treated as the order of standing, can be defined without a choice on incomparable pairs that lies outside the ledger. The specification therefore defines no such function, and its store contains none.
+\end{corollary}
+
+\section{Weighted sums}\label{sec:weights}
+
+The most common scalar is a weighted sum of numerical codings. The verdict of such a sum on an incomparable pair depends on the weights, and the dependence is not a technicality.
+
+\begin{proposition}[Weight dependence]\label{prop:weights}
+Let $\varphi:V\to\mathbb R^k$ be any coding, and for a weight vector $w\in(0,\infty)^k$ put $s_w(v)=w\cdot\varphi(v)$. If $u,v\in V$ are such that $\varphi(u)-\varphi(v)$ has a strictly positive entry and a strictly negative entry, then there are weights $w,w'$ with $s_w(u)>s_w(v)$ and $s_{w'}(u)<s_{w'}(v)$.
+\end{proposition}
+
+\begin{proof}
+Let $d=\varphi(u)-\varphi(v)$, let $P$ be the set of indices with $d_i>0$ and $N$ the set with $d_i<0$, both nonempty. Put $\delta=\min_{i\in P}d_i>0$ and $\beta=\sum_{i\in N}|d_i|$, and let $w_i=M$ for $i\in P$ and $w_i=1$ otherwise. Then $w\cdot d\ge M\delta-\beta>0$ for $M>\beta/\delta$. Exchanging $P$ and $N$ gives $w'$ with $w'\cdot d<0$.
+\end{proof}
+
+For Example~\ref{ex:incomparable} with the coding $\varphi=(|E|,\,r^+,\,-r^-,\,\mathrm{rung}(C),\,-|U|)$, the difference is $(0,-2,0,+k,0)$ for a positive integer $k$ equal to the rung gap between an interventional and an observational warrant. So the trial is ranked above the three studies exactly when the weight on identification strength is more than $2/k$ times the weight on replication. Both positive weightings are equally available, and the dossier states neither.
+
+The three-way comparison also has a geometric side, and that is where weighted sums fail in a second way.
+
+\begin{counterexample}[A frontier point no positive weighting selects]\label{cex:nonconvex}
+Suppose two coordinates coded as reals, and three claims with codings $u_1=(1,0)$, $u_2=(0,1)$ and $u_3=(0.4,0.4)$. None of the three dominates another: $u_3$ is below $u_1$ in the second coordinate and below $u_2$ in the first. Yet for every $w=(w_1,w_2)$ with $w_1,w_2>0$,
+\[
+w\cdot u_3=0.4(w_1+w_2)\le 0.8\max(w_1,w_2)<\max(w_1,w_2)=\max(w\cdot u_1,\,w\cdot u_2),
+\]
+so $u_3$ is never a maximizer of a positive weighted sum. Ranking by any such sum silently discards a claim that is undominated.
+\end{counterexample}
+
+The claim discarded by the sum may be exactly the balanced one: moderately replicated, moderately identified, with moderate coverage, which is a defensible thing for a dossier to record and a poor thing for a ranking to delete.
+
+\section{The Pareto frontier}\label{sec:pareto}
+
+What the model can offer in place of a ranking is a set that discards only what is strictly worse.
+
+\begin{definition}[Frontier]\label{def:frontier}
+For a finite set $X$ of claims defined at $x$, the \emph{frontier} $\mathrm{Fr}_x(X)$ is the set of $c\in X$ with no $c'\in X$ such that $c\prec_x c'$.
+\end{definition}
+
+\begin{proposition}[The frontier is nonempty and covers]\label{prop:pareto}
+If $X$ is finite and nonempty, then $\mathrm{Fr}_x(X)\ne\varnothing$, and for every $c\in X$ there is $c'\in\mathrm{Fr}_x(X)$ with $c\preceq_x c'$.
+\end{proposition}
+
+\begin{proof}
+Given $c\in X$, if $c$ is not in the frontier there is $c_1$ with $c\prec_x c_1$; repeat from $c_1$. By Proposition~\ref{prop:preorder} the relation $\prec_x$ is irreflexive and transitive, so the chain never revisits an element, and since $X$ is finite it stops, at an element $c'$ of the frontier. Transitivity gives $c\preceq_x c'$.
+\end{proof}
+
+The frontier is an answer to the question ``which of these has nothing strictly better'', and it is not an answer to ``which of these is best''. A frontier of size greater than one is a finding: the claims differ in ways that dominance cannot settle, and the view shows the coordinates on which they differ.
+
+\section{Policy-indexed evaluation}\label{sec:policyindexed}
+
+Labels depend on the policy (Theorem~\ref{thm:policy}), and so does the status vector, since $\mathcal I(c,x)$ is defined through labels. Two very different things can make a reader uncertain about a claim, and the model keeps them apart.
+
+\begin{definition}[Policy-indexed status]\label{def:policyindexed}
+For a finite family $\mathcal P$ of policies over one ledger, the \emph{indexed status} of $c$ at $x$ is the set
+\[
+S_{\mathcal P}(c)(x)=\{S_{p}(c)(x)\;:\;p\in\mathcal P\}.
+\]
+The claim is \emph{policy-robust} at $x$ over $\mathcal P$ if $S_{\mathcal P}(c)(x)$ is a singleton. Robust dominance is $c\preceq^{\mathcal P}_x c'$ if $c\preceq^{p}_x c'$ for every $p\in\mathcal P$.
+\end{definition}
+
+Uncertainty about the claim is what a single status vector records: the state $\mathsf N$, the state $\mathsf B$, unresolved defeaters, thin replication. Disagreement about evaluation is the size of $S_{\mathcal P}(c)(x)$: the same ledger, evaluated under rules that different communities would each accept, produces different standing. The first is reduced by adding arguments to the ledger. The second is not reduced by any addition to the ledger, since the ledger is the same for all members of $\mathcal P$.
+
+\begin{proposition}[Properties of indexed status]\label{prop:indexed}
+Let $\mathcal P'\subseteq\mathcal P$.
+\begin{enumerate}[label=(\alph*)]
+\item If $c$ is policy-robust over $\mathcal P$ then it is policy-robust over $\mathcal P'$; and $\lvert S_{\mathcal P'}(c)(x)\rvert\le\lvert S_{\mathcal P}(c)(x)\rvert$.
+\item If every argument for $c$ present at $x$ has the same label under every $p\in\mathcal P$, and the defeats among them at $x$ are the same under every $p$, then $c$ is policy-robust over $\mathcal P$ at $x$.
+\item Robust dominance is a preorder, contained in each $\preceq^p_x$, and it has at least as many incomparable pairs as any $\preceq^p_x$.
+\item There are ledgers and policies $p,q$ for which $S_{\{p,q\}}(c)(x)$ has two elements.
+\item The component $A$ is the same under every policy.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) The image of a subset is a subset. (b) The components other than $A$ are functions of the labels of arguments and of the defeat relation among them, and, in a fixed ledger, of nothing else. When the labels and the defeats agree, so do the components. (c) An intersection of preorders is a preorder, and it is contained in each of them; a pair comparable under the intersection is comparable under every member, so the intersection has no fewer incomparable pairs. (d) Theorem~\ref{thm:policy} supplies a ledger and two policies under which some argument for $c$ has different labels at $x$; then $\mathcal I(c,x)$ differs, and with it at least one of $E$, $R$, $C$ or $U$ in a suitable instance. (e) Stance records are not evaluated (Proposition~\ref{prop:agreement}).
+\end{proof}
+
+The cost of robust dominance is stated in (c): asking for agreement across evaluation rules removes comparabilities. That is the honest price of not choosing a rule.
+
+\section{Scoreboards and commensurability}\label{sec:scoreboard}
+
+The results above are mathematical. What follows is a design argument, and is not offered as a theorem.
+
+Any public display that orders claims or contributors by a single figure teaches its audience which figure to raise. A contributor who optimizes the figure will optimize it along its cheapest coordinate, and a figure that had a use as a summary will cease to have one once it is a target. The problem is general to measures that become goals. The specific form it takes here is that a scalar standing invites the manufacture of whichever coordinate contributes most cheaply: replicated-looking evidence from one family, agreement from a friendly audience, scope claims narrow enough to be uncontroversial. Some of these are answered by other parts of the design, with families counted rather than records (Proposition~\ref{prop:indep}) and agreement having no defeat power (Proposition~\ref{prop:agreement}). The remaining defence is not to publish a figure that can be a target.
+
+A vector display changes the incentive rather than removing it. Raising one coordinate at the expense of another is visible as a trade, and a reader can see which coordinate was raised. A contributor who wants a better vector must improve some coordinate without lowering others, which is what dominance measures, and the ways of doing so, namely more independent replication, stronger identification, wider scope over which the claim stands and fewer open defeaters, are the ways of doing better work.
+
+A comparison is always made relative to an exchange rate. In a competition the organizers legislate that rate, and the participants then optimize against what they legislated. The specification takes the position that the rate should be declared and not discovered. A \emph{view} is a named, versioned and public function or preorder that extends dominance, and is itself a contestable object: it can be proposed, criticized on stated grounds, and replaced. Every view that is monotone in the sense of Definition~\ref{def:monotone} agrees with dominance where dominance speaks and disagrees with other monotone views only on the pairs that Theorem~\ref{thm:noscalar}(b) shows to be undetermined. The disagreement between views is thereby located precisely: it lies in the incomparable pairs, and nowhere else.
+
+\begin{designrule}[Views are declared, versioned and separate from status]\label{rule:views}
+A ranking presented to a reader is presented as the output of a named view $\mathsf{view}(v,\cdot)$ with its version and its declared weights or order. Views are never stored in the status of a claim and never enter admission or labeling. Every ranked display shows the frontier and names the view that produced the order within it.
+\end{designrule}
+
+There remains a question of what a ranked display should do when no view is acceptable to the person asking. The system may return the frontier and no order. That is a legitimate result, and is the correct one when a query presupposes a commensuration that nobody has declared: a contest with no agreed rule for trading one dimension against another has no winner, and the response that says so is more accurate than one that produces a name.
+
+\begin{quote}\small\hrule\medskip
+\textbf{An example from competitions.} A competition marks itself as a game when it tests the admissibility of its own framing assumptions. Take a speed-solving contest for a puzzle cube. Two variants expose what an ordinary scoreboard hides. A \emph{dud} cube is a configuration that violates the cube's orientation or permutation invariants and cannot be solved. The right response is a refusal with an obstruction witness, the violated invariant, and not a long failed attempt; this is the analogue of a disposition with a reason (Chapter~\ref{ch:gates}). A \emph{gradient} cube has stickers whose tones overlap, so that classification cannot be settled sticker by sticker and must be revised until the inferred state satisfies the global invariants; classification comes before transformation, as the choice of kernel comes before argument (Chapter~\ref{ch:ontology}), and a locally plausible assignment that is globally impossible is a local-to-global obstruction of the kind of Chapter~\ref{ch:distinction}. Scored by time alone, both variants collapse into the ordinary one. Scored by a vector of time, refusal accuracy and classification accuracy, they do not, and any single ranking over that vector introduces a commensuration nobody declared (Theorem~\ref{thm:noscalar}).
+\medskip\hrule
+\end{quote}

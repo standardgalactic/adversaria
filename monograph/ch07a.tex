@@ -1,0 +1,79 @@
+\chapter{Objections and Defeat}\label{ch:objection}
+
+Disagreement in a shared text is usually settled by whoever edits last. In Adversaria it is settled by a structure that anyone can inspect: which arguments attack which, on which units, and which attacks succeed under which published policy. This chapter defines that structure. The formal core is a contextual version of Dung's argumentation frameworks in which every attack carries a region, so that an objection can defeat an argument on some units and leave it standing on others. The sections below give the definitions, and the rest of the chapter proves the guarantees they support.
+
+A word on order. The defeat semantics is developed here, ahead of the chapters on distinction, versioning and relations, because those chapters rest on it: constraint is defeat located in a region, dependency is inheritance of defeat through sub-arguments, and the status vector reads the labels defined here.
+
+\section{Objections are arguments}
+
+An objection is not a comment attached to a sentence. It is an argument whose conclusion denies some component of another argument. This keeps the burden symmetric: to object, one must argue.
+
+Every argument $a$ offers three kinds of \emph{target}, one for each way it can fail.
+
+\begin{definition}[Targets and denial kernels]\label{def:targets}
+Let $a$ be an argument with top-level warrant $w$ and evidence fillers $e_1,\dots,e_j$ (the fillers that are evidence items, not sub-arguments). Its targets, each with a \emph{target scope}, are:
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}llXl@{}}
+\toprule
+target & type & denied by a conclusion of kernel & target scope\\
+\midrule
+$\mathsf{concl}$ & rebut & $\nk{\kap_0}$, where $\kap_0$ is the kernel of $\concl(a)$ & $\scope(\concl(a))$\\
+$\mathsf{ev}(e_i)$ & undermine & $\nk{\kap_{e_i}}$ or $\nk{\mathrm{acc}(e_i)}$ & $\sigma_{e_i}$\\
+$\mathsf{war}(w)$ & undercut & $\nk{\mathrm{valid}(w)}$ & $\sigma_w$ (ordinary warrants only)\\
+\bottomrule
+\end{tabularx}
+\end{center}
+Here $\mathrm{acc}(e)$ is a designated kernel, ``the report of $e$ is accurate and applicable at the unit'' (the ground on which retraction, fabrication, a failed replication or a mismatch with the estimand is asserted), and $\mathrm{valid}(w)$ is the kernel with $[\mathrm{valid}(w)]_M=\{x:\ x\in[\kap_1]_M\cap\dots\cap[\kap_k]_M\Rightarrow x\in[\kap_0]_M\}$, so that $M$ validates $w$ iff $\sigma_w\subseteq[\mathrm{valid}(w)]_M$.
+\end{definition}
+
+The kernel $\mathrm{acc}(e)$ is a name for the ground of an objection to a filler. No semantic constraint ties it to $\kap_e$. An objection concluding $\nk{\mathrm{acc}(e)}$ is a reason to withhold $e$ from an argument; it is not a proof that $\kap_e$ is false, which would be a separate rebutting claim.
+
+\begin{definition}[Structural attack]\label{def:attack}
+Let $a,b$ be arguments in the ledger and $t$ a target of $a$ with target scope $\sigma_t$. Then $b$ \emph{attacks} $a$ \emph{at} $t$ iff $\kap(\concl(b))$ is a denial kernel for $t$ and the \emph{active region}
+\[
+\reg(b,a,t)\;=\;\sigma(b)\cap\sigma_t\cap\sigma(a)
+\]
+is nonempty. The attack has the type of $t$.
+\end{definition}
+
+Each factor of the active region is a reason. The attacker exists only on $\sigma(b)$; it bites the target only on the target's scope; and the attacked argument exists only on $\sigma(a)$. The requirement that the region be nonempty says that an objection must name where it bites: one that never overlaps its target is rejected. Attacks are \emph{derived}, not declared. A contributor filing an objection names the intended target as an audit field, and the record is malformed if the named target does not match the structure of the conclusion.
+
+Three consequences are worth stating.
+\begin{itemize}
+\item \emph{Rebuttal is symmetric.} If $b$ rebuts $a$ then $\kap(\concl(a))=\nk{\kap(\concl(b))}$ and the regions coincide, so $a$ rebuts $b$ with the same region (Proposition~\ref{prop:conflict} is the reason the region is $\sigma(a)\cap\sigma(b)$).
+\item \emph{Undercutting is shared.} A warrant is a reusable object. An argument for $\nk{\mathrm{valid}(w)}$ attacks every argument that uses $w$, on the region each of them reaches.
+\item \emph{Two informal objection types need no separate machinery.} A \emph{scope defeater} (``this does not generalize outside a region'') is an undercut or a rebut with the region of concern as its active region; (W1) already forbids overreach beyond the premises' scopes. A \emph{relevance attack} (``this evidence does not bear on the stated estimand'') is an undercut of the bridging warrant, or an undermine on $\mathrm{acc}(e)$.
+\end{itemize}
+
+\section{Sub-arguments inherit attacks}
+
+An argument is only as secure as its parts. If a filler is defeated, everything built on the filler is exposed.
+
+\begin{definition}[Hereditary attack]\label{def:hereditary}
+Suppose $b$ attacks $a'$ at $t$ with region $\rho=\reg(b,a',t)$ and $a'\in\Sub(a)$. Then $b$ \emph{hereditarily attacks} $a$ with region $\rho\cap\sigma(a)$, of the same type and through the same $t$.
+\end{definition}
+
+For an ordinary warrant or \textsc{Restrict}, (W1) gives $\sigma(a)\subseteq\sigma(a')$; for \textsc{Pool} the sub-argument covers only part of $\sigma(a)$. In every case the hereditary region is the part of $\rho$ where $a$ exists at all. This is the mechanism that makes dependency real: whatever defeats a premise argument defeats every argument that stands on it, on the units they share. The leaves used matter (Remark following Theorem~\ref{thm:nowarrant}): an argument that fills a slot with a different sub-argument inherits a different set of attacks.
+
+\section{Policies and the split between attack and defeat}
+
+An attack is a structural fact about the ledger. Whether it \emph{defeats} is a further question, and different communities can reasonably answer it differently. A methodological attack on an underpowered study might defeat it for a causal claim and not for a descriptive one. The model separates the two and makes the second explicit.
+
+\begin{definition}[Policy]\label{def:policy}
+A \emph{policy} $\policy$ is a versioned ledger object consisting of the admissibility relation $\mathrm{Adm}_\policy$ of Design rule~\ref{rule:admissibility} and a \emph{preference}: for each ordered pair of arguments $(b,a)$ a scope $\langle b\prec_\policy a\rangle\in\B(\Om)$, the units at which $b$ is strictly less preferred than $a$. It is required that $\langle a\prec a\rangle=\varnothing$ and that $\langle b\prec a\rangle\cap\langle a\prec b\rangle=\varnothing$. No other property, such as transitivity, is required, and preferences need not be totally defined.
+\end{definition}
+
+The default policy $\policy_0$ has $\langle b\prec a\rangle=\varnothing$ for all pairs: no argument is strictly preferred to another. Preferences may encode methodological relevance, directness, temporal priority, preregistration or replication; the specification does not choose. Because they are objects in the ledger, they are versioned, citable and open to objection like everything else. They are also \emph{regional}: an experiment may be preferred to a survey in one population and not in another.
+
+\begin{definition}[Defeat]\label{def:defeat}
+Fix a policy $\policy$. An attack of $b$ on $a'$ at $t$ \emph{succeeds at $x$ under $\policy$} if $x\in\reg(b,a',t)$ and either $t$ is an undermine or undercut target, or $t=\mathsf{concl}$ and $x\notin\langle b\prec_\policy a'\rangle$. The \emph{defeat region} of $b$ on $a$ is
+\begin{multline*}
+D_\policy(b,a)=\sigma(a)\cap\bigcup\bigl\{\ \{x:\text{the attack of }b\text{ on }a'\text{ at }t\text{ succeeds at }x\}\ :\\
+a'\in\Sub(a),\ t\text{ a target of }a'\ \bigr\},
+\end{multline*}
+and we write $b\dfeat_\policy^x a$ when $x\in D_\policy(b,a)$.
+\end{definition}
+
+Only rebuttals are preference-sensitive. Undermining and undercutting attack a component of an argument, not its standing relative to a rival, and succeed whenever they apply. This follows the usual convention of structured argumentation. With the default policy every attack is a defeat.
+
+The definition is deliberately \emph{not} numerical. Preferences enter as a regional strict relation on arguments, never as a score. Chapter~\ref{ch:status} explains why no scalar is defined anywhere in the system, and Theorem~\ref{thm:policy} shows that the same ledger can support different labelings under different policies without any inconsistency.

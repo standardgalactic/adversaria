@@ -1,0 +1,98 @@
+\chapter{Routing Is Not Adjudication}\label{ch:routing}
+
+Part~III defined what stands and why. The remaining chapters specify the protocol that carries records to that computation and results back to readers. The first step is to separate two functions that systems often merge: deciding what a reader should see, and deciding what stands. The first is routing. The second is adjudication. This chapter states the separation generically, so that it applies to any system that has both, and then derives what the formal model of Part~III implies for it.
+
+\section{Four functions}\label{sec:fourfunctions}
+
+A shared knowledge system performs four functions, and any given system may implement them together or apart.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l X X@{}}
+\toprule
+function & question it answers & may depend on\\
+\midrule
+storage & what has been recorded, and is it intact & content, references\\
+routing & what should reach this reader or workspace, in what order & reader context, ledger, anything about relevance, including labels\\
+admission & does this record take part in evaluation on this surface & record, records it references, policy, the authorization projection\\
+evaluation & what stands, at which units & the active set and the policy, nothing else\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+A \emph{routing architecture} allocates material to people: by prerequisite structure, by estimated relevance, by notification. Its output is a subset of the material and an order. An \emph{adjudication architecture} determines which contributions stand: its output is a status for each contribution. The two answer different questions, and each can be implemented well or badly without reference to the other. The common error is to let the routing output serve as an adjudication output, so that what is shown prominently is taken to be what stands, or what is hidden is taken to have been rejected.
+
+\begin{definition}[Routing function]\label{def:routing}
+Let $\mathsf{Rd}$ be a set of reader contexts. A \emph{routing function} is a map $\rho$ assigning to each reader context $r\in\mathsf{Rd}$ and each valid ledger $\ledger$ and policy $\policy$ a \emph{view} $V=\rho(r,\ledger,\policy)\subseteq\Act(\ledger,\policy)$ together with a linear order on $V$. A routing function may depend on any information whatever.
+\end{definition}
+
+The definition is permissive on purpose. Whatever a routing function does, the question is what its output is allowed to mean.
+
+\section{What routing can and cannot change}\label{sec:routechange}
+
+Proposition~\ref{prop:separation} says the labeling depends only on the active set and the policy. It follows that routing, which is not an input to the labeling, cannot change any label. The remaining question is what happens if a system computes its labels \emph{from the routed view}, as a system does that evaluates only what it has routed. Write $\Lab_V$ for the grounded labeling of the sub-framework of $\Act$ induced on $V$.
+
+\begin{proposition}[Local evaluation on a view]\label{prop:localview}
+Let $V\subseteq\Act(\ledger,\policy)$, let $a\in V$ and $x\in\sigma(a)$, and let $B_x(a)$ be the backward closure of $a$ in the framework on $\Act$ (Theorem~\ref{thm:direction}).
+\begin{enumerate}[label=(\alph*)]
+\item If $B_x(a)\subseteq V$ then $\Lab_V(a,x)=\Lab(a,x)$.
+\item If $\Lab(a,x)\ne\IN$ then there is a view $V$ with $a\in V$ and $\Lab_V(a,x)=\IN$. In particular, one can take $V=\{a\}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) The frameworks on $V$ and on $\Act$ agree on every defeater of every member of $B_x(a)$, since all these defeaters lie in $V$. So the backward closure of $a$ in $V$ is $B_x(a)$ and the two defeat graphs agree on it. Theorem~\ref{thm:direction} gives equality of labels. (b) In the framework on $\{a\}$, the argument $a$ has no defeater, so it is $\IN$ by Theorem~\ref{thm:labels}(c).
+\end{proof}
+
+Part (b) is the reason routing must not compute status. Every argument that fails to stand appears to stand under some view, namely the view that omits its objections. A routing function is free to choose such a view, and one that ranks by engagement or by predicted agreement will often choose one by accident.
+
+\begin{counterexample}[A routed view that flips a label]\label{cex:hidden}
+Let $a$ be an argument for $c$ and $b$ an objection that rebuts it under a policy that prefers $b$, so that $b\dfeat a$ and $b$ has no defeater. Then $\Lab(a,x)=\OUT$ and $\Lab(b,x)=\IN$ at $x\in\sigma(a)\cap\sigma(b)$. A reader whose view is $V=\{a\}$, because the objection was routed elsewhere or ranked below the fold, sees $a$ labeled $\IN$ under $\Lab_V$.
+\end{counterexample}
+
+The specification therefore fixes two rules. Routing may be arbitrary. Displays of status may not be computed from a view.
+
+\begin{designrule}[Status is computed on the active set]\label{rule:statusfull}
+The status shown for an argument or claim at a unit is $\Lab(\cdot,x)$ computed on $\Act(\ledger,\policy)$ for the surface's policy. Routing selects and orders what is shown and does not enter the computation. When some member of $B_x(a)$ is not in the reader's view, the display marks the status as \emph{not closure-complete} and states how many members of the closure are hidden.
+\end{designrule}
+
+Proposition~\ref{prop:localview}(a) gives the exact condition under which a view is faithful: it contains the backward closure of what it displays. The mark in Design rule~\ref{rule:statusfull} costs nothing to compute, since the closure is part of the proof object (Section~\ref{sec:proofobjects}).
+
+\section{Acyclic dependence}\label{sec:acyclicdep}
+
+Routing may legitimately use labels. A view that shows arguments which stand before those which do not, or shows first the unresolved defeaters of a claim that a reader follows, uses labels to decide order and inclusion, and this is useful. The dependence goes one way.
+
+\begin{proposition}[One-way dependence of routing on evaluation]\label{prop:oneway}
+Define the dependence relation on the four functions of Section~\ref{sec:fourfunctions}: $F$ \emph{depends on} $G$ if the output of $F$ can change when the output of $G$ changes while its other inputs stay fixed. Then evaluation depends on admission and on nothing else; admission depends on storage; routing may depend on all three; and neither storage, admission nor evaluation depends on routing. In particular the relation is acyclic.
+\end{proposition}
+
+\begin{proof}
+Evaluation depends only on $\Act$ and $\policy$ (Proposition~\ref{prop:separation}), and $\Act$ is the output of admission. Admission depends on the record, on the dispositions of the records it references and on the authorization projection (Definition~\ref{def:planes}); these are stored records or functions of them. No definition of these three functions takes a reader context or a view as input. Routing is defined to take any input.
+\end{proof}
+
+A consequence for reputation and capability, which are derived from labels, is stated in Chapter~\ref{ch:gates}: capability enters admission only through records, so that the dependence of admission on labels goes through the ledger and does not create a cycle.
+
+\section{What each architecture is for}\label{sec:archfor}
+
+The separation is not a claim that routing is second-rate. The two answer different questions, and neither answers the other's.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}X X@{}}
+\toprule
+routing architecture & adjudication architecture\\
+\midrule
+allocates attention among readers and workspaces & assigns standing to contributions\\
+succeeds when material reaches those to whom it is useful & succeeds when standing follows the arguments\\
+fails by sending the wrong thing, or nothing & fails by counting what should not count, or ignoring what should\\
+output: a subset and an order & output: a labeling and a status field\\
+legitimately uses prerequisites, interest, novelty, load & legitimately uses records, warrants, objections, a declared policy\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Two consequences follow, and both are choices of the specification. Relevance does not establish support: a claim routed to a thousand readers is not thereby better supported than one routed to ten. Support does not establish relevance: a claim that stands may be routed to no one. Neither inference is licensed. A system that routes well can be useful and dangerous at once, useful because material reaches readers who need it, and dangerous because the prominence of what it routes can be mistaken for the standing of what it contains. The specification gives routing a place and a rule, and never lets it write to the labeling.
+
+\section{Routing as a surface}\label{sec:surface}
+
+The place routing has is the \emph{surface}: a workspace, a feed, a search result, a notification, a default dossier. Each surface has a policy (Chapter~\ref{ch:gates}) and a view. What a surface contains is a routing matter; what a surface's contents are labeled is an evaluation matter for that surface's policy. Gating access to shared surfaces is distinct from gating inscription in the ledger, and Chapter~\ref{ch:gates} shows that inscription is never blocked.
