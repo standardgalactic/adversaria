@@ -5,6 +5,8 @@
 ![](claim-graph-infographic.png)
 -->
 
+![](illustration-complete.jpg)
+
 [The Unit of Knowledge](https://standardgalactic.github.io/adversaria/01-unit-of-knowledge.pdf)
 
 [Routing Is Not Adjudication](https://standardgalactic.github.io/adversaria/02-routing-is-not-adjudication.pdf)
@@ -58,4 +60,10 @@
 ![](semantic-distinction-infographic.png)
 -->
 
+![](blank-line.png)
+
 [Spelled by Ear](https://standardgalactic.github.io/adversaria/spelled-by-ear.pdf)
+
+<p align="center">
+  <img src="illustration-support.jpg" width="50%">
+</p>
