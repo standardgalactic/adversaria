@@ -1,6 +1,9 @@
 [Adversaria: A Public Claim Graph](https://standardgalactic.github.io/adversaria/adversaria-monograph.pdf)
 
 [Semantic Distinction](https://standardgalactic.github.io/adversaria/semantic-distinction.pdf)
+
+[Unfinishedness as Interface](https://standardgalactic.github.io/adversaria/working/out/unfinishedness-monograph-outline.pdf) — *In Progress*
+
 <!--
 ![](claim-graph-infographic.png)
 -->
