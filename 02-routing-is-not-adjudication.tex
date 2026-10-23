@@ -22,7 +22,7 @@
 
 \begin{abstract}
 \noindent
-Any shared knowledge system decides two different things: what a given reader should see, and what currently stands. The first is routing and the second is adjudication. They answer different questions and fail in different ways, yet systems routinely let the output of one stand in for the output of the other, so that what is prominent is taken to be what is supported and what is hidden is taken to have been refuted. This essay separates the functions, constructs a small failure in which a display computed from a routed subset reports the wrong standing in both directions, and states the exact condition under which a view is faithful. The result is a design rule with a cheap marker: status is computed on the full active set, routing may use anything and may not write to the labeling, and any display whose view omits part of what bears on it says so. The formal statements are proved in the monograph \emph{Adversaria: A Specification for a Public Claim Graph}; this essay gives them in words with one worked example.
+Any shared knowledge system decides two different things: what a given reader should see, and what currently stands. The first is routing and the second is adjudication. They answer different questions and fail in different ways, yet systems routinely let the output of one stand in for the output of the other, so that what is prominent is taken to be what is supported and what is hidden is taken to have been refuted. This essay separates the functions, constructs a small failure in which a display computed from a routed subset reports the wrong standing in both directions, and states a sufficient condition under which a view is faithful. The result is a design rule with a cheap marker: status is computed on the full active set, routing may use anything and may not write to the labeling, and any display whose view omits part of what bears on it says so. The formal statements are proved in the monograph \emph{Adversaria: A Specification for a Public Claim Graph}; this essay gives them in words with one worked example.
 \end{abstract}
 
 \section{Two questions}
@@ -97,9 +97,21 @@ Now reverse the situation. Suppose instead that the objection to $a$ is sound an
 
 The monograph states the exact content of these observations.
 
-\paragraph{Faithfulness condition.} For an argument $a$ at a unit $x$ of its scope, let its \emph{backward closure} be the set of arguments that can affect its label at $x$: its defeaters, their defeaters, and so on. If a view contains the whole backward closure of $a$, then the label computed from the view equals the label computed on the full active set. This is the exact condition under which a view is faithful for $a$. It is a short result, since labels depend only on defeaters and their defeaters, but it is the one the design rule rests on.
+\paragraph{Faithfulness condition.} For an argument $a$ at a unit $x$ of its scope, let its \emph{backward closure} be the set of arguments that can affect its label at $x$: its defeaters, their defeaters, and so on. If a view contains the whole backward closure of $a$, then the label computed from the view equals the label computed on the full active set. This is a sufficient structural guarantee and not a necessary condition.
+A view can omit part of the closure and still agree with the full
+labeling: the view $\{a\}$ of Section~\ref{sec:failure} gives the correct
+label for $a$ although it omits $u$ and $v$, because the omitted attack
+and counterattack happen to cancel. Closure completeness guarantees
+agreement without relying on such cancellation. It is a short result,
+since labels depend only on defeaters and their defeaters, but it is the
+one the design rule rests on.
 
-\paragraph{Every non-standing argument can be made to look standing.} If $a$ does not stand at $x$ on the full active set, then there is a view containing $a$ on which it does stand. The view $\{a\}$ always works, because an argument with no attackers in the view is undefeated there. This result says nothing about any particular router. It says that the set of possible views is large enough to contain, for each failing argument, one in which the failure is invisible. A router is therefore not constrained by anything in the model to avoid such views. Whether it does so is a matter of how it was built, and the worked example suggests that an engagement-tuned router may do so without anyone intending it.
+\paragraph{Under stated assumptions, every non-standing argument can be made to look standing.} If $a$ does not stand at $x$ on the full active set, then there is a view
+containing $a$ on which it does stand, provided $a$ does not attack
+itself and the policy imposes no other eligibility condition that would
+prevent its acceptance. Under those assumptions the view $\{a\}$ works,
+because an argument with no attackers in the view is undefeated there.
+If self-attacks are permitted, $\{a\}$ need not make $a$ stand. This result says nothing about any particular router. It says that the set of possible views is large enough to contain, for each failing argument, one in which the failure is invisible. A router is therefore not constrained by anything in the model to avoid such views. Whether it does so is a matter of how it was built, and the worked example suggests that an engagement-tuned router may do so without anyone intending it.
 
 \paragraph{Dependence runs one way.} Define a function to \emph{depend on} another if its output can change when the other's output changes while its remaining inputs are held fixed. Then evaluation depends on admission and on nothing else. Admission depends on storage and on authorization. Routing may depend on all three. Storage, admission and evaluation do not depend on routing. The dependence relation among the four functions has no cycle.
 
@@ -117,7 +129,7 @@ The design rule that follows has two halves.
 
 The first half guarantees that no routing choice can change a status. The second half handles the residual honesty problem: the reader still sees a subset, and the subset may omit something that matters. The marker does not force the reader to look at what is hidden and does not say what it is. It says that something bearing on this status is not on screen, and how much.
 
-The marker is cheap. The backward closure is part of the evidence a system must retain to justify a label at all, so checking whether the closure is a subset of the view is an inclusion test and needs no new computation. A display that cannot afford the test can always err toward marking.
+Once the relevant closure is available, the marker is cheap. The backward closure is part of the evidence a system must retain to justify a label at all, so, where closures are retained, checking whether the closure is a subset of the view is an inclusion test and needs no new computation. A display that cannot afford the test can always err toward marking.
 
 Applied to the worked example, the rule changes the third row. On the view $\{a,u\}$, the display shows $a$ as \IN, its true status, and marks it as not closure-complete with one hidden member, $v$. The reader sees an objection $u$ and sees that the argument still stands, with a flag that part of the story is off screen. A reader who cares can follow it. A reader who does not has still not been told something false.
 
@@ -146,19 +158,24 @@ Two inferences are tempting and neither is licensed. Relevance does not establis
 
 \section{Objections and replies}\label{sec:objections}
 
-\paragraph{``A reader cannot see everything, so a marker that says they did not is noise.''} Partly true, and the reply is in what the marker says. A bare flag on everything would be noise. The marker appears only when the hidden material is in the backward closure of the displayed item, meaning it actually bears on the status shown. Most items in most views will have complete closures. Where they do not, the count tells the reader how much is hidden, so a reader can tell the difference between one missing reply and a dozen missing objections.
+\paragraph{``A reader cannot see everything, so a marker that says they did not is noise.''} Partly true, and the reply is in what the marker says. A bare flag on everything would be noise. The marker appears only when the hidden material is in the backward closure of the displayed item, meaning it actually bears on the status shown. It is an expectation, and not a result of the model, that many items in
+many views will have complete closures. Where they do not, the count tells the reader how much is hidden, so a reader can tell the difference between one missing reply and a dozen missing objections.
 
 \paragraph{``Hiding things is unavoidable, so why insist on this?''} Hiding is unavoidable. Misreporting standing on the basis of what was hidden is not. The rule leaves routing free to omit as much as it likes and constrains only the claim that the display makes about standing.
 
 \paragraph{``Engagement predicts quality, so a view built on it is a decent proxy.''} Engagement may predict interest, and in some settings it correlates with quality. The model does not deny the correlation. It notes only that a proxy that is mostly right is wrong exactly where it matters most: contested items that draw engagement without resolution, and quiet replies that settle a dispute without drawing any. The worked example is an instance of the second case.
 
-\paragraph{``The closure could be huge.''} It could. Closures are taken per unit of a claim's scope and include only arguments that affect the label, which bounds them in practice, but the size is an empirical matter and not something the model settles. A display may summarize a large closure, for example by counting and by showing the nearest unresolved defeaters, provided the marker stays accurate.
+\paragraph{``The closure could be huge.''} It could. Closures are taken per unit of a claim's scope and include only arguments that affect the label, which may bound them in practice, but their size is an empirical matter and not something the model settles. A display may summarize a large closure, for example by counting and by showing the nearest unresolved defeaters, provided the marker stays accurate.
 
 \section{What this essay does not show}\label{sec:limits}
 
 It does not show that any deployed system computes status from a routed view. The example is constructed, and the two failures it exhibits are consequences of a definition, not observations. It does not show that routers are badly designed or that engagement is a poor signal; it shows only that neither can be the input to a statement about what stands. It does not claim that the marker is sufficient for a reader to understand a dispute: a reader can ignore it, and a summary of a large closure can mislead in its own ways. It does not address who controls the routing function or the policy, which are questions of authority taken up in a separate essay, and it does not claim the active set is itself neutral, since admission depends on authorization and on the policy in force.
 
-What it establishes is narrow and exact. The condition for a view to be faithful is that it contains the backward closure of what it displays. Every non-standing argument has some view in which it appears to stand. Because routing depends on evaluation and never the reverse, there is no cycle to hide a mistake in. A system that follows the two-part rule can route as freely as it likes without changing what the record says stands.
+What it establishes is narrow and exact. A view that contains the backward closure of what it displays is
+guaranteed to be faithful; a view that omits part of it may agree or
+disagree, and a display cannot tell which without the closure. Under the
+stated assumptions, every non-standing argument has some view in which it
+appears to stand. Because routing depends on evaluation and never the reverse, there is no cycle to hide a mistake in. A system that follows the two-part rule can route as freely as it likes without changing what the record says stands.
 
 \section*{Notes}
 

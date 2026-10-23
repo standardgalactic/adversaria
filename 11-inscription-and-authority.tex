@@ -23,7 +23,9 @@
 
 \begin{abstract}
 \noindent
-Every shared knowledge surface faces a question that is usually asked in one breath: who may contribute. The question hides two. The first is who may put a record into the store. The second is who may change what readers are shown as standing. This essay argues that the first should be answered ``anyone,'' that the second is where authority properly lives, and that the two can be separated exactly. The monograph \emph{Adversaria: A Specification for a Public Claim Graph} does this with two planes. An authorization plane holds capabilities, revocations, invalidations and restrictions. An argument plane holds evidence, claims and arguments. The authorization plane is computed without reading any label from the argument plane, and a capability never enters the defeat graph, so authority over a display cannot turn into standing for a conclusion. Capabilities are prospective unless explicitly invalidated. Restrictions are finite, are justified by ordinary arguments, and are evaluated on a meta surface that contains no restrictions, so a restriction cannot gate the objections that would defeat it. Every refusal carries a reason that any replica computes identically. The essay states these results, works an invented timeline and a meta-surface example whose labels were checked by computation, and lists the ten invariants against gate capture with the status of each. It does not claim that good governance follows from the design. The design makes authority visible and contestable. It does not make authority disappear, and it does not make it wise.
+Every shared knowledge surface faces a question that is usually asked in one breath: who may contribute. The question hides two. The first is who may put a record into the store. The second is who may change what readers are shown as standing. This essay argues that the first should be answered ``anyone,'' that the second is where authority properly lives, and that the two can be separated exactly. The monograph \emph{Adversaria: A Specification for a Public Claim Graph} does this with two planes. An authorization plane holds capabilities, revocations, invalidations and restrictions. An argument plane holds evidence, claims and arguments. The authorization plane is computed without reading any label from the argument plane, and a capability never enters the defeat graph, so authority supplies no argumentative force of its own. It can still
+affect what stands by controlling admission, which is why that control is
+made visible and contestable.. Capabilities are prospective unless explicitly invalidated. Restrictions are finite, are justified by ordinary arguments, and are evaluated on a meta surface that contains no restrictions, so a restriction cannot gate the objections that would defeat it. Every refusal carries a reason that any replica computes identically. The essay states these results, works an invented timeline and a meta-surface example whose labels were checked by computation, and lists the ten invariants against gate capture with the status of each. It does not claim that good governance follows from the design. The design makes authority visible and contestable. It does not make authority disappear, and it does not make it wise.
 \end{abstract}
 
 \section{Two questions in one}
@@ -79,6 +81,15 @@ Three results follow (Chapter 16, the proposition on planes). The authorization 
 The consequence most worth stating is the following (Chapter 16, capability confers no standing). Passing a gate makes a record eligible for admission. It does not change the label of any argument, does not change any argument's defeat relations to others, and does not defeat anything. A capable actor's argument is \IN{}, \OUT{} or \UND{} by the same rules as anyone else's.
 
 The wording calls for care, because an admitted argument does enter the active set and so does take part in the labeling. What the result excludes is an effect beyond that. Before admission the argument is not in the set. After admission the argument is evaluated as any other argument in its position would be, and the fact that its author holds a capability is nowhere an input. The capability changes \emph{whether} the argument participates and never \emph{how} it is judged.
+
+Whether it participates can matter a great deal. An authority that kept a
+decisive objection out of the active set would leave the targeted
+conclusion standing on the remaining arguments. The separation of planes
+keeps a capability from functioning as evidence or as a defeater, but it
+does not keep selective admission from influencing the result. The
+reasons, appeals and meta surface of Sections~\ref{sec:restrictions}
+and~\ref{sec:reasons} are therefore central safeguards, not supplementary
+governance features.
 
 One loose end is worth closing. In practice capability is granted on the basis of what has survived, which means, indirectly, on labels. The worry is that this closes a loop: labels would depend on the active set, the active set on capabilities, and capabilities on labels. The specification breaks the loop by requiring that a capability be a record. Labels may influence who decides to inscribe a capability record, but once inscribed the record is data, and the disposition of an authorization record never reads the argument plane. Credit and reputation stay outside both planes and enter only when someone inscribes a record on their basis. The dependence runs one way: routing may use labels to order what a reader sees, and neither storage, admission nor evaluation depends on routing (Chapter 13).
 
@@ -206,7 +217,9 @@ The monograph's own tally is three propositions, four validation checks and thre
 
 \section{What the design buys}\label{sec:buy}
 
-The results amount to an argument of definite shape. Inscription is open, so nobody is silenced by exclusion from the record. Authority is exercised over surfaces, by records, at ledger time. It never enters the defeat graph, so it cannot be used to make a conclusion stand. Every limit on authority is itself a record with a stated reason, is finite when it is a restriction, and can be objected to on a surface where it has no power to suppress the objection. Every refusal can be recomputed.
+The results amount to an argument of definite shape. Inscription is open, so nobody is silenced by exclusion from the record. Authority is exercised over surfaces, by records, at ledger time. It never enters the defeat graph, so it supplies no argumentative force of
+its own, although its control over admission can still change which
+conclusions stand. Every limit on authority is itself a record with a stated reason, is finite when it is a restriction, and can be objected to on a surface where it has no power to suppress the objection. Every refusal can be recomputed.
 
 Authority nonetheless remains. Some party names the root authorities in the policy, operates the anchoring service, and grades the reconstruction tasks. The design makes each a named role whose actions are recorded and whose statistics can be audited, and it does not make any of them unnecessary. Which policy a surface runs is decided by whoever operates the surface, and the monograph does not turn that decision into a formal act. A community whose operators adopt a bad policy has a recorded, contestable, replayable bad policy, which is better than an invisible one and is still bad.
 
@@ -214,7 +227,9 @@ Authority nonetheless remains. Some party names the root authorities in the poli
 
 It does not show that governance quality is a consequence of the design. That is an institutional matter, and the essay has argued only that the design makes authority explicit, bounded and contestable.
 
-It does not show that authority can be removed. Root authorities, anchoring and grading are named roles, and each can be held badly.
+It does not show that authority can be removed. Nor does it show that
+selective admission is harmless: it shows only that the policy, its
+reasons and the route of appeal are recorded and can be contested. Root authorities, anchoring and grading are named roles, and each can be held badly.
 
 It does not show that the ten invariants are the right ones, that they are complete, or that any deployed system would satisfy them. Three of the ten are propositions of the model, and the rest depend on validation implementations or on community choices. It does not show that position-neutral gates are sufficient for fairness, only that they exclude gates that test belief.
 
